@@ -1,0 +1,43 @@
+{
+  "doc_id": "stm32-an2586",
+  "document_id": "AN2586",
+  "title": "STM32F10xxx hardware development",
+  "document_kind": "application_note",
+  "applicability": "Board-level design for STM32F10xxx",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00164185.pdf",
+  "download_urls": [
+    "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00164185-getting-started-with-stm32f10xxx-hardware-development-stmicroelectronics.pdf",
+    "https://eliasoenal.com/st%20website/13675.pdf",
+    "https://www.mouser.com/pdfDocs/STMicroelectronicsSTM32F10xxxhardwaredevelopmentapplicationnote.pdf",
+    "https://www.st.com/resource/en/application_note/cd00164185.pdf"
+  ],
+  "pages": 28,
+  "sha256": "fbd855e1701f6cd0dce0caaa3821a35d782e18d7dc4977b2bff130bc4a916ad7",
+  "cover_text": "         \nNovember 2011\nDoc ID 13675 Rev 7\n1/28\nAN2586\nApplication note\nGetting started with STM32F10xxx hardware development\nIntroduction\nThis application note is intended for system designers who require a hardware \nimplementation overview of the development board features such as the power supply, the \nclock management, the reset control, the boot mode settings and the debug management. It \nshows how to use the low-density value line, low-density, medium-density value line, \nmedium-density, high-density, XL-density and connectivity line STM32F10xxx product \nfamilies and describes the minimum hardware resources required to develop an \nSTM32F10xxx application.\nDetailed reference design schematics are also contained in this document with descriptions \nof the main components, interfaces and modes.\nGlossary\n\u25cf\nLow-density value line devices are STM32F100xx  microcontrollers where the Flash \nmemory density ranges between 16 and 32 Kbytes.\n\u25cf\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx \nmicrocontrollers where the Flash memory density ranges between 16 and 32 Kbytes.\n\u25cf\nMedium-density value line devices are STM32F100xx microcontrollers where the \nFlash memory density ranges between 64 and 128 Kbytes.\n\u25cf\nMedium-density devices are STM32F100xx, STM32F101xx, STM32F102xx and \nSTM32F103xx microcontrollers where the Flash memory density ranges between 64 \nand 128 Kbytes.\n\u25cf\nHigh-density value line devices are STM32F100xx microcontrollers where the Flash \nmemory density ranges between 256 and 512 Kbytes.\n\u25cf\nHigh-density devices are STM32F101xx and STM32F103xx microcontrollers where \nthe Flash memory density ranges between 256 and 512 Kbytes.\n\u25cf\nXL-density devices are STM32F101xx and STM32F103xx microcontrollers where the \nFlash memory density ranges between 768 Kbytes and 1 Mbyte.\n\u25cf\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\nwww.st.com\n",
+  "references": {
+    "RM0041": [
+      11,
+      14,
+      18
+    ],
+    "RM0008": [
+      11,
+      14,
+      18
+    ],
+    "AN2867": [
+      13
+    ],
+    "AN2606": [
+      16
+    ],
+    "AN2662": [
+      16
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00164185-getting-started-with-stm32f10xxx-hardware-development-stmicroelectronics.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:13.335028+00:00",
+  "path": "data/raw/stm32/stm32-an2586.pdf"
+}

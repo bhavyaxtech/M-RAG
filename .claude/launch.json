@@ -1,0 +1,33 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mrag-demo",
+      "runtimeExecutable": ".venv/Scripts/streamlit.exe",
+      "runtimeArgs": [
+        "run",
+        "app/streamlit_app.py",
+        "--server.port=8501",
+        "--server.headless=true",
+        "--theme.base=light",
+        "--theme.primaryColor=#2563EB",
+        "--theme.backgroundColor=#FFFFFF",
+        "--theme.secondaryBackgroundColor=#F3F4F6",
+        "--theme.textColor=#111827"
+      ],
+      "port": 8501
+    },
+    {
+      "name": "mrag-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--dir",
+        "web",
+        "dev",
+        "--port",
+        "3000"
+      ],
+      "port": 3000
+    }
+  ]
+}

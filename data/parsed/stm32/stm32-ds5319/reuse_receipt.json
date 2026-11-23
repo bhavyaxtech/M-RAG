@@ -1,0 +1,11 @@
+{
+  "reused_from": "data\\parsed\\hardware\\stm32f103c8",
+  "source_pdf_sha256": "69f1cfc54c9183d0fc1c1a3b0e091f8a8534509a26927e5fba180cab70f952a7",
+  "verified_identical_crops": 139,
+  "reused_caption_aliases": [
+    "luna"
+  ],
+  "caption_model_snapshots": "Inherited cache; exact historical snapshot not recorded",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline"
+}

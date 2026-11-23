@@ -1,0 +1,24 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e3]:
+    - complementary [ref=f1e4]:
+      - generic [ref=f1e5]:
+        - paragraph [ref=f1e6]: M-RAG
+        - paragraph [ref=f1e7]: Document intelligence
+      - navigation "Document and collection sessions" [ref=f1e8]:
+        - paragraph [ref=f1e9]: Document catalog unavailable.
+      - generic [ref=f1e10]:
+        - button "New session" [disabled]
+        - paragraph [ref=f1e11]: Clears only the selected session's conversation.
+    - main [ref=f1e12]:
+      - generic [ref=f1e15]:
+        - generic [ref=f1e16]:
+          - paragraph [ref=f1e17]: Start with a PDF or library
+          - heading "Understand your datasheet." [level=1] [ref=f1e18]
+          - paragraph [ref=f1e19]: Start one shared conversation across a library, or choose an individual PDF for a focused session. Ask questions across text, tables, and diagrams, with sources you can inspect. No PDF selection is needed to chat with a library.
+        - generic [ref=f1e20]: Connect the agent service to load the document catalog.
+    - complementary [ref=f1e21]:
+      - generic [ref=f1e23]:
+        - heading "Evidence" [level=2] [ref=f1e25]
+        - paragraph [ref=f1e26]: Choose a library or a single PDF to start a session.
+      - button "Build provenance" [ref=f1e30]
+  - alert [ref=f1e39]

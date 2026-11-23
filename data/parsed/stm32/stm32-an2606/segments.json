@@ -1,0 +1,1603 @@
+[
+  {
+    "segment_id": "stm32-an2606-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "AN2606 Application note"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "STM32™ microcontroller system memory boot mode"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "The bootloader is stored in the internal boot ROM memory (system memory) of STM32 devices. It is programmed by ST during production. Its main task is to download the application program to the internal Flash memory through one of the available serial peripherals (USART, CAN, USB, etc.). A communication protocol is defined for each serial interface, with a compatible command set and sequences."
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "The main features of the bootloader are the following:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "● It uses an embedded serial interface to download the code with a predefined communication protocol"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "It transfers and updates the Flash memory code, the data, and the vector table sections"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "This application note presents the general concept of the bootloader. It describes the supported peripherals and hardware requirements to be considered when using the bootloader of any STM32 device currently in production. However the specifications of the low-level communication protocol for each supported serial peripheral are documented in separate documents:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00009",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "For specifications of the USART protocol used in the bootloader please refer to AN3155"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00010",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "● For the specification of CAN protocol used in the bootloader please refer to AN3154"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00011",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "For the specification of DFU (USB Device) protocol used in the bootloader please refer to AN3156"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00012",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "Related documents (available from www.st.com)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00013",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "● STM32 datasheets:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00014",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "– low, medium and high-densitySTM32F101xx and STM32F103xx datasheets"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00015",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "一 low, medium and high-density STM32F100xx and STM32F102xx datasheets"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00016",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "– STM32F105xx/107xx connectivity line datasheet"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00017",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "– XL-density STM32F101xx and STM32F103xx datasheets"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00018",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "● STM32 reference manuals:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00019",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "STM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx reference manual (RM0008)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00020",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "low, medium and high-density STM32F100xx value line reference manual (RM0041)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00021",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "● STM32 Flash programming manuals"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00022",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "STM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx Flash programming manual (PM0042)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00023",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "low, medium and high-density STM32F100xx value line Flash programming manual (PM0063)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0001-text-00024",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 1,
+    "text": "– XL-density STM32F101xx and STM32F103xx programming manual (PM0068)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0002-text-00025",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2606-p0002-text-00026",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 2,
+    "text": "1 General bootloader description . 6   \n1.1 Bootloader activation 6   \n1.2 Exiting system memory boot mode 6   \n1.3 Bootloader identification . 6   \n2 STM32F101xx, STM32F102xx, STM32F103xx,   \nmedium-density and high-density value line bootloader . . . 8   \n2.1 Bootloader configuration 8   \n2.2 Bootloader hardware requirements 9   \n2.3 Bootloader selection 9   \n2.4 Bootloader version 10   \n3 STM32F105xx and STM32F107xx device bootloader . . . . 11   \n3.1 Bootloader configuration 11   \n3.2 Bootloader hardware requirements 13   \n3.3 Bootloader selection 14   \n3.4 Bootloader version 16   \n4 STM32F101xx and STM32F103xx XL-density devices bootloader . . . 17   \n4.1 Dual bank boot feature 17   \n4.2 Bootloader configuration 19   \n4.3 Bootloader hardware requirements 20   \n4.4 Bootloader selection . 21   \n4.5 Bootloader version 23   \n5 Device-dependent bootloader parameters . 24   \nRevision history . 25"
+  },
+  {
+    "segment_id": "stm32-an2606-p0003-text-00027",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2606-p0003-text-00028",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 3,
+    "text": "Table 1. Boot pin configuration . . 6   \nTable 2. Embedded bootloaders. . 7   \nTable 3. STM32F10xxx configuration in system memory boot mode. . . 8   \nTable 4. STM32F10xxx bootloader versions evolution. 10   \nTable 5. STM32F105xx/107xx configuration in system memory boot mode 11   \nTable 6. STM32F105xx and STM32F107xx bootloader versions evolution . 16   \nTable 7. Boot pin and BFB2 bit configuration . 18   \nTable 8. STM32F10xxx XL-density configuration in system memory boot mode. . 19   \nTable 9. Evolution of the XL-density bootloader versions. . 23   \nTable 10. Bootloader device dependant parameters 24   \nTable 11. Document revision history 25"
+  },
+  {
+    "segment_id": "stm32-an2606-p0004-text-00029",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2606-p0004-text-00030",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 4,
+    "text": "Figure 1. Bootloader for STM32 with USART1 . . . 9   \nFigure 2. Bootloader selection . . 15   \nFigure 3. Bootloader selection . . . 22"
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00031",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "Glossary"
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00032",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "Low-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00033",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "Medium-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00034",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "High-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00035",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "Connectivity line devices are STM32F105xx and STM32F107xx microcontrollers."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00036",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "Low-density value line devices are STM32F100xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00037",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "Medium-density value line devices are STM32F100xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00038",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "High-density value line devices are STM32F100xx microcontrollers where the Flash memory density ranges between 256 and 5128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0005-text-00039",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 5,
+    "text": "XL-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 768 Kbytes and 1 Mbyte."
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00040",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "General bootloader description"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00041",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "1.1 Bootloader activation"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00042",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "The bootloader is automatically activated by configuring the BOOT0 and BOOT1 pins in the specific “System memory” configuration (see Table 1) and then by applying a reset."
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00043",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "Depending on the used pin configuration, the Flash memory, system memory or SRAM is selected as the boot space, as shown in Table 1 below."
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-table-00001",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0006_00001.png",
+    "caption": "**Table 1. Boot pin configuration**\n\n| Boot mode selection pins |  | Boot mode | Aliasing |\n|---|---|---|---|\n| **BOOT1** | **BOOT0** |  |  |\n| X | 0 | User Flash memory | User Flash memory is selected as the boot space |\n| 0 | 1 | System memory | System memory is selected as the boot space |\n| 1 | 1 | Embedded SRAM | Embedded SRAM is selected as the boot space |\n\nThe **Boot mode selection pins** are **BOOT1** and **BOOT0**. “X” is shown for BOOT1 when BOOT0 = 0.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Boot pin configuration",
+    "generated_captions": {
+      "luna": "**Table 1. Boot pin configuration**\n\n| Boot mode selection pins |  | Boot mode | Aliasing |\n|---|---|---|---|\n| **BOOT1** | **BOOT0** |  |  |\n| X | 0 | User Flash memory | User Flash memory is selected as the boot space |\n| 0 | 1 | System memory | System memory is selected as the boot space |\n| 1 | 1 | Embedded SRAM | Embedded SRAM is selected as the boot space |\n\nThe **Boot mode selection pins** are **BOOT1** and **BOOT0**. “X” is shown for BOOT1 when BOOT0 = 0."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00044",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "Table 1 shows that the STM32 microcontrollers enter the System memory boot mode if the BOOT pins are configured as follows:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00045",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "● BOOT0 = 1"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00046",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "● BOOT1 = 0"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00047",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "The values on the BOOT pins are latched on the fourth rising edge of SYSCLK after a reset."
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00048",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "1.2 Exiting system memory boot mode"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00049",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "System memory boot mode must be exited in order to start execution of the application program. This can be done by applying a hardware reset. During reset, the BOOT pins (BOOT0 and BOOT1) must be set at the proper levels to select the desired boot mode (see Table 1). Following the reset, the CPU starts code execution from the boot memory located at the bottom of the memory address space starting from 0x0000 0000."
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00050",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "1.3 Bootloader identification"
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00051",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "Depending on the used STM32 device, the bootloader may support one or more embedded serial peripherals used to download the code to the internal Flash memory. The bootloader identifier (ID) provides information about the supported serial peripherals."
+  },
+  {
+    "segment_id": "stm32-an2606-p0006-text-00052",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 6,
+    "text": "For a given STM32 device, the bootloader is identified by means of the:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00053",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "1. Bootloader (protocol) version: version of the serial peripheral (USART, CAN, USB, etc.) communication protocol used in the bootloader. This version can be retrieved using the bootloader Get Version command."
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00054",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "2. Bootloader identifier (ID): version of the STM32 device bootloader, coded on one byte in the 0xXY format, where:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00055",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "– X specifies the embedded serial peripheral(s) used by the device bootloader:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00056",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "X = 1: only one USART is used"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00057",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "X = 2: two USARTs are used"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00058",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "X = 3: two USARTs, one CAN and DFU are used"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00059",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "– Y specifies the device bootloader version"
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00060",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "Let us take the example of a bootloader ID equal to 0x10. This means that it is the first version of the device bootloader that uses only one USART."
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00061",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "The bootloader ID is programmed in the last two bytes of the device system memory and can be read by using the bootloader “Read memory” command or by direct access to the system memory via JTAG/SWD."
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-text-00062",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "text": "The table below provides identification information about the bootloader embedded in STM32 devices."
+  },
+  {
+    "segment_id": "stm32-an2606-p0007-table-00002",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0007_00002.png",
+    "caption": "**Table 2. Embedded bootloaders**\n\n| Device | Supported serial peripherals | Bootloader ID — ID | Bootloader ID — Memory location | Bootloader (protocol) version |\n|---|---|---|---|---|\n| Low-density | USART1 | NA | NA | USART (V2.2) |\n| Medium-density | USART1 | NA | NA | USART (V2.2) |\n| High-density | USART1 | NA | NA | USART (V2.2) |\n| Connectivity line | USART1 / USART2 (remapped) / CAN2 (remapped) / DFU (USB Device) | NA | NA | USART (V2.2(¹)); CAN (V2.0); DFU (V2.0) |\n| Medium-density value line | USART1 | V1.0 | 0x1FFFF7D6 | USART (V2.2) |\n| High-density value line | USART1 | V1.0 | 0x1FFFF7D6 | USART (V2.2) |\n| XL-density | USART1/USART2 (remapped) | V2.1 | 0x1FFFF7D6 | USART (V3.0) |\n\nThe table contains no visible units or additional test conditions. The footnote associated with the superscript **(1)** is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Embedded bootloaders",
+    "generated_captions": {
+      "luna": "**Table 2. Embedded bootloaders**\n\n| Device | Supported serial peripherals | Bootloader ID — ID | Bootloader ID — Memory location | Bootloader (protocol) version |\n|---|---|---|---|---|\n| Low-density | USART1 | NA | NA | USART (V2.2) |\n| Medium-density | USART1 | NA | NA | USART (V2.2) |\n| High-density | USART1 | NA | NA | USART (V2.2) |\n| Connectivity line | USART1 / USART2 (remapped) / CAN2 (remapped) / DFU (USB Device) | NA | NA | USART (V2.2(¹)); CAN (V2.0); DFU (V2.0) |\n| Medium-density value line | USART1 | V1.0 | 0x1FFFF7D6 | USART (V2.2) |\n| High-density value line | USART1 | V1.0 | 0x1FFFF7D6 | USART (V2.2) |\n| XL-density | USART1/USART2 (remapped) | V2.1 | 0x1FFFF7D6 | USART (V3.0) |\n\nThe table contains no visible units or additional test conditions. The footnote associated with the superscript **(1)** is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00063",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "STM32F101xx, STM32F102xx, STM32F103xx, medium-density and high-density value line bootloader"
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00064",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "Throughout this section STM32F10xxx will be used to refer to low-density, medium-density, high-density STM32F101xx and STM32F103xx devices, to low- and medium-density STM32F102xx devices and to medium and high-density value line devices."
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00065",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "2.1 Bootloader configuration"
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00066",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "The bootloader embedded in STM32F10xxx devices supports only one interface: the USART1."
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00067",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "The following table shows the required STM32F10xxx hardware resources used by the bootloader in System memory boot mode."
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-table-00003",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0008_00003.png",
+    "caption": "**Table 3. STM32F10xxx configuration in system memory boot mode**  \n*(The table title/caption is not visible in the crop; identification follows the provided nearby caption.)*\n\n| Feature/Peripheral | State | Comment |\n|---|---|---|\n| Clock source | HSI enabled | The system clock is equal to 24 MHz using the PLL |\n| USART1_RX pin | Input | PA10 pin: USART1 receives |\n| USART1_TX pin | Output | PA9 pin: USART1 transmits |\n| SysTick timer | Enabled | Used to automatically detect the serial baud rate from the host. |\n| USART1 | Enabled | Once initialized the USART1 configuration is: 8-bits, even parity and 1 Stop bit |\n| RAM | - | 512 bytes starting from address 0x2000 0000 are used by the bootloader firmware |\n| System memory | - | 2 Kbytes starting from address 0x1FFF F000, contain the bootloader firmware |\n| IWDG | - | The independent watchdog (IWDG) prescaler is configured to its maximum value and is periodically refreshed to prevent watchdog reset (in case the hardware IWDG option was previously enabled by the user) |\n\n**Column headings:** Feature/Peripheral; State; Comment.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. STM32F10xxx configuration in system memory boot mode",
+    "generated_captions": {
+      "luna": "**Table 3. STM32F10xxx configuration in system memory boot mode**  \n*(The table title/caption is not visible in the crop; identification follows the provided nearby caption.)*\n\n| Feature/Peripheral | State | Comment |\n|---|---|---|\n| Clock source | HSI enabled | The system clock is equal to 24 MHz using the PLL |\n| USART1_RX pin | Input | PA10 pin: USART1 receives |\n| USART1_TX pin | Output | PA9 pin: USART1 transmits |\n| SysTick timer | Enabled | Used to automatically detect the serial baud rate from the host. |\n| USART1 | Enabled | Once initialized the USART1 configuration is: 8-bits, even parity and 1 Stop bit |\n| RAM | - | 512 bytes starting from address 0x2000 0000 are used by the bootloader firmware |\n| System memory | - | 2 Kbytes starting from address 0x1FFF F000, contain the bootloader firmware |\n| IWDG | - | The independent watchdog (IWDG) prescaler is configured to its maximum value and is periodically refreshed to prevent watchdog reset (in case the hardware IWDG option was previously enabled by the user) |\n\n**Column headings:** Feature/Peripheral; State; Comment."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00068",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "Note: 1 The system clock is derived from the embedded internal high-speed RC, no external quartz is required for the bootloader code"
+  },
+  {
+    "segment_id": "stm32-an2606-p0008-text-00069",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 8,
+    "text": "2 After downloading the application binary, if you choose to execute the Go command, the peripheral registers used by the bootloader (shown in the above table) are not initialized to their default reset values before jumping to the user application. They should be reconfigured in the user application if they are used. So, if the IWDG is being used in the application, the IWDG prescaler value has to be adapted to meet the requirements of the application (since the prescaler was set to its maximum value by the bootloader)."
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-text-00070",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "text": "Bootloader hardware requirements"
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-text-00071",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "text": "The hardware required to put the STM32 into System memory boot mode consists of any circuitry, switch or jumper, capable of holding the BOOT0 pin high and the BOOT1 pin low during reset."
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-text-00072",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "text": "To connect to the STM32 during System memory boot mode, an RS232 serial interface (example, ST3232 RS232 transceiver) has to be directly linked to the USART1\\_RX (PA10) and USART1\\_TX (PA9) pins."
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-text-00073",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "text": "Note: USART1\\_CK, USART1\\_CTS and USART1\\_RTS pins are not used, therefore user can use these pins for other peripherals or GPIOs."
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-text-00074",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "text": "For more details about hardware recommendations, refer to application note AN2586: “STM32 hardware development: getting started”, available from the STMicroelectronics website: www.st.com"
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-text-00075",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "text": "2.3 Bootloader selection"
+  },
+  {
+    "segment_id": "stm32-an2606-p0009-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2606",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_figure_p0009_00001.png",
+    "caption": "**Figure 1. Bootloader for STM32 with USART1** — flowchart, identifier **ai14630b**.\n\nVisible bootloader sequence:\n\n1. **System reset**\n2. **Disable all interrupt sources**\n3. **Configure internal RC mode**\n4. Decision: **Wait for 7Fh from host**\n5. **Auto-baud rate sequence**  \n   **send ACK byte & disable unused peripherals**\n6. Decision: **Wait for a command**\n7. Command-dispatch path labeled **Command received**, with the following branches:\n   - **GET cmd** → **GET cmd routine**\n   - **RD cmd** → **RD cmd routine**\n   - Optional path: **(optional) load routines into RAM**\n   - **GO cmd** → **GO cmd routine**\n8. The GO routine leads to **JP to_Address**.\n\nThe flowchart shows a return/loop path from the command-processing area back toward the command-waiting/processing flow. Solid boxes represent the main routines; the “(optional) load routines into RAM” box has a dashed outline. Arrows point downward through the initialization sequence and into the command branches.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Bootloader for STM32 with USART1",
+    "generated_captions": {
+      "luna": "**Figure 1. Bootloader for STM32 with USART1** — flowchart, identifier **ai14630b**.\n\nVisible bootloader sequence:\n\n1. **System reset**\n2. **Disable all interrupt sources**\n3. **Configure internal RC mode**\n4. Decision: **Wait for 7Fh from host**\n5. **Auto-baud rate sequence**  \n   **send ACK byte & disable unused peripherals**\n6. Decision: **Wait for a command**\n7. Command-dispatch path labeled **Command received**, with the following branches:\n   - **GET cmd** → **GET cmd routine**\n   - **RD cmd** → **RD cmd routine**\n   - Optional path: **(optional) load routines into RAM**\n   - **GO cmd** → **GO cmd routine**\n8. The GO routine leads to **JP to_Address**.\n\nThe flowchart shows a return/loop path from the command-processing area back toward the command-waiting/processing flow. Solid boxes represent the main routines; the “(optional) load routines into RAM” box has a dashed outline. Arrows point downward through the initialization sequence and into the command branches."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0010-text-00076",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 10,
+    "text": "Once System memory boot mode is entered and the microcontroller has been configured as described above, the bootloader code begins to scan the USART1\\_RX line pin, waiting to receive the 0x7F data frame: one start bit, 0x7F data bits, even parity bit and one stop bit."
+  },
+  {
+    "segment_id": "stm32-an2606-p0010-text-00077",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 10,
+    "text": "The duration of this data frame is measured using the Systick timer. The count value of the timer is then used to calculate the corresponding baud rate factor with respect to the current system clock."
+  },
+  {
+    "segment_id": "stm32-an2606-p0010-text-00078",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 10,
+    "text": "Next, the code initializes the serial interface accordingly. Using this calculated baud rate, an acknowledge byte (0x79) is returned to the host, which signals that the STM32F10xxx is ready to receive user commands."
+  },
+  {
+    "segment_id": "stm32-an2606-p0010-text-00079",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 10,
+    "text": "2.4 Bootloader version"
+  },
+  {
+    "segment_id": "stm32-an2606-p0010-text-00080",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 10,
+    "text": "The Table 4 lists the bootloader versions evolution of the STM32F10xxx devices."
+  },
+  {
+    "segment_id": "stm32-an2606-p0010-table-00004",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0010_00004.png",
+    "caption": "**Table 4. STM32F10xxx bootloader versions evolution**\n\n| Bootloader version number | Description |\n|---|---|\n| **V2.0** | Initial bootloader version. |\n| **V2.1** | – Update Go Command to initialize the main stack pointer<br>– Update Go command to return NACK when jump address is in the Option byte area or System memory area<br>– Update Get ID command to return the device ID on two bytes<br>– Update the bootloader version to V2.1 |\n| **V2.2** | – Update Read Memory, Write Memory and Go commands to deny access with a NACK response to the first 0x200 bytes of RAM memory used by the bootloader<br>– Update Readout Unprotect command to initialize the whole RAM content to 0x0 before ROP disable operation |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. STM32F10xxx bootloader versions evolution",
+    "generated_captions": {
+      "luna": "**Table 4. STM32F10xxx bootloader versions evolution**\n\n| Bootloader version number | Description |\n|---|---|\n| **V2.0** | Initial bootloader version. |\n| **V2.1** | – Update Go Command to initialize the main stack pointer<br>– Update Go command to return NACK when jump address is in the Option byte area or System memory area<br>– Update Get ID command to return the device ID on two bytes<br>– Update the bootloader version to V2.1 |\n| **V2.2** | – Update Read Memory, Write Memory and Go commands to deny access with a NACK response to the first 0x200 bytes of RAM memory used by the bootloader<br>– Update Readout Unprotect command to initialize the whole RAM content to 0x0 before ROP disable operation |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0011-text-00081",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 11,
+    "text": "3 STM32F105xx and STM32F107xx device bootloader"
+  },
+  {
+    "segment_id": "stm32-an2606-p0011-text-00082",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 11,
+    "text": "3.1 Bootloader configuration"
+  },
+  {
+    "segment_id": "stm32-an2606-p0011-text-00083",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 11,
+    "text": "The bootloader embedded in the STM32F105xx and STM32F107xx devices supports four serial peripherals: USART1, USART2, CAN2, and DFU (USB). This means that four serial peripherals are supported: USART1, USART2, CAN2 and DFU (USB)."
+  },
+  {
+    "segment_id": "stm32-an2606-p0011-text-00084",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 11,
+    "text": "The following table shows the hardware resources required by STM32F105xx and STM32F107xx devices used by the bootloader in System memory boot mode."
+  },
+  {
+    "segment_id": "stm32-an2606-p0011-table-00005",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0011_00005.png",
+    "caption": "**Table 5. STM32F105xx/107xx configuration in system memory boot mode**\n\nColumn headings: **Bootloader | Feature/Peripheral | State | Comment**\n\n### Common to all bootloaders\n\n| Feature/Peripheral | State | Comment |\n|---|---|---|\n| RCC | HSI enabled | The system clock frequency is 24 MHz using the PLL. This is used only for USART1 and USART2 bootloaders and during CAN2, USB detection for CAN and DFU bootloaders (Once CAN or DFU bootloader is selected, the clock source will be derived from external crystal). |\n| RCC | HSE enabled | The external clock is mandatory only for DFU and CAN bootloaders and it must provide one of the following frequencies: 8 MHz, 14.7456 MHz or 25 MHz. For CAN Bootloader, the PLL is used only to generate 48 MHz when 14.7456 MHz is used as HSE. For DFU Bootloader, the PLL is used to generate a 48 MHz system clock from all supported external clock frequencies. |\n| RCC | - | The clock security system (CSS) interrupt is enabled for the CAN and DFU bootloaders. Any failure (or removal) of the external clock will generate system reset. |\n| IWDG | - | The independent watchdog (IWDG) prescaler is configured to its maximum value and is periodically refreshed to prevent watchdog reset (in case the hardware IWDG option was previously enabled by the user). |\n| System memory | - | 18 Kbytes starting from address 0x1FFF B000, contain the bootloader firmware |\n| RAM | - | 4 Kbytes starting from address 0x2000 0000 are used by the bootloader firmware. |\n\n### USART1 bootloader\n\n| Feature/Peripheral | State | Comment |\n|---|---|---|\n| USART1 | Enabled | Once initialized the USART1 configuration is: 8-bits, even parity and 1 Stop bit |\n| USART1_RX pin | Input | PA10 pin: USART1 receive |\n| USART1_TX pin | Output | PA9 pin: USART1 transmit |\n| — | — | USART2_RX (PD6), CAN2_RX (PB5), OTG_FS_DM (PA11) and OTG_FS_DP (PA12) pins must be kept at a high or low level during the detection phase. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. STM32F105xx/107xx configuration in system memory boot mode",
+    "generated_captions": {
+      "luna": "**Table 5. STM32F105xx/107xx configuration in system memory boot mode**\n\nColumn headings: **Bootloader | Feature/Peripheral | State | Comment**\n\n### Common to all bootloaders\n\n| Feature/Peripheral | State | Comment |\n|---|---|---|\n| RCC | HSI enabled | The system clock frequency is 24 MHz using the PLL. This is used only for USART1 and USART2 bootloaders and during CAN2, USB detection for CAN and DFU bootloaders (Once CAN or DFU bootloader is selected, the clock source will be derived from external crystal). |\n| RCC | HSE enabled | The external clock is mandatory only for DFU and CAN bootloaders and it must provide one of the following frequencies: 8 MHz, 14.7456 MHz or 25 MHz. For CAN Bootloader, the PLL is used only to generate 48 MHz when 14.7456 MHz is used as HSE. For DFU Bootloader, the PLL is used to generate a 48 MHz system clock from all supported external clock frequencies. |\n| RCC | - | The clock security system (CSS) interrupt is enabled for the CAN and DFU bootloaders. Any failure (or removal) of the external clock will generate system reset. |\n| IWDG | - | The independent watchdog (IWDG) prescaler is configured to its maximum value and is periodically refreshed to prevent watchdog reset (in case the hardware IWDG option was previously enabled by the user). |\n| System memory | - | 18 Kbytes starting from address 0x1FFF B000, contain the bootloader firmware |\n| RAM | - | 4 Kbytes starting from address 0x2000 0000 are used by the bootloader firmware. |\n\n### USART1 bootloader\n\n| Feature/Peripheral | State | Comment |\n|---|---|---|\n| USART1 | Enabled | Once initialized the USART1 configuration is: 8-bits, even parity and 1 Stop bit |\n| USART1_RX pin | Input | PA10 pin: USART1 receive |\n| USART1_TX pin | Output | PA9 pin: USART1 transmit |\n| — | — | USART2_RX (PD6), CAN2_RX (PB5), OTG_FS_DM (PA11) and OTG_FS_DP (PA12) pins must be kept at a high or low level during the detection phase. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0012-table-00006",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0012_00006.png",
+    "caption": "**Table columns:** Bootloader | Feature/Peripheral | State | Comment\n\n### USART1 and USART2 bootloaders\n- **Feature/Peripheral:** SysTick timer  \n  **State:** Enabled  \n  **Comment:** Used to automatically detect the serial baud rate from the host for USARTx bootloader.\n\n### USART2 bootloader\n- **Feature/Peripheral:** USART2  \n  **State:** Enabled  \n  **Comment:** Once initialized the USART2 configuration is: 8-bits, even parity and 1 Stop bit. The USART2 uses its remapped pins.\n- **Feature/Peripheral:** USART2_RX pin  \n  **State:** Input  \n  **Comment:** PD6 pin: USART2 receive (remapped pin)\n- **Feature/Peripheral:** USART2_TX pin  \n  **State:** Output  \n  **Comment:** PD5 pin: USART2 transmit (remapped pin)\n- **Detection-phase note:** USART1_RX (PA10), CAN2_RX (PB5), OTG_FS_DM (PA11) and OTG_FS_DP (PA12) pins must be kept at a high or low level during the detection phase.\n\n### CAN2 bootloader\n- **Feature/Peripheral:** CAN2  \n  **State:** Enabled  \n  **Comment:** Once initialized the CAN2 configuration is: Baudrate 125 kbps, 11-bit identifier.  \n  **Note:** CAN1 is clocked during the CAN bootloader execution because in STM32F105xx and STM32F107xx devices, CAN1 manages the communication between CAN2 and SRAM.\n- **Feature/Peripheral:** CAN2_RX pin  \n  **State:** Input  \n  **Comment:** PB5 pin: CAN2 receives (remapped pin)\n- **Feature/Peripheral:** CAN2_TX pin  \n  **State:** Output  \n  **Comment:** PB6 pin: CAN2 transmits (remapped pin)\n- **Detection-phase note:** USART1_RX (PA10), USART2_RX (PD6), OTG_FS_DM (PA11) and OTG_FS_DP (PA12) pins must be kept at a high or low level during the detection phase.\n\n### DFU bootloader\n- **Feature/Peripheral:** USB OTG FS  \n  **State:** Enabled  \n  **Comment:** USB OTG FS configured in Forced device mode\n- **Feature/Peripheral:** OTG_FS_VBUS pin  \n  **State:** Input or alternate function, automatically controlled by the USB OTG FS controller  \n  **Comment:** PA9: Power supply voltage line\n- **Feature/Peripheral:** OTG_FS_DM pin  \n  **State:** Input or alternate function, automatically controlled by the USB OTG FS controller  \n  **Comment:** PA11: USB Send-Receive data line\n- **Feature/Peripheral:** OTG_FS_DP pin  \n  **State:** Input or alternate function, automatically controlled by the USB OTG FS controller  \n  **Comment:** PA12: USB Send-Receive data line\n- **Feature/Peripheral:** Interrupts  \n  **State:** Enabled  \n  **Comment:** USB_OTG_FS interrupt vector is enabled and used for USB DFU communication.\n- **Detection-phase note:** USART1_RX (PA10), USART2_RX (PD6) and CAN2_RX (PB5) pins must be kept at a high or low level during the detection phase.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "**Table columns:** Bootloader | Feature/Peripheral | State | Comment\n\n### USART1 and USART2 bootloaders\n- **Feature/Peripheral:** SysTick timer  \n  **State:** Enabled  \n  **Comment:** Used to automatically detect the serial baud rate from the host for USARTx bootloader.\n\n### USART2 bootloader\n- **Feature/Peripheral:** USART2  \n  **State:** Enabled  \n  **Comment:** Once initialized the USART2 configuration is: 8-bits, even parity and 1 Stop bit. The USART2 uses its remapped pins.\n- **Feature/Peripheral:** USART2_RX pin  \n  **State:** Input  \n  **Comment:** PD6 pin: USART2 receive (remapped pin)\n- **Feature/Peripheral:** USART2_TX pin  \n  **State:** Output  \n  **Comment:** PD5 pin: USART2 transmit (remapped pin)\n- **Detection-phase note:** USART1_RX (PA10), CAN2_RX (PB5), OTG_FS_DM (PA11) and OTG_FS_DP (PA12) pins must be kept at a high or low level during the detection phase.\n\n### CAN2 bootloader\n- **Feature/Peripheral:** CAN2  \n  **State:** Enabled  \n  **Comment:** Once initialized the CAN2 configuration is: Baudrate 125 kbps, 11-bit identifier.  \n  **Note:** CAN1 is clocked during the CAN bootloader execution because in STM32F105xx and STM32F107xx devices, CAN1 manages the communication between CAN2 and SRAM.\n- **Feature/Peripheral:** CAN2_RX pin  \n  **State:** Input  \n  **Comment:** PB5 pin: CAN2 receives (remapped pin)\n- **Feature/Peripheral:** CAN2_TX pin  \n  **State:** Output  \n  **Comment:** PB6 pin: CAN2 transmits (remapped pin)\n- **Detection-phase note:** USART1_RX (PA10), USART2_RX (PD6), OTG_FS_DM (PA11) and OTG_FS_DP (PA12) pins must be kept at a high or low level during the detection phase.\n\n### DFU bootloader\n- **Feature/Peripheral:** USB OTG FS  \n  **State:** Enabled  \n  **Comment:** USB OTG FS configured in Forced device mode\n- **Feature/Peripheral:** OTG_FS_VBUS pin  \n  **State:** Input or alternate function, automatically controlled by the USB OTG FS controller  \n  **Comment:** PA9: Power supply voltage line\n- **Feature/Peripheral:** OTG_FS_DM pin  \n  **State:** Input or alternate function, automatically controlled by the USB OTG FS controller  \n  **Comment:** PA11: USB Send-Receive data line\n- **Feature/Peripheral:** OTG_FS_DP pin  \n  **State:** Input or alternate function, automatically controlled by the USB OTG FS controller  \n  **Comment:** PA12: USB Send-Receive data line\n- **Feature/Peripheral:** Interrupts  \n  **State:** Enabled  \n  **Comment:** USB_OTG_FS interrupt vector is enabled and used for USB DFU communication.\n- **Detection-phase note:** USART1_RX (PA10), USART2_RX (PD6) and CAN2_RX (PB5) pins must be kept at a high or low level during the detection phase."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0012-text-00085",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 12,
+    "text": "The system clock is derived from the embedded internal high-speed RC for USARTx bootloader. This internal clock is used also for DFU and CAN bootloaders but only for the selection phase. An external clock (8 MHz, 14.7456 MHz or 25 MHz.) is required for DFU and CAN bootloader execution after the selection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 12,
+    "text": "After downloading the application binary, if you choose to execute the Go command, all peripheral registers used by the bootloader (shown in the above table) will be initialized to their default reset values before jumping to the user application.   \nIf the user application uses the IWDG, the IWDG prescaler value has to be adapted to meet the requirements of the application (since the prescaler was set to its maximum value by the bootloader)."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00087",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "3.2 Bootloader hardware requirements"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00088",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "The hardware required to put the STM32F105xx and STM32F107xx into System memory boot mode consists of any circuitry, switch or jumper, capable of holding the BOOT0 pin high and the BOOT1 pin low during reset."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00089",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "To connect to the STM32F105xx and STM32F107xx during System memory boot mode, the following conditions have to be verified:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00090",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "The RX pins of the unused peripherals in this bootloader have to be kept at a known (low or high) level, and should not be left floating during the detection phase as described below:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00091",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "If USART1 is used to connect to the bootloader: the USART2\\_RX (PD6), CAN2\\_RX (PB5), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00092",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "If USART2 is used to connect to the bootloader: the USART1\\_RX (PA10), CAN2\\_RX (PB5), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00093",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "– If CAN2 is used to connect to the bootloader: the USART1\\_RX (PA10), If CAN2 is used to connect to the bootloader: the USART1\\_RX (PA10),"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00094",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "USART2\\_RX (PD6), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00095",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "If DFU is used to connect to the bootloader: the USART1\\_RX (PA10), USART2\\_RX (PD6) and CAN2\\_RX (PB5) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "Connect to the peripheral to be used through:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "an RS232 serial interface (example, ST3232 RS232 transceiver) has to be directly connected to the USART1\\_RX (PA10) and USART1\\_TX (PA9) pins when USART1 is used, or to the USART2\\_RX (PD6) and USART2\\_TX (PD5) pins when USART2 is used"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "a CAN interface (CAN transceiver) has to be directly connected to the CAN2\\_RX (PB5) and CAN2\\_TX (PB6) pins"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "a certified USB cable has to be connected to the microcontroller (optionally an ESD protection circuitry can be used)"
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "The USART1\\_CK, USART1\\_CTS and USART1\\_RTS pins are not used, therefore the application can use these pins for other peripherals or GPIOs. The same note is applicable for USART2."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "Once the USB Device is enabled, all its related pins are dedicated to USB communication only, and cannot be used for other application purposes."
+  },
+  {
+    "segment_id": "stm32-an2606-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 13,
+    "text": "The user can control the BOOT0 and Reset pins from a PC serial applet using the RS232 serial interface which controls BOOT0 through the CTS line and Reset through the DCD line. The user must use a full null modem cable. The necessary hardware to implement for this control exists in the STM3210C-EVAL board. For more details about this, refer to document: “STM3210C-EVAL board user manual”, available from the STMicroelectronics website: www.st.com."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00103",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "3.3 Bootloader selection"
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00104",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "The STM32F105xx and STM32F107xx embedded bootloader supports four peripherals interfaces: USART1, USART2, CAN2 and DFU (USB). Any one of these peripheral interfaces can be used to communicate with the bootloader and download the application code to the internal Flash."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00105",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "The embedded bootloader firmware is able to auto-detect the peripheral interface to be used. In an infinite loop, it detects any communication on the supported bootloader interfaces."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00106",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00107",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "The RX pins of the unused peripherals in this bootloader have to be maintained at a known (low or high) level and should not be left floating during the detection phase as described below:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00108",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "If USART1 is used to connect to the bootloader: the USART2\\_RX (PD6), CAN2\\_RX (PB5), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00109",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "If USART2 is used to connect to the bootloader: the USART1\\_RX (PA10), CAN2\\_RX (PB5), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00110",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "If CAN2 is used to connect to the bootloader: USART1\\_RX (PA10), USART2\\_RX (PD6), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00111",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "If DFU is used to connect to the bootloader: the USART1\\_RX (PA10), USART2\\_RX (PD6) and CAN2\\_RX (PB5) pins have to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00112",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "To use the USART bootloader on USART1 or USART2, connect the serial cable to the desired interface. Once the bootloader detects the data byte 0x7F on this interface, the bootloader firmware executes the auto-baud rate sequence and then enters a loop, waiting for any USART bootloader command."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00113",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "To use the CAN2 interface, connect the CAN cable to CAN2. Once the bootloader detects a frame on the CAN2\\_RX pin (PB5), the bootloader firmware enters a CAN loop and starts to check the external clock frequency value, if the HSE is 8 MHz, 14.7456 MHz or 25 MHz CAN bootloader firmware enters an infinite loop and waits until it receives a message, otherwise a system reset is generated."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00114",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "If a USB cable is plugged into the microcontroller’s USB interface at any time during the bootloader firmware selection sequence, the bootloader then enters the DFU bootloader loop waiting for any DFU bootloader command."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00115",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "To use the USART or the CAN bootloader, it is mandatory that no USB cable is connected to the USB peripheral during the selection phase. Once the USART or CAN bootloader is selected, the user can plug a USB cable without impacting the selected bootloader execution except commands which generate a system reset."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00116",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "Once one interface is selected for the bootloader, all other interfaces are disabled."
+  },
+  {
+    "segment_id": "stm32-an2606-p0014-text-00117",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 14,
+    "text": "The figure below shows the bootloader detection mechanism. More details are provided in the sections corresponding to each peripheral bootloader."
+  },
+  {
+    "segment_id": "stm32-an2606-p0015-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2606",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_figure_p0015_00002.png",
+    "caption": "**Figure 2. Bootloader selection** — flowchart showing bootloader initialization and interface selection.\n\nFlow, from top:\n\n1. **System reset**\n2. **System init (clock, GPIOs, IWDG, SysTick)**\n3. **Configure CAN2**\n4. **Configure USB**\n5. Decision: **USB cable detected**\n   - **Yes:** proceed to decision **HSE = 8 MHz, 14.7456 MHz or 25 MHz** on the right.\n     - **Yes:**  \n       **Reconfigure system clock to 48 MHz and USB clock to 48 MHz**  \n       → **Execute DFU boot-loader using USB interrupts**\n     - **No:** **Generate system reset**\n   - **No:** proceed to decision **0x7F received on USART1**\n     - **Yes:**  \n       **Configure USART1**  \n       → **Execute BL_USART_Loop for USART1**\n     - **No:** proceed to decision **0x7F received on USART2**\n       - **Yes:**  \n         **Configure USART2**  \n         → **Execute BL_USART_Loop for USART2**\n       - **No:** proceed to decision **Frame detected on CAN2_RX pin**\n         - **Yes:** proceed to decision **HSE = 8 MHz, 14.7456 MHz or 25 MHz**\n           - **Yes:** **Execute BL_CAN_Loop for CAN2**\n           - **No:** **Generate system reset**\n         - **No:** flow loops back to the **USB cable detected** decision.\n\nVisible branch labels are **Yes** and **No**. The figure identifier at the lower right is **ai17514**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Bootloader selection",
+    "generated_captions": {
+      "luna": "**Figure 2. Bootloader selection** — flowchart showing bootloader initialization and interface selection.\n\nFlow, from top:\n\n1. **System reset**\n2. **System init (clock, GPIOs, IWDG, SysTick)**\n3. **Configure CAN2**\n4. **Configure USB**\n5. Decision: **USB cable detected**\n   - **Yes:** proceed to decision **HSE = 8 MHz, 14.7456 MHz or 25 MHz** on the right.\n     - **Yes:**  \n       **Reconfigure system clock to 48 MHz and USB clock to 48 MHz**  \n       → **Execute DFU boot-loader using USB interrupts**\n     - **No:** **Generate system reset**\n   - **No:** proceed to decision **0x7F received on USART1**\n     - **Yes:**  \n       **Configure USART1**  \n       → **Execute BL_USART_Loop for USART1**\n     - **No:** proceed to decision **0x7F received on USART2**\n       - **Yes:**  \n         **Configure USART2**  \n         → **Execute BL_USART_Loop for USART2**\n       - **No:** proceed to decision **Frame detected on CAN2_RX pin**\n         - **Yes:** proceed to decision **HSE = 8 MHz, 14.7456 MHz or 25 MHz**\n           - **Yes:** **Execute BL_CAN_Loop for CAN2**\n           - **No:** **Generate system reset**\n         - **No:** flow loops back to the **USB cable detected** decision.\n\nVisible branch labels are **Yes** and **No**. The figure identifier at the lower right is **ai17514**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0016-text-00118",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 16,
+    "text": "3.4 Bootloader version"
+  },
+  {
+    "segment_id": "stm32-an2606-p0016-text-00119",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 16,
+    "text": "The table below lists the bootloader versions and the changes between versions V1.0 and V2.0. of the STM32F105xx and STM32F107xx devices"
+  },
+  {
+    "segment_id": "stm32-an2606-p0016-table-00007",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0016_00007.png",
+    "caption": "**Table 6. STM32F105xx and STM32F107xx bootloader versions evolution**\n\n| Bootloader version number | Description |\n|---|---|\n| **V1.0** | Initial bootloader version. |\n| **V2.0** | – Bootloader detection mechanism updated to fix the issue when GPIOs of unused peripherals in this bootloader are connected to low level or left floating during the detection phase. For more details please refer to limitation 2.12 “Boot loader unavailability on STM32F105xx and STM32F107xx devices with a date code below 937” as described in Revision 2 of the “STM32F105xx and STM32F107xx revision Z” errata sheet available from www.st.com<br>– Vector table set to **0x1FFF B000** instead of **0x0000 0000**<br>– Go command updated (for all bootloaders): USART1, USART2, CAN2, GPIOA, GPIOB, GPIOD and SysTick peripheral registers are set to their default reset values<br>– DFU bootloader: USB pending interrupt cleared before executing the Leave DFU command<br>– DFU subprotocol version changed from **V1.0** to **V1.2**<br>– Bootloader version updated to **V2.0** |\n\nNo additional units or footnotes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. STM32F105xx and STM32F107xx bootloader versions evolution",
+    "generated_captions": {
+      "luna": "**Table 6. STM32F105xx and STM32F107xx bootloader versions evolution**\n\n| Bootloader version number | Description |\n|---|---|\n| **V1.0** | Initial bootloader version. |\n| **V2.0** | – Bootloader detection mechanism updated to fix the issue when GPIOs of unused peripherals in this bootloader are connected to low level or left floating during the detection phase. For more details please refer to limitation 2.12 “Boot loader unavailability on STM32F105xx and STM32F107xx devices with a date code below 937” as described in Revision 2 of the “STM32F105xx and STM32F107xx revision Z” errata sheet available from www.st.com<br>– Vector table set to **0x1FFF B000** instead of **0x0000 0000**<br>– Go command updated (for all bootloaders): USART1, USART2, CAN2, GPIOA, GPIOB, GPIOD and SysTick peripheral registers are set to their default reset values<br>– DFU bootloader: USB pending interrupt cleared before executing the Leave DFU command<br>– DFU subprotocol version changed from **V1.0** to **V1.2**<br>– Bootloader version updated to **V2.0** |\n\nNo additional units or footnotes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00120",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "STM32F101xx and STM32F103xx XL-density devices bootloader"
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00121",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "Throughout this section STM32F10xxx XL-density is used to refer to XL-density STM32F101xx and STM32F103xx devices."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00122",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "4.1 Dual bank boot feature"
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00123",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "For STM32F101xx and STM32F103xx XL-density devices (these devices have two Flash memory banks: Bank 1 and Bank 2), an additional boot mechanism is available which allows booting from Bank 2 or Bank 1 (depending on the BFB2 bit status (bit 19 in the user option bytes @ 0x1FFFF800))."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00124",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "1. When the BFB2 bit is reset, and the boot pins are configured to boot from the Flash memory (BOOT0 = 0 and BOOT1 = x) then, after reset, the device boots from the System memory and executes the embedded bootloader code which implements the dual bank Boot mode:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00125",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "a) First, the code checks Bank 2. If it contains a valid code (see Note: 1 below), it jumps to application located in Bank 2 and leaves the Bootloader."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00126",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "b) If the Bank 2 code is not valid, it checks Bank 1 code. If it is valid (see “note” below), it jumps to the application located in Bank 1."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00127",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "c) If both Bank 2 and Bank 1 do not contain valid code (see “note” below), the normal Bootloader operations are executed as described in the following sections (no jump to Flash banks is executed). Refer to Figure 3: Bootloader selection for more details."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00128",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "2. When the bit BFB2 is set (default state), the dual bank boot mechanism is not performed."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00129",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "Note: 1 1"
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00130",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "The code is considered as valid when the first data (at the bank start address, which should be the stack pointer) points to a valid address into the internal SRAM memory (stack top address). If the first address points to any other location (out of the internal SRAM) the code is considered not valid."
+  },
+  {
+    "segment_id": "stm32-an2606-p0017-text-00131",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 17,
+    "text": "2 A dual bank Boot mode example (FLASH\\Dual\\_Boot) is provided within the STM32F10x Standard Peripheral Library available on www.st.com."
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00132",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "For the STM32F101xx and STM32F103xx XL-density devices, the Flash memory, system memory or SRAM is selected as the boot space, as shown in Table 7 below."
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-table-00008",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0018_00008.png",
+    "caption": "**Table 7. Boot pin and BFB2 bit configuration**\n\n| BFB2 bit | BOOT1 | BOOT0 | Boot mode | Aliasing |\n|---|---:|---:|---|---|\n| 1 | X | 0 | User Flash memory | User Flash memory is selected as the boot space |\n| 1 | 0 | 1 | System memory | System memory is selected as the boot space |\n| 1 | 1 | 1 | Embedded SRAM | Embedded SRAM is selected as the boot space |\n| 0 | X | 0 | System memory | System memory is selected as the boot space then dual bank mechanism is executed |\n| 0 | 0 | 1 | System memory | System memory is selected as the boot space then dual bank mechanism is executed |\n| 0 | 1 | 1 | Embedded SRAM | Embedded SRAM is selected as the boot space |\n\nThe **Boot mode selection pins** are **BOOT1** and **BOOT0**. “X” is shown in the table for BOOT1, indicating the value is not specified/don’t-care in that row.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Boot pin and BFB2 bit configuration",
+    "generated_captions": {
+      "luna": "**Table 7. Boot pin and BFB2 bit configuration**\n\n| BFB2 bit | BOOT1 | BOOT0 | Boot mode | Aliasing |\n|---|---:|---:|---|---|\n| 1 | X | 0 | User Flash memory | User Flash memory is selected as the boot space |\n| 1 | 0 | 1 | System memory | System memory is selected as the boot space |\n| 1 | 1 | 1 | Embedded SRAM | Embedded SRAM is selected as the boot space |\n| 0 | X | 0 | System memory | System memory is selected as the boot space then dual bank mechanism is executed |\n| 0 | 0 | 1 | System memory | System memory is selected as the boot space then dual bank mechanism is executed |\n| 0 | 1 | 1 | Embedded SRAM | Embedded SRAM is selected as the boot space |\n\nThe **Boot mode selection pins** are **BOOT1** and **BOOT0**. “X” is shown in the table for BOOT1, indicating the value is not specified/don’t-care in that row."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00133",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "2. Or if:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00134",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "a) the BFB2 bit is reset and"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00135",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "b) boot pins are configured as follows: BOOT0 = 0 and BOOT1 = x"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00136",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "When conditions a, b, and c below are fulfilled, it is equivalent to configuring boot pins for system memory boot (BOOT0 = 1 and BOOT1 = 0). In this case normal Bootloader operations are executed."
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00137",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "a) BFB2 bit is reset"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00138",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "b) Both banks don’t contain valid code"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00139",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "c) Boot pins configured as follows: BOOT0 = 0 and BOOT1 = x"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00140",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "When the BFB2 bit is cleared, and Bank 2 and/or Bank 1 contain valid user application code, the Dual Bank Boot is always performed (bootloader always jumps to the user code and never continues normal operations)."
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00141",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "Consequently, if you have cleared the BFB2 bit (to boot from Bank 2) then, to be able to execute the Bootloader code, you have to:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00142",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "\\- either, set the BFB2 bit to 1"
+  },
+  {
+    "segment_id": "stm32-an2606-p0018-text-00143",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 18,
+    "text": "- or, program the content of address 0x0808 0000 (base address of Bank2) and 0x0800   \n0000 (base address of Bank1) to 0x0"
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-text-00144",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "text": "4.2 Bootloader configuration"
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-text-00145",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "text": "The bootloader embedded in STM32F10xxx XL-density supports two serial interfaces: USART1 and USART2."
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-text-00146",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "text": "The following table shows the required hardware resources of STM32F10xxx XL-density devices used by the bootloader in system memory boot mode."
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-table-00009",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0019_00009.png",
+    "caption": "**Table 8. STM32F10xxx XL-density configuration in system memory boot mode**\n\n| Feature/peripheral | State | Comment |\n|---|---|---|\n| Clock source | HSI enabled | The system clock is equal to 24 MHz using the PLL |\n| USART1_RX pin | Input | PA10 pin: USART1 receives |\n| USART1_TX pin | Output | PA9 pin: USART1 transmits |\n| USART2_RX pin | Input | PD6 pin: USART2 receives (remapped pins) |\n| USART2_TX pin | Output | PD5 pin: USART2 transmits (remapped pins) |\n| SysTick timer | Enabled | Used to automatically detect the serial baud rate from the host |\n| USART1 | Enabled | Once initialized the USART1/USART2 configuration is: 8-bits, even parity and 1 Stop bit. |\n| USART2 | Enabled | Once initialized the USART1/USART2 configuration is: 8-bits, even parity and 1 Stop bit. |\n| RAM | - | 2 Kbytes starting from address 0x2000 0000 are used by the bootloader firmware |\n| System memory | - | 6 Kbytes starting from address 0x1FFF E000, contain the bootloader firmware |\n| IWDG | - | The independent watchdog (IWDG) prescaler is configured to its maximum value and is periodically refreshed to prevent watchdog reset (in case the hardware IWDG option was previously enabled by the user) |\n\nThe crop shows the table body and column headers; the table title is provided by the nearby caption context.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 8. STM32F10xxx XL-density configuration in system memory boot mode",
+    "generated_captions": {
+      "luna": "**Table 8. STM32F10xxx XL-density configuration in system memory boot mode**\n\n| Feature/peripheral | State | Comment |\n|---|---|---|\n| Clock source | HSI enabled | The system clock is equal to 24 MHz using the PLL |\n| USART1_RX pin | Input | PA10 pin: USART1 receives |\n| USART1_TX pin | Output | PA9 pin: USART1 transmits |\n| USART2_RX pin | Input | PD6 pin: USART2 receives (remapped pins) |\n| USART2_TX pin | Output | PD5 pin: USART2 transmits (remapped pins) |\n| SysTick timer | Enabled | Used to automatically detect the serial baud rate from the host |\n| USART1 | Enabled | Once initialized the USART1/USART2 configuration is: 8-bits, even parity and 1 Stop bit. |\n| USART2 | Enabled | Once initialized the USART1/USART2 configuration is: 8-bits, even parity and 1 Stop bit. |\n| RAM | - | 2 Kbytes starting from address 0x2000 0000 are used by the bootloader firmware |\n| System memory | - | 6 Kbytes starting from address 0x1FFF E000, contain the bootloader firmware |\n| IWDG | - | The independent watchdog (IWDG) prescaler is configured to its maximum value and is periodically refreshed to prevent watchdog reset (in case the hardware IWDG option was previously enabled by the user) |\n\nThe crop shows the table body and column headers; the table title is provided by the nearby caption context."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-text-00147",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "text": "Note: 1 The system clock is derived from the embedded internal high-speed RC, no external quartz is required for the bootloader code"
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-text-00148",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "text": "After downloading the application binary, if you choose to execute the Go command, all peripheral registers used by the bootloader (shown in Table 8) are initialized to their default reset values before jumping to the user application."
+  },
+  {
+    "segment_id": "stm32-an2606-p0019-text-00149",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 19,
+    "text": "If the user application uses the IWDG, the IWDG prescaler value has to be adapted to meet the requirements of the application (since the prescaler was set to its maximum value by the bootloader)."
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00150",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "4.3 Bootloader hardware requirements"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00151",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "The hardware required to put the STM32F10xx XL-density devices into System memory boot mode consists of any circuitry, switch or jumper, capable of holding the BOOT0 pin high and the BOOT1 pin low during reset."
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00152",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "As explained in Section 4.1: Dual bank boot feature, the system memory boot mode can also be executed by software when the BFB2 bit is reset, both banks start addresses are erased, and boot pins are configured to boot from Flash memory."
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00153",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "To connect to the STM32F10xx XL-density devices during System memory boot mode, the following conditions have to be verified:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00154",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "The RX pin of the unused peripheral in this bootloader has to be kept at a known (low or high) level, and should not be left floating during the detection phase as described below:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00155",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "If the USART1 is used to connect to the bootloader: the USART2\\_RX (PD6) pin has to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00156",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "If the USART2 is used to connect to the bootloader: the USART1\\_RX (PA10) pin has to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00157",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "When the BFB2 bit is cleared, and Bank 2 and/or Bank 1 contain a valid user application code, the Dual Bank Boot is always performed (bootloader always jumps to the user code and never continues normal operations). Consequently, if you have cleared the BFB2 bit (to boot from Bank 2), then to be able to execute the Bootloader code, you have to:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00158",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "– either, set the BFB2 bit to 1"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00159",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "or, program the content of address 0x0808 0000 (base address of Bank2) and 0x0800 0000 (base address of Bank1) to 0x0"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00160",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "Connect to the peripheral to be used through:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00161",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "an RS232 serial interface (example, ST3232 RS232 transceiver) has to be directly connected to the USART1\\_RX (PA10) and USART1\\_TX (PA9) pins when USART1 is used, or to the USART2\\_RX (PD6) and USART2\\_TX (PD5) pins when USART2 is used"
+  },
+  {
+    "segment_id": "stm32-an2606-p0020-text-00162",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 20,
+    "text": "The USART1\\_CK, USART1\\_CTS and USART1\\_RTS pins are not used, therefore the application can use these pins for other peripherals or GPIOs. This is also applicable for USART2."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00163",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "4.4 Bootloader selection"
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00164",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "The STM32F10xx XL-density embedded Bootloader supports two peripheral interfaces: USART1 and USART2. Any one of these peripheral interfaces can be used to communicate with the bootloader and download the application code to the internal Flash."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00165",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "The embedded Bootloader firmware is able to auto-detect the peripheral interface to be used. In an infinite loop, it detects any communication on the supported bootloader interfaces."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00166",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00167",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "The RX pin of the unused peripheral in this bootloader has to be maintained at a known (low or high) level and should not be left floating during the detection phase as described below:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00168",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "If USART1 is used to connect to the bootloader: the USART2\\_RX (PD6) pin has to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00169",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "If USART2 is used to connect to the bootloader: the USART1\\_RX (PA10) pin has to be kept at a high or low level and must not be left floating during the detection phase."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00170",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "To use the USART bootloader on USART1 or USART2, connect the serial cable to the desired interface. Once the bootloader detects the data byte 0x7F on this interface, the bootloader firmware executes the auto-baudrate sequence and then enters a loop, waiting for any USART bootloader command."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00171",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "Once one interface is selected for the bootloader, the other interface is disabled."
+  },
+  {
+    "segment_id": "stm32-an2606-p0021-text-00172",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 21,
+    "text": "Figure 3 shows the bootloader detection mechanism. More details are provided in the sections corresponding to each peripheral bootloader."
+  },
+  {
+    "segment_id": "stm32-an2606-p0022-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2606",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_figure_p0022_00003.png",
+    "caption": "**Figure 3. Bootloader selection** — flowchart.\n\nFlow sequence and branches:\n\n1. **System Reset**\n2. Decision: **“BFB2 bit is reset (BFB2 = 0)”**\n   - **NO:** bypasses the bank-selection checks and proceeds to **Continue normal Bootloader execution**.\n   - **YES:** proceeds to the next decision.\n3. Decision: **“If value @ 0x0808 0000 is within int. SRAM address”**\n   - **YES:** **Jump to user code in Bank 2**\n   - **NO:** proceeds to the next decision.\n4. Decision: **“If value @ 0x0800 0000 is within int. SRAM address”**\n   - **YES:** **Jump to user code in Bank 1**\n   - **NO:** proceeds to **Continue normal Bootloader execution**.\n5. **Continue normal Bootloader execution**\n6. **Disable all interrupt sources**\n7. **System init (clock, GPIOs, IWDG, SysTick)**\n8. Decision: **“0x7f received on USART1”**\n   - **YES:** **Configure USART1**, then **Execute BL_USART1_Loop for USART1**\n   - **NO:** proceeds to the USART2 decision.\n9. Decision: **“0x7f received on USART2”**\n   - **YES:** **Configure USART2**, then **Execute BL_USART2_Loop for USART2**\n   - **NO:** loops back to the USART1-reception decision.\n\nVisible branch labels are **YES** and **NO**. The figure identifier at the bottom right is **ai17462**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Bootloader selection",
+    "generated_captions": {
+      "luna": "**Figure 3. Bootloader selection** — flowchart.\n\nFlow sequence and branches:\n\n1. **System Reset**\n2. Decision: **“BFB2 bit is reset (BFB2 = 0)”**\n   - **NO:** bypasses the bank-selection checks and proceeds to **Continue normal Bootloader execution**.\n   - **YES:** proceeds to the next decision.\n3. Decision: **“If value @ 0x0808 0000 is within int. SRAM address”**\n   - **YES:** **Jump to user code in Bank 2**\n   - **NO:** proceeds to the next decision.\n4. Decision: **“If value @ 0x0800 0000 is within int. SRAM address”**\n   - **YES:** **Jump to user code in Bank 1**\n   - **NO:** proceeds to **Continue normal Bootloader execution**.\n5. **Continue normal Bootloader execution**\n6. **Disable all interrupt sources**\n7. **System init (clock, GPIOs, IWDG, SysTick)**\n8. Decision: **“0x7f received on USART1”**\n   - **YES:** **Configure USART1**, then **Execute BL_USART1_Loop for USART1**\n   - **NO:** proceeds to the USART2 decision.\n9. Decision: **“0x7f received on USART2”**\n   - **YES:** **Configure USART2**, then **Execute BL_USART2_Loop for USART2**\n   - **NO:** loops back to the USART1-reception decision.\n\nVisible branch labels are **YES** and **NO**. The figure identifier at the bottom right is **ai17462**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0023-text-00173",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 23,
+    "text": "4.5 Bootloader version"
+  },
+  {
+    "segment_id": "stm32-an2606-p0023-text-00174",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 23,
+    "text": "Table 9 lists the bootloader versions for the STM32F101xx and STM32F103xx XL-density devices."
+  },
+  {
+    "segment_id": "stm32-an2606-p0023-table-00010",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0023_00010.png",
+    "caption": "**Table 9. Evolution of the XL-density bootloader versions**\n\n| Bootloader version number | Description |\n|---|---|\n| V2.1 | Initial bootloader version |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. Evolution of the XL-density bootloader versions",
+    "generated_captions": {
+      "luna": "**Table 9. Evolution of the XL-density bootloader versions**\n\n| Bootloader version number | Description |\n|---|---|\n| V2.1 | Initial bootloader version |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00175",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "5"
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00176",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "Device-dependent bootloader parameters"
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00177",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "The bootloader protocol’s command set and sequences for each serial peripheral (USART, CAN and USB) are the same for all STM32 devices. Some parameters, however, are device-dependent. For a few commands, the value of some parameters may depend on the device used. These parameters are listed below:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00178",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "● PID (product ID), which changes with the device"
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00179",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "Valid memory addresses (RAM, Flash memory, system memory, option byte area) accepted by the bootloader when the Read Memory, Go and Write Memory commands are accepted."
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00180",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "● Size of the Flash memory sector used when executing the Write Protect command."
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-text-00181",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "text": "The table below shows the values of these parameters for each STM32 device bootloader in production."
+  },
+  {
+    "segment_id": "stm32-an2606-p0024-table-00011",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0024_00011.png",
+    "caption": "**Table 10. Bootloader device dependant parameters**\n\n| Device | Product (device) ID | RAM memory | Flash memory | Flash sector size | Option byte area | System memory |\n|---|---|---|---|---|---|---|\n| Low-density | 0x412 | 0x20000200 up to 0x20002800 | 0x08000000 up to 0x08008000 | 4 Kbytes (4 pages of 1 Kbyte each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| Medium-density | 0x410 | 0x20000200 up to 0x20005000 | 0x08000000 up to 0x08020000 | 4 Kbytes (4 pages of 1 Kbyte each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| High-density | 0x414 | 0x20000200 up to 0x20010000 | 0x08000000 up to 0x08080000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| Connectivity line | 0x418 | 0x20001000 up to 0x20010000 | 0x08000000 up to 0x08040000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFB000 - 0x1FFFF800 |\n| Medium-density value line | 0x420 | 0x20000200 up to 0x20002000 | 0x08000000 up to 0x08020000 | 4 Kbytes (4 pages of 1 Kbyte each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| High-density value line | 0x428 | 0x20000200 up to 0x20008000 | 0x08000000 up to 0x08080000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| XL-density | 0x430 | 0x20000800 up to 0x20018000 | 0x08000000 up to 0x08100000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFE000 - 0x1FFFF800 |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 10. Bootloader device dependant parameters",
+    "generated_captions": {
+      "luna": "**Table 10. Bootloader device dependant parameters**\n\n| Device | Product (device) ID | RAM memory | Flash memory | Flash sector size | Option byte area | System memory |\n|---|---|---|---|---|---|---|\n| Low-density | 0x412 | 0x20000200 up to 0x20002800 | 0x08000000 up to 0x08008000 | 4 Kbytes (4 pages of 1 Kbyte each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| Medium-density | 0x410 | 0x20000200 up to 0x20005000 | 0x08000000 up to 0x08020000 | 4 Kbytes (4 pages of 1 Kbyte each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| High-density | 0x414 | 0x20000200 up to 0x20010000 | 0x08000000 up to 0x08080000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| Connectivity line | 0x418 | 0x20001000 up to 0x20010000 | 0x08000000 up to 0x08040000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFB000 - 0x1FFFF800 |\n| Medium-density value line | 0x420 | 0x20000200 up to 0x20002000 | 0x08000000 up to 0x08020000 | 4 Kbytes (4 pages of 1 Kbyte each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| High-density value line | 0x428 | 0x20000200 up to 0x20008000 | 0x08000000 up to 0x08080000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFF000 - 0x1FFFF800 |\n| XL-density | 0x430 | 0x20000800 up to 0x20018000 | 0x08000000 up to 0x08100000 | 4 Kbytes (2 pages of 2 Kbytes each) | 0x1FFFF800 - 0x1FFFF80F | 0x1FFFE000 - 0x1FFFF800 |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0025-text-00182",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 25,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2606-p0025-table-00012",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 25,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0025_00012.png",
+    "caption": "**Table 11. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 22-Oct-2007 | 1 | Initial release. |\n| 22-Jan-2008 | 2 | All STM32 in production (rev. B and rev. Z) include the bootloader described in this application note.<br><br>Modified: **Section 1.1: Bootloader activation** and **Section 1.4: Bootloader code sequence**.<br><br>Added: **Section 1.3: Hardware requirements**, **Section 1.5: Choosing the USART baud rate**, **Section 1.6: Using the bootloader** and **Section 1.2: Exiting system memory boot mode**.<br><br>**Note 2** linked to Get, Get Version & Read Protection Status and Get ID commands in **Table 3: Bootloader commands**, **Note 3** added.<br><br>Notion of “permanent” (Permanent Write Unprotect/Readout Protect/Unprotect) removed from document. Small text changes.<br><br>Bootloader version upgraded to 2.0. |\n| 26-May-2008 | 3 | Small text changes. RAM and System memory added to **Table 3: STM32F10xxx configuration in system memory boot mode**.<br><br>**Section 1.6: Using the bootloader on page 8** removed.<br><br>Erase modified, **Note 3** modified and **Note 1** added in **Table 3: Bootloader commands on page 9**.<br><br>**Byte 3: on page 11** modified.<br><br>**Byte 2: on page 13** modified.<br><br>**Byte 2:, Bytes 3-4: and Byte 5: on page 15** modified, **Note 3** modified.<br><br>**Byte 8: on page 18** modified.<br><br>Notes added to **Section 2.5: Go command on page 18**.<br><br>**Figure 11: Go command: device side on page 20** modified.<br><br>Note added in **Section 2.6: Write Memory command on page 21**.<br><br>**Byte 8: on page 24** modified.<br><br>**Figure 14: Erase Memory command: host side** and **Figure 15: Erase Memory command: device side** modified.<br><br>**Byte 3: on page 26** modified.<br><br>**Table 3: Bootloader commands on page 9**.<br><br>Note modified and note added in **Section 2.8: Write Protect command on page 27**.<br><br>**Figure 16: Write Protect command: host side**, **Figure 17: Write Protect command: device side**, **Figure 19: Write Unprotect command: device side**, **Figure 21: Readout Protect command: device side** and **Figure 23: Readout Unprotect command: device side** modified. |\n| 29-Jan-2009 | 4 | This application note also applies to the STM32F102xx microcontrollers.<br><br>Bootloader version updated to V2.2 (see **Table 4: Bootloader versions**). |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 11. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 11. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 22-Oct-2007 | 1 | Initial release. |\n| 22-Jan-2008 | 2 | All STM32 in production (rev. B and rev. Z) include the bootloader described in this application note.<br><br>Modified: **Section 1.1: Bootloader activation** and **Section 1.4: Bootloader code sequence**.<br><br>Added: **Section 1.3: Hardware requirements**, **Section 1.5: Choosing the USART baud rate**, **Section 1.6: Using the bootloader** and **Section 1.2: Exiting system memory boot mode**.<br><br>**Note 2** linked to Get, Get Version & Read Protection Status and Get ID commands in **Table 3: Bootloader commands**, **Note 3** added.<br><br>Notion of “permanent” (Permanent Write Unprotect/Readout Protect/Unprotect) removed from document. Small text changes.<br><br>Bootloader version upgraded to 2.0. |\n| 26-May-2008 | 3 | Small text changes. RAM and System memory added to **Table 3: STM32F10xxx configuration in system memory boot mode**.<br><br>**Section 1.6: Using the bootloader on page 8** removed.<br><br>Erase modified, **Note 3** modified and **Note 1** added in **Table 3: Bootloader commands on page 9**.<br><br>**Byte 3: on page 11** modified.<br><br>**Byte 2: on page 13** modified.<br><br>**Byte 2:, Bytes 3-4: and Byte 5: on page 15** modified, **Note 3** modified.<br><br>**Byte 8: on page 18** modified.<br><br>Notes added to **Section 2.5: Go command on page 18**.<br><br>**Figure 11: Go command: device side on page 20** modified.<br><br>Note added in **Section 2.6: Write Memory command on page 21**.<br><br>**Byte 8: on page 24** modified.<br><br>**Figure 14: Erase Memory command: host side** and **Figure 15: Erase Memory command: device side** modified.<br><br>**Byte 3: on page 26** modified.<br><br>**Table 3: Bootloader commands on page 9**.<br><br>Note modified and note added in **Section 2.8: Write Protect command on page 27**.<br><br>**Figure 16: Write Protect command: host side**, **Figure 17: Write Protect command: device side**, **Figure 19: Write Unprotect command: device side**, **Figure 21: Readout Protect command: device side** and **Figure 23: Readout Unprotect command: device side** modified. |\n| 29-Jan-2009 | 4 | This application note also applies to the STM32F102xx microcontrollers.<br><br>Bootloader version updated to V2.2 (see **Table 4: Bootloader versions**). |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0026-table-00013",
+    "type": "table",
+    "doc": "stm32-an2606",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-an2606/mineru/images/bbox_fallback_table_p0026_00013.png",
+    "caption": "**Table (revision history; title above the table is cropped/unreadable)**\n\n**Column headings:** Date | Revision | Changes\n\n**19-Nov-2009 | 5**\n- IWDG added to *Table 3: STM32F10xxx configuration in system memory boot mode*. Note 2 added.\n- BL changed bootloader in the entire document.\n- Go command description modified in *Table 3: STM32F10xxx configuration in system memory boot mode*.\n- Number of bytes awaited by the bootloader corrected in *Section 2.4: Read Memory command*.\n- Note modified below *Figure 10: Go command: host side*.\n- Note removed in *Section 2.5: Go command* and note added.\n- Start RAM address specified and note added in *Section 2.6: Write Memory command*. All options are erased when a Write Memory command is issued to the Option byte area.\n- *Figure 11: Go command: device side* modified.\n- *Figure 13: Write Memory command: device side* modified.\n- Note added and bytes 3 and 4 sent by the host modified in *Section 2.7: Erase Memory command*.\n- Note added to *Section 2.8: Write Protect command*.\n\n**09-Mar-2010 | 6**\n- Application note restructured. Value line and connectivity line device bootloader added (Replaces AN2662).\n- *Introduction* changed. *Glossary* added.\n\n**20-Apr-2010 | 7**\n- *Related documents (available from www.st.com):* added XL-density line data sheets and programming manual.\n- *Glossary:* added XL-density line devices.\n- *Table 2:* added information for XL-density line devices.\n- *Section 2.1: Bootloader configuration:* updated first sentence.\n- *Section 3.1: Bootloader configuration:* updated first sentence.\n- Added *Section 4: STM32F101xx and STM32F103xx XL-density devices bootloader*.\n- *Table 10:* added information for XL-density line devices.\n\n**08-Oct-2010 | 8**\n- Added information for high-density value line devices in *Table 2* and *Table 10*.\n\n**14-Oct-2010 | 9**\n- Removed references to obsolete devices.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "**Table (revision history; title above the table is cropped/unreadable)**\n\n**Column headings:** Date | Revision | Changes\n\n**19-Nov-2009 | 5**\n- IWDG added to *Table 3: STM32F10xxx configuration in system memory boot mode*. Note 2 added.\n- BL changed bootloader in the entire document.\n- Go command description modified in *Table 3: STM32F10xxx configuration in system memory boot mode*.\n- Number of bytes awaited by the bootloader corrected in *Section 2.4: Read Memory command*.\n- Note modified below *Figure 10: Go command: host side*.\n- Note removed in *Section 2.5: Go command* and note added.\n- Start RAM address specified and note added in *Section 2.6: Write Memory command*. All options are erased when a Write Memory command is issued to the Option byte area.\n- *Figure 11: Go command: device side* modified.\n- *Figure 13: Write Memory command: device side* modified.\n- Note added and bytes 3 and 4 sent by the host modified in *Section 2.7: Erase Memory command*.\n- Note added to *Section 2.8: Write Protect command*.\n\n**09-Mar-2010 | 6**\n- Application note restructured. Value line and connectivity line device bootloader added (Replaces AN2662).\n- *Introduction* changed. *Glossary* added.\n\n**20-Apr-2010 | 7**\n- *Related documents (available from www.st.com):* added XL-density line data sheets and programming manual.\n- *Glossary:* added XL-density line devices.\n- *Table 2:* added information for XL-density line devices.\n- *Section 2.1: Bootloader configuration:* updated first sentence.\n- *Section 3.1: Bootloader configuration:* updated first sentence.\n- Added *Section 4: STM32F101xx and STM32F103xx XL-density devices bootloader*.\n- *Table 10:* added information for XL-density line devices.\n\n**08-Oct-2010 | 8**\n- Added information for high-density value line devices in *Table 2* and *Table 10*.\n\n**14-Oct-2010 | 9**\n- Removed references to obsolete devices."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00183",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00184",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00185",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00186",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00187",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00188",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00189",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00190",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00191",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00192",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00193",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00194",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "© 2010 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00195",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00196",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2606-p0027-text-00197",
+    "type": "text",
+    "doc": "stm32-an2606",
+    "page": 27,
+    "text": "www.st.com"
+  }
+]

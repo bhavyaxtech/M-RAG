@@ -1,0 +1,107 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+{
+  "checked_at": "2026-09-08T17:04:30.148702+00:00",
+  "downloaded_documents": 20,
+  "target_documents": 20,
+  "pages": 1837,
+  "parsed_documents": 20,
+  "parsed_pages": 1837,
+  "additional_completed_batch_pages": 0,
+  "visual_segments_in_completed_documents": 1614,
+  "cached_captions_in_completed_documents": 1107,
+  "published": false,
+  "paid_calls_started_by_preflight": 0,
+  "status": "parsed_ready_for_build"
+}
+Parsing AN2548 (14 pages)
+Reusing parse: stm32-an2548
+Parsing AN2594 (16 pages)
+Reusing parse: stm32-an2594
+Parsing AN2824 (16 pages)
+Reusing parse: stm32-an2824
+Parsing AN2557 (16 pages)
+Reusing parse: stm32-an2557
+Parsing AN2592 (16 pages)
+Reusing parse: stm32-an2592
+Parsing AN3116 (18 pages)
+Reusing parse: stm32-an3116
+Parsing AN2820 (23 pages)
+Reusing parse: stm32-an2820
+Parsing AN2867 (23 pages)
+Reusing parse: stm32-an2867
+Parsing AN2606 (27 pages)
+Reusing parse: stm32-an2606
+Parsing AN2586 (28 pages)
+Reusing parse: stm32-an2586
+Parsing AN2834 (28 pages)
+Reusing parse: stm32-an2834
+Parsing AN2821 (28 pages)
+Reusing parse: stm32-an2821
+Parsing ES096 (31 pages)
+Reusing parse: stm32-es096
+Parsing PM0075 (31 pages)
+Reusing parse: stm32-pm0075
+Parsing AN3155 (37 pages)
+Reusing parse: stm32-an3155
+Parsing AN1709 (38 pages)
+Reusing parse: stm32-an1709
+Parsing AN2629 (43 pages)
+Reusing parse: stm32-an2629
+Parsing DS5319 (114 pages)
+Reusing parse: stm32-ds5319
+Parsing PM0056 (156 pages)
+Reusing parse: stm32-pm0056
+Parsing RM0008 (1134 pages)
+Reusing parse: stm32-rm0008
+Reusing parse: stm32-ds5319
+Reusing parse: stm32-rm0008
+Reusing parse: stm32-es096
+Reusing parse: stm32-pm0056
+Reusing parse: stm32-pm0075
+Reusing parse: stm32-an2586
+Reusing parse: stm32-an2594
+Reusing parse: stm32-an2606
+Reusing parse: stm32-an3155
+Reusing parse: stm32-an2834
+Reusing parse: stm32-an3116
+Reusing parse: stm32-an2548
+Reusing parse: stm32-an2824
+Reusing parse: stm32-an2820
+Reusing parse: stm32-an2629
+Reusing parse: stm32-an2557
+Reusing parse: stm32-an2821
+Reusing parse: stm32-an2867
+Reusing parse: stm32-an1709
+Reusing parse: stm32-an2592
+Captioning stm32-ds5319
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  Checkpoint: 125 visual segment(s) complete.
+  0 generated, 139 cached
+Captioning stm32-rm0008
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  Checkpoint: 125 visual segment(s) complete.
+  Checkpoint: 150 visual segment(s) complete.
+  Checkpoint: 175 visual segment(s) complete.
+  Checkpoint: 200 visual segment(s) complete.
+  Checkpoint: 225 visual segment(s) complete.
+  Checkpoint: 250 visual segment(s) complete.
+  Checkpoint: 275 visual segment(s) complete.
+  Checkpoint: 300 visual segment(s) complete.
+  Checkpoint: 325 visual segment(s) complete.
+  Checkpoint: 350 visual segment(s) complete.
+  Checkpoint: 375 visual segment(s) complete.
+  Checkpoint: 400 visual segment(s) complete.
+  Checkpoint: 425 visual segment(s) complete.
+  Checkpoint: 450 visual segment(s) complete.
+  Checkpoint: 475 visual segment(s) complete.
+  Checkpoint: 500 visual segment(s) complete.
+  Checkpoint: 525 visual segment(s) complete.
+  Checkpoint: 550 visual segment(s) complete.
+  Checkpoint: 575 visual segment(s) complete.
+Stopped safely: [WinError 5] Access is denied: 'C:\\Users\\abhii\\Desktop\\M-RAG_Baby\\data\\parsed\\stm32\\stm32-rm0008\\segments.json.tmp' -> 'C:\\Users\\abhii\\Desktop\\M-RAG_Baby\\data\\parsed\\stm32\\stm32-rm0008\\segments.json'

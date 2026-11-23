@@ -1,0 +1,24 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  Checkpoint: 125 visual segment(s) complete.
+  Checkpoint: 150 visual segment(s) complete.
+  Checkpoint: 175 visual segment(s) complete.
+  Checkpoint: 200 visual segment(s) complete.
+  Checkpoint: 225 visual segment(s) complete.
+  Checkpoint: 250 visual segment(s) complete.
+  Checkpoint: 275 visual segment(s) complete.
+  Checkpoint: 300 visual segment(s) complete.
+  Checkpoint: 325 visual segment(s) complete.
+  Checkpoint: 350 visual segment(s) complete.
+  Checkpoint: 375 visual segment(s) complete.
+  Checkpoint: 400 visual segment(s) complete.
+  Checkpoint: 425 visual segment(s) complete.
+  Checkpoint: 450 visual segment(s) complete.
+  Checkpoint: 475 visual segment(s) complete.
+  Checkpoint: 500 visual segment(s) complete.
+  Checkpoint: 525 visual segment(s) complete.
+  Checkpoint: 550 visual segment(s) complete.
+Stopped safely: [WinError 5] Access is denied: 'C:\\Users\\abhii\\Desktop\\M-RAG_Baby\\data\\parsed\\stm32\\stm32-rm0008\\progressive\\segments.json.tmp' -> 'C:\\Users\\abhii\\Desktop\\M-RAG_Baby\\data\\parsed\\stm32\\stm32-rm0008\\progressive\\segments.json'

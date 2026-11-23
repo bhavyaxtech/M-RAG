@@ -1,0 +1,1002 @@
+[
+  {
+    "segment_id": "stm32-an2548-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 1,
+    "text": "Using the STM32F101xx and STM32F103xx DMA controller"
+  },
+  {
+    "segment_id": "stm32-an2548-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 1,
+    "text": "1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2548-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 1,
+    "text": "This application note describes how to use the STM32F101xx and STM32F103xx direct memory access (DMA) controller. The STM32F101xx and STM32F103xx DMA controller, the Cortex™-M3 core, the advanced microcontroller bus architecture (AMBA) bus and the memory system contribute to provide a high data bandwidth and to develop very-low latency response time software."
+  },
+  {
+    "segment_id": "stm32-an2548-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 1,
+    "text": "This application note also describes how to take full advantage of these features and ensure correct response times for different peripherals and subsystems."
+  },
+  {
+    "segment_id": "stm32-an2548-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 1,
+    "text": "The STM32F101xx and STM32F103xx will be referred to as STM32F10xxx, and the DMA controller as DMA throughout the document."
+  },
+  {
+    "segment_id": "stm32-an2548-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2548-p0002-text-00007",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 2,
+    "text": "1 Introduction   \n2 DMA controller description . 3   \n2.1 Main features 3   \n3 Performance considerations . 6   \n3.1 Round robin priority scheme 6   \n3.2 Multi-layer structure and bus stealing . . . 6   \n3.3 DMA latency 7   \n3.4 Databus bandwidth limitation 8   \n3.5 Choosing channel priority . 10   \n3.5.1 Application requirements 10   \n3.5.2 Internal data bandwidth . . 10   \n4 DMA programming examples . 11   \n4.1 Example of ADC continuous data acquisition with SPI transfer . . 11   \n4.2 ADC continuous data acquisition with direct SPI transfer . . . 11   \n4.3 GPIO fast data transfer with DMA 12   \n5 Revision history 13"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00008",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "DMA controller description"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00009",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The DMA is an AMBA advanced high-performance bus (AHB) module that features two AHB ports: a slave port for DMA programming and a master port that allows the DMA to initiate data transfers between different slave modules."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00010",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The DMA allows data transfers to take place in the background, without the intervention of the Cortex-M3 processor. During this operation, the main processor can execute other tasks and it is only interrupted when a whole data block is available for processing. Large amounts of data can be transferred with no major impact on the system performance."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00011",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The DMA is mainly used to implement central data buffer storage (usually in system SRAM) for different peripheral modules. This solution is less expensive in terms of silicon and power consumption compared to a distributed solution where each peripheral needs to implement it own local data storage."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00012",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The STM32F10xxx DMA controller takes full advantage of the Cortex-M3 Harvard architecture and the multilayer bus system in order to ensure very low latency both for DMA transfers and for CPU execution/interrupt event detection/service."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00013",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "Depending on the sales type used, one or two DMA controllers are implemented."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00014",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "2.1 Main features"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00015",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The DMA(s) offer(s):"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00016",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "Twelve DMA channels (7 for DMA1 and 5 for DMA2) supporting unidirectional data transfers from source to destination"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00017",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "● Hardware- and software-programmable channel priority for each DMA"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00018",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "Memory-to-memory, memory-to-peripheral, peripheral-to-memory and peripheral-toperipheral transfers (memory can be SRAM or Flash)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00019",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "Control of hardware/software transfers"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00020",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "● Automatic increment of peripheral and memory pointers"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00021",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "● Programmable data size"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00022",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "● Automatic bus-error management"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00023",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "Non-circular/circular mode"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00024",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "● Transfer of up to 65536 data tokens"
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00025",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The DMA aims to offer a relatively large data buffer to all peripherals. This buffer is usually located in system SRAM."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00026",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "Each channel is assigned to a unique peripheral (data channel) at a given time. Peripherals connected to the same DMA channel (CH1 to CH7 in Table 1, CH1 to CH5 in Table 2) cannot be used simultaneously with active DMA (DMA function active in the peripheral register)."
+  },
+  {
+    "segment_id": "stm32-an2548-p0003-text-00027",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 3,
+    "text": "The different peripherals supporting DMA transfers are shown in Table 1 and Table 2. The peripherals served by the DMA and the bus system structure are represented in Figure 1."
+  },
+  {
+    "segment_id": "stm32-an2548-p0004-table-00001",
+    "type": "table",
+    "doc": "stm32-an2548",
+    "page": 4,
+    "image_path": "data/parsed/stm32/stm32-an2548/mineru/images/bbox_fallback_table_p0004_00001.png",
+    "caption": "**Table 1. Peripherals served by DMA1 and channel allocation**\n\nVisible column headings: **Peripherals**, **CH1**, **CH2**, **CH3**, **CH4**, **CH5**, **CH6**, **CH7**.\n\n| Peripheral group | Peripheral | CH1 | CH2 | CH3 | CH4 | CH5 | CH6 | CH7 |\n|---|---|---|---|---|---|---|---|---|\n| ADC | ADC1 | ADC1 |  |  |  |  |  |  |\n| SPI | SPI1 |  | SPI1_RX | SPI1_TX |  |  |  |  |\n| SPI | SPI2 |  |  |  | SPI2_RX | SPI2_TX |  |  |\n| USART | USART1 |  |  |  | USART1_TX | USART1_RX |  |  |\n| USART | USART2 |  |  |  |  |  | USART2_RX | USART2_TX |\n| USART | USART3 |  | USART3_TX | USART3_RX |  |  |  |  |\n| I²C | I²C1 |  |  |  |  |  | I2C1_TX | I2C1_RX |\n| I²C | I²C2 |  |  |  | I2C2_TX | I2C2_RX |  |  |\n| TIM | TIM1 |  | TIM1_CH1 | TIM1_CH2 | TIM1_CH4; TIM1_TRIG; TIM1_COM | TIM1_UP | TIM1_CH3 |  |\n| TIM | TIM2 | TIM2_CH3 | TIM2_UP |  |  | TIM2_CH1 |  | TIM2_CH2; TIM2_CH4 |\n| TIM | TIM3 |  | TIM3_CH3 | TIM3_CH4; TIM3_UP |  |  | TIM3_CH1; TIM3_TRIG |  |\n| TIM | TIM4 | TIM4_CH1 |  |  | TIM4_CH2 | TIM4_CH3 |  | TIM4_UP |\n\nThe visible table ends within the **TIM** section after the TIM4 row; any rows below are not visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Peripherals served by DMA1 and channel allocation",
+    "generated_captions": {
+      "luna": "**Table 1. Peripherals served by DMA1 and channel allocation**\n\nVisible column headings: **Peripherals**, **CH1**, **CH2**, **CH3**, **CH4**, **CH5**, **CH6**, **CH7**.\n\n| Peripheral group | Peripheral | CH1 | CH2 | CH3 | CH4 | CH5 | CH6 | CH7 |\n|---|---|---|---|---|---|---|---|---|\n| ADC | ADC1 | ADC1 |  |  |  |  |  |  |\n| SPI | SPI1 |  | SPI1_RX | SPI1_TX |  |  |  |  |\n| SPI | SPI2 |  |  |  | SPI2_RX | SPI2_TX |  |  |\n| USART | USART1 |  |  |  | USART1_TX | USART1_RX |  |  |\n| USART | USART2 |  |  |  |  |  | USART2_RX | USART2_TX |\n| USART | USART3 |  | USART3_TX | USART3_RX |  |  |  |  |\n| I²C | I²C1 |  |  |  |  |  | I2C1_TX | I2C1_RX |\n| I²C | I²C2 |  |  |  | I2C2_TX | I2C2_RX |  |  |\n| TIM | TIM1 |  | TIM1_CH1 | TIM1_CH2 | TIM1_CH4; TIM1_TRIG; TIM1_COM | TIM1_UP | TIM1_CH3 |  |\n| TIM | TIM2 | TIM2_CH3 | TIM2_UP |  |  | TIM2_CH1 |  | TIM2_CH2; TIM2_CH4 |\n| TIM | TIM3 |  | TIM3_CH3 | TIM3_CH4; TIM3_UP |  |  | TIM3_CH1; TIM3_TRIG |  |\n| TIM | TIM4 | TIM4_CH1 |  |  | TIM4_CH2 | TIM4_CH3 |  | TIM4_UP |\n\nThe visible table ends within the **TIM** section after the TIM4 row; any rows below are not visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2548-p0005-table-00002",
+    "type": "table",
+    "doc": "stm32-an2548",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an2548/mineru/images/bbox_fallback_table_p0005_00002.png",
+    "caption": "**Table 2. Peripherals served by DMA2 and channel allocation**\n\n| Peripheral group | Peripheral | CH1 | CH2 | CH3 | CH4 | CH5 |\n|---|---|---|---|---|---|---|\n| ADC | ADC3 | — | — | — | — | ADC3 |\n| SPI | SPI/I2S3 | SPI/I2S3_RX | SPI/I2S3_TX | — | — | — |\n| USART | USART4 | — | — | USART1_TX | — | USART1_RX |\n| SDIO | SDIO | — | — | — | SDIO | — |\n| TIM | TIM5 | TIM5_CH4<br>TIM5_TRIG | TIM5_CH3<br>TIM5_UP | — | TIM5_CH2 | TIM5_CH1 |\n| TIM | TIM6 | — | — | TIM6_UP/<br>DAC_Channel1 | — | — |\n| TIM | TIM7 | — | — | — | TIM7_UP/<br>DAC_Channel2 | — |\n| TIM | TIM8 | TIM8_CH3<br>TIM8_UP | TIM8_CH4<br>TIM8_TRIG<br>TIM8_COM | — | TIM8_CH1 | TIM8_CH2 |\n\nBlank cells in the source table indicate no listed peripheral signal allocation.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Peripherals served by DMA2 and channel allocation",
+    "generated_captions": {
+      "luna": "**Table 2. Peripherals served by DMA2 and channel allocation**\n\n| Peripheral group | Peripheral | CH1 | CH2 | CH3 | CH4 | CH5 |\n|---|---|---|---|---|---|---|\n| ADC | ADC3 | — | — | — | — | ADC3 |\n| SPI | SPI/I2S3 | SPI/I2S3_RX | SPI/I2S3_TX | — | — | — |\n| USART | USART4 | — | — | USART1_TX | — | USART1_RX |\n| SDIO | SDIO | — | — | — | SDIO | — |\n| TIM | TIM5 | TIM5_CH4<br>TIM5_TRIG | TIM5_CH3<br>TIM5_UP | — | TIM5_CH2 | TIM5_CH1 |\n| TIM | TIM6 | — | — | TIM6_UP/<br>DAC_Channel1 | — | — |\n| TIM | TIM7 | — | — | — | TIM7_UP/<br>DAC_Channel2 | — |\n| TIM | TIM8 | TIM8_CH3<br>TIM8_UP | TIM8_CH4<br>TIM8_TRIG<br>TIM8_COM | — | TIM8_CH1 | TIM8_CH2 |\n\nBlank cells in the source table indicate no listed peripheral signal allocation."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2548-p0005-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2548",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an2548/mineru/images/bbox_fallback_figure_p0005_00001.png",
+    "caption": "**Figure 1. Bus system and peripherals supporting DMA**\n\nBlock diagram showing the STM32 bus matrix, Cortex-M3 core, DMA controllers, memories, AHB/APB buses, bridges, and DMA-capable peripherals.\n\n### Main bus and memory blocks\n\n- **Cortex-M3**\n  - Connected to the central **Bus matrix** by three bidirectional paths labeled:\n    - **ICode**\n    - **DCode**\n    - **System**\n- **Bus matrix**\n  - Connected to:\n    - **FLITF**\n    - **SRAM**\n    - **FSMC**\n    - **AHB system bus**\n    - **DMA1** through a path labeled **DMA**\n    - **DMA2** through a path labeled **DMA**\n- **FLITF**\n  - Connected to **Flash**\n- **SRAM**\n  - Connected directly to the **Bus matrix**\n- **FSMC**\n  - Connected directly to the **Bus matrix**\n- **SDIO**\n  - Connected to the **AHB system bus**\n  - Has a long rightward connection associated with a **DMA request**\n\n### DMA controllers\n\n#### DMA1\n\nThe **DMA1** block contains a channel multiplexer/selection symbol with the following visible channels:\n\n- **Ch.1**\n- **Ch.2**\n- **Ch.7**\n\nDMA1 is connected to the Bus matrix by the path labeled **DMA** and receives a horizontal connection labeled **DMA Request** from the peripheral request network.\n\n#### DMA2\n\nThe **DMA2** block contains a channel multiplexer/selection symbol with the following visible channels:\n\n- **Ch.1**\n- **Ch.2**\n- **Ch.5**\n\nDMA2 is connected to the Bus matrix by the path labeled **DMA** and receives the lower peripheral request network labeled **DMA request**.\n\n### AHB system and bridge blocks\n\n- **AHB system bus**\n  - Runs horizontally from the Bus matrix toward the bridge and system-control blocks.\n- **Reset & clock control (RCC)**\n  - Connected to the **AHB system bus**.\n- **Bridge 2**\n  - Connected between the AHB system bus and the APB buses.\n- **Bridge 1**\n  - Connected between the AHB system bus and the APB buses.\n- **APB2**\n  - Branches downward from the bridge area to the APB2 peripheral block.\n- **APB1**\n  - Branches downward/right from the bridge area to the APB1 peripheral block.\n\n### APB2 peripherals shown\n\nThe APB2 peripheral block lists two columns of functions:\n\n| Left column | Right column |\n|---|---|\n| **ADC1** | **GPIOC** |\n| **ADC2** | **GPIOD** |\n| **ADC3** | **GPIOE** |\n| **USART1** | **GPIOF** |\n| **SPI1** | **GPIO** |\n| **TIM1** | **EXTI** |\n| **TIM8** | **AFIO** |\n| **GPIOA** |  |\n| **GPIOB** |  |\n\n### APB1 peripherals shown\n\nThe APB1 peripheral block lists:\n\n| Left column | Right column |\n|---|---|\n| **PWR** | **SPI2/I2S** |\n| **BKP** | **SPI2/I2S** |\n| **USB** | **bxCAN** |\n| **WWDG** | **RTC** |\n| **I2C2** | **TIM7** |\n| **I2C1** | **TIM6** |\n| **UART5** | **TIM5** |\n| **UART4** | **TIM4** |\n| **USART3** | **TIM3** |\n| **USART2** | **TIM2** |\n\n### DMA request connections\n\n- A horizontal line labeled **DMA Request** runs from the peripheral/request network toward **DMA1**.\n- A lower horizontal line labeled **DMA request** runs from the peripheral/request network toward **DMA2**.\n- The **SDIO** block has a rightward connection that joins the lower DMA request routing.\n- Multiple APB1/APB2 peripheral signals are shown feeding the DMA request lines through the connections drawn at the bottom of the diagram.\n\nFigure identifier at lower right: **ai14800c**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Bus system and peripherals supporting DMA",
+    "generated_captions": {
+      "luna": "**Figure 1. Bus system and peripherals supporting DMA**\n\nBlock diagram showing the STM32 bus matrix, Cortex-M3 core, DMA controllers, memories, AHB/APB buses, bridges, and DMA-capable peripherals.\n\n### Main bus and memory blocks\n\n- **Cortex-M3**\n  - Connected to the central **Bus matrix** by three bidirectional paths labeled:\n    - **ICode**\n    - **DCode**\n    - **System**\n- **Bus matrix**\n  - Connected to:\n    - **FLITF**\n    - **SRAM**\n    - **FSMC**\n    - **AHB system bus**\n    - **DMA1** through a path labeled **DMA**\n    - **DMA2** through a path labeled **DMA**\n- **FLITF**\n  - Connected to **Flash**\n- **SRAM**\n  - Connected directly to the **Bus matrix**\n- **FSMC**\n  - Connected directly to the **Bus matrix**\n- **SDIO**\n  - Connected to the **AHB system bus**\n  - Has a long rightward connection associated with a **DMA request**\n\n### DMA controllers\n\n#### DMA1\n\nThe **DMA1** block contains a channel multiplexer/selection symbol with the following visible channels:\n\n- **Ch.1**\n- **Ch.2**\n- **Ch.7**\n\nDMA1 is connected to the Bus matrix by the path labeled **DMA** and receives a horizontal connection labeled **DMA Request** from the peripheral request network.\n\n#### DMA2\n\nThe **DMA2** block contains a channel multiplexer/selection symbol with the following visible channels:\n\n- **Ch.1**\n- **Ch.2**\n- **Ch.5**\n\nDMA2 is connected to the Bus matrix by the path labeled **DMA** and receives the lower peripheral request network labeled **DMA request**.\n\n### AHB system and bridge blocks\n\n- **AHB system bus**\n  - Runs horizontally from the Bus matrix toward the bridge and system-control blocks.\n- **Reset & clock control (RCC)**\n  - Connected to the **AHB system bus**.\n- **Bridge 2**\n  - Connected between the AHB system bus and the APB buses.\n- **Bridge 1**\n  - Connected between the AHB system bus and the APB buses.\n- **APB2**\n  - Branches downward from the bridge area to the APB2 peripheral block.\n- **APB1**\n  - Branches downward/right from the bridge area to the APB1 peripheral block.\n\n### APB2 peripherals shown\n\nThe APB2 peripheral block lists two columns of functions:\n\n| Left column | Right column |\n|---|---|\n| **ADC1** | **GPIOC** |\n| **ADC2** | **GPIOD** |\n| **ADC3** | **GPIOE** |\n| **USART1** | **GPIOF** |\n| **SPI1** | **GPIO** |\n| **TIM1** | **EXTI** |\n| **TIM8** | **AFIO** |\n| **GPIOA** |  |\n| **GPIOB** |  |\n\n### APB1 peripherals shown\n\nThe APB1 peripheral block lists:\n\n| Left column | Right column |\n|---|---|\n| **PWR** | **SPI2/I2S** |\n| **BKP** | **SPI2/I2S** |\n| **USB** | **bxCAN** |\n| **WWDG** | **RTC** |\n| **I2C2** | **TIM7** |\n| **I2C1** | **TIM6** |\n| **UART5** | **TIM5** |\n| **UART4** | **TIM4** |\n| **USART3** | **TIM3** |\n| **USART2** | **TIM2** |\n\n### DMA request connections\n\n- A horizontal line labeled **DMA Request** runs from the peripheral/request network toward **DMA1**.\n- A lower horizontal line labeled **DMA request** runs from the peripheral/request network toward **DMA2**.\n- The **SDIO** block has a rightward connection that joins the lower DMA request routing.\n- Multiple APB1/APB2 peripheral signals are shown feeding the DMA request lines through the connections drawn at the bottom of the diagram.\n\nFigure identifier at lower right: **ai14800c**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00028",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "Performance considerations"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00029",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "The STM32F10xxx’s three master modules are the Cortex-M3 processor and the two DMAs. They are connected to the slave buses, the Flash memory bus, the SRAM bus, the FSMC bus and the AHB system bus, through a bus matrix. The AHB system bus is in turn connected to the two APB buses that serve all the embedded peripherals (see Figure 1) but one –the SDIO peripheral which is directly connected to the AHB system bus."
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00030",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "The bus matrix has two main features that allow to maximize the system performance and reduce the latency:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00031",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "● Round-robin priority scheme"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00032",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "● Multi-layer structure and bus stealing"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00033",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "3.1 Round robin priority scheme"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00034",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "The NVIC and Cortex-M3 processor implement a high-performance very low latency interrupt scheme. All Cortex-M3 instructions are either executed in a single cycle or are interruptible at cycle level. In order to preserve this advantage at system level, the DMA and bus matrix ensure that the DMA does not block the bus for a long time. The round-robin priority scheme ensures that the CPU can access any slave bus during every third cycle, if needed. As a consequence, the maximum bus system latency for the first data, seen from the CPU, is of one bus cycle (maximum two APB clock cycles)."
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00035",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "3.2 Multi-layer structure and bus stealing"
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00036",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "The multi-layer structure allows the two/three masters to perform data transfers concurrently as long as they are addressing different slave modules. On top of the Cortex-M3 Harvard architecture, this structure enhances data transfer parallelism, thus contributing to reduce the execution time and optimize the DMA efficiency. As instruction fetches from the Flash memory are performed through a completely independent bus, the DMA and CPU only compete for data access through a given slave bus."
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00037",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "In addition, the STM32F10xxx DMA uses one single bus cycle for data transfers (bus stealing) while other DMA controllers operate in burst mode. When using the bus-stealing access mechanism, the maximum time during which the CPU is stalled awaiting for data is very small (1 bus cycle). CPU accesses to SRAM are naturally interleaved with DMA accesses, the CPU accesses taking place in parallel with the DMA access to the peripheral through the APB bus. Even though further data accesses may be faster when using DMA with burst mode (during the periods when the DMA performs peripheral data transfer), the long period of time during which the CPU is stalled is seldom recovered. Refer to Figure 2 for a comparison between bus stealing and burst mode mechanisms."
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00038",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "The extreme case occurs when the CPU copies data from memory to memory. In this case the software execution is delayed by the time taken by the whole DMA transfer. However, most of the time, the CPU performs data processing. Data accesses are less frequent (register store/load) allowing natural interleaving of DMA and CPU accesses."
+  },
+  {
+    "segment_id": "stm32-an2548-p0006-text-00039",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 6,
+    "text": "The inherent parallelism of the STM32F10xxx bus structure, associated with the DMA busstealing mechanism ensure that the CPU is not stuck for long periods of time waiting to read data from the SRAM. DMAs with bus stealing mechanism consequently use the bus in a more efficient way, thus significantly contributing to reduce the total software execution time."
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2548/mineru/images/bbox_fallback_figure_p0007_00002.png",
+    "caption": "Figure showing DMA data-transfer timing using **bus stealing** versus **burst mode**.\n\n### Upper timing diagram: DMA data transfers using bus stealing\n- Horizontal timeline rows:\n  - **SRAM**\n  - **APB**\n- SRAM access sequence, left to right:\n  - `DMA | CPU | CPU | DMA | CPU | [blank] | DMA | CPU | [blank]`\n- APB activity:\n  - `DMA` occupies the first grouped interval.\n  - Later, a second grouped interval is labeled `DMA`.\n- Annotations and arrows above the SRAM timeline:\n  - `CPU rq1`\n  - `CPU rq2`\n  - `CPU rq3`\n  - `CPU stall`\n  - `End of SW execution`\n  - `CPU rq4`\n- The arrows identify CPU request/stall points and the end of software execution. The diagram shows DMA transfers interleaved with CPU cycles through bus stealing.\n- Caption beneath the diagram: **`DMA data transfers using bus stealing`**\n\n### Lower timing diagram: DMA data transfers using burst mode\n- Horizontal timeline rows:\n  - **SRAM**\n  - **APB**\n- SRAM access sequence, left to right:\n  - `DMA | DMA | .... | DMA | CPU | CPU | CPU | [blank] | DMA | .... | DMA`\n- APB activity:\n  - `DMA | .... | DMA` across the corresponding burst-transfer intervals.\n- Annotations and arrows above the SRAM timeline:\n  - `CPU rq1`\n  - `CPU stall`\n  - `CPU rq2`\n  - `CPU rq3`\n  - `CPU rq4`\n- The diagram shows consecutive DMA transfers grouped into bursts, with CPU activity occurring between bursts.\n- Caption beneath the diagram: **`DMA data transfers using burst mode`**\n\nIdentifier printed at lower right: **`ai14152`**.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing DMA data-transfer timing using **bus stealing** versus **burst mode**.\n\n### Upper timing diagram: DMA data transfers using bus stealing\n- Horizontal timeline rows:\n  - **SRAM**\n  - **APB**\n- SRAM access sequence, left to right:\n  - `DMA | CPU | CPU | DMA | CPU | [blank] | DMA | CPU | [blank]`\n- APB activity:\n  - `DMA` occupies the first grouped interval.\n  - Later, a second grouped interval is labeled `DMA`.\n- Annotations and arrows above the SRAM timeline:\n  - `CPU rq1`\n  - `CPU rq2`\n  - `CPU rq3`\n  - `CPU stall`\n  - `End of SW execution`\n  - `CPU rq4`\n- The arrows identify CPU request/stall points and the end of software execution. The diagram shows DMA transfers interleaved with CPU cycles through bus stealing.\n- Caption beneath the diagram: **`DMA data transfers using bus stealing`**\n\n### Lower timing diagram: DMA data transfers using burst mode\n- Horizontal timeline rows:\n  - **SRAM**\n  - **APB**\n- SRAM access sequence, left to right:\n  - `DMA | DMA | .... | DMA | CPU | CPU | CPU | [blank] | DMA | .... | DMA`\n- APB activity:\n  - `DMA | .... | DMA` across the corresponding burst-transfer intervals.\n- Annotations and arrows above the SRAM timeline:\n  - `CPU rq1`\n  - `CPU stall`\n  - `CPU rq2`\n  - `CPU rq3`\n  - `CPU rq4`\n- The diagram shows consecutive DMA transfers grouped into bursts, with CPU activity occurring between bursts.\n- Caption beneath the diagram: **`DMA data transfers using burst mode`**\n\nIdentifier printed at lower right: **`ai14152`**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00040",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "Figure 2. Bus stealing vs. burst mode for DMA transfer"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00041",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "3.3 DMA latency"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00042",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "Three operations are required to perform a DMA data transfer from peripheral to SRAM memory. When storing ADC continuous conversion data in SRAM, the following steps must be followed:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00043",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "1. DMA request arbitration & address computation"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00044",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "2. Reading data from the peripheral (DMA source)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00045",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "3. Writing loaded data in SRAM (DMA destination)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00046",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "When transferring data from SRAM to peripheral (for example SPI transmission), the operations are performed in the opposite order:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00047",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "1. DMA request arbitration & address computation"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00048",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "2. Reading data from SRAM memory (DMA source)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00049",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "3. Writing data to the peripheral through the APB bus (DMA destination)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00050",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "The service time per channel, t , is given by the equation below:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00051",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "$$\n\\mathfrak { t } _ { \\mathsf { S } } = \\mathfrak { t } _ { \\mathsf { A } } + \\mathfrak { t } _ { \\mathsf { A c c } } + \\mathfrak { t } _ { \\mathsf { S R A M } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00052",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "where:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00053",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "$\\mathfrak { t } _ { \\mathsf { A } }$ is the arbitration time"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00054",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "t<sub>A</sub> = 2 AHB clock cycle"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00055",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "● t is the peripheral access time"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00056",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "t<sub>ACC</sub> = 1 AHB clock cycle (bus matrix arbitration)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00057",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "\\+ 2 APB clock cycles (effective data transfer)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00058",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "\\+ 1 AHB clock cycle (bus synchronization)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00059",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "● t is the SRAM read or write access time"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00060",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "t<sub>SRAM</sub> = 1 AHB clock cycle (bus matrix arbitration)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0007-text-00061",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 7,
+    "text": "\\+ 1 AHB clock cycles (single read/write operation) or 2 AHB clock cycles in case of SRAM read-after-write access."
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00062",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "When the DMA is idle or after the third operation has completed on one channel, the DMA compares the priorities of all pending DMA requests (software and hardware priorities, in this order). The highest priority channel is served next and the DMA jumps to execute the second operation. While a channel is being served (operation 2 or 3 ongoing), no other channel can be served whatever its priority."
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00063",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "As a results, when at least two DMA channels are enabled, the DMA latency for the highest priority channel is the sum of the ongoing transfer time (without the arbitration phase) and the transfer time for the next DMA channel to be served (highest pending priority)."
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00064",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "For the case where only one DMA channel is active, a new request cannot be treated before completely closing the previous one (DMA rq/ack handshake). For this the total service time, $\\mathfrak { t } _ { \\mathtt { T S } }$ , must be used:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00065",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$$\n\\mathfrak { t } _ { \\mathsf { T S } } = \\mathfrak { t } _ { \\mathsf { A } } + \\mathfrak { t } _ { \\mathsf { A c c } } + \\mathfrak { t } _ { \\mathsf { S R A M } } + \\mathfrak { t } _ { \\mathsf { B F } } + \\mathfrak { t } _ { \\mathsf { A c k } } , \\mathrm { w h e r e } .\n$$"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00066",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$\\mathtt { t _ { B F } }$ is the bus free time (bus left free for CPU access)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00067",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "t<sub>BF</sub> = 1 AHB clock cycle"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00068",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$\\mathfrak { t } _ { \\mathsf { A c k } }$ is the DMA acknowledge time (closing the handshake between peripheral & DMA)"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00069",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "t<sub>Ack</sub> = 1 AHB clock cycle"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00070",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "3.4 Databus bandwidth limitation"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00071",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "The data bus bandwidth limitation is mainly due to the fact that the APB buses are slower than the system SRAM and the AHB bus. Two conditions must be respected for the highest priority DMA channel (see Figure 3)."
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00072",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "1. When more than one DMA channel is enabled, the required data bandwidth for the highest priority channel on the APB bus must be lower than 25% of the maximum APB transfer rate. The complete duration of an APB bus transfer must be taken into account. It is equal to 2 APB clock cycles plus 2 AHB clock cycles for arbitration/synchronization."
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00073",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "2. Even though the high speed/high priority DMA transfers usually take place on APB2 which is the faster APB bus, the CPU and other DMA channels may access peripherals on APB1. As 3 out of 4 remaining APB transfers may be performed on APB1, the minimum possible APB2 frequency depends on the fastest DMA channel data bandwidth."
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00074",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "The maximum APB clock division factor is given by the equation below:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00075",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$$\n\\mathsf { f } _ { \\mathsf { A H B } } > ( 2 \\times \\mathsf { N } _ { 2 } + 2 + 3 \\times ( 2 \\times \\mathsf { N } _ { 2 } + 2 ) ) \\times \\mathsf { B } _ { \\mathsf { m a x } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00076",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "if"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00077",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$$\n\\mathsf { N } _ { 2 } < \\mathsf { N } _ { 1 } \\Rightarrow \\mathsf { N } _ { 1 } < \\frac { 1 } { 1 6 } \\times ( \\mathsf { f } _ { \\mathsf { A } \\mathsf { H B } } / \\mathsf { B } _ { \\mathsf { m a x } } ) \\ , \\mathsf { w h e r e } .\n$$"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00078",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$\\mathsf { f } _ { \\mathsf { A H B } }$ is the AHB clock frequency,"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00079",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$\\mathsf { N } _ { 1 }$ and $\\mathsf { N } _ { 2 }$ are APB1 and APB2 clock division factors, respectively,"
+  },
+  {
+    "segment_id": "stm32-an2548-p0008-text-00080",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 8,
+    "text": "$\\mathsf { B } _ { \\mathsf { m a x } }$ is the maximum peripheral data bandwidth on APB2 expressed in transfers/s."
+  },
+  {
+    "segment_id": "stm32-an2548-p0009-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2548",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2548/mineru/images/bbox_fallback_figure_p0009_00003.png",
+    "caption": "**Figure 3. APB bus occupation during DMA transfers**\n\nThe figure is a timing/occupation diagram showing APB2 and APB1 bus activity from left to right. No time axis, scale, or units are visible.\n\n- **Request annotations and arrows:**\n  - **DMAy rq** — downward arrow at the left, pointing toward the beginning of the APB2 activity.\n  - **DMA1 rq1** — downward arrow at the left, also pointing toward the beginning of the APB2 activity.\n  - **DMA1 rq2** — downward arrow near the middle-right, pointing to the later APB2 activity.\n  - Curved/diagonal connector arrows show relationships between the request markers and subsequent bus-occupation segments, including a diagonal connection from the initial left-side request area to the **DMAy** segment on APB1.\n\n- **APB2 bus row** (upper row):\n  - Segments, left to right:\n    1. **DMAx**\n    2. **CPU?**\n    3. **DMA1**\n    4. **CPU**\n    5. **DMA1**\n    6. **CPU**\n  - The APB2 row is labeled **APB2** at the left.\n\n- **APB1 bus row** (lower row):\n  - An initial blank segment is followed by:\n    1. **CPU?**\n    2. **DMAy**\n    3. A final blank segment\n  - The APB1 row is labeled **APB1** at the left.\n\nThe question marks in **CPU?** are part of the visible labels.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. APB bus occupation during DMA transfers",
+    "generated_captions": {
+      "luna": "**Figure 3. APB bus occupation during DMA transfers**\n\nThe figure is a timing/occupation diagram showing APB2 and APB1 bus activity from left to right. No time axis, scale, or units are visible.\n\n- **Request annotations and arrows:**\n  - **DMAy rq** — downward arrow at the left, pointing toward the beginning of the APB2 activity.\n  - **DMA1 rq1** — downward arrow at the left, also pointing toward the beginning of the APB2 activity.\n  - **DMA1 rq2** — downward arrow near the middle-right, pointing to the later APB2 activity.\n  - Curved/diagonal connector arrows show relationships between the request markers and subsequent bus-occupation segments, including a diagonal connection from the initial left-side request area to the **DMAy** segment on APB1.\n\n- **APB2 bus row** (upper row):\n  - Segments, left to right:\n    1. **DMAx**\n    2. **CPU?**\n    3. **DMA1**\n    4. **CPU**\n    5. **DMA1**\n    6. **CPU**\n  - The APB2 row is labeled **APB2** at the left.\n\n- **APB1 bus row** (lower row):\n  - An initial blank segment is followed by:\n    1. **CPU?**\n    2. **DMAy**\n    3. A final blank segment\n  - The APB1 row is labeled **APB1** at the left.\n\nThe question marks in **CPU?** are part of the visible labels."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00081",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "3.5 Choosing channel priority"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00082",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "In order to achieve continuous data transfers to/from a peripheral, the corresponding DMA channel must be able to sustain the peripheral data rate and ensure that the service latency is shorter than the period of time between two consecutive data."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00083",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "The high speed/high bandwidth peripherals must have the highest DMA priorities. This ensures that the maximum data latency will be respected for these peripherals and over/under-run conditions will be avoided."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00084",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "In case of equal bandwidth requirements, it is recommended to assign a higher priority to the peripherals working in slave mode (which have no control on the data transfer speed) compared with the ones working in master mode (which may control the data flow)."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00085",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "By default, the channel allocation and hardware priority (from 1 to 7) are set in order to assign the fastest peripherals to the highest priority channels. However, this may not be true for some applications. In this case, the user can configure a software priority for each channel (4 levels – from Very High to Low), which takes precedence over the hardware priority."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00086",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "When using several peripherals in parallel (with or without DMA), the user must make sure that the internal system can sustain the total data bandwidth required for the application. A compromise must be find between two factors:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00087",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "● The application requirements for each peripheral"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00088",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "● The internal data bandwidth"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00089",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "3.5.1 Application requirements"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00090",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "As an example, the data bandwidth for an SPI interface is obtained by dividing the baud rate by the data word length used by the SPI (since one full data needs to be transferred to/from the SPI before/after each transmission). Let us take the example of an SPI interface performing 8-bit data transfers at 18 MBaud, and configured to operate in simplex mode. In this case, the internal data bandwidth requirement are of 2.25 Mtransfers/s."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00091",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00092",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "The data bandwidth can be divided by 2 when using the SPI in 16-bit mode: with the same baud rate, it only requires a transfer speed of 1.125 Mtransfers/s."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00093",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "It is strongly recommended, whenever possible, to use the 16-bit mode in order to minimize bus usage and power consumption."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00094",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "3.5.2 Internal data bandwidth"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00095",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "The internal data bandwidth depends on:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00096",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "● The bus frequencies"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00097",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "The available data bandwidth is directly proportional to the bus clock frequency."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00098",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "● The bus type"
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00099",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "AHB data transfers take 2 clock cycles, except for SRAM read-after-write accesses that take 3 cycles. Data transfers to a peripheral through an APB bus takes 2 APB clock cycles plus 2 AHB clock cycles dedicated to bus matrix arbitration and data synchronization."
+  },
+  {
+    "segment_id": "stm32-an2548-p0010-text-00100",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 10,
+    "text": "It is recommended to keep the DMA bus usage below 2/3 in order to maintain the system and CPU performance at a reasonable level."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00101",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "DMA programming examples"
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00102",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "All the examples described below use the STM32F10xxx Standard peripheral library and are provided in the firmware package associated with this application note. Both the package and the application note are available for download from the STMicroelectronics website: http://www.st.com."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00103",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "4.1 Example of ADC continuous data acquisition with SPI transfer"
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00104",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "The ADC is configured to operate in Continuous Conversion mode. In this mode, it continuously converts one input channel at the maximum speed. In this mode, the AHB bus frequency is set to 56 MHz, the ADC prescaler to 4 and the sample time to 13.5 cycles. These settings are transferred through DMA1 channel 1 into a buffer located in a system RAM buffer. The data bandwidth for channel 1 is set to 0.54 Mtransfer/s."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00105",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "After the DMA has filled one half of the buffer with ADC data, the software computes the peak value and normalizes the digitized data (the peak value is set to 0xFF). The results of the conversion are then transmitted externally through the SPI interface."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00106",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "The results of the conversion are then transmitted externally through the SPI1 interface. Data are transferred from the SRAM buffer using DMA1 channel 3 to SPI1 data register. To achieve the maximum DMA transfer speed of 0.875 Mtransfers/s, the SPI1 interface is configured in 16-bit master transmit mode, and 14 MBaud transfer speed."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00107",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "However, as SPI1 operates in master mode, and the SPI1 effective data transfer speed is limited by the data availability rate of 1 Mtransfers/s, the priorities are configured as following:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00108",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "● Channel1 (ADC): VeryHigh"
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00109",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "● Channel3 (SPI1\\_TX): High."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00110",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "4.2 ADC continuous data acquisition with direct SPI transfer"
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00111",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "This example implements almost the same function as the previous one, without data normalization. As the data are not used internally by the CPU, the bus occupation can be reduced by half by transferring directly data from the ADC converter to the SPI data register."
+  },
+  {
+    "segment_id": "stm32-an2548-p0011-text-00112",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 11,
+    "text": "As a consequence, only DMA1 channel 1 is used. The destination memory address for this channel is set to the SPI data register, without the need of an intermediate SRAM buffer."
+  },
+  {
+    "segment_id": "stm32-an2548-p0012-text-00113",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 12,
+    "text": "4.3 GPIO fast data transfer with DMA"
+  },
+  {
+    "segment_id": "stm32-an2548-p0012-text-00114",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 12,
+    "text": "This example shows how to use different peripherals for DMA request and data transfer. This mechanism allows to implement simple fast parallel synchronous interfaces without using the CPU (for example a camera interface)."
+  },
+  {
+    "segment_id": "stm32-an2548-p0012-text-00115",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 12,
+    "text": "Timer 3 and DMA1 channel 6 connected to TIM3\\_TRIG are used to implement this data acquisition interface. An 16-bit parallel data is available on the GPIO port and an external clock signal applied on the external trigger input of Timer 3. On the rising edge of the external trigger, the timer generates a DMA request. As the GPIO data register address is set to DMA1 channel 6 peripheral address, the DMA controller reads the data from the GPIO port on each DMA request, and stores it into an SRAM buffer."
+  },
+  {
+    "segment_id": "stm32-an2548-p0013-text-00116",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 13,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2548-p0013-table-00003",
+    "type": "table",
+    "doc": "stm32-an2548",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2548/mineru/images/bbox_fallback_table_p0013_00003.png",
+    "caption": "**Table 3. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 29-June-2007 | 1 | Initial release. |\n| 10-Dec-2007 | 2 | Minor text modifications in *Section 2.1: Main features.*<br>Updated DMA/CPU clock cycle information with bus matrix arbitration and APB bridge data in *Section 3.3: DMA latency* and *Section 3.4: Databus bandwidth limitation.*<br>Updated relation between internal data bandwidth and bus type in *Section 3.5.2: Internal data bandwidth.*<br>Updated *Section 4.1: Example of ADC continuous data acquisition with SPI transfer.*<br>Changed DMA channel 4 into DMA channel 6, Timer 1 into Timer 3 and 8-bit data into 16-bit data in *Section 4.3: GPIO fast data transfer with DMA.* |\n| 30-Apr-2009 | 3 | Document updated to cover the case where the device has two DMA controllers (*Table 2: Peripherals served by DMA2 and channel allocation* added, *Figure 1: Bus system and peripherals supporting DMA* updated).<br>Updated DMA/CPU clock cycle information with latency vs. total service time in *Section 3.3: DMA latency* and *Section 3.4: Databus bandwidth limitation.*<br>Small text changes. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 3. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 29-June-2007 | 1 | Initial release. |\n| 10-Dec-2007 | 2 | Minor text modifications in *Section 2.1: Main features.*<br>Updated DMA/CPU clock cycle information with bus matrix arbitration and APB bridge data in *Section 3.3: DMA latency* and *Section 3.4: Databus bandwidth limitation.*<br>Updated relation between internal data bandwidth and bus type in *Section 3.5.2: Internal data bandwidth.*<br>Updated *Section 4.1: Example of ADC continuous data acquisition with SPI transfer.*<br>Changed DMA channel 4 into DMA channel 6, Timer 1 into Timer 3 and 8-bit data into 16-bit data in *Section 4.3: GPIO fast data transfer with DMA.* |\n| 30-Apr-2009 | 3 | Document updated to cover the case where the device has two DMA controllers (*Table 2: Peripherals served by DMA2 and channel allocation* added, *Figure 1: Bus system and peripherals supporting DMA* updated).<br>Updated DMA/CPU clock cycle information with latency vs. total service time in *Section 3.3: DMA latency* and *Section 3.4: Databus bandwidth limitation.*<br>Small text changes. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00117",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00118",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00119",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00120",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00121",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00122",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00123",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00124",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00125",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00126",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00127",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00128",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "© 2009 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00129",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00130",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2548-p0014-text-00131",
+    "type": "text",
+    "doc": "stm32-an2548",
+    "page": 14,
+    "text": "www.st.com"
+  }
+]

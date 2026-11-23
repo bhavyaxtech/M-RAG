@@ -1,0 +1,1947 @@
+[
+  {
+    "segment_id": "stm32-an3155-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an3155-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 1,
+    "text": "This application note describes the USART protocol used in the STM32 microcontroller bootloader. It details each supported command. For more information about the USART hardware resources and requirements for your device bootloader, please refer to the “STM32 system memory boot mode” application note (AN2606)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 1,
+    "text": "Related documents"
+  },
+  {
+    "segment_id": "stm32-an3155-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 1,
+    "text": "Available from www.st.com:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 1,
+    "text": "AN2606 “STM32 system memory boot mode”"
+  },
+  {
+    "segment_id": "stm32-an3155-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an3155-p0002-text-00007",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 2,
+    "text": "1 USART bootloader code sequence 5   \n2 Choosing the USARTx baud rate . . 6   \n2.1 Minimum baud rate . 6   \n2.2 Maximum baud rate 6   \n3 Bootloader command set . . 7   \n3.1 Device-dependent bootloader parameters 8   \n3.2 Get command . 9   \n3.3 Get Version & Read Protection Status command . . . 10   \n3.4 Get ID command 12   \n3.5 Read Memory command . 13   \n3.6 Go command 16   \n3.7 Write Memory command 18   \n3.8 Erase Memory command . 21   \n3.9 Extended Erase Memory command . . 24   \n3.10 Write Protect command 27   \n3.11 Write Unprotect command 30   \n3.12 Readout Protect command . 31   \n3.13 Readout Unprotect command 33   \n4 Bootloader protocol version evolution . . 35   \n5 Revision history . 36"
+  },
+  {
+    "segment_id": "stm32-an3155-p0003-text-00008",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an3155-p0003-text-00009",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 3,
+    "text": "Table 1. USART bootloader commands . . . . . . . 7   \nTable 2. Bootloader protocol versions . 35   \nTable 3. Document revision history . . . . 36"
+  },
+  {
+    "segment_id": "stm32-an3155-p0004-text-00010",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an3155-p0004-text-00011",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 4,
+    "text": "Figure 1. Bootloader for STM32 with USART . 5   \nFigure 2. Get command: host side. . 9   \nFigure 3. Get command: device side . . 9   \nFigure 4. Get Version & Read Protection Status command: host side 11   \nFigure 5. Get Version & Read Protection Status command: device side. 11   \nFigure 6. Get ID command: host side 12   \nFigure 7. Get ID command: device side. 13   \nFigure 8. Read Memory command: host side 14   \nFigure 9. Read Memory command: device side 15   \nFigure 10. Go command: host side 16   \nFigure 11. Go command: device side 17   \nFigure 12. Write Memory command: host side 19   \nFigure 13. Write Memory command: device side. 20   \nFigure 14. Erase Memory command: host side . 22   \nFigure 15. Erase Memory command: device side 23   \nFigure 16. Extended Erase Memory command: host side . 25   \nFigure 17. Extended Erase Memory command: device side 26   \nFigure 18. Write Protect command: host side 28   \nFigure 19. Write Protect command: device side 29   \nFigure 20. Write Unprotect command: host side . 30   \nFigure 21. Write Unprotect command: device side 31   \nFigure 22. Readout Protect command: host side. 32   \nFigure 23. Readout Protect command: device side . 32   \nFigure 24. Readout Unprotect command: host side 33   \nFigure 25. Readout Unprotect command: device side. . 34"
+  },
+  {
+    "segment_id": "stm32-an3155-p0005-text-00012",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 5,
+    "text": "USART bootloader code sequence"
+  },
+  {
+    "segment_id": "stm32-an3155-p0005-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0005_00001.png",
+    "caption": "**Figure 1. Bootloader for STM32 with USART** — flowchart (figure identifier **ai15702**).\n\nVisible flow:\n\n- **“0x7F received on USARTx Rx pin”**\n  ↓\n- **“USARTx selected”**\n  ↓\n- **“Auto-baud rate sequence  \n  send ACK byte & disable  \n  unused peripherals”**\n  ↓\n- Decision diamond: **“Wait for a  \n  command”**\n\nAfter the “Wait for a command” decision, the flow branches along a horizontal command path:\n\n- Left branch labeled **“GET cmd”**\n  ↓ **“GET cmd  \n  routine”**\n- Next branch leads to **“RD cmd  \n  routine”**\n- Center branch labeled **“Command  \n  received”**, with a downward arrow; an ellipsis **“........”** is shown along the path toward the optional routines.\n- Dashed optional block:\n  **“(optional)  \n  Routines for  \n  loading  \n  into RAM”**\n- Right branch labeled **“GO cmd”**\n  ↓ **“GO cmd  \n  routine”**\n  ↓ **“JP to_Address”**\n\nThe lower outputs of the **GET cmd routine**, **RD cmd routine**, and the optional RAM-loading routines connect to a common lower horizontal return line. The flowchart also shows a loop/return path from this lower line around the left side back upward toward the command-waiting portion. A central lower junction is marked where vertical and horizontal lines meet.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Bootloader for STM32 with USART",
+    "generated_captions": {
+      "luna": "**Figure 1. Bootloader for STM32 with USART** — flowchart (figure identifier **ai15702**).\n\nVisible flow:\n\n- **“0x7F received on USARTx Rx pin”**\n  ↓\n- **“USARTx selected”**\n  ↓\n- **“Auto-baud rate sequence  \n  send ACK byte & disable  \n  unused peripherals”**\n  ↓\n- Decision diamond: **“Wait for a  \n  command”**\n\nAfter the “Wait for a command” decision, the flow branches along a horizontal command path:\n\n- Left branch labeled **“GET cmd”**\n  ↓ **“GET cmd  \n  routine”**\n- Next branch leads to **“RD cmd  \n  routine”**\n- Center branch labeled **“Command  \n  received”**, with a downward arrow; an ellipsis **“........”** is shown along the path toward the optional routines.\n- Dashed optional block:\n  **“(optional)  \n  Routines for  \n  loading  \n  into RAM”**\n- Right branch labeled **“GO cmd”**\n  ↓ **“GO cmd  \n  routine”**\n  ↓ **“JP to_Address”**\n\nThe lower outputs of the **GET cmd routine**, **RD cmd routine**, and the optional RAM-loading routines connect to a common lower horizontal return line. The flowchart also shows a loop/return path from this lower line around the left side back upward toward the command-waiting portion. A central lower junction is marked where vertical and horizontal lines meet."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0005-text-00013",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 5,
+    "text": "Once the system memory boot mode is entered and the STM32 microcontroller has been configured (for more details refer to application note AN2606 “STM32 system memory boot mode”) the bootloader code begins to scan the USARTx\\_RX line pin, waiting to receive the 0x7F data frame: one start bit, 0x7F data bits, even parity bit and one stop bit."
+  },
+  {
+    "segment_id": "stm32-an3155-p0005-text-00014",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 5,
+    "text": "The duration of this data frame is measured using the Systick timer. The count value of the timer is then used to calculate the corresponding baud rate factor with respect to the current system clock."
+  },
+  {
+    "segment_id": "stm32-an3155-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 5,
+    "text": "Next, the code initializes the serial interface accordingly. Using this calculated baud rate, an acknowledge byte (0x79) is returned to the host, which signals that the STM32 is ready to receive commands."
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00016",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "Choosing the USARTx baud rate"
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00017",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "The calculation of the serial baud rate for USARTx, from the length of the first byte that is received, is used to operate the bootloader within a wide range of baud rates. However, the upper and lower limits have to be kept, in order to ensure proper data transfer."
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00018",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "For a correct data transfer from the host to the microcontroller, the maximum deviation between the internal initialized baud rate for USARTx and the real baud rate of the host should be below 2.5%. The deviation $( \\mathsf { f } _ { \\mathsf { B } } ,$ , in percent) between the host baud rate and the microcontroller baud rate can be calculated using the formula below:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00019",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "$$\n\\mathbf { f } _ { \\mathsf { B } } = \\left| \\frac { \\mathbf { S } \\mathsf { T M } 3 2 \\mathsf { b a u d } \\mathsf { r a t e } - \\mathsf { H o s t } \\mathsf { b a u d } \\mathsf { r a t e } } { \\mathsf { S } \\mathsf { T M } 3 2 \\mathsf { b a u d } \\mathsf { r a t e } } \\right| \\times 1 0 0 \\% \\quad , \\mathsf { w h e r e ~ f } _ { \\mathsf { B } } \\leq 2 . 5 \\% .\n$$"
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00020",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "This baud rate deviation is a nonlinear function depending on the CPU clock and the baud rate of the host. The maximum of the function $( \\mathfrak { f } _ { \\mathsf { B } } )$ increases with the host baud rate. This is due to the smaller baud rate prescale factors, and the implied higher quantization error."
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00021",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "2.1 Minimum baud rate"
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00022",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "The lowest tested baud rate $( \\mathsf { B } _ { \\mathsf { L o w } } )$ is 1200. Baud rates below $\\mathsf { B } _ { \\mathsf { L o w } }$ would cause the SysTick timer to overflow. In this event, USARTx would not be correctly initialized."
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00023",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "2.2 Maximum baud rate"
+  },
+  {
+    "segment_id": "stm32-an3155-p0006-text-00024",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 6,
+    "text": "$\\mathsf { B } _ { \\mathsf { H i g h } }$ is the highest baud rate for which the deviation still does not exceed the limit. All baud rates between $\\mathsf { B } _ { \\mathsf { L o w } }$ and $\\mathsf { B } _ { \\mathsf { H i g h } }$ are below the deviation limit.   \nThe highest tested baud rate $( \\mathsf { B } _ { \\mathsf { H i g h } } )$ is 115 200."
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00025",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "Bootloader command set"
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00026",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "The supported commands are listed in Table 1 below. Each command is further described in this section."
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-table-00001",
+    "type": "table",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_table_p0007_00001.png",
+    "caption": "**Table 1. USART bootloader commands**\n\n| Command(footnote) | Command code | Command description |\n|---|---|---|\n| Get(2) | 0x00 | Gets the version and the allowed commands supported by the current version of the bootloader |\n| Get Version & Read Protection Status(2) | 0x01 | Gets the bootloader version and the Read Protection status of the Flash memory |\n| Get ID(2) | 0x02 | Gets the chip ID |\n| Read Memory | 0x11 | Reads up to 256 bytes of memory starting from an address specified by the application |\n| Go | 0x21 | Jumps to user application code located in the internal Flash memory or in SRAM |\n| Write Memory | 0x31 | Writes up to 256 bytes to the RAM or Flash memory starting from an address specified by the application |\n| Erase(3) | 0x43 | Erases from one to all the Flash memory pages |\n| Extended Erase(3) | 0x44 | Erases from one to all the Flash memory pages using two byte addressing mode (available only for v3.0 usart bootloader versions and above). |\n| Write Protect(4) | 0x63 | Enables the write protection for some sectors |\n| Write Unprotect(4) | 0x73 | Disables the write protection for all Flash memory sectors |\n| Readout Protect | 0x82 | Enables the read protection |\n| Readout Unprotect(2) | 0x92 | Disables the read protection |\n\nFootnote markers **(2), (3), and (4)** are shown in the table, but the corresponding footnote text is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. USART bootloader commands",
+    "generated_captions": {
+      "luna": "**Table 1. USART bootloader commands**\n\n| Command(footnote) | Command code | Command description |\n|---|---|---|\n| Get(2) | 0x00 | Gets the version and the allowed commands supported by the current version of the bootloader |\n| Get Version & Read Protection Status(2) | 0x01 | Gets the bootloader version and the Read Protection status of the Flash memory |\n| Get ID(2) | 0x02 | Gets the chip ID |\n| Read Memory | 0x11 | Reads up to 256 bytes of memory starting from an address specified by the application |\n| Go | 0x21 | Jumps to user application code located in the internal Flash memory or in SRAM |\n| Write Memory | 0x31 | Writes up to 256 bytes to the RAM or Flash memory starting from an address specified by the application |\n| Erase(3) | 0x43 | Erases from one to all the Flash memory pages |\n| Extended Erase(3) | 0x44 | Erases from one to all the Flash memory pages using two byte addressing mode (available only for v3.0 usart bootloader versions and above). |\n| Write Protect(4) | 0x63 | Enables the write protection for some sectors |\n| Write Unprotect(4) | 0x73 | Disables the write protection for all Flash memory sectors |\n| Readout Protect | 0x82 | Enables the read protection |\n| Readout Unprotect(2) | 0x92 | Disables the read protection |\n\nFootnote markers **(2), (3), and (4)** are shown in the table, but the corresponding footnote text is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00027",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "4. See Section 3.1: Device-dependent bootloader parameters."
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00028",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "Communication safety"
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00029",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "All communications from the programming tool (PC) to the device are verified by:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00030",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "1. checksum: received blocks of data bytes are XORed. A byte containing the computed XOR of all previous bytes is added to the end of each communication (checksum byte). By XORing all received bytes, data + checksum, the result at the end of the packet must be 0x00"
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00031",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "2. for each command the host sends a byte and its complement (XOR = 0x00)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0007-text-00032",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 7,
+    "text": "3. UART: parity check active (even parity)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00033",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "Each packet is either accepted (ACK answer) or discarded (NACK answer):"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00034",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "● ACK = 0x79"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00035",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "● NACK = 0x1F"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00036",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "3.1 Device-dependent bootloader parameters"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00037",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "While the USART bootloader protocol’s command set and sequences are the same for all the STM32 devices, some parameters are device-dependent. For a few commands, the value of some parameters may depend on the device used. The concerned parameters are listed below:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00038",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "● PID (product ID), which changes with the device"
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00039",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "Valid memory addresses (RAM, Flash memory, system memory, option byte areas) accepted by the bootloader when the Read Memory, Go and Write Memory commands are executed."
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00040",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "● Size of the Flash memory sector used when executing the Write Protect command."
+  },
+  {
+    "segment_id": "stm32-an3155-p0008-text-00041",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 8,
+    "text": "For more details about the value of these parameters for the device you are using, please refer to the “Device-dependent bootloader parameters” section in the “STM32 system memory boot mode” application note (AN2606)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0009-text-00042",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 9,
+    "text": "3.2 Get command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0009-text-00043",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 9,
+    "text": "The Get command allows you to get the version of the bootloader and the supported commands. When the bootloader receives the Get command, it transmits the bootloader version and the supported command codes to the host, as described in Figure 2."
+  },
+  {
+    "segment_id": "stm32-an3155-p0009-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0009_00002.png",
+    "caption": "**Figure 2. Get command: host side** — flowchart for the host-side Get command.\n\nVisible flow and labels:\n\n1. **Start Get**\n2. **Send 0x00 + 0xFF**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** follows a rightward path, then downward and back left toward the main flow.\n4. **Receive the number of bytes (version+commands)**\n5. **Receive the bootloader version**\n6. **Receive the supported commands**\n7. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** follows a rightward path, then downward and leftward to rejoin the main vertical flow.\n8. **End of Get**\n\nThe diagram uses rectangular process boxes, diamond-shaped ACK/NACK decision boxes, downward flow arrows, and a right-side return path for NACK. Identifier at lower right: **ai4631**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Get command: host side",
+    "generated_captions": {
+      "luna": "**Figure 2. Get command: host side** — flowchart for the host-side Get command.\n\nVisible flow and labels:\n\n1. **Start Get**\n2. **Send 0x00 + 0xFF**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** follows a rightward path, then downward and back left toward the main flow.\n4. **Receive the number of bytes (version+commands)**\n5. **Receive the bootloader version**\n6. **Receive the supported commands**\n7. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** follows a rightward path, then downward and leftward to rejoin the main vertical flow.\n8. **End of Get**\n\nThe diagram uses rectangular process boxes, diamond-shaped ACK/NACK decision boxes, downward flow arrows, and a right-side return path for NACK. Identifier at lower right: **ai4631**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0009-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0009_00003.png",
+    "caption": "**Figure 3. Get command: device side** — flowchart (identifier **ai14632**).\n\nFlow and labels:\n\n1. **Start Get**\n2. Decision diamond: **Received byte = 0x00+0xFF?**\n   - **Yes** path downward:\n     1. **Send ACK byte**\n     2. **Send the number of bytes (version+commands)**\n     3. **Send the bootloader version**\n     4. **Send the supported commands**\n     5. **Send ACK byte**\n     6. **End of Get**\n   - **No** path to the right:\n     1. **Send NACK byte**\n     2. The path runs downward, loops left, and rejoins the main flow before **End of Get**.\n\nThe flowchart uses rectangular process boxes, a diamond-shaped decision, downward arrows on the main path, and explicit **Yes**/**No** branch labels.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Get command: device side",
+    "generated_captions": {
+      "luna": "**Figure 3. Get command: device side** — flowchart (identifier **ai14632**).\n\nFlow and labels:\n\n1. **Start Get**\n2. Decision diamond: **Received byte = 0x00+0xFF?**\n   - **Yes** path downward:\n     1. **Send ACK byte**\n     2. **Send the number of bytes (version+commands)**\n     3. **Send the bootloader version**\n     4. **Send the supported commands**\n     5. **Send ACK byte**\n     6. **End of Get**\n   - **No** path to the right:\n     1. **Send NACK byte**\n     2. The path runs downward, loops left, and rejoins the main flow before **End of Get**.\n\nThe flowchart uses rectangular process boxes, a diamond-shaped decision, downward arrows on the main path, and explicit **Yes**/**No** branch labels."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00044",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "The STM32 sends the bytes as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00045",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 1: ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00046",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 2: N = 11 = the number of bytes to follow – 1 except current and ACKs."
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00047",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 3: Bootloader version (0 < Version < 255), example: 0x10 = Version 1.0"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00048",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 4: 0x00 – Get command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00049",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 5: 0x01 – Get Version and Read Protection Status"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00050",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 6: 0x02 – Get ID"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00051",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 7: 0x11 – Read Memory command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00052",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 8: 0x21 – Go command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00053",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 9: 0x31 – Write Memory command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00054",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 10: 0x43 or – Erase command or Extended Erase command (these commands are 0x44 exlusive)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00055",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 11: 0x63 – Write Protect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00056",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 12: 0x73 – Write Unprotect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00057",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 13: 0x82 – Readout Protect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00058",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Byte 14: 0x92 – Readout Unprotect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00059",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "Last byte (15): ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00060",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "3.3 Get Version & Read Protection Status command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0010-text-00061",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 10,
+    "text": "The Get Version & Read Protection Status command is used to get the bootloader version and the read protection status. When the bootloader receives the command, it transmits the information described below (version, read protection: number of times it was enabled and disabled) to the host."
+  },
+  {
+    "segment_id": "stm32-an3155-p0011-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0011_00004.png",
+    "caption": "**Figure 4. Get Version & Read Protection Status command: host side** — flowchart for the GV command.\n\nVisible flow:\n\n1. **Start GV(1)**\n2. **Send 0x01+0xFE**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds to **Receive the bootloader version**\n   - **NACK** branches right into the retry/return connection shown on the right side of the flowchart\n4. **Receive the number of times the read protection was disabled**\n5. **Receive the number of times the read protection was enabled**\n6. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds to **End of GV(1)**\n   - **NACK** branches right and joins the return connection on the right side; the visible arrow returns left toward the lower decision/connection\n7. **End of GV(1)**\n\nAdditional visible text:\n- ACK\n- NACK\n- Footnote marker **(1)** after both “Start GV” and “End of GV”\n- Figure identifier at lower right: **ai14633**\n\nNo axis, legend, units, or numeric values beyond **0x01+0xFE** are present.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. Get Version & Read Protection Status command: host side\n1. GV = Get Version & Read Protection Status.",
+    "generated_captions": {
+      "luna": "**Figure 4. Get Version & Read Protection Status command: host side** — flowchart for the GV command.\n\nVisible flow:\n\n1. **Start GV(1)**\n2. **Send 0x01+0xFE**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds to **Receive the bootloader version**\n   - **NACK** branches right into the retry/return connection shown on the right side of the flowchart\n4. **Receive the number of times the read protection was disabled**\n5. **Receive the number of times the read protection was enabled**\n6. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds to **End of GV(1)**\n   - **NACK** branches right and joins the return connection on the right side; the visible arrow returns left toward the lower decision/connection\n7. **End of GV(1)**\n\nAdditional visible text:\n- ACK\n- NACK\n- Footnote marker **(1)** after both “Start GV” and “End of GV”\n- Figure identifier at lower right: **ai14633**\n\nNo axis, legend, units, or numeric values beyond **0x01+0xFE** are present."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0011-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0011_00005.png",
+    "caption": "**Figure 5. Get Version & Read Protection Status command: device side**\n\nFlowchart for the **GV(1)** command:\n\n- **Start GV(1)**\n- Decision: **“Received byte = 0x01+0xFE?”**\n  - **No** → **Send NACK byte** → flow proceeds to the end\n  - **Yes** → **Send ACK byte** → **Send the bootloader version** → **Option byte 1** → **Option byte 2** → **Send ACK byte** → **End of GV(1)**\n- The **No** path from the decision leads to **Send NACK byte**, then runs downward and joins the flow immediately before **End of GV(1)**.\n- Footnote/abbreviation: **GV = Get Version & Read Protection Status.**\n- Figure identifier printed at lower right: **ai14634**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Get Version & Read Protection Status command: device side\n1. GV = Get Version & Read Protection Status.",
+    "generated_captions": {
+      "luna": "**Figure 5. Get Version & Read Protection Status command: device side**\n\nFlowchart for the **GV(1)** command:\n\n- **Start GV(1)**\n- Decision: **“Received byte = 0x01+0xFE?”**\n  - **No** → **Send NACK byte** → flow proceeds to the end\n  - **Yes** → **Send ACK byte** → **Send the bootloader version** → **Option byte 1** → **Option byte 2** → **Send ACK byte** → **End of GV(1)**\n- The **No** path from the decision leads to **Send NACK byte**, then runs downward and joins the flow immediately before **End of GV(1)**.\n- Footnote/abbreviation: **GV = Get Version & Read Protection Status.**\n- Figure identifier printed at lower right: **ai14634**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00062",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "The STM32 sends the bytes as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00063",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 1: ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00064",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 2: Bootloader version (0 < Version ≤ 255), example: 0x10 = Version 1.0"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00065",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 3: Option byte 1: 0x00 to keep the compatibility with generic bootloader protocol"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00066",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 4: Option byte 2: 0x00 to keep the compatibility with generic bootloader protocol"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00067",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 5: ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00068",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "3.4 Get ID command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00069",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "The Get ID command is used to get the version of the chip ID (identification). When the bootloader receives the command, it transmits the product ID to the host."
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00070",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "The STM32 device sends the bytes as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00071",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 1: ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00072",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 2: N = the number of bytes – 1 (N = 1 for STM32), except for current byte and ACKs."
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00073",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Bytes 3-4: PID<sup>(1)</sup> byte 3 = 0x04, byte 4 = 0x1X"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00074",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "Byte 5: ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-text-00075",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "text": "1. PID stands for product ID. Byte 1 is the MSB and byte 2, the LSB of the address. Refer to Section 3.1: Device-dependent bootloader parameters for more details about the PID of the device you are using."
+  },
+  {
+    "segment_id": "stm32-an3155-p0012-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0012_00006.png",
+    "caption": "Flowchart depicting the host-side “Get ID” command sequence.\n\nVisible flow:\n\n1. **Start GID(¹)**\n2. **Send 0x02+0xFD**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** branches right, then downward and loops back toward the flow after the second ACK/NACK decision.\n4. **Receive N = number of bytes – 1**\n5. **Receive PID**\n6. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** branches right, then joins the return path from the first decision.\n7. **End of GID(¹)**\n\nOther visible details:\n- Directional arrows connect all flowchart blocks.\n- The first decision’s right branch is labeled **NACK**; its downward branch is labeled **ACK**.\n- The second decision’s right branch is labeled **NACK**; its downward branch is labeled **ACK**.\n- Figure identifier at lower right: **ai14633**.\n- The footnote text associated with superscript **(¹)** is not visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. Get ID command: host side",
+    "generated_captions": {
+      "luna": "Flowchart depicting the host-side “Get ID” command sequence.\n\nVisible flow:\n\n1. **Start GID(¹)**\n2. **Send 0x02+0xFD**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** branches right, then downward and loops back toward the flow after the second ACK/NACK decision.\n4. **Receive N = number of bytes – 1**\n5. **Receive PID**\n6. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** branches right, then joins the return path from the first decision.\n7. **End of GID(¹)**\n\nOther visible details:\n- Directional arrows connect all flowchart blocks.\n- The first decision’s right branch is labeled **NACK**; its downward branch is labeled **ACK**.\n- The second decision’s right branch is labeled **NACK**; its downward branch is labeled **ACK**.\n- Figure identifier at lower right: **ai14633**.\n- The footnote text associated with superscript **(¹)** is not visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0013-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0013_00007.png",
+    "caption": "Figure 7, “Get ID command: device side” — flowchart (identifier: ai14636).\n\n- **Start GID(1)**  \n  ↓\n- Decision: **Received byte = 0x02+0xFD?**\n  - **No** → **Send NACK byte** → flow continues to **End of GID(1)**\n  - **Yes** ↓\n- **Send ACK byte**\n- **Send N = number of bytes − 1**\n- **Send product ID**\n- **Send ACK byte**\n- **End of GID(1)**\n\nThe decision branches are explicitly labeled **Yes** and **No**. The “No” branch sends a NACK byte and then joins the flow immediately before the end state. Footnote text corresponding to the superscript **(1)** is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Get ID command: device side",
+    "generated_captions": {
+      "luna": "Figure 7, “Get ID command: device side” — flowchart (identifier: ai14636).\n\n- **Start GID(1)**  \n  ↓\n- Decision: **Received byte = 0x02+0xFD?**\n  - **No** → **Send NACK byte** → flow continues to **End of GID(1)**\n  - **Yes** ↓\n- **Send ACK byte**\n- **Send N = number of bytes − 1**\n- **Send product ID**\n- **Send ACK byte**\n- **End of GID(1)**\n\nThe decision branches are explicitly labeled **Yes** and **No**. The “No” branch sends a NACK byte and then joins the flow immediately before the end state. Footnote text corresponding to the superscript **(1)** is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0013-text-00076",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 13,
+    "text": "3.5 Read Memory command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0013-text-00077",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 13,
+    "text": "The Read Memory command is used to read data from any valid memory address (see note) in RAM, Flash memory and the information block (System memory or option byte areas)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0013-text-00078",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 13,
+    "text": "Note: Refer to Section 3.1: Device-dependent bootloader parameters for more details about the valid memory addresses for the device you are using."
+  },
+  {
+    "segment_id": "stm32-an3155-p0013-text-00079",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 13,
+    "text": "When the bootloader receives the Read Memory command, it transmits the ACK byte to the application. After the transmission of the ACK byte, the bootloader waits for an address (4 bytes, byte 1 is the address MSB and byte 4 is the LSB) and a checksum byte, then it checks the received address. If the address is valid and the checksum is correct, the bootloader transmits an ACK byte, otherwise it transmits a NACK byte and aborts the command."
+  },
+  {
+    "segment_id": "stm32-an3155-p0013-text-00080",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 13,
+    "text": "When the address is valid and the checksum is correct, the bootloader waits for the number of bytes to be transmitted – 1 (N bytes) and for its complemented byte (checksum). If the checksum is correct it then transmits the needed data ((N + 1) bytes) to the application, starting from the received address. If the checksum is not correct, it sends a NACK before aborting the command."
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00081",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "The host sends bytes to the STM32 as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00082",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Bytes 1-2: 0x11+0xEE"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00083",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00084",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Bytes 3 to 6: start address"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00085",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "● byte 3: MSB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00086",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "● byte 6: LSB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00087",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Byte 7: Checksum: XOR (byte 3, byte 4, byte 5, byte 6)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00088",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00089",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Byte 8: The number of bytes to be read – 1 (0 < N ≤ 255);"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-text-00090",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "text": "Byte 9: Checksum: XOR byte 8 (complement of byte 8)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0014-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0014_00008.png",
+    "caption": "**Figure 8. Read Memory command: host side** — flowchart for the host-side Read Memory (RM) command.\n\nFlow sequence:\n\n1. **Start RM(1)**\n2. **Send 0x11+0xEE**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** exits rightward into a vertical return path.\n4. **Send the start address (4 bytes) with checksum**\n5. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** exits rightward into the same vertical return path.\n6. **Send the number of bytes to be read (1 byte) and a checksum (1 byte)**\n7. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** exits rightward into the same vertical return path.\n8. **Receive data from the BL**\n9. **End of RM(1)**\n\nThe three decision diamonds are each labeled **“Wait for ACK or NACK”**. The ACK path proceeds vertically through the flowchart. The NACK branches connect to a common vertical line on the right, which returns leftward into the flow near the transition to the end state. The figure identifier at the lower right is **ai14637**. Footnote marker **(1)** appears after both **Start RM** and **End of RM**; the associated footnote text is not visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Read Memory command: host side",
+    "generated_captions": {
+      "luna": "**Figure 8. Read Memory command: host side** — flowchart for the host-side Read Memory (RM) command.\n\nFlow sequence:\n\n1. **Start RM(1)**\n2. **Send 0x11+0xEE**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** exits rightward into a vertical return path.\n4. **Send the start address (4 bytes) with checksum**\n5. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** exits rightward into the same vertical return path.\n6. **Send the number of bytes to be read (1 byte) and a checksum (1 byte)**\n7. Decision: **Wait for ACK or NACK**\n   - **ACK** continues downward.\n   - **NACK** exits rightward into the same vertical return path.\n8. **Receive data from the BL**\n9. **End of RM(1)**\n\nThe three decision diamonds are each labeled **“Wait for ACK or NACK”**. The ACK path proceeds vertically through the flowchart. The NACK branches connect to a common vertical line on the right, which returns leftward into the flow near the transition to the end state. The figure identifier at the lower right is **ai14637**. Footnote marker **(1)** appears after both **Start RM** and **End of RM**; the associated footnote text is not visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0015-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0015_00009.png",
+    "caption": "**Figure 9. Read Memory command: device side** — flowchart for the Read Memory (RM) command.\n\n- **Start RM(1)**\n- Decision: **Received byte = 0x11+0xEE**\n  - **No** → proceeds along the right-side path to **Send NACK byte**, then to **End of RM(1)**.\n  - **Yes** → decision: **ROP active**\n- Decision: **ROP active**\n  - **Yes** → proceeds to the right-side path to **Send NACK byte**, then to **End of RM(1)**.\n  - **No** → **Send ACK byte**\n- **Receive the start address (4 bytes) with checksum**\n- Decision: **Address valid & checksum OK?**\n  - **No** → right-side path to **Send NACK byte**, then **End of RM(1)**.\n  - **Yes** → **Send ACK byte**\n- **Receive the number of bytes to be read (1 byte) and a checksum (1 byte)**\n- Decision: **Checksum OK?**\n  - **No** → right-side path to **Send NACK byte**, then **End of RM(1)**.\n  - **Yes** → **Send ACK byte**\n- **Send data to the host**\n- **End of RM(1)**\n\nThe right-side branches from each **No** or **Yes** rejection condition converge on **Send NACK byte**. Figure identifier at lower right: **ai14638**. Footnote text associated with the superscript **(1)** is not visible in the cropped figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. Read Memory command: device side",
+    "generated_captions": {
+      "luna": "**Figure 9. Read Memory command: device side** — flowchart for the Read Memory (RM) command.\n\n- **Start RM(1)**\n- Decision: **Received byte = 0x11+0xEE**\n  - **No** → proceeds along the right-side path to **Send NACK byte**, then to **End of RM(1)**.\n  - **Yes** → decision: **ROP active**\n- Decision: **ROP active**\n  - **Yes** → proceeds to the right-side path to **Send NACK byte**, then to **End of RM(1)**.\n  - **No** → **Send ACK byte**\n- **Receive the start address (4 bytes) with checksum**\n- Decision: **Address valid & checksum OK?**\n  - **No** → right-side path to **Send NACK byte**, then **End of RM(1)**.\n  - **Yes** → **Send ACK byte**\n- **Receive the number of bytes to be read (1 byte) and a checksum (1 byte)**\n- Decision: **Checksum OK?**\n  - **No** → right-side path to **Send NACK byte**, then **End of RM(1)**.\n  - **Yes** → **Send ACK byte**\n- **Send data to the host**\n- **End of RM(1)**\n\nThe right-side branches from each **No** or **Yes** rejection condition converge on **Send NACK byte**. Figure identifier at lower right: **ai14638**. Footnote text associated with the superscript **(1)** is not visible in the cropped figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00091",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "3.6"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00092",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "Go command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00093",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "The Go command is used to execute the downloaded code or any other code by branching to an address specified by the application. When the bootloader receives the Go command, it transmits the ACK byte to the application. After the transmission of the ACK byte, the bootloader waits for an address (4 bytes, byte 1 is the address MSB and byte 4 is LSB) and a checksum byte, then it checks the received address. If the address is valid and the checksum is correct, the bootloader transmits an ACK byte, otherwise it transmits a NACK byte and aborts the command."
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00094",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "When the address is valid and the checksum is correct, the bootloader firmware performs the following:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00095",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "it initializes the registers of the peripherals used by the bootloader to their default reset values"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00096",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "● it initializes the user application’s main stack pointer"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00097",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "it jumps to the memory location programmed in the received ‘address + 4’ (which corresponds to the address of the application’s reset handler)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00098",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "For example if the received address is 0x0800 0000, the bootloader will jump to the memory location programmed at address 0x0800 0004."
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-text-00099",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "text": "In general, the host should send the base address where the application to jump to is programmed"
+  },
+  {
+    "segment_id": "stm32-an3155-p0016-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0016_00010.png",
+    "caption": "**Figure 10. Go command: host side** — flowchart for the host-side Go command.\n\nFlow sequence:\n\n1. **Start Go**\n2. **Send 0x21 + 0xDE**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** → proceed downward\n   - **NACK** → branch right to the return path\n4. **Send the Start Address (4 bytes) & checksum**\n5. Decision: **Wait for ACK or NACK**\n   - **ACK** → proceed downward\n   - **NACK** → branch right to the return path\n6. Decision: **Wait for ACK or NACK**\n   - **ACK** → proceed downward to **End of EER**\n   - **NACK** → branch right to the return path\n7. **End of EER**\n\nThe three decision diamonds are labeled **“Wait for ACK or NACK”**. The right-side **NACK** branches join a vertical return line that loops back left into the flow immediately before the final downward path to **End of EER**. Figure identifier at lower right: **ai14639b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. Go command: host side",
+    "generated_captions": {
+      "luna": "**Figure 10. Go command: host side** — flowchart for the host-side Go command.\n\nFlow sequence:\n\n1. **Start Go**\n2. **Send 0x21 + 0xDE**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** → proceed downward\n   - **NACK** → branch right to the return path\n4. **Send the Start Address (4 bytes) & checksum**\n5. Decision: **Wait for ACK or NACK**\n   - **ACK** → proceed downward\n   - **NACK** → branch right to the return path\n6. Decision: **Wait for ACK or NACK**\n   - **ACK** → proceed downward to **End of EER**\n   - **NACK** → branch right to the return path\n7. **End of EER**\n\nThe three decision diamonds are labeled **“Wait for ACK or NACK”**. The right-side **NACK** branches join a vertical return line that loops back left into the flow immediately before the final downward path to **End of EER**. Figure identifier at lower right: **ai14639b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0017-text-00100",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 17,
+    "text": "1 Valid addresses for the Go command are in RAM or Flash memory (refer to Section 3.1: Device-dependent bootloader parameters for more details about the valid memory addresses for the device you are using). All other addresses are considered not valid and are NACKed by the device."
+  },
+  {
+    "segment_id": "stm32-an3155-p0017-text-00101",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 17,
+    "text": "2 When an application is loaded into RAM and then a jump is made to it, the program must be configured to run with an offset to avoid overlapping with the first RAM memory used by the bootloader firmware (refer to Section 3.1: Device-dependent bootloader parameters for more details about the RAM offset for the device you are using)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0017-text-00102",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 17,
+    "text": "3 The Jump to the application works only if the user application sets the vector table correctly to point to the application address."
+  },
+  {
+    "segment_id": "stm32-an3155-p0017-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0017_00011.png",
+    "caption": "**Figure 11. Go command: device side** — flowchart for processing the Go command.\n\n- **Start Go**\n- Decision: **“Received bytes = 0x21+0xDE?”**\n  - **No:** branch right and downward to **Send NACK byte**, then **End of Go**.\n  - **Yes:** continue to decision **“ROP active”**.\n- Decision: **“ROP active”**\n  - **Yes:** branch right and downward to **Send NACK byte**, then **End of Go**.\n  - **No:** continue:\n    1. **Send ACK byte**\n    2. **Receive the start address (4 bytes) & checksum**\n    3. **Send ACK byte**\n    4. Decision: **“Address valid & checksum OK?”**\n       - **No:** branch right to **Send NACK byte**, then **End of Go**.\n       - **Yes:** continue:\n         1. **Send ACK byte**\n         2. **Jump to user application**\n\nThe flowchart includes **Yes** and **No** branch labels at each decision. Figure identifier at the bottom right: **ai14640b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. Go command: device side",
+    "generated_captions": {
+      "luna": "**Figure 11. Go command: device side** — flowchart for processing the Go command.\n\n- **Start Go**\n- Decision: **“Received bytes = 0x21+0xDE?”**\n  - **No:** branch right and downward to **Send NACK byte**, then **End of Go**.\n  - **Yes:** continue to decision **“ROP active”**.\n- Decision: **“ROP active”**\n  - **Yes:** branch right and downward to **Send NACK byte**, then **End of Go**.\n  - **No:** continue:\n    1. **Send ACK byte**\n    2. **Receive the start address (4 bytes) & checksum**\n    3. **Send ACK byte**\n    4. Decision: **“Address valid & checksum OK?”**\n       - **No:** branch right to **Send NACK byte**, then **End of Go**.\n       - **Yes:** continue:\n         1. **Send ACK byte**\n         2. **Jump to user application**\n\nThe flowchart includes **Yes** and **No** branch labels at each decision. Figure identifier at the bottom right: **ai14640b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00103",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "The host sends bytes as follow to the STM32:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00104",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Byte 1: 0x21"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00105",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Byte 2: 0xDE"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00106",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00107",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Byte 3 to byte 6: start address"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00108",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "byte 3: MSB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00109",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "byte 6: LSB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00110",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Byte 7: checksum: XOR (byte 3, byte 4, byte 5, byte 6)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00111",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "3.7 Write Memory command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00112",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "The Write Memory command is used to write data to any valid memory address (see note below) of RAM, Flash memory, or Option byte area."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00113",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "When the bootloader receives the Write Memory command, it transmits the ACK byte to the application. After the transmission of the ACK byte, the bootloader waits for an address (4 bytes, byte 1 is the address MSB and byte 4 is the LSB) and a checksum byte, it then checks the received address. For the Option byte area, the start address must be the base address of the Option byte area (see note) to avoid writing inopportunely in this area."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00114",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Note: 1"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00115",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Write operations to Flash memory/SRAM must be word (32-bit) aligned and data should be in multiples of four bytes. If less data are written the remaining bytes should be filled by 0xFF."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00116",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "2 Refer to Section 3.1: Device-dependent bootloader parameters for more details about the valid memory addresses for the device you are using."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00117",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "If the received address is valid and the checksum is correct, the bootloader transmits an ACK byte, otherwise it transmits a NACK byte and aborts the command. When the address is valid and the checksum is correct, the bootloader:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00118",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "● gets a byte, N, which contains the number of data bytes to be received"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00119",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "receives the user data ((N + 1) bytes) and the checksum (XOR of N and of all data bytes)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00120",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "● programs the user data to memory starting from the received address"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00121",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "at the end of the command, if the write operation was successful, the bootloader transmits the ACK byte; otherwise it transmits a NACK byte to the application and aborts the command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00122",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "The maximum length of the block to be written for the STM32 is 256 bytes."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00123",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "If the Write Memory command is issued to the Option byte area, all options are erased before writing the new values, and at the end of the command the bootloader generates a system Reset to take into account the new configuration of the option byte."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00124",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00125",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "1 When writing to the RAM, you should take care not to overlap the first RAM memory used by the bootloader firmware."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00126",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "2 No error is returned when performing write operations on write-protected sectors."
+  },
+  {
+    "segment_id": "stm32-an3155-p0018-text-00127",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 18,
+    "text": "3 No error is returned when the start address is invalid."
+  },
+  {
+    "segment_id": "stm32-an3155-p0019-figure-00012",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0019_00012.png",
+    "caption": "**Figure 12. Write Memory command: host side** (flowchart)\n\n- **Start WM(1)**\n- **Send 0x31+0xCE**\n- Decision: **Wait for ACK or NACK**\n  - **ACK** → proceed downward.\n  - **NACK** → branch right into a return path that loops to the final stage/end path.\n- **Send the start address (4 bytes) & checksum**\n- Decision: **Wait for ACK or NACK**\n  - **ACK** → proceed downward.\n  - **NACK** → branch right into the same return path.\n- **Send the number of bytes to be written (1 byte), the data (N + 1 bytes)(2) and checksum**\n- Decision: **Wait for ACK or NACK**\n  - **ACK** → proceed downward.\n  - **NACK** → branch right into the return path.\n- **End of WM(1)**\n\nThe flow is vertically arranged with downward arrows for the ACK sequence. NACK branches from each decision to a vertical line on the right, which returns leftward to the path immediately above **End of WM(1)**. Figure identifier at lower right: **ai14641b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 12. Write Memory command: host side",
+    "generated_captions": {
+      "luna": "**Figure 12. Write Memory command: host side** (flowchart)\n\n- **Start WM(1)**\n- **Send 0x31+0xCE**\n- Decision: **Wait for ACK or NACK**\n  - **ACK** → proceed downward.\n  - **NACK** → branch right into a return path that loops to the final stage/end path.\n- **Send the start address (4 bytes) & checksum**\n- Decision: **Wait for ACK or NACK**\n  - **ACK** → proceed downward.\n  - **NACK** → branch right into the same return path.\n- **Send the number of bytes to be written (1 byte), the data (N + 1 bytes)(2) and checksum**\n- Decision: **Wait for ACK or NACK**\n  - **ACK** → proceed downward.\n  - **NACK** → branch right into the return path.\n- **End of WM(1)**\n\nThe flow is vertically arranged with downward arrows for the ACK sequence. NACK branches from each decision to a vertical line on the right, which returns leftward to the path immediately above **End of WM(1)**. Figure identifier at lower right: **ai14641b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0020-figure-00013",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0020_00013.png",
+    "caption": "**Figure 13. Write Memory command: device side** — flowchart for processing the STM32 USART bootloader Write Memory (WM) command.\n\nVisible flow:\n\n1. **Start WM(1)**\n2. Decision: **Received byte = 0x31+0xCE?**\n   - **No:** branch to the right-side error path, ending in **Send NACK byte**.\n   - **Yes:** continue.\n3. Decision: **ROP inactive?**\n   - **No:** branch to the right-side error path and **Send NACK byte**.\n   - **Yes:** continue.\n4. **Send ACK byte**\n5. **Receive the start address (4 bytes) & checksum**\n6. Decision: **Checksum OK?**\n   - **No:** branch to the right-side error path and **Send NACK byte**.\n   - **Yes:** continue.\n7. **Send ACK byte**\n8. **Receive the number of bytes to be written (1 byte), the data (N + 1 bytes)(2) and checksum**\n9. Decision: **Checksum OK?**\n   - **No:** branch to the right-side error path and **Send NACK byte**.\n   - **Yes:** continue.\n10. Decision: **Flash memory address?**\n    - **Yes:** **Write the received data to Flash memory from the start address**; this joins the successful completion path toward **Send ACK byte**.\n    - **No:** continue downward.\n11. Decision: **RAM address?**\n    - **Yes:** **Write the received data to RAM from the start address**; this joins the successful completion path toward **Send ACK byte**.\n    - **No:** continue downward.\n12. Decision: **Option byte address? & address = 0x1FF F800?**  \n    - **Yes:** **Write the Keys for Option byte area access**\n      - Then **Write the received data to Option byte area from start address**\n      - **Send ACK byte**\n      - **Generate system reset**\n      - **End of WM(1)**\n    - **No:** branch along the bottom completion line to **End of WM(1)**.\n\nThe diagram contains two right-side **Send NACK byte** boxes associated with failure paths, and successful Flash/RAM write paths converge on a **Send ACK byte** box before reaching the end. The figure identifier at lower right is **ai14642c**. \n\nThe footnote text for markers **(1)** and **(2)** is not visible in the supplied crop. The option-byte address text is visibly difficult to resolve; it appears as **“0x1FF F800”** in the image.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 13. Write Memory command: device side",
+    "generated_captions": {
+      "luna": "**Figure 13. Write Memory command: device side** — flowchart for processing the STM32 USART bootloader Write Memory (WM) command.\n\nVisible flow:\n\n1. **Start WM(1)**\n2. Decision: **Received byte = 0x31+0xCE?**\n   - **No:** branch to the right-side error path, ending in **Send NACK byte**.\n   - **Yes:** continue.\n3. Decision: **ROP inactive?**\n   - **No:** branch to the right-side error path and **Send NACK byte**.\n   - **Yes:** continue.\n4. **Send ACK byte**\n5. **Receive the start address (4 bytes) & checksum**\n6. Decision: **Checksum OK?**\n   - **No:** branch to the right-side error path and **Send NACK byte**.\n   - **Yes:** continue.\n7. **Send ACK byte**\n8. **Receive the number of bytes to be written (1 byte), the data (N + 1 bytes)(2) and checksum**\n9. Decision: **Checksum OK?**\n   - **No:** branch to the right-side error path and **Send NACK byte**.\n   - **Yes:** continue.\n10. Decision: **Flash memory address?**\n    - **Yes:** **Write the received data to Flash memory from the start address**; this joins the successful completion path toward **Send ACK byte**.\n    - **No:** continue downward.\n11. Decision: **RAM address?**\n    - **Yes:** **Write the received data to RAM from the start address**; this joins the successful completion path toward **Send ACK byte**.\n    - **No:** continue downward.\n12. Decision: **Option byte address? & address = 0x1FF F800?**  \n    - **Yes:** **Write the Keys for Option byte area access**\n      - Then **Write the received data to Option byte area from start address**\n      - **Send ACK byte**\n      - **Generate system reset**\n      - **End of WM(1)**\n    - **No:** branch along the bottom completion line to **End of WM(1)**.\n\nThe diagram contains two right-side **Send NACK byte** boxes associated with failure paths, and successful Flash/RAM write paths converge on a **Send ACK byte** box before reaching the end. The figure identifier at lower right is **ai14642c**. \n\nThe footnote text for markers **(1)** and **(2)** is not visible in the supplied crop. The option-byte address text is visibly difficult to resolve; it appears as **“0x1FF F800”** in the image."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00128",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "The host sends the bytes to the STM32 as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00129",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Byte 1: 0x31"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00130",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Byte 2: 0xCE Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00131",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Byte 3 to byte 6: start address"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00132",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "byte 3: MSB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00133",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "byte 6: LSB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00134",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Byte 7: Checksum: XOR (Byte3, Byte4, Byte5, Byte6) Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00135",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Byte 8: Number of bytes to be received (0 < N ≤ 255)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00136",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "N +1 data bytes:(Max 256 bytes)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00137",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Checksum byte: XOR (N, N+1 data bytes)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00138",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "3.8 Erase Memory command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00139",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "The Erase Memory command allows the host to erase Flash memory pages. When the bootloader receives the Erase Memory command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader receives one byte (number of pages to be erased), the Flash memory page codes and a checksum byte; if the checksum is correct then bootloader erases the memory and sends an ACK byte to the host, otherwise it sends a NACK byte to the host and the command is aborted."
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00140",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "Erase Memory command specifications:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00141",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "1. the bootloader receives one byte that contains N, the number of pages to be erased – 1."
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00142",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "N = 255 is reserved for global erase requests. For 0 ≤ N ≤ 254, N + 1 pages are erased."
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00143",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "2. the bootloader receives (N + 1) bytes, each byte containing a page number"
+  },
+  {
+    "segment_id": "stm32-an3155-p0021-text-00144",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 21,
+    "text": "No error is returned when performing erase operations on write protected sectors."
+  },
+  {
+    "segment_id": "stm32-an3155-p0022-figure-00014",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0022_00014.png",
+    "caption": "**Figure 14. Erase Memory command: host side** — flowchart for the host-side Erase Memory (ER) command.\n\nFlow sequence and branches:\n\n1. **Start ER(1)**\n2. **Send 0x43+0xBC**\n3. Decision: **Wait for ACK or NACK**\n   - **NACK**: follows the right-hand path to the final ACK/NACK wait stage.\n   - **ACK**: proceeds to the next decision.\n4. Decision: **Global Erase?**\n   - **Yes**:\n     - **Send 0xFF**\n     - **Send 0x00**\n     - Proceeds to the final ACK/NACK wait stage.\n   - **No**:\n     - **Send the number of pages to be erased (1 byte)**\n     - **Send the page numbers**\n     - **Send checksum**\n     - Proceeds to the final ACK/NACK wait stage.\n5. Decision: **Wait for ACK or NACK**\n   - **NACK**: exits along the right-hand arrow.\n   - **ACK**: proceeds downward to **End of ER(1)**.\n6. **End of ER(1)**\n\nVisible footnote qualification: **1. ER = Erase Memory.**\n\nFigure identifier visible at lower right: **ai14643b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 14. Erase Memory command: host side\n1. ER = Erase Memory.",
+    "generated_captions": {
+      "luna": "**Figure 14. Erase Memory command: host side** — flowchart for the host-side Erase Memory (ER) command.\n\nFlow sequence and branches:\n\n1. **Start ER(1)**\n2. **Send 0x43+0xBC**\n3. Decision: **Wait for ACK or NACK**\n   - **NACK**: follows the right-hand path to the final ACK/NACK wait stage.\n   - **ACK**: proceeds to the next decision.\n4. Decision: **Global Erase?**\n   - **Yes**:\n     - **Send 0xFF**\n     - **Send 0x00**\n     - Proceeds to the final ACK/NACK wait stage.\n   - **No**:\n     - **Send the number of pages to be erased (1 byte)**\n     - **Send the page numbers**\n     - **Send checksum**\n     - Proceeds to the final ACK/NACK wait stage.\n5. Decision: **Wait for ACK or NACK**\n   - **NACK**: exits along the right-hand arrow.\n   - **ACK**: proceeds downward to **End of ER(1)**.\n6. **End of ER(1)**\n\nVisible footnote qualification: **1. ER = Erase Memory.**\n\nFigure identifier visible at lower right: **ai14643b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-figure-00015",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0023_00015.png",
+    "caption": "**Figure 15. Erase Memory command: device side** — flowchart for the Erase Memory (ER) command.\n\nVisible text and flow:\n\n- **Start ER(1)**\n- Decision: **Received bytes = 0x43+0xBC?**\n  - **No** → **Send NACK byte**\n  - **Yes** → decision **ROP active**\n- Decision: **ROP active**\n  - **Yes** → **Send NACK byte**\n  - **No** → **Send ACK byte**\n- **Receive the number of pages to be erased (1 byte)**\n- Decision: **0xFF received?**\n  - **Yes** → **Start Global Erase (Mass Erase)**\n  - **No** → **Receive the page codes**\n- **Receive the checksum**\n- Decision: **Checksum OK?**\n  - **Yes** → **Erase the corresponding pages** → **Send ACK byte**\n  - **No** → **Send NACK byte**\n- The **Start Global Erase (Mass Erase)** path proceeds to the ACK response path, bypassing the “Erase the corresponding pages” step.\n- The ACK and NACK response paths converge on **End of ER(1)**.\n\nOther visible details:\n\n- Branch labels are **Yes** and **No**.\n- Hexadecimal values shown are **0x43+0xBC** and **0xFF**.\n- Footnote marker **(1)** appears after **ER** in both “Start ER” and “End of ER.”\n- Figure identifier at lower right: **ai14642b**.\n- The diagram has no axes, legend, or additional quantitative scales visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 15. Erase Memory command: device side",
+    "generated_captions": {
+      "luna": "**Figure 15. Erase Memory command: device side** — flowchart for the Erase Memory (ER) command.\n\nVisible text and flow:\n\n- **Start ER(1)**\n- Decision: **Received bytes = 0x43+0xBC?**\n  - **No** → **Send NACK byte**\n  - **Yes** → decision **ROP active**\n- Decision: **ROP active**\n  - **Yes** → **Send NACK byte**\n  - **No** → **Send ACK byte**\n- **Receive the number of pages to be erased (1 byte)**\n- Decision: **0xFF received?**\n  - **Yes** → **Start Global Erase (Mass Erase)**\n  - **No** → **Receive the page codes**\n- **Receive the checksum**\n- Decision: **Checksum OK?**\n  - **Yes** → **Erase the corresponding pages** → **Send ACK byte**\n  - **No** → **Send NACK byte**\n- The **Start Global Erase (Mass Erase)** path proceeds to the ACK response path, bypassing the “Erase the corresponding pages” step.\n- The ACK and NACK response paths converge on **End of ER(1)**.\n\nOther visible details:\n\n- Branch labels are **Yes** and **No**.\n- Hexadecimal values shown are **0x43+0xBC** and **0xFF**.\n- Footnote marker **(1)** appears after **ER** in both “Start ER” and “End of ER.”\n- Figure identifier at lower right: **ai14642b**.\n- The diagram has no axes, legend, or additional quantitative scales visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00145",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "1. ER = Erase Memory."
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00146",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "Note: After sending the erase memory command and its checksum, if the host sends 0xFF followed by data different from 0x00, the mass erase is not performed but an ACK is send by the device."
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00147",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "The host sends bytes to the STM32 as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00148",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "Byte 1: 0x43"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00149",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "Byte 2: 0xBC"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00150",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00151",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "Byte 3: 0xFF or number of pages to be erased – 1 (0 ≤N ≤ maximum number of pages)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0023-text-00152",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 23,
+    "text": "Byte 4: 0x00 (in case of global erase) or ((N + 1 bytes (page numbers) and then checksum XOR (N, N+1 bytes))"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00153",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "3.9"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00154",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "Extended Erase Memory command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00155",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "The Extended Erase Memory command allows the host to erase Flash memory pages using two bytes addressing mode. When the bootloader receives the Extended Erase Memory command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader receives two bytes (number of pages to be erased), the Flash memory page codes (each one coded on two bytes, MSB first) and a checksum byte (XOR of the sent bytes); if the checksum is correct, the bootloader erases the memory and sends an ACK byte to the host. Otherwise it sends a NACK byte to the host and the command is aborted."
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00156",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "Extended Erase Memory command specifications:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00157",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "1. The bootloader receives one half-word (two bytes) that contain N, the number of pages to be erased:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00158",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "a) For N = 0xFFFY (where Y is from 0 to F) special erase is performed:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00159",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- 0xFFFF for global mass erase"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00160",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- 0xFFFE for bank 1 mass erase"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00161",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- 0xFFFD for bank 2 mass erase"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00162",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- Codes from 0xFFFC to 0xFFF0 are reserved"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00163",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "b) For other values where 0 ≤ N < maximum number of pages: N + 1 pages are erased."
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00164",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "2. The bootloader receives:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00165",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "a) In the case of a special erase, one byte: checksum of the previous bytes:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00166",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- 0x00 for 0xFFFF"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00167",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- 0x01 for 0xFFFE"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00168",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "\\- 0x02 for 0xFFFD"
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00169",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "a) In the case of N+1 page erase, the bootloader receives (2 x (N + 1)) bytes, each half-word containing a page number (coded on two bytes, MSB first). Then all previous byte checksums (in one byte)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00170",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "No error is returned when performing erase operations on write-protected sectors."
+  },
+  {
+    "segment_id": "stm32-an3155-p0024-text-00171",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 24,
+    "text": "The maximum number of pages is relative to the product and thus should be respected."
+  },
+  {
+    "segment_id": "stm32-an3155-p0025-figure-00016",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 25,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0025_00016.png",
+    "caption": "**Figure 16. Extended Erase Memory command: host side** — flowchart for the host-side Extended Erase (EER) command.\n\nFlow sequence and visible text:\n\n1. **Start EER**\n2. **Send 0x44 + 0xBB**\n3. Decision: **Wait for ACK or NACK**\n   - **NACK**: routed along the right-side return path toward the command end.\n   - **ACK**: continue downward.\n4. Decision: **Special Erase ?**\n   - **YES** branch:\n     - **Send Special Erase cmd:**\n       - **0xFFFF = Mass erase**\n       - **0xFFFE = Bank1 erase**\n       - **0xFFFD = Bank2 erase**\n       - **(0xFFF0 to 0xFFFC are reserved)**\n     - **Send the checksum of the two bytes**\n   - **NO** branch:\n     - **Send the number of pages to be erased N (on two bytes) MSB first**\n     - **Send the page numbers (each on two bytes, MSB first)**\n     - **Send byte checksum of all sent bytes (N (2 bytes), 2x(N+1) bytes)**\n5. The YES and NO branches converge at a second decision: **Wait for ACK or NACK**\n   - **ACK**: proceeds downward to **End of EER**\n   - **NACK**: follows the right-side return path, which joins the path leading to the end.\n6. **End of EER**\n\nAdditional visible identifier: **ai17460** at the lower right.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 16. Extended Erase Memory command: host side",
+    "generated_captions": {
+      "luna": "**Figure 16. Extended Erase Memory command: host side** — flowchart for the host-side Extended Erase (EER) command.\n\nFlow sequence and visible text:\n\n1. **Start EER**\n2. **Send 0x44 + 0xBB**\n3. Decision: **Wait for ACK or NACK**\n   - **NACK**: routed along the right-side return path toward the command end.\n   - **ACK**: continue downward.\n4. Decision: **Special Erase ?**\n   - **YES** branch:\n     - **Send Special Erase cmd:**\n       - **0xFFFF = Mass erase**\n       - **0xFFFE = Bank1 erase**\n       - **0xFFFD = Bank2 erase**\n       - **(0xFFF0 to 0xFFFC are reserved)**\n     - **Send the checksum of the two bytes**\n   - **NO** branch:\n     - **Send the number of pages to be erased N (on two bytes) MSB first**\n     - **Send the page numbers (each on two bytes, MSB first)**\n     - **Send byte checksum of all sent bytes (N (2 bytes), 2x(N+1) bytes)**\n5. The YES and NO branches converge at a second decision: **Wait for ACK or NACK**\n   - **ACK**: proceeds downward to **End of EER**\n   - **NACK**: follows the right-side return path, which joins the path leading to the end.\n6. **End of EER**\n\nAdditional visible identifier: **ai17460** at the lower right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0026-figure-00017",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0026_00017.png",
+    "caption": "**Figure 17. Extended Erase Memory command: device side** — flowchart for the Extended Erase Memory (EER) command.\n\nFlow sequence and decision branches:\n\n- **Start EER**\n- Decision: **“Received bytes = 0x44 + 0xBB ?”**\n  - **NO:** branch right to the NACK path.\n  - **YES:** continue downward.\n- Decision: **“ROP Active ?”**\n  - **YES:** branch right to the NACK path.\n  - **NO:** continue downward.\n- **Send ACK Byte**\n- **Receive Number of Pages to be erased N (2 bytes) MSB first**\n- Decision: **“0xFFFF received ? Where Y can be”**\n  - **YES:** special-erase path:\n    - **Start Special Erase:**\n      - **0xFFFF = Mass erase**\n      - **0xFFFE = Bank1 erase**\n      - **0xFFFD = Bank2 erase**\n      - **(0xFFF0 to 0xFFFC are reserved)**\n    - **Receive Checksum of the 2 bytes (0x00, 0x02)**\n    - Decision: **“Checksum of 2 bytes OK and command supported ?”**\n      - **NO:** **Send NACK byte**\n      - **YES:** **Perform the requested erase**, then proceed to **Send ACK byte**\n  - **NO:** page-erase path:\n    - **Receive the page codes (on 2 bytes each, MSB first)**\n    - **Receive the checksum of all received bytes N (on 2 bytes), x(N+1) bytes)**\n    - Decision: **“Checksum of all received bytes OK”**\n      - **NO:** branch right to **Send NACK byte**\n      - **YES:** **Erase the corresponding pages**, then **Send ACK byte**\n\nBottom outputs:\n\n- Left path: **Send NACK byte**\n- Center path: **Send ACK byte**\n- Right path: **Send NACK byte**\n- All three paths converge at the bottom and lead to **End of EER**\n\nVisible figure identifier: **ai17461**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 17. Extended Erase Memory command: device side",
+    "generated_captions": {
+      "luna": "**Figure 17. Extended Erase Memory command: device side** — flowchart for the Extended Erase Memory (EER) command.\n\nFlow sequence and decision branches:\n\n- **Start EER**\n- Decision: **“Received bytes = 0x44 + 0xBB ?”**\n  - **NO:** branch right to the NACK path.\n  - **YES:** continue downward.\n- Decision: **“ROP Active ?”**\n  - **YES:** branch right to the NACK path.\n  - **NO:** continue downward.\n- **Send ACK Byte**\n- **Receive Number of Pages to be erased N (2 bytes) MSB first**\n- Decision: **“0xFFFF received ? Where Y can be”**\n  - **YES:** special-erase path:\n    - **Start Special Erase:**\n      - **0xFFFF = Mass erase**\n      - **0xFFFE = Bank1 erase**\n      - **0xFFFD = Bank2 erase**\n      - **(0xFFF0 to 0xFFFC are reserved)**\n    - **Receive Checksum of the 2 bytes (0x00, 0x02)**\n    - Decision: **“Checksum of 2 bytes OK and command supported ?”**\n      - **NO:** **Send NACK byte**\n      - **YES:** **Perform the requested erase**, then proceed to **Send ACK byte**\n  - **NO:** page-erase path:\n    - **Receive the page codes (on 2 bytes each, MSB first)**\n    - **Receive the checksum of all received bytes N (on 2 bytes), x(N+1) bytes)**\n    - Decision: **“Checksum of all received bytes OK”**\n      - **NO:** branch right to **Send NACK byte**\n      - **YES:** **Erase the corresponding pages**, then **Send ACK byte**\n\nBottom outputs:\n\n- Left path: **Send NACK byte**\n- Center path: **Send ACK byte**\n- Right path: **Send NACK byte**\n- All three paths converge at the bottom and lead to **End of EER**\n\nVisible figure identifier: **ai17461**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00172",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "The host sends the bytes to the STM32F1xxx as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00173",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Byte 1: 0x44"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00174",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Byte 2: 0xBB"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00175",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Wait for ACK"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00176",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Bytes 3-4: - Special erase (0xFFFF, 0xFFFE or 0xFFFD)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00177",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "OR"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00178",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "\\- Number of pages to be erased (N+1 where: 0 ≤N < Maximum number of pages)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00179",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Remaining - Checksum of Bytes 3-4 in case of special erase (0x00 if 0xFFFFor 0x01 if bytes 0xFFFE or 0x02 if 0xFFFD)."
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00180",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "OR"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00181",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "\\- (2 x (N + 1)) bytes (page numbers coded on two bytes MSB first) and then the checksum for bytes 3-4 and all the following bytes)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00182",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "3.10 Write Protect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00183",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "The Write Protect command is used to enable the write protection for some or all Flash memory sectors. When the bootloader receives the Write Protect command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader waits for the number of bytes to be received (sectors to be protected) and then receives the Flash memory sector codes from the application."
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00184",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "At the end of the Write Protect command, the bootloader transmits the ACK byte and generates a system Reset to take into account the new configuration of the option byte."
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00185",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00186",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Refer to Section 3.1: Device-dependent bootloader parameters for more details about the sector size for the device you are using."
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00187",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "The Write Protect command sequence is as follows:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00188",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "the bootloader receives one byte that contains N, the number of sectors to be writeprotected – 1 (0 ≤ N ≤ 255)"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00189",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "● the bootloader receives (N + 1) bytes, each byte contains a sector code"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00190",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "Note: 1"
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00191",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "The total number of sectors and the sector number to be protected are not checked, this means that no error is returned when a command is passed with a wrong number of sectors to be protected or a wrong sector number."
+  },
+  {
+    "segment_id": "stm32-an3155-p0027-text-00192",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 27,
+    "text": "2 If a second Write Protect command is executed, the Flash memory sectors that had been protected by the first command become unprotected and only the sectors passed within the second Write Protect command become protected."
+  },
+  {
+    "segment_id": "stm32-an3155-p0028-figure-00018",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 28,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0028_00018.png",
+    "caption": "**Figure 18. Write Protect command: host side** — flowchart.\n\nVisible flowchart text and sequence:\n\n1. **Start WP(1)**\n2. **Send 0x63+0x9C**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** follows the right-side return/routing path.\n4. **Send the number of sectors to be protected (1 byte)**\n5. **Send the sector codes**\n6. **Send checksum**\n7. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** follows the right-side return/routing path.\n8. **End of WP(1)**\n\nOther visible details:\n\n- Decision outputs are labeled **ACK** and **NACK**.\n- The flowchart uses a right-side routing/return line connecting the NACK paths.\n- Footnote marker **(1)** appears after **Start WP** and **End of WP**.\n- Footnote: **1. WP = Write Protect.**\n- Figure identifier at lower right: **ai14645b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 18. Write Protect command: host side\n1. WP = Write Protect.",
+    "generated_captions": {
+      "luna": "**Figure 18. Write Protect command: host side** — flowchart.\n\nVisible flowchart text and sequence:\n\n1. **Start WP(1)**\n2. **Send 0x63+0x9C**\n3. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** follows the right-side return/routing path.\n4. **Send the number of sectors to be protected (1 byte)**\n5. **Send the sector codes**\n6. **Send checksum**\n7. Decision: **Wait for ACK or NACK**\n   - **ACK** proceeds downward.\n   - **NACK** follows the right-side return/routing path.\n8. **End of WP(1)**\n\nOther visible details:\n\n- Decision outputs are labeled **ACK** and **NACK**.\n- The flowchart uses a right-side routing/return line connecting the NACK paths.\n- Footnote marker **(1)** appears after **Start WP** and **End of WP**.\n- Footnote: **1. WP = Write Protect.**\n- Figure identifier at lower right: **ai14645b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0029-figure-00019",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 29,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0029_00019.png",
+    "caption": "**Figure 19. Write Protect command: device side** — flowchart for the Write Protect (WP) command.\n\nVisible flow:\n\n1. **Start WP(1)**\n2. Decision: **“Received bytes = 0x63+0x9C?”**\n   - **No:** branch right to **Send NACK byte**.\n   - **Yes:** continue downward to the next decision.\n3. Decision: **“ROP active”**\n   - **Yes:** branch right to **Send NACK byte**.\n   - **No:** continue downward.\n4. **Send ACK byte**\n5. **Receive the number of sectors to be protected (1 byte)**\n6. **Receive the sector codes**\n7. **Receive the checksum**\n8. Decision: **“Checksum OK?”**\n   - **No:** branch right to **Send NACK byte**.\n   - **Yes:** continue downward.\n9. **Write-protect the requested sectors**\n10. **Send ACK byte**\n11. **Generate system reset**\n12. **End of WP(1)**\n\nThe NACK paths from an invalid received-byte sequence, active ROP, or failed checksum converge at **Send NACK byte** and then join the path to **End of WP(1)**. The successful path sends an ACK, generates a system reset, and ends the WP sequence.\n\nFigure identifier visible at lower right: **ai14646b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 19. Write Protect command: device side",
+    "generated_captions": {
+      "luna": "**Figure 19. Write Protect command: device side** — flowchart for the Write Protect (WP) command.\n\nVisible flow:\n\n1. **Start WP(1)**\n2. Decision: **“Received bytes = 0x63+0x9C?”**\n   - **No:** branch right to **Send NACK byte**.\n   - **Yes:** continue downward to the next decision.\n3. Decision: **“ROP active”**\n   - **Yes:** branch right to **Send NACK byte**.\n   - **No:** continue downward.\n4. **Send ACK byte**\n5. **Receive the number of sectors to be protected (1 byte)**\n6. **Receive the sector codes**\n7. **Receive the checksum**\n8. Decision: **“Checksum OK?”**\n   - **No:** branch right to **Send NACK byte**.\n   - **Yes:** continue downward.\n9. **Write-protect the requested sectors**\n10. **Send ACK byte**\n11. **Generate system reset**\n12. **End of WP(1)**\n\nThe NACK paths from an invalid received-byte sequence, active ROP, or failed checksum converge at **Send NACK byte** and then join the path to **End of WP(1)**. The successful path sends an ACK, generates a system reset, and ends the WP sequence.\n\nFigure identifier visible at lower right: **ai14646b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0030-text-00193",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 30,
+    "text": "3.11 Write Unprotect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0030-text-00194",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 30,
+    "text": "The Write Unprotect command is used to disable the write protection of all the Flash memory sectors. When the bootloader receives the Write Unprotect command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader disables the write protection of all the Flash memory sectors. After the unprotection operation the bootloader transmits the ACK byte."
+  },
+  {
+    "segment_id": "stm32-an3155-p0030-text-00195",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 30,
+    "text": "At the end of the Write Unprotect command, the bootloader transmits the ACK byte and generates a system Reset to take into account the new configuration of the option byte."
+  },
+  {
+    "segment_id": "stm32-an3155-p0030-figure-00020",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 30,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0030_00020.png",
+    "caption": "**Figure 20. Write Unprotect command: host side** — flowchart.\n\nVisible flow and labels:\n\n1. **Start WPUN(1)**\n2. **Send 0x73+0x8C**\n3. Decision diamond: **Wait for ACK or NACK**\n   - **ACK** path continues downward to a second decision.\n   - **NACK** path goes right, then downward and joins the return path near the end of the sequence.\n4. Second decision diamond: **Wait for ACK or NACK**\n   - **ACK** path continues downward.\n   - **NACK** path goes right and joins the same return path.\n5. **End of WPUN(1)**\n\nOther visible details:\n- The flowchart uses downward arrows for the main sequence and rightward/return routing for the **NACK** paths.\n- “WPUN” has footnote marker **(1)** in both the start and end boxes; the footnote text is not visible in the crop.\n- Figure identifier at lower right: **ai14647**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 20. Write Unprotect command: host side",
+    "generated_captions": {
+      "luna": "**Figure 20. Write Unprotect command: host side** — flowchart.\n\nVisible flow and labels:\n\n1. **Start WPUN(1)**\n2. **Send 0x73+0x8C**\n3. Decision diamond: **Wait for ACK or NACK**\n   - **ACK** path continues downward to a second decision.\n   - **NACK** path goes right, then downward and joins the return path near the end of the sequence.\n4. Second decision diamond: **Wait for ACK or NACK**\n   - **ACK** path continues downward.\n   - **NACK** path goes right and joins the same return path.\n5. **End of WPUN(1)**\n\nOther visible details:\n- The flowchart uses downward arrows for the main sequence and rightward/return routing for the **NACK** paths.\n- “WPUN” has footnote marker **(1)** in both the start and end boxes; the footnote text is not visible in the crop.\n- Figure identifier at lower right: **ai14647**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0031-figure-00021",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 31,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0031_00021.png",
+    "caption": "Flowchart figure for the **WPUN(1)** procedure.\n\nVisible flowchart text and logic:\n\n- **Start WPUN(1)**\n- Decision: **Received bytes = 0x73+0x8C?**\n  - **Yes** → decision: **ROP active**\n    - **No** → **Send ACK byte** → **Remove the protection for the entire Flash memory** → **Send ACK byte** → **Generate system reset** → **End of WPUN(1)**\n    - **Yes** → rightward branch → **Send NACK byte** → **End of WPUN(1)**\n  - **No** → rightward/downward branch → **Send NACK byte** → **End of WPUN(1)**\n\nThe flowchart uses decision diamonds and process rectangles. Arrows indicate the sequence; the **Yes** branch from “Received bytes = 0x73+0x8C?” leads downward to “ROP active,” while its **No** branch leads to “Send NACK byte.” The “Yes” branch from “ROP active” also leads to “Send NACK byte.”\n\nFootnote markers:\n- **WPUN(1)** appears in both the start and end labels; the footnote text itself is not visible in the crop.\n\nFigure identifier at lower right: **ai14648b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Flowchart figure for the **WPUN(1)** procedure.\n\nVisible flowchart text and logic:\n\n- **Start WPUN(1)**\n- Decision: **Received bytes = 0x73+0x8C?**\n  - **Yes** → decision: **ROP active**\n    - **No** → **Send ACK byte** → **Remove the protection for the entire Flash memory** → **Send ACK byte** → **Generate system reset** → **End of WPUN(1)**\n    - **Yes** → rightward branch → **Send NACK byte** → **End of WPUN(1)**\n  - **No** → rightward/downward branch → **Send NACK byte** → **End of WPUN(1)**\n\nThe flowchart uses decision diamonds and process rectangles. Arrows indicate the sequence; the **Yes** branch from “Received bytes = 0x73+0x8C?” leads downward to “ROP active,” while its **No** branch leads to “Send NACK byte.” The “Yes” branch from “ROP active” also leads to “Send NACK byte.”\n\nFootnote markers:\n- **WPUN(1)** appears in both the start and end labels; the footnote text itself is not visible in the crop.\n\nFigure identifier at lower right: **ai14648b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0031-text-00196",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 31,
+    "text": "Figure 21. Write Unprotect command: device side"
+  },
+  {
+    "segment_id": "stm32-an3155-p0031-text-00197",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 31,
+    "text": "3.12 Readout Protect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0031-text-00198",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 31,
+    "text": "The Readout Protect command is used to enable the Flash memory read protection. When the bootloader receives the Readout Protect command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader enables the read protection for the Flash memory."
+  },
+  {
+    "segment_id": "stm32-an3155-p0031-text-00199",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 31,
+    "text": "At the end of the Readout Protect command, the bootloader transmits the ACK byte and generates a system Reset to take into account the new configuration of the option byte."
+  },
+  {
+    "segment_id": "stm32-an3155-p0032-figure-00022",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 32,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0032_00022.png",
+    "caption": "Figure 22. Readout Protect command: host side (context from source caption).\n\nFlowchart text and connections:\n\n- **Start RDP_PRM(1)**\n  - Downward arrow to:\n- **Send 0x82+0x7D**\n  - Downward arrow to a decision diamond:\n- **Wait for ACK or NACK**\n  - **ACK** branch goes downward to a second decision diamond.\n  - **NACK** branch goes right, then downward along a vertical return path; this path joins the lower flow near the second ACK connection.\n- Second decision diamond: **Wait for ACK or NACK**\n  - **ACK** branch goes downward to:\n- **End of RDP_PRM(1)**\n  - **NACK** branch goes right to the same vertical return path, which loops back left into the flow immediately before the end step.\n\nOther visible text:\n\n- Footnote marker **(1)** appears after both `RDP_PRM`.\n- Figure identifier at lower right: **ai14649**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 22. Readout Protect command: host side",
+    "generated_captions": {
+      "luna": "Figure 22. Readout Protect command: host side (context from source caption).\n\nFlowchart text and connections:\n\n- **Start RDP_PRM(1)**\n  - Downward arrow to:\n- **Send 0x82+0x7D**\n  - Downward arrow to a decision diamond:\n- **Wait for ACK or NACK**\n  - **ACK** branch goes downward to a second decision diamond.\n  - **NACK** branch goes right, then downward along a vertical return path; this path joins the lower flow near the second ACK connection.\n- Second decision diamond: **Wait for ACK or NACK**\n  - **ACK** branch goes downward to:\n- **End of RDP_PRM(1)**\n  - **NACK** branch goes right to the same vertical return path, which loops back left into the flow immediately before the end step.\n\nOther visible text:\n\n- Footnote marker **(1)** appears after both `RDP_PRM`.\n- Figure identifier at lower right: **ai14649**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0032-figure-00023",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 32,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0032_00023.png",
+    "caption": "Flowchart showing the device-side **Readout Protect command** processing, captioned in the source as **“Figure 23. Readout Protect command: device side.”**\n\nVisible flowchart text and logic:\n\n- **Start RDP_PRM(1)**\n- Decision: **Received bytes = 0x82+0x7D?**\n  - **No** branch routes right and downward to **Send NACK byte**.\n  - **Yes** branch continues downward to the decision **ROP active**.\n- Decision: **ROP active**\n  - **Yes** branch routes right and then downward to **Send NACK byte**.\n  - **No** branch continues downward to **Send ACK byte**.\n- After the first **Send ACK byte**:\n  - **Activate Read protection for Flash memory**\n  - **Send ACK byte**\n  - **Generate system reset**\n- The flow then proceeds to **End of RDP_PRM(1)**.\n- The **Send NACK byte** path reconnects to the flow leading to the end.\n- Footnote marker **(1)** appears after both **RDP_PRM** labels.\n- Identifier printed at lower right: **ai14650b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 23. Readout Protect command: device side",
+    "generated_captions": {
+      "luna": "Flowchart showing the device-side **Readout Protect command** processing, captioned in the source as **“Figure 23. Readout Protect command: device side.”**\n\nVisible flowchart text and logic:\n\n- **Start RDP_PRM(1)**\n- Decision: **Received bytes = 0x82+0x7D?**\n  - **No** branch routes right and downward to **Send NACK byte**.\n  - **Yes** branch continues downward to the decision **ROP active**.\n- Decision: **ROP active**\n  - **Yes** branch routes right and then downward to **Send NACK byte**.\n  - **No** branch continues downward to **Send ACK byte**.\n- After the first **Send ACK byte**:\n  - **Activate Read protection for Flash memory**\n  - **Send ACK byte**\n  - **Generate system reset**\n- The flow then proceeds to **End of RDP_PRM(1)**.\n- The **Send NACK byte** path reconnects to the flow leading to the end.\n- Footnote marker **(1)** appears after both **RDP_PRM** labels.\n- Identifier printed at lower right: **ai14650b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0033-text-00200",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 33,
+    "text": "3.13 Readout Unprotect command"
+  },
+  {
+    "segment_id": "stm32-an3155-p0033-text-00201",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 33,
+    "text": "The Readout Unprotect command is used to disable the Flash memory read protection. When the bootloader receives the Readout Unprotect command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader erases all the Flash memory sectors and it disables the read protection for the entire Flash memory. If the erase operation is successful, the bootloader deactivates the RDP."
+  },
+  {
+    "segment_id": "stm32-an3155-p0033-text-00202",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 33,
+    "text": "If the erase operation is unsuccessful, the bootloader transmits a NACK and the read protection remains active."
+  },
+  {
+    "segment_id": "stm32-an3155-p0033-text-00203",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 33,
+    "text": "At the end of the Readout Unprotect command, the bootloader transmits an ACK and generates a system Reset to take into account the new configuration of the option byte."
+  },
+  {
+    "segment_id": "stm32-an3155-p0033-figure-00024",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 33,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0033_00024.png",
+    "caption": "**Figure 24. Readout Unprotect command: host side** — flowchart for the RDU_PRM command sequence.\n\nVisible elements and flow:\n\n- **Start RDU_PRM(1)**\n  - Downward arrow to:\n- **Send 0x92+0x6D**\n  - Downward arrow to decision:\n- **Wait for ACK or NACK**\n  - **ACK**: downward path to a second decision:\n    - **Wait for ACK or NACK**\n      - **ACK**: downward path labeled **ACK**, leading to:\n        - **End of RDU_PRM(1)**\n      - **NACK**: rightward path to a vertical return line, then leftward into the completion path before **End of RDU_PRM(1)**.\n  - **NACK**: rightward path to a vertical line that descends and returns leftward into the completion path before **End of RDU_PRM(1)**.\n\nOther visible text:\n\n- Footnote marker **(1)** appears after both **RDU_PRM** labels; the footnote text itself is not visible in the crop.\n- Figure identifier at lower right: **ai14651**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 24. Readout Unprotect command: host side",
+    "generated_captions": {
+      "luna": "**Figure 24. Readout Unprotect command: host side** — flowchart for the RDU_PRM command sequence.\n\nVisible elements and flow:\n\n- **Start RDU_PRM(1)**\n  - Downward arrow to:\n- **Send 0x92+0x6D**\n  - Downward arrow to decision:\n- **Wait for ACK or NACK**\n  - **ACK**: downward path to a second decision:\n    - **Wait for ACK or NACK**\n      - **ACK**: downward path labeled **ACK**, leading to:\n        - **End of RDU_PRM(1)**\n      - **NACK**: rightward path to a vertical return line, then leftward into the completion path before **End of RDU_PRM(1)**.\n  - **NACK**: rightward path to a vertical line that descends and returns leftward into the completion path before **End of RDU_PRM(1)**.\n\nOther visible text:\n\n- Footnote marker **(1)** appears after both **RDU_PRM** labels; the footnote text itself is not visible in the crop.\n- Figure identifier at lower right: **ai14651**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0034-figure-00025",
+    "type": "figure",
+    "doc": "stm32-an3155",
+    "page": 34,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_figure_p0034_00025.png",
+    "caption": "Flowchart for the Readout Unprotect command, device side:\n\n- **Start RDU_PRM(1)**\n- Decision: **Received bytes 0x92+0x6D**\n  - **Yes**:\n    1. **Send ACK byte**\n    2. **Disable ROP**\n    3. **Send ACK byte**\n    4. **Clear all RAM memory**\n    5. **Generate system reset**\n  - **No**:\n    1. **Send NACK byte**\n- Both paths converge and proceed to **End of RDU_PRM(1)**.\n\nFigure identifier: **ai15709**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 25. Readout Unprotect command: device side\n2. RDU\\_PRM = Readout Unprotect.",
+    "generated_captions": {
+      "luna": "Flowchart for the Readout Unprotect command, device side:\n\n- **Start RDU_PRM(1)**\n- Decision: **Received bytes 0x92+0x6D**\n  - **Yes**:\n    1. **Send ACK byte**\n    2. **Disable ROP**\n    3. **Send ACK byte**\n    4. **Clear all RAM memory**\n    5. **Generate system reset**\n  - **No**:\n    1. **Send NACK byte**\n- Both paths converge and proceed to **End of RDU_PRM(1)**.\n\nFigure identifier: **ai15709**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0035-text-00204",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 35,
+    "text": "Bootloader protocol version evolution"
+  },
+  {
+    "segment_id": "stm32-an3155-p0035-text-00205",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 35,
+    "text": "Table 2 lists the bootloader versions."
+  },
+  {
+    "segment_id": "stm32-an3155-p0035-table-00002",
+    "type": "table",
+    "doc": "stm32-an3155",
+    "page": 35,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_table_p0035_00002.png",
+    "caption": "**Table 2. Bootloader protocol versions**\n\n| Version | Description |\n|---|---|\n| **V2.0** | Initial bootloader version. |\n| **V2.1** | – Update Go command to initialize the main stack pointer<br>– Update Go command to return NACK when jump address is in the Option byte area or System memory area<br>– Update Get ID command to return the device ID on two bytes<br>– Update the bootloader version to V2.1 |\n| **V2.2** | – Update Read Memory, Write Memory and Go commands to deny access, with a NACK response, to the first bytes of RAM memory used by the bootloader<br>– Update Readout Unprotect command to initialize the whole RAM content to 0x0 before ROP disable operation |\n| **V3.0** | – Extended Erase command added to support number of pages larger than 256 and separate bank mass erase.<br>– Erase command has not been modified in this version but, due to addition of the Extended Erase command it is no longer supported (Erase and Extended Erase commands are exclusive). |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Bootloader protocol versions",
+    "generated_captions": {
+      "luna": "**Table 2. Bootloader protocol versions**\n\n| Version | Description |\n|---|---|\n| **V2.0** | Initial bootloader version. |\n| **V2.1** | – Update Go command to initialize the main stack pointer<br>– Update Go command to return NACK when jump address is in the Option byte area or System memory area<br>– Update Get ID command to return the device ID on two bytes<br>– Update the bootloader version to V2.1 |\n| **V2.2** | – Update Read Memory, Write Memory and Go commands to deny access, with a NACK response, to the first bytes of RAM memory used by the bootloader<br>– Update Readout Unprotect command to initialize the whole RAM content to 0x0 before ROP disable operation |\n| **V3.0** | – Extended Erase command added to support number of pages larger than 256 and separate bank mass erase.<br>– Erase command has not been modified in this version but, due to addition of the Extended Erase command it is no longer supported (Erase and Extended Erase commands are exclusive). |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0036-text-00206",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 36,
+    "text": "5"
+  },
+  {
+    "segment_id": "stm32-an3155-p0036-text-00207",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 36,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an3155-p0036-table-00003",
+    "type": "table",
+    "doc": "stm32-an3155",
+    "page": 36,
+    "image_path": "data/parsed/stm32/stm32-an3155/mineru/images/bbox_fallback_table_p0036_00003.png",
+    "caption": "**Table 3. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 09-Mar-2010 | 1 | Initial release. |\n| 20-Apr-2010 | 2 | *Table 1: USART bootloader commands*: added Extended Erase command; removed footnote 2 concerning read protection from the Readout Protect command.<br><br>*Communication safety*: amended *Note 1*.<br><br>*Section 3.2: Get command*: updated byte 10.<br><br>Updated *Figure 10: Go command*: host side for missing ACK state.<br><br>*Section 3.7: Write Memory command*: added *Note 1* and *Note 2*.<br><br>*Figure 12*, and *Figure 13*: added notes regarding N+1.<br><br>Added *Section 3.9: Extended Erase Memory command*.<br><br>*Table 2: Bootloader protocol versions*: added v3.0. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 3. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 09-Mar-2010 | 1 | Initial release. |\n| 20-Apr-2010 | 2 | *Table 1: USART bootloader commands*: added Extended Erase command; removed footnote 2 concerning read protection from the Readout Protect command.<br><br>*Communication safety*: amended *Note 1*.<br><br>*Section 3.2: Get command*: updated byte 10.<br><br>Updated *Figure 10: Go command*: host side for missing ACK state.<br><br>*Section 3.7: Write Memory command*: added *Note 1* and *Note 2*.<br><br>*Figure 12*, and *Figure 13*: added notes regarding N+1.<br><br>Added *Section 3.9: Extended Erase Memory command*.<br><br>*Table 2: Bootloader protocol versions*: added v3.0. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00208",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00209",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00210",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00211",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00212",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00213",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00214",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00215",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00216",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00217",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00218",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00219",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "© 2010 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00220",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00221",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an3155-p0037-text-00222",
+    "type": "text",
+    "doc": "stm32-an3155",
+    "page": 37,
+    "text": "www.st.com"
+  }
+]

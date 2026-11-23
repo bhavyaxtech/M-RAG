@@ -1,0 +1,52 @@
+{
+  "doc_id": "stm32-rm0008",
+  "document_id": "RM0008",
+  "title": "STM32F1 reference manual",
+  "document_kind": "reference_manual",
+  "applicability": "Check density and peripheral availability; F1 variants differ",
+  "manufacturer_url": "https://www.st.com/resource/en/reference_manual/cd00171190.pdf",
+  "download_urls": [
+    "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00171190-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+    "https://eliasoenal.com/st%20website/13902.pdf",
+    "https://raw.githubusercontent.com/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/reference-manual.pdf",
+    "https://www.st.com/resource/en/reference_manual/cd00171190.pdf"
+  ],
+  "pages": 1134,
+  "sha256": "097bc47ab8aa0c5d4a68f836dbab95c5b9acb2b0c8116a2959307743204b5097",
+  "cover_text": "December 2018\nRM0008 Rev 20\n1/1134\nRM0008\nReference manual\nSTM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and\nSTM32F107xx advanced Arm\u00ae-based 32-bit MCUs\nIntroduction\nThis reference manual is addressed to application developers.\nIt provides complete information on how to use the STM32F101xx, STM32F102xx, \nSTM32F103xx and STM32F105xx/STM32F107xx microcontroller memory and peripherals. \nThe STM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/STM32F107xx will \nbe referred to as STM32F10xxx throughout the document, unless otherwise specified.\nThe STM32F10xxx is a family of microcontrollers with different memory sizes, packages \nand peripherals.\nFor ordering information, mechanical and electrical device characteristics refer to the low-, \nmedium-, high- and XL-density STM32F101xx and STM32F103xx datasheets, to the low- \nand medium-density STM32F102xx datasheets and to the STM32F105xx/STM32F107xx \nconnectivity line datasheet.\nFor information on programming, erasing and protection of the internal Flash memory refer \nto:\n\u2022\nPM0075, the Flash programming manual for low-, medium- high-density and connectivity \nline STM32F10xxx devices\n\u2022\nPM0068, the Flash programming manual for XL-density STM32F10xxx devices.\nFor information on the Arm\u00ae Cortex\u00ae-M3 core, refer to the STM32F10xxx Cortex\u00ae-M3 \nprogramming manual (PM0056).\nRelated documents\nAvailable from www.st.com:\n\u2022\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/STM32F107xx \ndatasheets\n\u2022\nSTM32F10xxx Cortex\u00ae-M3 programming manual (PM0056)\n\u2022\nSTM32F10xxx Flash programming manual (PM0075)\n\u2022\nSTM32F10xxx XL-density Flash programming manual (PM0068)\nwww.st.com\n",
+  "references": {
+    "PM0068": [
+      1,
+      58,
+      59
+    ],
+    "PM0056": [
+      1,
+      1119
+    ],
+    "PM0075": [
+      1,
+      58,
+      59,
+      1124
+    ],
+    "AN2606": [
+      61,
+      62
+    ],
+    "AN2586": [
+      69
+    ],
+    "AN2604": [
+      82
+    ],
+    "PM0042": [
+      1124
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00171190-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:17.107794+00:00",
+  "path": "data/raw/stm32/stm32-rm0008.pdf"
+}

@@ -1,0 +1,50 @@
+{
+  "documents": [
+    {
+      "doc_id": "stm32-an2594",
+      "document_id": "AN2594",
+      "title": "STM32F10xxx EEPROM emulation",
+      "document_kind": "application_note",
+      "applicability": "Flash-based EEPROM emulation and endurance",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00165693.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13718.pdf",
+        "https://www.cs.utexas.edu/~valvano/EE345M/ApplicationNotes/AN2594_EEPROM.pdf",
+        "https://www.st.com/resource/en/application_note/cd00165693.pdf"
+      ],
+      "pages": 16,
+      "sha256": "b3e9aa831e3c2372ef029d3033ad87b75074b2981e2f3b5291c2198aec44a2f8",
+      "cover_text": "August 2009\nDoc ID 13718 Rev 3\n1/10\nAN2594\nApplication note\nEEPROM emulation\nin STM32F10x microcontrollers\nIntroduction\nMany applications require EEPROM (electrically erasable programmable read-only \nmemory) for non-volatile data storage. For low-cost purposes, the STM32F10x devices do \nnot use EEPROM. Instead, they implement EEPROM emulation using the embedded Flash \nmemory.\nThis application note explains the differences between external EEPROM and embedded \nFlash memory, and it describes a software method for emulating EEPROM using the on-\nchip Flash memory of the STM32F10x devices.\nThis document also focuses on some embedded aspects in emulated EEPROM data \nstorage, that the reader is assumed to know.\nGlossary\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers \nwhere the Flash memory density ranges between 16 and 32 Kbytes.\nMedium-density devices are STM32F10x and STM32F103xx microcontrollers where the \nFlash memory density ranges between 32 and 128 Kbytes.\nHigh-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash \nmemory density ranges between 256 and 512 Kbytes.\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13718.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:14.936737+00:00",
+      "path": "data/raw/stm32/stm32-an2594.pdf",
+      "revision": "3"
+    },
+    {
+      "doc_id": "stm32-an2557",
+      "document_id": "AN2557",
+      "title": "STM32F10xxx in-application programming over USART",
+      "document_kind": "application_note",
+      "applicability": "Application example, not a replacement for boot ROM specification",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00161640.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13588.pdf",
+        "https://www.mouser.com/pdfDocs/STM32F10x-IAP.pdf",
+        "https://www.st.com/resource/en/application_note/cd00161640.pdf"
+      ],
+      "pages": 16,
+      "sha256": "fc15adc92b655ef8d2abf2befdcc930394c8ffeeead5d40df4e3d43efafbd887",
+      "cover_text": "October 2010\nDoc ID 13588 Rev 8\n1/16\nAN2557\nApplication note\nSTM32F10x in-application programming\nusing the USART\nIntroduction\nAn important requirement for most Flash-memory-based systems is the ability to update \nfirmware when installed in the end product. This ability is referred to as in-application \nprogramming (IAP). The purpose of this application note is to provide general guidelines for \ncreating an IAP application. The STM32100B-EVAL, STM32100E-EVAL, STM3210B-EVAL, \nSTM3210E-EVAL and STM3210C-EVAL boards were used to validate the IAP driver.\nThe STM32F10x microcontroller can run user-specific firmware to perform IAP of the \nmicrocontroller-embedded Flash memory. This feature allows the use of any type of \ncommunication protocol for the reprogramming process (such as CAN, USART, USB). \nUSART is the example used in this application note.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13588.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:22.043425+00:00",
+      "path": "data/raw/stm32/stm32-an2557.pdf",
+      "revision": "8"
+    }
+  ]
+}

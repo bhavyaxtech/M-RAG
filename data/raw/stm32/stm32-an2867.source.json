@@ -1,0 +1,22 @@
+{
+  "doc_id": "stm32-an2867",
+  "document_id": "AN2867",
+  "title": "Oscillator design guide for STM32 MCUs",
+  "document_kind": "application_note",
+  "applicability": "Cross-series guidance; use device electrical limits",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00221665.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/15287.pdf",
+    "https://www.mouser.com/pdfDocs/STM32-Oscillator-Design-Guide.pdf",
+    "https://www.st.com/resource/en/application_note/cd00221665.pdf"
+  ],
+  "pages": 23,
+  "sha256": "cdd8bf6f30237210ced49bb75a1db864265788f8a2e3c9d3f2e5d6d894163ab1",
+  "cover_text": "April 2010\nDoc ID 15287 Rev 3\n1/23\nAN2867\nApplication note\nOscillator design guide\n for ST microcontrollers\nIntroduction\nMost designers are familiar with oscillators (Pierce-Gate topology), but few really \nunderstand how they operate, let alone how to properly design an oscillator. In practice, \nmost designers do not even really pay attention to the oscillator design until they realize the \noscillator does not operate properly (usually when it is already being produced). This should \nnot happen. Many systems or projects are delayed in their deployment because of a crystal \nnot working as intended. The oscillator should receive its proper amount of attention during \nthe design phase, well before the manufacturing phase. The designer would then avoid the \nnightmare scenario of products being returned.\nThis application note introduces the Pierce oscillator basics and provides some guidelines \nfor a good oscillator design. It also shows how to determine the different external \ncomponents and provides guidelines for a good PCB for the oscillator.\nThis document finally contains an easy guideline to select suitable crystals and external \ncomponents, and it lists some recommended crystals (HSE and LSE) for STM32\u2122 and \nSTM8A/S microcontrollers in order to quick start development.\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/15287.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:25.941080+00:00",
+  "path": "data/raw/stm32/stm32-an2867.pdf"
+}

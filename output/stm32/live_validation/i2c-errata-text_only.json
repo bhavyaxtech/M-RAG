@@ -1,0 +1,1313 @@
+{
+  "case": {
+    "id": "i2c-errata",
+    "question": "For STM32F103C8, which device/silicon qualifications should be checked before relying on the I2C examples in AN2824? Distinguish examples from applicable errata.",
+    "candidate_source_documents": [
+      "AN2824",
+      "ES096"
+    ],
+    "ground_truth_answer": null,
+    "requires_visual": null,
+    "status": "candidate_requires_source_review_not_scored",
+    "mode": "text_only"
+  },
+  "request": {
+    "message": "For STM32F103C8, which device/silicon qualifications should be checked before relying on the I2C examples in AN2824? Distinguish examples from applicable errata.",
+    "mode": "text_only",
+    "doc": "stm32-ds5319",
+    "scope": "collection",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:49:53.403684+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103C8 AN2824 I2C examples device qualifications applicable ES096 silicon errata",
+      "page": null,
+      "confidence": 0.99,
+      "reason": "Asks about listed STM32F103C8 I2C application note and applicable silicon errata.",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.5982734560966492,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-an2824-p0001-text-chunk-000",
+          "doc": "stm32-an2824",
+          "doc_title": "AN2824 (rev 4) — STM32F10xxx I2C optimized examples",
+          "page": 1,
+          "type": "text",
+          "score": 0.5398110747337341,
+          "text": "STM32F10xxx I²C optimized examples\n\nIntroduction\n\nThe aim of this application note is to provide l²C firmware optimized examples based on polling, interrupts and DMA, covering the four l²C communication modes available in the STM32F10xxx, that is, slave transmitter, slave receiver, master transmitter and master receiver and to provide recommendations on the correct use of the l²C peripheral\n\nThis application note applies to STM32F101xx and STM32F103xx medium, high and XL density microcontrollers, STM32F105/107xx connectivity line and STM32F100xx value line devices. Throughout this document, these devices are referred to collectively as STM32F10xxx.\n\nThe application note is organized in three parts. The first part describes the l2C master programming examples using Polling, DMA and Interrupts. The second part describes the I2C slave programming examples using DMA and Interrupts. The third part is an overview of the content of the firmware accompanying this application note. .",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2824/1",
+          "bbox": null
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-es096-p0001-text-chunk-000",
+          "doc": "stm32-es096",
+          "doc_title": "ES096 (rev 15) — STM32F101/102/103 medium-density errata",
+          "page": 1,
+          "type": "text",
+          "score": 0.5982734560966492,
+          "text": "STM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-density device errata\n\nApplicability\n\nThis document applies to the part numbers of STM32F101x8/B, STM32F102x8/B and STM32F103x8/B mediumdensity devices and the device variants as stated in this page.\n\nIt gives a summary and a description of the device errata, with respect to the device datasheet and reference manual RM0008.\n\nDeviation of the real device behavior from the intended device behavior is considered to be a device limitation. Deviation of the description in the reference manual or the datasheet from the intended device behavior is considered to be a documentation erratum. The term “errata” applies both to limitations and documentation errata.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-es096/1",
+          "bbox": null
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-es096-p0002-text-chunk-000",
+          "doc": "stm32-es096",
+          "doc_title": "ES096 (rev 15) — STM32F101/102/103 medium-density errata",
+          "page": 2,
+          "type": "text",
+          "score": 0.5466922521591187,
+          "text": "Summary of device errata\n\nThe following table gives a quick reference to the STM32F101x8/B, STM32F102x8/B and STM32F103x8/B\n\nmedium-density device limitations and their status:\n\nA = limitation present, workaround available\n\nN = limitation present, no workaround available\n\nP = limitation present, partial workaround available\n\n“-” = limitation absent\n\nApplicability of a workaround may depend on specific conditions of target application. Adoption of a workaround may cause restrictions to target application. Workaround for a limitation is deemed partial if it only reduces the rate of occurrence and/or consequences of the limitation, or if it is fully effective for only a subset of instances on the device or in only a subset of operating modes, of the function concerned.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-es096/2",
+          "bbox": null
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-an2824-p0002-text-chunk-000",
+          "doc": "stm32-an2824",
+          "doc_title": "AN2824 (rev 4) — STM32F10xxx I2C optimized examples",
+          "page": 2,
+          "type": "text",
+          "score": 0.4769672155380249,
+          "text": "Contents\n\n1 I2C master programming examples (DMA, interrupts, polling) . . . . . . 5   \n1.1 Overview 5   \n1.2 Description of the examples . . 5   \n1.2.1 Polling .5   \n1.2.2 DMA .9   \n1.2.3 Interrupt mode 11   \n2 I2C slave programming examples (DMA, interrupt) . . . . . . . . . .12   \n2.1 Overview 12   \n2.2 Description of the examples . . 12   \n2.2.1 Interrupt .12   \n2.2.2 DMA. 12   \n3 Firmware overview .14   \n4 Revision history . . .15",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2824/2",
+          "bbox": null
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-es096-p0010-text-chunk-000",
+          "doc": "stm32-es096",
+          "doc_title": "ES096 (rev 15) — STM32F101/102/103 medium-density errata",
+          "page": 10,
+          "type": "text",
+          "score": 0.5362032055854797,
+          "text": "For new developments associated with these compilers, revision Y or 1 of the STM32F10xx8/B must be used.\n\n2.2.10\n\nBoundary scan TAP: wrong pattern sent out after the \"capture IR” state\n\nDescription\n\nAfter the “capture IR” state of the boundary scan TAP, the two least significant bits in the instruction register should be loaded with 01 for them to be shifted out whenever a next instruction is shifted in. However, the boundary scan TAP shifts out the latest value loaded into the instruction register, which could be 00, 01, 10 or 11.\n\nWorkaround\n\nThe data shifted out, after the capture IR state, in the boundary scan flow should therefore be ignored and the software should check not only the two least significant bits (XXX01) but all register bits (XXXXX).\n\n2.2.11\n\nFlash memory BSY bit delay versus STRT bit setting\n\nDescription\n\nWhen the STRT bit in the flash memory control register is set (to launch an erase operation), the BSY bit in the flash memory status register goes high one cycle later.\n\nTherefore, if the FLASH\\_SR register is read immediately after the FLASH\\_CR register is written (STRT bit set), the BSY bit is read as 0.\n\nWorkaround\n\nRead the BSY bit at least one cycle after setting the STRT bit.\n\n2.2.12 LSI clock stabilization time\n\nDescription\n\nWhen the LSIRDY flag is set, the clock may still be out of the specified frequency range (f parameter, see LSI oscillator characteristics in the product datasheet).\n\nWorkaround\n\nTo have a fully stabilized clock in the specified range, a software temporization of 100 µs should be added.\n\n2.3\n\nGPIO\n\n2.3.1\n\nUSART1\\_RTS and CAN\\_TX\n\nDescription\n\nWhen the following conditions are met:\n\nUSART1 is clocked\n\nCAN is not clocked\n\nI/O port pin PA12 is configured as an alternate function output\n\neven if CAN\\_TX is not used, this signal is set by default to 1 if I/O port pin PA12 is configured as an alternate function output\n\nIn this case USART1\\_RTS cannot be used.\n\nWorkaround\n\nWhen USART1\\_RTS is used, the CAN must be remapped to either another IO configuration when the CAN is used, or to the unused configuration (CAN\\_REMAP[1:0] set to “01”) when the CAN is not used.\n\nSPI1 in slave mode and USART2 in synchronous mode",
+          "image_url": null,
+          "page_url": "/api/page/stm32-es096/10",
+          "bbox": null
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-an2824-p0005-text-chunk-000",
+          "doc": "stm32-an2824",
+          "doc_title": "AN2824 (rev 4) — STM32F10xxx I2C optimized examples",
+          "page": 5,
+          "type": "text",
+          "score": 0.47644147276878357,
+          "text": "I2C master programming examples (DMA, interrupts, polling)\n\n1.1 Overview\n\nThe purpose of this section is to describe the firmware examples of l2C master transmitting and receiving data using polling, DMA and interrupts, provided with this application note.\n\nFlowcharts of Master Transmitter/Receiver in all modes (DMA, Polling, Interrupts) are also provided.\n\nYou can modify these examples to adapt them to your application requirements.\n\n1.2 Description of the examples\n\n1.2.1 Polling\n\nMaster receiver\n\nThe master sends the START condition on the bus by setting START bit. The interface waits for the SB flag to be set and then cleared by writing the slave address in the DR register. The interface waits for the ADDR flag to be set then cleared by reading the SR1 and SR2 status register. After that, the master waits for the RXNE flag to be set in order to read data from the data register (EV7).\n\nThe EV7 software sequence must complete before the end of the current byte transfer. In case EV7 software sequence can not be managed before the current byte end of transfer, it is recommended to use BTF instead.\n\nIn order to close the communication, the software must guarantee the ACK bit is cleared in time in order to receive the last byte with a NACK. For this purpose, method 2 described in the device reference manuals is used: with this method, DataN\\_2 is not read, so that after DataN\\_1, the communication is stretched (both RxNE and BTF are set). Then:\n\nClear the ACK bit before reading DataN-2 in DR to ensure it is cleared before the DataN Acknowledge pulse.\n\n●After this, just after reading DataN\\_2, set the STOP/ START bit and read DataN\\_1.\n\n●After RxNE is set, read DataN.\n\nThis is illustrated below:\n\nWhen 3 bytes remain to be read:\n\n– RxNE = 1 => Nothing (DataN-2 not read).\n\n\\- DataN-1 received\n\nBTF = 1 because both shift and data registers are full: DataN-2 in DR and DataN-1 in the shift register => SCL tied low: no other data will be received on the bus.\n\n– Clear ACK bit\n\n– Read DataN-2 in DR => This starts DataN reception in the shift register.\n\n– DataN received (with a NACK)\n\n\\- Program START/STOP\n\n\\- Read DataN-1",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2824/5",
+          "bbox": null
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-rm0008-p0752-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 752,
+          "type": "text",
+          "score": 0.5504429340362549,
+          "text": "Inter-integrated circuit (I2C) interface\n\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes.\n\nMedium-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes.\n\nHigh-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes.\n\nXL-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 768 Kbytes and 1 Mbyte.\n\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\n\nThis section applies to the whole STM32F10xxx family, unless otherwise specified.\n\n26.1 I²C introduction\n\nI²C (inter-integrated circuit) bus Interface serves as an interface between te microcontroller and the serial $1 ^ { 2 } C$ bus. It provides multimaster capability, and controls all ${ \\mathsf { I } } ^ { 2 } { \\mathsf { C } }$ bus-specific sequencing, protocol, arbitration and timing. It supports the standard mode (Sm, up to 100 kHz) and Fm mode (Fm, up to 400 kHz).\n\nIt may be used for a variety of purposes, including CRC generation and verification, SMBus (system management bus) and PMBus (power management bus).\n\nDepending on specific device implementation DMA capability can be available for reduced CPU overload.\n\n26.2 I²C main features\n\n• Parallel-bus/l²C protocol converter\n\n•Multimaster capability: the same interface can act as Master or Slave\n\n• I²C Master features:\n\n– Clock generation\n\n– Start and Stop generation\n\n• I²C Slave features:\n\n– Programmable I²C Address detection\n\n– Dual Addressing Capability to acknowledge 2 slave addresses\n\n\\- Stop bit detection\n\n•Generation and detection of 7-bit/10-bit addressing and General Call\n\n•Supports different communication speeds:\n\n– Standard Speed (up to 100 kHz)\n\n– Fast Speed (up to 400 kHz)\n\n• Analog noise filter\n\n• Status flags:\n\n– Transmitter/Receiver mode flag",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/752",
+          "bbox": null
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-ds5319-p0058-text-chunk-000",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 58,
+          "type": "text",
+          "score": 0.5200058221817017,
+          "text": "Designing hardened software to avoid noise problems\n\nEMC characterization and optimization are performed at component level with a typical application environment and simplified MCU software. It should be noted that good EMC performance is highly dependent on the user application and the software in particular.\n\nTherefore it is recommended that the user applies EMC software optimization and prequalification tests in relation with the EMC level requested for his application.\n\nSoftware recommendations\n\nThe software flow must include the management of runaway conditions such as:\n\n• Corrupted program counter\n\n• Unexpected reset\n\n• Critical data corruption (control registers...)\n\nPrequalification trials\n\nMost of the common failures (unexpected reset and program counter corruption) can be reproduced by manually forcing a low state on the NRST pin or the Oscillator pins for 1 second.\n\nTo complete these trials, ESD stress can be applied directly on the device, over the range of specification values. When unexpected behavior is detected, the software can be hardened to prevent unrecoverable errors occurring (see application note AN1015, available on www.st.com).\n\nElectromagnetic Interference (EMI)\n\nThe electromagnetic field emitted by the device are monitored while a simple application is executed (toggling 2 LEDs through the I/O ports). This emission test is compliant with IEC 61967-2 standard which specifies the test board and the pin loading.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-ds5319/58",
+          "bbox": null
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "Before"
+    },
+    {
+      "type": "token",
+      "text": " using"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " verify"
+    },
+    {
+      "type": "token",
+      "text": ":\n\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Device"
+    },
+    {
+      "type": "token",
+      "text": " class"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " It"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " medium"
+    },
+    {
+      "type": "token",
+      "text": "-density"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": " covers"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " applicable"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " err"
+    },
+    {
+      "type": "token",
+      "text": "ata"
+    },
+    {
+      "type": "token",
+      "text": " document"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " examples"
+    },
+    {
+      "type": "token",
+      "text": " include"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " polling"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " interrupt"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " plus"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": " interrupt"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": " modes"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Actual"
+    },
+    {
+      "type": "token",
+      "text": " silicon"
+    },
+    {
+      "type": "token",
+      "text": " revision"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " Identify"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " revision"
+    },
+    {
+      "type": "token",
+      "text": " of"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " physical"
+    },
+    {
+      "type": "token",
+      "text": " MCU"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " then"
+    },
+    {
+      "type": "token",
+      "text": " check"
+    },
+    {
+      "type": "token",
+      "text": " each"
+    },
+    {
+      "type": "token",
+      "text": " relevant"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "I"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": " err"
+    },
+    {
+      "type": "token",
+      "text": "atum"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": " rev"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "15"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " revision"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " your"
+    },
+    {
+      "type": "token",
+      "text": " chosen"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " operating"
+    },
+    {
+      "type": "token",
+      "text": " conditions"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": " distinguishes"
+    },
+    {
+      "type": "token",
+      "text": " limitations"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " full"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " partial"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " no"
+    },
+    {
+      "type": "token",
+      "text": " workaround"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " workaround"
+    },
+    {
+      "type": "token",
+      "text": " applicability"
+    },
+    {
+      "type": "token",
+      "text": " can"
+    },
+    {
+      "type": "token",
+      "text": " depend"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " application"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Implemented"
+    },
+    {
+      "type": "token",
+      "text": " capability"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " In"
+    },
+    {
+      "type": "token",
+      "text": " particular"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " confirm"
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": " availability"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " selected"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": "/interface"
+    },
+    {
+      "type": "token",
+      "text": " before"
+    },
+    {
+      "type": "token",
+      "text": " using"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": " example"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " says"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": " capability"
+    },
+    {
+      "type": "token",
+      "text": " depends"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " specific"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " implementation"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": " contains"
+    },
+    {
+      "type": "token",
+      "text": " adaptable"
+    },
+    {
+      "type": "token",
+      "text": " firmware"
+    },
+    {
+      "type": "token",
+      "text": " examples"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " recommended"
+    },
+    {
+      "type": "token",
+      "text": " sequences"
+    },
+    {
+      "type": "token",
+      "text": "—not"
+    },
+    {
+      "type": "token",
+      "text": " silicon"
+    },
+    {
+      "type": "token",
+      "text": " qualifications"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " automatic"
+    },
+    {
+      "type": "token",
+      "text": " err"
+    },
+    {
+      "type": "token",
+      "text": "ata"
+    },
+    {
+      "type": "token",
+      "text": " work"
+    },
+    {
+      "type": "token",
+      "text": "ar"
+    },
+    {
+      "type": "token",
+      "text": "ounds"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " Only"
+    },
+    {
+      "type": "token",
+      "text": " ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": " issues"
+    },
+    {
+      "type": "token",
+      "text": " marked"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " present"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " actual"
+    },
+    {
+      "type": "token",
+      "text": " silicon"
+    },
+    {
+      "type": "token",
+      "text": " revision"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " applicable"
+    },
+    {
+      "type": "token",
+      "text": " operating"
+    },
+    {
+      "type": "token",
+      "text": " conditions"
+    },
+    {
+      "type": "token",
+      "text": " should"
+    },
+    {
+      "type": "token",
+      "text": " constrain"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " design"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " retrieved"
+    },
+    {
+      "type": "token",
+      "text": " excerpts"
+    },
+    {
+      "type": "token",
+      "text": " do"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " include"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": " err"
+    },
+    {
+      "type": "token",
+      "text": "ata"
+    },
+    {
+      "type": "token",
+      "text": " table"
+    },
+    {
+      "type": "token",
+      "text": " itself"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " specific"
+    },
+    {
+      "type": "token",
+      "text": " applicable"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": " limitations"
+    },
+    {
+      "type": "token",
+      "text": " cannot"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " enumer"
+    },
+    {
+      "type": "token",
+      "text": "ated"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " sources"
+    },
+    {
+      "type": "token",
+      "text": " found"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "done",
+      "answer": "Before using AN2824 with an **STM32F103C8**, verify:\n\n- **Device class:** It is an STM32F103x8 medium-density device, so AN2824 covers it and ES096 is the applicable device errata document. AN2824’s examples include master polling, interrupt, and DMA, plus slave interrupt and DMA modes. [S1][S2][S4]\n- **Actual silicon revision:** Identify the revision of the physical MCU, then check each relevant **I2C erratum in ES096 rev 15** for that revision and for your chosen mode and operating conditions. ES096 distinguishes limitations with full, partial, or no workaround, and workaround applicability can depend on the application. [S3]\n- **Implemented capability:** In particular, confirm DMA availability for the selected device/interface before using a DMA example; RM0008 says I2C DMA capability depends on the specific device implementation. [S7]\n\nAN2824 contains adaptable firmware examples and recommended sequences—not silicon qualifications or automatic errata workarounds. [S6] Only ES096 issues marked as present for the STM32F103C8’s actual silicon revision and applicable operating conditions should constrain the design. The retrieved excerpts do not include the I2C errata table itself, so the specific applicable I2C limitations cannot be enumerated from the sources found.",
+      "cited": [
+        "S1",
+        "S2",
+        "S4",
+        "S3",
+        "S7",
+        "S6"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 2724,
+        "retrieve": 701,
+        "first_token": 13018,
+        "total": 13516
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 13.55
+}

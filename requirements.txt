@@ -1,0 +1,11 @@
+mineru[vlm,pipeline]
+openai
+faiss-cpu
+streamlit
+pymupdf
+python-dotenv
+tqdm
+tenacity
+tiktoken
+# EMBED_PROVIDER=local only. 6.x needs transformers>=5, which breaks mineru (<5).
+sentence-transformers>=5,<6

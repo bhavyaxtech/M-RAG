@@ -1,0 +1,21 @@
+{
+  "doc_id": "stm32-an2592",
+  "document_id": "AN2592",
+  "title": "32-bit timer resolution using STM32F101/F103 timer linking",
+  "document_kind": "application_note",
+  "applicability": "Timer chaining on STM32F101/103; check exact timer instances",
+  "manufacturer_url": "http://www.st.com/stonline/products/literature/an/13711.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/13711.pdf"
+  ],
+  "pages": 16,
+  "revision": "1",
+  "sha256": "57b780d8df05ad7b8c093c8612f3a3acfc9464f7bacd03145037fdea36d4fafe",
+  "cover_text": "August 2007\n  Rev 1\n1/16\nAN2592\nApplication note\nHow to achieve 32-bit timer resolution using the link system\nin STM32F101xx and STM32F103xx microcontrollers\nIntroduction\nIn many applications, 32-bit resolution is required to measure external signal periods of up \nto several hundreds of seconds or, to generate delays or periodic signals with large periods.\nThe STM32F101xx and STM32F103xx microcontrollers offer the possibility of chaining two \n16-bit timers to obtain a 32-bit resolution based on a specific configuration of the timers and \non the use of the timer link system.\nThis application note gives general guidelines to emulate a 32-bit timer. The two basic \noperating modes, that is the input capture mode and the output compare mode, are \npresented. Each mode is treated independently and, each time, examples of applications \nare provided.\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/13711.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:05:01.903725+00:00",
+  "path": "data/raw/stm32/stm32-an2592.pdf"
+}

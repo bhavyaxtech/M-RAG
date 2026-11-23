@@ -1,0 +1,29 @@
+{
+  "doc_id": "stm32-an1709",
+  "document_id": "AN1709",
+  "title": "EMC design guide for STM8 STM32 and legacy MCUs",
+  "document_kind": "application_note",
+  "applicability": "General design guidance, not a device-specific specification",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00004479.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/9914.pdf",
+    "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/678/CD00004479.pdf",
+    "https://www.st.com/resource/en/application_note/cd00004479.pdf"
+  ],
+  "pages": 38,
+  "sha256": "6025adf71f63bdee8211950cbbc2f351c73480019b31bd137540a92937cb3677",
+  "cover_text": "AN1709/1003\n1/38\n1.0\nAN1709\nAPPLICATION NOTE\nEMC DESIGN GUIDE\nFOR ST MICROCONTROLLERS\nby Cyril Troise - Microcontroller Division Applications\nINTRODUCTION\nThe continuing demand for more performance, complexity and cost reduction require the sem-\niconductor industry to develop Microcontrollers with both high density design technology and\nhigher clock frequencies. This has intrinsically increased the noise emission and noise sensi-\ntivity. Application developers therefore, must now apply EMC \u201chardening\u201d techniques in the\ndesign of firmware, PCB layout and at system level. This note aims to explain ST Microcon-\ntroller EMC features and compliance standards to help application designers reach the op-\ntimum level of EMC performance.\n1\n",
+  "references": {
+    "AN1324": [
+      28
+    ],
+    "AN1015": [
+      36
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/9914.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:27.058515+00:00",
+  "path": "data/raw/stm32/stm32-an1709.pdf"
+}

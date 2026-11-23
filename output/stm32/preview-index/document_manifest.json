@@ -1,0 +1,518 @@
+{
+  "documents": [
+    {
+      "doc_id": "stm32-ds5319",
+      "document_id": "DS5319",
+      "title": "STM32F103x8/xB datasheet",
+      "document_kind": "datasheet",
+      "applicability": "STM32F103x8/xB medium-density electrical and package limits",
+      "manufacturer_url": "https://www.st.com/resource/en/datasheet/stm32f103c8.pdf",
+      "download_urls": [
+        "https://www.st.com/resource/en/datasheet/stm32f103c8.pdf"
+      ],
+      "existing_path": "data/raw/hardware/stm32f103c8.pdf",
+      "pages": 114,
+      "sha256": "69f1cfc54c9183d0fc1c1a3b0e091f8a8534509a26927e5fba180cab70f952a7",
+      "cover_text": "This is information on a product in full production. \nJuly 2025\nDS5319 Rev 20\n1/114\nSTM32F103x8 \n STM32F103xB\nMedium-density performance line Arm\u00ae-based 32-bit MCU with \n64 or 128 KB Flash, USB, CAN, 7 timers, 2 ADCs, 9 com. interfaces\nDatasheet - production data\nFeatures\nIncludes ST state-of-the-art patented \ntechnology\n\u2022\nArm\u00ae 32-bit Cortex\u00ae-M3 CPU core \n\u2013\n72 MHz maximum frequency, 1.25 \nDMIPS/MHz (Dhrystone 2.1) performance \nat 0 wait state memory access\n\u2013\nSingle-cycle multiplication and hardware \ndivision\n\u2022\nMemories\n\u2013\n64 or 128 Kbytes of Flash memory\n\u2013\n20 Kbytes of SRAM\n\u2022\nClock, reset and supply management\n\u2013\n2.0 to 3.6 V application supply and I/Os \n\u2013\nPOR, PDR, and programmable voltage \ndetector (PVD)\n\u2013\n4 to 16 MHz crystal oscillator \n\u2013\nInternal 8 MHz factory-trimmed RC\n\u2013\nInternal 40 kHz RC\n\u2013\nPLL for CPU clock\n\u2013\n32 kHz oscillator for RTC with calibration\n\u2022\nLow-power\n\u2013\nSleep, Stop and Standby modes\n\u2013\nVBAT supply for RTC and backup registers\n\u2022\n2x 12-bit, 1 \u00b5s A/D converters (up to 16 \nchannels)\n\u2013\nConversion range: 0 to 3.6 V\n\u2013\nDual-sample and hold capability\n\u2013\nTemperature sensor\n\u2022\nDMA\n\u2013\n7-channel DMA controller \n\u2013\nPeripherals supported: timers, ADC, SPIs, \nI2Cs and USARTs\n\u2022\nUp to 80 fast I/O ports\n\u2013\n26/37/51/80 I/Os, all mappable on 16 \nexternal interrupt vectors and almost all \n5 V-tolerant\n\u2022\nDebug mode: \n\u2013\nSerial wire debug (SWD) and JTAG \ninterfaces\n\u2022\nSeven timers\n\u2013\nThree 16-bit timers, each with up to \n4 IC/OC/PWM or pulse counter and \nquadrature (incremental) encoder input\n\u2013\n16-bit, motor control PWM timer with  \ndead-time generation and emergency stop\n\u2013\nTwo watchdog timers (independent and \nwindow)\n\u2013\nSysTick timer 24-bit downcounter\n\u2022\nUp to nine communication interfaces\n\u2013\nUp to two I2C interfaces (SMBus/PMBus\u00ae)\n\u2013\nUp to three USARTs (ISO 7816 interface, \nLIN, IrDA capability, modem control)\n\u2013\nUp to two SPIs (18 Mbit/s)\n\u2013\nCAN interface (2.0B Active)\n\u2013\nUSB 2.0 full-speed interface\n\u2022\nCRC calculation unit, 96-bit unique ID\n\u2022\nPackages are ECOPACK\u00ae\n          \n          \nTable 1. Device summary\nReference\nPart number\nSTM32F103x8\nSTM32F103C8, STM32F103R8 \nSTM32F103V8, STM32F103T8\nSTM32F103xB STM32F103RB STM32F103VB, \nSTM32F103CB, STM32F103TB\nBGA100 10 \u00d7 10 mm\nUFBGA100 7 \u00d7 7 mm\nBGA64 5 \u00d7 5 mm\nVFQFPN36 6 \u00d7 6 mm\nLQFP100 14 \u00d7 14 mm\nLQFP64 10 \u00d7 10 mm\nLQFP48 7 \u00d7 7 mm\nUFQFPN48 7 \u00d7 7 mm\nwww.st.com\n",
+      "references": {
+        "ES096": [
+          9
+        ],
+        "AN2606": [
+          15
+        ],
+        "AN2867": [
+          53
+        ],
+        "AN2868": [
+          54
+        ],
+        "AN1709": [
+          57,
+          58,
+          59
+        ],
+        "AN1015": [
+          58
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "data/raw/hardware/stm32f103c8.pdf",
+      "source_kind": "existing_repository_file",
+      "retrieved_at": "2026-09-08T13:51:54.511992+00:00",
+      "path": "data/raw/stm32/stm32-ds5319.pdf",
+      "revision": "20"
+    },
+    {
+      "doc_id": "stm32-es096",
+      "document_id": "ES096",
+      "title": "STM32F101/102/103 medium-density errata",
+      "document_kind": "errata_sheet",
+      "applicability": "Check device and silicon revision for each issue",
+      "manufacturer_url": "https://www.st.com/resource/en/errata_sheet/es096-stm32f101x8b-stm32f102x8b-and-stm32f103x8b-mediumdensity-device-limitations-stmicroelectronics.pdf",
+      "download_urls": [
+        "https://media.githubusercontent.com/media/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+        "https://raw.githubusercontent.com/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+        "https://www.st.com/resource/en/errata_sheet/es096-stm32f101x8b-stm32f102x8b-and-stm32f103x8b-mediumdensity-device-limitations-stmicroelectronics.pdf"
+      ],
+      "pages": 31,
+      "sha256": "7bcdf58d8b602292d68abb59e181a4f44a038f215d8b01b0167f6d7139285490",
+      "cover_text": "Applicability\nThis document applies to the part numbers of STM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-\ndensity devices and the device variants as stated in this page.\nIt gives a summary and a description of the device errata, with respect to the device datasheet and reference\nmanual RM0008.\nDeviation of the real device behavior from the intended device behavior is considered to be a device limitation.\nDeviation of the description in the reference manual or the datasheet from the intended device behavior is\nconsidered to be a documentation erratum. The term \u201cerrata\u201d applies both to limitations and documentation errata.\nTable 1. Device summary\nReference\nPart numbers\nSTM32F101x8/B(1)\nSTM32F101C8, STM32F101R8, STM32F101V8, STM32F101T8, STM32F101CB,\nSTM32F101RB, STM32F101VB\nSTM32F102x8/B(1)\nSTM32F102C8, STM32F102R8, STM32F102CB, STM32F102RB\nSTM32F103x8/B(1)\nSTM32F103C8, STM32F103R8, STM32F103V8, STM32F103T8,STM32F103CB,\nSTM32F103RB, STM32F103VB\n \n1.\nIncluding all the devices with 32 Kbytes of flash memory without the letter A in their order code.\n \nTable 2. Device variants\nReference\nSilicon revision codes\nDevice marking(1)\nREV_ID(2)\nSTM32F101x8/B\nA\n0x0000\nB\n0x2000\nZ\n0x2001\nY, X, 1, 2, 3\n0x2003\nSTM32F102x8/B\nA\n0x0000\nY, X, 1, 2, 3\n0x2003\nSTM32F103x8/B\nA\n0x0000\nB\n0x2000\nZ\n0x2001\nY, X, 1, 2, 3\n0x2003\n \n1.\nRefer to the device datasheet for how to identify this code on different types of package.\n2.\nREV_ID[15:0] bitfield of DBGMCU_IDCODE register.\n \nSTM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-density device \nerrata\nSTM32F10xx8 STM32F10xxB\nErrata sheet\nES096 - Rev 15 - March 2022\nFor further information contact your local STMicroelectronics sales office.\nwww.st.com\n",
+      "references": {
+        "RM0008": [
+          1
+        ],
+        "AN2867": [
+          8
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://media.githubusercontent.com/media/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:12.691018+00:00",
+      "path": "data/raw/stm32/stm32-es096.pdf",
+      "revision": "15"
+    },
+    {
+      "doc_id": "stm32-pm0075",
+      "document_id": "PM0075",
+      "title": "STM32F10xxx Flash programming manual",
+      "document_kind": "programming_manual",
+      "applicability": "Flash operations; check density-specific limitations",
+      "manufacturer_url": "https://www.st.com/resource/en/programming_manual/cd00283419.pdf",
+      "download_urls": [
+        "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00283419-stm32f10xxx-flash-memory-microcontrollers-stmicroelectronics.pdf",
+        "https://eliasoenal.com/st%20website/17863.pdf",
+        "https://image.dfrobot.com/image/data/DFR0229/PM0075.pdf",
+        "https://www.st.com/resource/en/programming_manual/cd00283419.pdf"
+      ],
+      "pages": 31,
+      "sha256": "01d15d20fba016790bb2aad0179188b83c430b9a8327be4ce5f036580c7af646",
+      "cover_text": "         \nAugust 2012\nDoc ID 17863 Rev 2\n1/31\nPM0075\nProgramming manual\nSTM32F10xxx Flash memory microcontrollers\nIntroduction\nThis programming manual describes how to program the Flash memory of STM32F101xx, \nSTM32F102xx, STM32F103xx, STM32F105xx and STM32F107xx microcontrollers. For \nconvenience, these will be referred to as STM32F10xxx in the rest of this document unless \notherwise specified.\nThe STM32F10xxx embedded Flash memory can be programmed using in-circuit \nprogramming or in-application programming.\nThe in-circuit programming (ICP) method is used to update the entire contents of the \nFlash memory, using the JTAG, SWD protocol or the boot loader to load the user application \ninto the microcontroller. ICP offers quick and efficient design iterations and eliminates \nunnecessary package handling or socketing of devices. \nIn contrast to the ICP method, in-application programming (IAP) can use any \ncommunication interface supported by the microcontroller (I/Os, USB, CAN, UART, I2C, SPI, \netc.) to download programming data into memory. IAP allows the user to re-program the \nFlash memory while the application is running. Nevertheless, part of the application has to \nhave been previously programmed in the Flash memory using ICP.\nThe Flash interface implements instruction access and data access based on the AHB \nprotocol. It implements a prefetch buffer that speeds up CPU code execution. It also \nimplements the logic necessary to carry out Flash memory operations (Program/Erase). \nProgram/Erase operations can be performed over the whole product voltage range. \nRead/Write protections and option bytes are also implemented.\nTable 1 lists the microcontrollers and evaluation tool concerned by this programming \nmanual.\n         Table 1.\nApplicable products \nType\nApplicable products\nMicrocontrollers\nSTM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and \nSTM32F107xx microcontrollers\nEvaluation tool\nSTM3210C-EVAL evaluation board\nwww.st.com\n",
+      "references": {
+        "AN2662": [
+          9
+        ],
+        "AN2606": [
+          9,
+          18
+        ],
+        "PM0042": [
+          30
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00283419-stm32f10xxx-flash-memory-microcontrollers-stmicroelectronics.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:12.087155+00:00",
+      "path": "data/raw/stm32/stm32-pm0075.pdf",
+      "revision": "2"
+    },
+    {
+      "doc_id": "stm32-an2586",
+      "document_id": "AN2586",
+      "title": "STM32F10xxx hardware development",
+      "document_kind": "application_note",
+      "applicability": "Board-level design for STM32F10xxx",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00164185.pdf",
+      "download_urls": [
+        "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00164185-getting-started-with-stm32f10xxx-hardware-development-stmicroelectronics.pdf",
+        "https://eliasoenal.com/st%20website/13675.pdf",
+        "https://www.mouser.com/pdfDocs/STMicroelectronicsSTM32F10xxxhardwaredevelopmentapplicationnote.pdf",
+        "https://www.st.com/resource/en/application_note/cd00164185.pdf"
+      ],
+      "pages": 28,
+      "sha256": "fbd855e1701f6cd0dce0caaa3821a35d782e18d7dc4977b2bff130bc4a916ad7",
+      "cover_text": "         \nNovember 2011\nDoc ID 13675 Rev 7\n1/28\nAN2586\nApplication note\nGetting started with STM32F10xxx hardware development\nIntroduction\nThis application note is intended for system designers who require a hardware \nimplementation overview of the development board features such as the power supply, the \nclock management, the reset control, the boot mode settings and the debug management. It \nshows how to use the low-density value line, low-density, medium-density value line, \nmedium-density, high-density, XL-density and connectivity line STM32F10xxx product \nfamilies and describes the minimum hardware resources required to develop an \nSTM32F10xxx application.\nDetailed reference design schematics are also contained in this document with descriptions \nof the main components, interfaces and modes.\nGlossary\n\u25cf\nLow-density value line devices are STM32F100xx  microcontrollers where the Flash \nmemory density ranges between 16 and 32 Kbytes.\n\u25cf\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx \nmicrocontrollers where the Flash memory density ranges between 16 and 32 Kbytes.\n\u25cf\nMedium-density value line devices are STM32F100xx microcontrollers where the \nFlash memory density ranges between 64 and 128 Kbytes.\n\u25cf\nMedium-density devices are STM32F100xx, STM32F101xx, STM32F102xx and \nSTM32F103xx microcontrollers where the Flash memory density ranges between 64 \nand 128 Kbytes.\n\u25cf\nHigh-density value line devices are STM32F100xx microcontrollers where the Flash \nmemory density ranges between 256 and 512 Kbytes.\n\u25cf\nHigh-density devices are STM32F101xx and STM32F103xx microcontrollers where \nthe Flash memory density ranges between 256 and 512 Kbytes.\n\u25cf\nXL-density devices are STM32F101xx and STM32F103xx microcontrollers where the \nFlash memory density ranges between 768 Kbytes and 1 Mbyte.\n\u25cf\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\nwww.st.com\n",
+      "references": {
+        "RM0008": [
+          11,
+          14,
+          18
+        ],
+        "RM0041": [
+          11,
+          14,
+          18
+        ],
+        "AN2867": [
+          13
+        ],
+        "AN2662": [
+          16
+        ],
+        "AN2606": [
+          16
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00164185-getting-started-with-stm32f10xxx-hardware-development-stmicroelectronics.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:13.335028+00:00",
+      "path": "data/raw/stm32/stm32-an2586.pdf",
+      "revision": "7"
+    },
+    {
+      "doc_id": "stm32-an2594",
+      "document_id": "AN2594",
+      "title": "STM32F10xxx EEPROM emulation",
+      "document_kind": "application_note",
+      "applicability": "Flash-based EEPROM emulation and endurance",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00165693.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13718.pdf",
+        "https://www.cs.utexas.edu/~valvano/EE345M/ApplicationNotes/AN2594_EEPROM.pdf",
+        "https://www.st.com/resource/en/application_note/cd00165693.pdf"
+      ],
+      "pages": 16,
+      "sha256": "b3e9aa831e3c2372ef029d3033ad87b75074b2981e2f3b5291c2198aec44a2f8",
+      "cover_text": "August 2009\nDoc ID 13718 Rev 3\n1/10\nAN2594\nApplication note\nEEPROM emulation\nin STM32F10x microcontrollers\nIntroduction\nMany applications require EEPROM (electrically erasable programmable read-only \nmemory) for non-volatile data storage. For low-cost purposes, the STM32F10x devices do \nnot use EEPROM. Instead, they implement EEPROM emulation using the embedded Flash \nmemory.\nThis application note explains the differences between external EEPROM and embedded \nFlash memory, and it describes a software method for emulating EEPROM using the on-\nchip Flash memory of the STM32F10x devices.\nThis document also focuses on some embedded aspects in emulated EEPROM data \nstorage, that the reader is assumed to know.\nGlossary\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers \nwhere the Flash memory density ranges between 16 and 32 Kbytes.\nMedium-density devices are STM32F10x and STM32F103xx microcontrollers where the \nFlash memory density ranges between 32 and 128 Kbytes.\nHigh-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash \nmemory density ranges between 256 and 512 Kbytes.\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13718.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:14.936737+00:00",
+      "path": "data/raw/stm32/stm32-an2594.pdf",
+      "revision": "3"
+    },
+    {
+      "doc_id": "stm32-an2606",
+      "document_id": "AN2606",
+      "title": "STM32 system-memory boot mode",
+      "document_kind": "application_note",
+      "applicability": "Cross-series note: use only the STM32F10xxx sections",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00167594.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13801.pdf",
+        "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1052/CD00167594.pdf",
+        "https://www.st.com/resource/en/application_note/cd00167594.pdf"
+      ],
+      "pages": 27,
+      "sha256": "8ce85e8f73e0afda4d8a04a7eb8952eff2e725bd085d8e4603a7081bc1f975fe",
+      "cover_text": "October 2010\nDoc ID 13801 Rev 9\n1/27\nAN2606\nApplication note\nSTM32\u2122 microcontroller\nsystem memory boot mode\nIntroduction\nThe bootloader is stored in the internal boot ROM memory (system memory) of STM32 \ndevices. It is programmed by ST during production. Its main task is to download the \napplication program to the internal Flash memory through one of the available serial \nperipherals (USART, CAN, USB, etc.). A communication protocol is defined for each serial \ninterface, with a compatible command set and sequences.\nThe main features of the bootloader are the following:\n\u25cf\nIt uses an embedded serial interface to download the code with a predefined \ncommunication protocol\n\u25cf\nIt transfers and updates the Flash memory code, the data, and the vector table sections\nThis application note presents the general concept of the bootloader. It describes the \nsupported peripherals and hardware requirements to be considered when using the \nbootloader of any STM32 device currently in production. However the specifications of the \nlow-level communication protocol for each supported serial peripheral are documented in \nseparate documents:\n\u25cf\nFor specifications of the USART protocol used in the bootloader please refer to \nAN3155\n\u25cf\nFor the specification of CAN protocol used in the bootloader please refer to AN3154\n\u25cf\nFor the specification of DFU (USB Device) protocol used in the bootloader please refer \nto AN3156\nRelated documents (available from www.st.com)\n\u25cf\nSTM32 datasheets:\n\u2013\nlow, medium and high-densitySTM32F101xx and STM32F103xx datasheets\n\u2013\nlow, medium and high-density STM32F100xx and STM32F102xx datasheets\n\u2013\nSTM32F105xx/107xx connectivity line datasheet\n\u2013\nXL-density STM32F101xx and STM32F103xx datasheets\n\u25cf\nSTM32 reference manuals:\n\u2013\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx \nreference manual (RM0008)\n\u2013\nlow, medium and high-density STM32F100xx value line reference manual \n(RM0041)\n\u25cf\nSTM32 Flash programming manuals\n\u2013\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx Flash \nprogramming manual (PM0042)\n\u2013\nlow, medium and high-density STM32F100xx value line Flash programming \nmanual (PM0063)\n\u2013\nXL-density STM32F101xx and STM32F103xx programming manual (PM0068)\nwww.st.com\n",
+      "references": {
+        "AN3156": [
+          1
+        ],
+        "RM0008": [
+          1
+        ],
+        "AN3155": [
+          1
+        ],
+        "RM0041": [
+          1
+        ],
+        "PM0063": [
+          1
+        ],
+        "PM0068": [
+          1
+        ],
+        "PM0042": [
+          1
+        ],
+        "AN3154": [
+          1
+        ],
+        "AN2586": [
+          9
+        ],
+        "AN2662": [
+          26
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13801.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:16.992543+00:00",
+      "path": "data/raw/stm32/stm32-an2606.pdf",
+      "revision": "9"
+    },
+    {
+      "doc_id": "stm32-an3155",
+      "document_id": "AN3155",
+      "title": "USART protocol used in STM32 bootloader",
+      "document_kind": "application_note",
+      "applicability": "Pair protocol with device support in AN2606",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00264342.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/17066.pdf",
+        "https://www.st.com/resource/en/application_note/cd00264342.pdf"
+      ],
+      "pages": 37,
+      "sha256": "706dfb22319a4771c0dce04f1251496d8a0499d542fb8731eaeabbe74544ed48",
+      "cover_text": "April 2010\nDoc ID 17066 Rev 2\n1/37\nAN3155\nApplication note\nUSART protocol used\nin the STM32\u2122 bootloader\nIntroduction\nThis application note describes the USART protocol used in the STM32 microcontroller \nbootloader. It details each supported command. For more information about the USART \nhardware resources and requirements for your device bootloader, please refer to the \n\u201cSTM32 system memory boot mode\u201d application note (AN2606).\nRelated documents\nAvailable from www.st.com:\nAN2606 \u201cSTM32 system memory boot mode\u201d\nwww.st.com\n",
+      "references": {
+        "AN2606": [
+          1,
+          5,
+          8
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/17066.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:18.662401+00:00",
+      "path": "data/raw/stm32/stm32-an3155.pdf",
+      "revision": "2"
+    },
+    {
+      "doc_id": "stm32-an2834",
+      "document_id": "AN2834",
+      "title": "Improving STM32 ADC accuracy",
+      "document_kind": "application_note",
+      "applicability": "Cross-series techniques; check device ADC specifications",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00211314.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/15067.pdf",
+        "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1049/CD00211314.pdf",
+        "https://www.st.com/resource/en/application_note/cd00211314.pdf"
+      ],
+      "pages": 28,
+      "sha256": "31f4e725b76df8e92edf9a58318ef9c2344421bab933e5d48c2e89cab70fde51",
+      "cover_text": "November 2008\n  Rev 1\n1/28\nAN2834\nApplication note\nHow to get the best ADC accuracy\nin STM32F10xxx devices\nIntroduction\nThe STM32F10xxx microcontroller family embeds up to three advanced 12-bit ADCs \n(depending on the device) with a conversion time down to 1 \u00b5s. A self-calibration feature is \nprovided to enhance ADC accuracy versus environmental condition changes.\nIn applications involving analog-to-digital conversion, ADC accuracy has an impact on the \noverall system quality and efficiency. To improve this accuracy, you need to understand the \nerrors associated with the ADC and the parameters affecting them.\nThe ADC accuracy cannot depend on the ADC performance and features only, it depends \non the overall application design around the ADC.\nThe aim of this application note is to help understand ADC errors and how to enhance ADC \naccuracy. The document is divided into two main parts:\n\u25a0\nin the first, it gives the different types and sources of ADC errors related to the ADC design \nand to external ADC parameters such as the external hardware design\n\u25a0\nin the second part, it describes the different recommendations and gives hints on how to \nminimize these errors by focusing on the hardware methods\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/15067.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:18.750051+00:00",
+      "path": "data/raw/stm32/stm32-an2834.pdf",
+      "revision": "1"
+    },
+    {
+      "doc_id": "stm32-an3116",
+      "document_id": "AN3116",
+      "title": "STM32F10xxx ADC modes and applications",
+      "document_kind": "application_note",
+      "applicability": "ADC modes vary by density and device",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00258017.pdf",
+      "download_urls": [
+        "https://sites.ecse.rpi.edu/courses/static/ECSE-4790/_downloads/13a0f873aa3b4acb44116670b5d7434e/AN3116-stm32_ADC_modes.pdf",
+        "https://eliasoenal.com/st%20website/16840.pdf",
+        "https://www.st.com/resource/en/application_note/cd00258017.pdf"
+      ],
+      "pages": 18,
+      "sha256": "f2d34df96dd6c2b5092c4a8d5ea761df33a517ac0777dce874730135f17bc886",
+      "cover_text": "March 2010\nDoc ID 16840 Rev 1\n1/18\nAN3116\nApplication note\nSTM32\u2122\u2019s ADC modes\nand their applications\nIntroduction\nSTM32 microcontrollers have one of the most advanced ADCs on the microcontroller \nmarket. You could imagine a multitude of applications based on the STM32 ADC features. \nSome ADC modes are provided to simplify measurements and give efficient results in \napplications such as motor control.\nThis application note provides help for ADC users to understand some advanced modes \noffered in the STM32 microcontrollers, and to quick start development. Each of the \ndescribed modes is provided with an example of application to better understand how to use \nthem. Most modes come with a basic firmware to make it easier to understand the ADC \nconfiguration.\nThis application note is divided into two sections: independent modes and dual modes. The \nfirst section describes modes used with a single ADC. The second section describes modes \nthat should be used with two ADCs (ADC1 and ADC2 working jointly).\nThis application note does not describe the ADC modes that result from the combination of \nother modes.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://sites.ecse.rpi.edu/courses/static/ECSE-4790/_downloads/13a0f873aa3b4acb44116670b5d7434e/AN3116-stm32_ADC_modes.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:18.410116+00:00",
+      "path": "data/raw/stm32/stm32-an3116.pdf",
+      "revision": "1"
+    },
+    {
+      "doc_id": "stm32-an2548",
+      "document_id": "AN2548",
+      "title": "Using STM32F0/F1/F3/Gx/Lx DMA controller",
+      "document_kind": "application_note",
+      "applicability": "Cross-series note; select STM32F1 configuration",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00160362.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13529.pdf",
+        "https://web.eece.maine.edu/~zhu/book/ST%20AN2548.pdf",
+        "https://www.st.com/resource/en/application_note/cd00160362.pdf"
+      ],
+      "pages": 14,
+      "sha256": "14394f082b5ccec345538934fe4cc51480f8c19cd834b752eb6025032672c37a",
+      "cover_text": "         \nApril 2009\nDoc ID 13529 Rev 3\n1/14\nAN2548\nApplication note\nUsing the STM32F101xx and STM32F103xx DMA controller\n1 \nIntroduction\nThis application note describes how to use the STM32F101xx and STM32F103xx direct \nmemory access (DMA) controller. The STM32F101xx and STM32F103xx DMA controller, \nthe Cortex\u2122-M3 core, the advanced microcontroller bus architecture (AMBA) bus and the \nmemory system contribute to provide a high data bandwidth and to develop very-low latency \nresponse time software.\nThis application note also describes how to take full advantage of these features and ensure \ncorrect response times for different peripherals and subsystems.\nThe STM32F101xx and STM32F103xx will be referred to as STM32F10xxx, and the DMA \ncontroller as DMA throughout the document.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13529.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:19.356956+00:00",
+      "path": "data/raw/stm32/stm32-an2548.pdf",
+      "revision": "3"
+    },
+    {
+      "doc_id": "stm32-an2824",
+      "document_id": "AN2824",
+      "title": "STM32F10xxx I2C optimized examples",
+      "document_kind": "application_note",
+      "applicability": "Check ES096 for applicable silicon limitations",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00209826.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/15021.pdf",
+        "https://www.st.com/resource/en/application_note/cd00209826.pdf"
+      ],
+      "pages": 16,
+      "sha256": "577da8cb5325844677bccab8ca0eb0fc4e836fd93472913d27cdc48c004aba3d",
+      "cover_text": "June 2010\nDoc ID 15021 Rev 4\n1/16\nAN2824\nApplication note\nSTM32F10xxx I2C optimized examples\nIntroduction\nThe aim of this application note is to provide I2C firmware optimized examples based on \npolling, interrupts and DMA, covering the four I2C communication modes available in the \nSTM32F10xxx, that is, slave transmitter, slave receiver, master transmitter and master \nreceiver and to provide recommendations on the correct use of the I2C peripheral.\nThis application note applies to STM32F101xx and STM32F103xx medium, high and XL \ndensity microcontrollers, STM32F105/107xx connectivity line and STM32F100xx value line \ndevices. Throughout this document, these devices are referred to collectively as \nSTM32F10xxx.\nThe application note is organized in three parts. The first part describes the I2C master \nprogramming examples using Polling, DMA and Interrupts. The second part describes the \nI2C slave programming examples using DMA and Interrupts. The third part is an overview of \nthe content of the firmware accompanying this application note. .\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/15021.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:20.582419+00:00",
+      "path": "data/raw/stm32/stm32-an2824.pdf",
+      "revision": "4"
+    },
+    {
+      "doc_id": "stm32-an2820",
+      "document_id": "AN2820",
+      "title": "Driving bipolar stepper motors with STM32F103",
+      "document_kind": "application_note",
+      "applicability": "Medium-density STM32F103 timer-driven stepper-motor application",
+      "manufacturer_url": "http://www.st.com/stonline/products/literature/an/14946.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/14946.pdf"
+      ],
+      "pages": 23,
+      "sha256": "3e0e47c5d4d92e11c6a0ef82d7690f4c59cb015e749a38ee73199679c5fd0574",
+      "cover_text": "         \nApril 2009\nDoc ID 14946 Rev 2\n1/23\nAN2820\nApplication note\nDriving bipolar stepper motors\nusing a medium-density STM32F103xx microcontroller\nIntroduction\nThis application note describes how to achieve compact size, high speed and low cost with \nless resources when driving bipolar stepper motors using the medium-density \nSTM32F103xx family of cortex-M3-based microcontrollers. It presents a simple method to \nimplement the full-step and half-step operating modes to control stepper motors.\nA stepper motor is an electromechanical device that converts electric pulses into discrete \nmechanical step motions. The shaft of a stepper motor rotates in discrete steps when \nelectric command pulses are applied to it in the proper sequence. Stepper motors are a \ngood choice whenever controlled movement is required. They are particularly useful in \napplications where rotation angle, speed, position and synchronism control is needed.\nThe major advantages of stepper motors are that they need no feedback devices, they are \ninexpensive relative to other motion control systems, they show an excellent low-speed \ntorque and they are stable. Many stepper motor applications could benefit from the power, \nfeatures and flexibility of the STM32F10xxx devices. They include robotics controllers, \nturning machine tools, video cameras and other precise shaft-positioning-control \nenvironments.\nMoreover, the high performance of the STM32F10xxx microcontrollers offers designers the \npossibility of driving stepper motors reliably with low computing requirements from the \ncontroller.\nThis application note gives a simple method to control stepper motors following a typical run \nprofile. The user can choose the operating mode (full-step or half-step), the rotation sense \nof the motor (clockwise or counter clockwise) and the control current mode (fast or slow \ndecay).This method uses the medium-density STM32F103xx and the L6208 fully integrated \ntwo-phase stepper motor driver. It is the cheapest and simplest way of obtaining minimum \nCPU load.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/14946.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:22.043425+00:00",
+      "path": "data/raw/stm32/stm32-an2820.pdf",
+      "revision": "2"
+    },
+    {
+      "doc_id": "stm32-an2629",
+      "document_id": "AN2629",
+      "title": "STM32F10xxx low-power modes",
+      "document_kind": "application_note",
+      "applicability": "STM32F10xxx low-power modes; distinguish connectivity-line variants",
+      "manufacturer_url": "http://www.st.com/stonline/products/literature/an/13922.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13922.pdf"
+      ],
+      "pages": 43,
+      "sha256": "779cb11b2f05a9439bc80dbc96cb78f895a5d73fa19cc56037f311e33a77841f",
+      "cover_text": "         \nApril 2009\nDoc ID 13922 Rev 2\n1/43\nAN2629\nApplication note\nSTM32F101xx, STM32F102xx and STM32F103xx\nlow-power modes\nIntroduction\nThis application note is intended for system designers who require a software and hardware \nimplementation overview of the low-power modes of the STM32F101xx, STM32F102xx and \nSTM32F103xx products. It describes how to use the STM32F10xxx product family and \ndetails the clock systems, register settings and low-power management in order to optimize \nthe use of STM32F10xxx in applications where low power is key.\nThis application note should be read in conjunction with the datasheet of the relevant \nSTM32F10xxx product and the STM32F10xxx reference manual. For information on \nprogramming, erasing and protection of the internal Flash memory please refer to the \nSTM32F10xxx Flash programming manual.\nThe STM32F10xxx datasheets, the reference and Flash programming manuals are all \navailable from the STMicroelectronics website www.st.com.\nFor information on the Cortex\u2122-M3 core please refer to the Cortex\u2122-M3 Technical \nReference Manual, available from the www.arm.com website at the following address: \nhttp://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0337e/.\nThe first four sections of this application note introduce the part of the STM32F10xxx \ndevices that is used for low-power configuration. The next sections demonstrate the low-\npower feature in an applicative way. Each section refers to software delivered with this \ndocument, which give a practical view of power optimization.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13922.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:23.367139+00:00",
+      "path": "data/raw/stm32/stm32-an2629.pdf",
+      "revision": "2"
+    },
+    {
+      "doc_id": "stm32-an2557",
+      "document_id": "AN2557",
+      "title": "STM32F10xxx in-application programming over USART",
+      "document_kind": "application_note",
+      "applicability": "Application example, not a replacement for boot ROM specification",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00161640.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13588.pdf",
+        "https://www.mouser.com/pdfDocs/STM32F10x-IAP.pdf",
+        "https://www.st.com/resource/en/application_note/cd00161640.pdf"
+      ],
+      "pages": 16,
+      "sha256": "fc15adc92b655ef8d2abf2befdcc930394c8ffeeead5d40df4e3d43efafbd887",
+      "cover_text": "October 2010\nDoc ID 13588 Rev 8\n1/16\nAN2557\nApplication note\nSTM32F10x in-application programming\nusing the USART\nIntroduction\nAn important requirement for most Flash-memory-based systems is the ability to update \nfirmware when installed in the end product. This ability is referred to as in-application \nprogramming (IAP). The purpose of this application note is to provide general guidelines for \ncreating an IAP application. The STM32100B-EVAL, STM32100E-EVAL, STM3210B-EVAL, \nSTM3210E-EVAL and STM3210C-EVAL boards were used to validate the IAP driver.\nThe STM32F10x microcontroller can run user-specific firmware to perform IAP of the \nmicrocontroller-embedded Flash memory. This feature allows the use of any type of \ncommunication protocol for the reprogramming process (such as CAN, USART, USB). \nUSART is the example used in this application note.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13588.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:22.043425+00:00",
+      "path": "data/raw/stm32/stm32-an2557.pdf",
+      "revision": "8"
+    },
+    {
+      "doc_id": "stm32-an2821",
+      "document_id": "AN2821",
+      "title": "STM32F10xxx RTC clock/calendar implementation",
+      "document_kind": "application_note",
+      "applicability": "Clock/calendar implementation using STM32F10xxx RTC",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00210041.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/14949.pdf",
+        "https://www.keil.com/dd/docs/datashts/st/stm32f10xxx/an2821.pdf",
+        "https://www.st.com/resource/en/application_note/cd00210041.pdf"
+      ],
+      "pages": 28,
+      "sha256": "da6601a5ef95517cfab41726fad5cbbcc79707afaa00e89aa963650d57293155",
+      "cover_text": "         \nApril 2009\nDoc ID 14949 Rev 2\n1/28\nAN2821\nApplication note\nClock/calendar implementation\non the STM32F10xxx microcontroller RTC\nThe internal RTC (real-time clock) of the 32-bit, ARM\u00ae Cortex\u2122-M3-based medium-density \nSTM32F10xxx microcontroller is an independent timer. It provides a set of continuously \nrunning counters, which, using suitable software, can be used to implement a clock/calendar \nfunction. The RTC and backup registers are supplied through a switch that draws power \nfrom either the VDD supply (when present) or the backup battery. Thus the RTC runs even \nwhen the main supply is switched off.\nThis application note gives an example of how to implement the clock/calendar functionality \nusing the medium-density STM32F10xxx microcontroller in low-power and standard \napplications. The firmware example also performs leap year counting and tamper time \nstamping. It provides a low-power mode demonstration and a basic RTC calibration routine \nto compensate for crystal and temperature variations.\nThe STM3210B-EVAL board supports the firmware example described in this application \nnote without any modification to its hardware.\nFigure 1.\nSTM3210B-EVAL board\nwww.st.com\n",
+      "references": {
+        "AN2604": [
+          11
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/14949.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:23.925341+00:00",
+      "path": "data/raw/stm32/stm32-an2821.pdf",
+      "revision": "2"
+    },
+    {
+      "doc_id": "stm32-an2867",
+      "document_id": "AN2867",
+      "title": "Oscillator design guide for STM32 MCUs",
+      "document_kind": "application_note",
+      "applicability": "Cross-series guidance; use device electrical limits",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00221665.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/15287.pdf",
+        "https://www.mouser.com/pdfDocs/STM32-Oscillator-Design-Guide.pdf",
+        "https://www.st.com/resource/en/application_note/cd00221665.pdf"
+      ],
+      "pages": 23,
+      "sha256": "cdd8bf6f30237210ced49bb75a1db864265788f8a2e3c9d3f2e5d6d894163ab1",
+      "cover_text": "April 2010\nDoc ID 15287 Rev 3\n1/23\nAN2867\nApplication note\nOscillator design guide\n for ST microcontrollers\nIntroduction\nMost designers are familiar with oscillators (Pierce-Gate topology), but few really \nunderstand how they operate, let alone how to properly design an oscillator. In practice, \nmost designers do not even really pay attention to the oscillator design until they realize the \noscillator does not operate properly (usually when it is already being produced). This should \nnot happen. Many systems or projects are delayed in their deployment because of a crystal \nnot working as intended. The oscillator should receive its proper amount of attention during \nthe design phase, well before the manufacturing phase. The designer would then avoid the \nnightmare scenario of products being returned.\nThis application note introduces the Pierce oscillator basics and provides some guidelines \nfor a good oscillator design. It also shows how to determine the different external \ncomponents and provides guidelines for a good PCB for the oscillator.\nThis document finally contains an easy guideline to select suitable crystals and external \ncomponents, and it lists some recommended crystals (HSE and LSE) for STM32\u2122 and \nSTM8A/S microcontrollers in order to quick start development.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/15287.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:25.941080+00:00",
+      "path": "data/raw/stm32/stm32-an2867.pdf",
+      "revision": "3"
+    },
+    {
+      "doc_id": "stm32-an1709",
+      "document_id": "AN1709",
+      "title": "EMC design guide for STM8 STM32 and legacy MCUs",
+      "document_kind": "application_note",
+      "applicability": "General design guidance, not a device-specific specification",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00004479.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/9914.pdf",
+        "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/678/CD00004479.pdf",
+        "https://www.st.com/resource/en/application_note/cd00004479.pdf"
+      ],
+      "pages": 38,
+      "sha256": "6025adf71f63bdee8211950cbbc2f351c73480019b31bd137540a92937cb3677",
+      "cover_text": "AN1709/1003\n1/38\n1.0\nAN1709\nAPPLICATION NOTE\nEMC DESIGN GUIDE\nFOR ST MICROCONTROLLERS\nby Cyril Troise - Microcontroller Division Applications\nINTRODUCTION\nThe continuing demand for more performance, complexity and cost reduction require the sem-\niconductor industry to develop Microcontrollers with both high density design technology and\nhigher clock frequencies. This has intrinsically increased the noise emission and noise sensi-\ntivity. Application developers therefore, must now apply EMC \u201chardening\u201d techniques in the\ndesign of firmware, PCB layout and at system level. This note aims to explain ST Microcon-\ntroller EMC features and compliance standards to help application designers reach the op-\ntimum level of EMC performance.\n1\n",
+      "references": {
+        "AN1324": [
+          28
+        ],
+        "AN1015": [
+          36
+        ]
+      },
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/9914.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:03:27.058515+00:00",
+      "path": "data/raw/stm32/stm32-an1709.pdf",
+      "revision": "not extracted"
+    },
+    {
+      "doc_id": "stm32-an2592",
+      "document_id": "AN2592",
+      "title": "32-bit timer resolution using STM32F101/F103 timer linking",
+      "document_kind": "application_note",
+      "applicability": "Timer chaining on STM32F101/103; check exact timer instances",
+      "manufacturer_url": "http://www.st.com/stonline/products/literature/an/13711.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13711.pdf"
+      ],
+      "pages": 16,
+      "revision": "1",
+      "sha256": "57b780d8df05ad7b8c093c8612f3a3acfc9464f7bacd03145037fdea36d4fafe",
+      "cover_text": "August 2007\n  Rev 1\n1/16\nAN2592\nApplication note\nHow to achieve 32-bit timer resolution using the link system\nin STM32F101xx and STM32F103xx microcontrollers\nIntroduction\nIn many applications, 32-bit resolution is required to measure external signal periods of up \nto several hundreds of seconds or, to generate delays or periodic signals with large periods.\nThe STM32F101xx and STM32F103xx microcontrollers offer the possibility of chaining two \n16-bit timers to obtain a 32-bit resolution based on a specific configuration of the timers and \non the use of the timer link system.\nThis application note gives general guidelines to emulate a 32-bit timer. The two basic \noperating modes, that is the input capture mode and the output compare mode, are \npresented. Each mode is treated independently and, each time, examples of applications \nare provided.\nwww.st.com\n",
+      "references": {},
+      "status": "downloaded",
+      "retrieved_from": "https://eliasoenal.com/st%20website/13711.pdf",
+      "source_kind": "mirror",
+      "retrieved_at": "2026-09-08T14:05:01.903725+00:00",
+      "path": "data/raw/stm32/stm32-an2592.pdf"
+    }
+  ]
+}

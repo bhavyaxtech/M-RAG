@@ -1,0 +1,1003 @@
+[
+  {
+    "segment_id": "stm32-an2594-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "AN2594 Application note"
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "Many applications require EEPROM (electrically erasable programmable read-only memory) for non-volatile data storage. For low-cost purposes, the STM32F10x devices do not use EEPROM. Instead, they implement EEPROM emulation using the embedded Flash memory."
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "This application note explains the differences between external EEPROM and embedded Flash memory, and it describes a software method for emulating EEPROM using the onchip Flash memory of the STM32F10x devices."
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "This document also focuses on some embedded aspects in emulated EEPROM data storage, that the reader is assumed to know."
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "Glossary"
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "Low-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "Medium-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash memory density ranges between 32 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00009",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "High-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2594-p0001-text-00010",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 1,
+    "text": "Connectivity line devices are STM32F105xx and STM32F107xx microcontrollers."
+  },
+  {
+    "segment_id": "stm32-an2594-p0002-text-00011",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2594-p0002-text-00012",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 2,
+    "text": "1 Embedded Flash memory versus EEPROM: main differences . . . . . . . 5   \n1.1 Difference in write access time . 5   \n1.2 Difference in writing method . 6   \n1.3 Difference in erase time 6   \n2 Implementing EEPROM emulation 7   \n2.1 Principle   \n2.1.1 Application example. .8   \n2.1.2 EEPROM software description .8   \n3 Embedded application aspects 11   \n3.1 Data granularity management 11   \n3.1.1 Programming on a word-by-word basis 11   \n3.1.2 Programming on a byte-by-byte basis. 11   \n3.2 Wear leveling: Flash memory endurance improvement . . 11   \n3.2.1 Wear-leveling implementation example .11   \n3.3 Page header recovery in case of power loss . 12   \n3.4 Cycling capability 13   \n4 Revision history .15"
+  },
+  {
+    "segment_id": "stm32-an2594-p0003-text-00013",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2594-p0003-text-00014",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 3,
+    "text": "Table 1. Differences between embedded Flash memory and EEPROM . . .5   \nTable 2. Status combinations and actions to be taken . . . .13   \nTable 3. Maximum number of variables stored in emulated EEPROM (with 10 000 cycles) . . . . . . 14   \nTable 4. Document revision history. 15"
+  },
+  {
+    "segment_id": "stm32-an2594-p0004-text-00015",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2594-p0004-text-00016",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 4,
+    "text": "Figure 1. Header status switching between page0 and page1 7   \nFigure 2. EEPROM variable format . .8   \nFigure 3. Data update flow. . .8   \nFigure 4. WriteVariable flowchart. . 10   \nFigure 5. Page swap scheme with four pages (wear leveling). 12"
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "Embedded Flash memory versus EEPROM: main differences"
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "Electrically erasable programmable read-only memory (EEPROM) is a key component of many embedded applications that require non-volatile storage of data updated with a byte or word granularity during run time."
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "On the other hand, the microcontrollers used in those systems are each time more often based on embedded Flash memory. To eliminate components, save silicon space and reduce system cost, the STM32F10xxx Flash memory may be used instead of EEPROM for simultaneous code and data storage."
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "Unlike Flash memory, however, external EEPROM does not require an erase operation to free up space before data can be rewritten. Hence a special software management is required to store data into embedded Flash memory."
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "Obviously the emulation software scheme depends on many factors, including the EEPROM reliability, the architecture of the Flash memory used, and the product requirements."
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "The main differences between embedded Flash memory and external serial EEPROM are generic to any microcontroller that use the same Flash memory technology (it is not specific to the STM32F10xxx family products). The major differences are summarized in Table 1."
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-table-00001",
+    "type": "table",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_table_p0005_00001.png",
+    "caption": "**Table 1. Differences between embedded Flash memory and EEPROM**\n\n| Feature | External EEPROM | Emulated EEPROM using on-chip Flash memory |\n|---|---|---|\n| **Write time** | – a few ms<br>– random byte: 5 to 10 ms<br>– page: a hundred µs per word (5 to 10 ms per page) | Word program time: 20 µs |\n| **Erase time** | N/A | Page/Mass Erase time: 20 ms |\n| **Write method** | – once started, is not CPU-dependent<br>– only needs proper supply. | once started, is CPU-dependent: a CPU reset will stop the write process even if the supplied power stays within specifications. |\n| **Read access** | – serial: a hundred µs<br>– random word: 92 µs<br>– page: 22.5 µs per byte | – parallel: a hundred ns<br>– very few CPU cycles per word.<br>– Access time: 35 ns |\n| **Write/Erase cycles** | – from 10 kilocycles to 1 000 kilocycles | – from 10 kilocycles to 100 kilocycles (the use of many on-chip Flash memory pages is equivalent to increasing the number of write cycles) see **Section 3.4: Cycling capability** |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Differences between embedded Flash memory and EEPROM",
+    "generated_captions": {
+      "luna": "**Table 1. Differences between embedded Flash memory and EEPROM**\n\n| Feature | External EEPROM | Emulated EEPROM using on-chip Flash memory |\n|---|---|---|\n| **Write time** | – a few ms<br>– random byte: 5 to 10 ms<br>– page: a hundred µs per word (5 to 10 ms per page) | Word program time: 20 µs |\n| **Erase time** | N/A | Page/Mass Erase time: 20 ms |\n| **Write method** | – once started, is not CPU-dependent<br>– only needs proper supply. | once started, is CPU-dependent: a CPU reset will stop the write process even if the supplied power stays within specifications. |\n| **Read access** | – serial: a hundred µs<br>– random word: 92 µs<br>– page: 22.5 µs per byte | – parallel: a hundred ns<br>– very few CPU cycles per word.<br>– Access time: 35 ns |\n| **Write/Erase cycles** | – from 10 kilocycles to 1 000 kilocycles | – from 10 kilocycles to 100 kilocycles (the use of many on-chip Flash memory pages is equivalent to increasing the number of write cycles) see **Section 3.4: Cycling capability** |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "1.1 Difference in write access time"
+  },
+  {
+    "segment_id": "stm32-an2594-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 5,
+    "text": "As Flash memories have a shorter write access time, critical parameters can be stored faster in the emulated EEPROM than in an external serial EEPROM, thereby improving data storage."
+  },
+  {
+    "segment_id": "stm32-an2594-p0006-text-00025",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 6,
+    "text": "1.2 Difference in writing method"
+  },
+  {
+    "segment_id": "stm32-an2594-p0006-text-00026",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 6,
+    "text": "One of the major differences between external EEPROM and emulated EEPROM for embedded applications is the writing method."
+  },
+  {
+    "segment_id": "stm32-an2594-p0006-text-00027",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 6,
+    "text": "Standalone external EEPROM: once started by the CPU, the writing of a word cannot be interrupted by a CPU reset. Only supply failure will interrupt the write process, so properly sizing the decoupling capacitors can secure the complete writing process inside a standalone EEPROM."
+  },
+  {
+    "segment_id": "stm32-an2594-p0006-text-00028",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 6,
+    "text": "Emulated EEPROM using an embedded Flash memory: once started by the CPU, the write process can be interrupted by a power failure and by a CPU reset. This difference should be analyzed by system designers to understand the possible impact(s) on their applications and to determine a proper handling method."
+  },
+  {
+    "segment_id": "stm32-an2594-p0006-text-00029",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 6,
+    "text": "1.3 Difference in erase time"
+  },
+  {
+    "segment_id": "stm32-an2594-p0006-text-00030",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 6,
+    "text": "The difference in erase time is the other major difference between a standalone EEPROM and emulated EEPROM using embedded Flash memory. Unlike Flash memories, EEPROMs do not require an erase operation to free up space before writing to them. This means that some form of software management is required to store data in Flash memory. Moreover, as the erase process of a block in the Flash memory takes a few milliseconds, power shut-down and other spurious events that might interrupt the erase process (for example a reset) should be considered when designing the Flash memory management software. To design a robust Flash memory management software it is necessary to have a deep understanding of the Flash memory erase process."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00031",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "Implementing EEPROM emulation"
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00032",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "2.1 Principle"
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00033",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "EEPROM emulation is performed in various ways by considering the Flash memory limitations and product requirements. The approach detailed below requires at least two Flash memory pages of identical size allocated to non-volatile data. One that is initially erased, and offers byte-by-byte programmability; the other that is ready to take over when the former page needs to be garbage-collected. A header field that occupies the first 16-bit half word of each page indicates the page status."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00034",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "The header field is located at the base address of each page and gives the page status information."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00035",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "Each page has three possible states:"
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00036",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "●ERASED: the page is empty."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00037",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "● RECEIVE\\_DATA: the page is receiving data from the other full page."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00038",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "VALID\\_PAGE: the page contains valid data and this state does not change until all valid data are completely transferred to the erased page."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00039",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "Figure 1 shows how the page statuses change with respect to each other."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_figure_p0007_00001.png",
+    "caption": "**Figure 1. Header status switching between page0 and page1**\n\nFlow diagram showing alternating header/page status transitions:\n\n1. **Initial status box**\n   - Left status: **Page0 Valid**\n   - Right status: **Page1 Erased**\n   - Curved right-side loop/callout: **Write Page0 data**\n   - Downward transition: **Page0 Full**\n\n2. **Second status box**\n   - Left status: **Page0 Valid**\n   - Right status: **Page1 Receive**\n   - Curved right-side loop/callout: **Copy Page0 data -> Page1**\n   - Downward transition: **Erase Page0**\n\n3. **Third status box**\n   - Left status: **Page0 Erased**\n   - Right status: **Page1 Valid**\n   - Curved right-side loop/callout: **Write Page1 data**\n   - Downward transition: **Page1 Full**\n\n4. **Fourth status box**\n   - Left status: **Page0 Receive**\n   - Right status: **Page1 Valid**\n   - Curved right-side loop/callout: **Copy Page1 data -> Page0**\n   - Downward transition: **Erase Page1**\n\nA large outer return path runs from the bottom of the sequence around the left side and back to the top, indicating repetition of the page-status switching cycle. The figure identifier at lower right is **ai14606**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Header status switching between page0 and page1",
+    "generated_captions": {
+      "luna": "**Figure 1. Header status switching between page0 and page1**\n\nFlow diagram showing alternating header/page status transitions:\n\n1. **Initial status box**\n   - Left status: **Page0 Valid**\n   - Right status: **Page1 Erased**\n   - Curved right-side loop/callout: **Write Page0 data**\n   - Downward transition: **Page0 Full**\n\n2. **Second status box**\n   - Left status: **Page0 Valid**\n   - Right status: **Page1 Receive**\n   - Curved right-side loop/callout: **Copy Page0 data -> Page1**\n   - Downward transition: **Erase Page0**\n\n3. **Third status box**\n   - Left status: **Page0 Erased**\n   - Right status: **Page1 Valid**\n   - Curved right-side loop/callout: **Write Page1 data**\n   - Downward transition: **Page1 Full**\n\n4. **Fourth status box**\n   - Left status: **Page0 Receive**\n   - Right status: **Page1 Valid**\n   - Curved right-side loop/callout: **Copy Page1 data -> Page0**\n   - Downward transition: **Erase Page1**\n\nA large outer return path runs from the bottom of the sequence around the left side and back to the top, indicating repetition of the page-status switching cycle. The figure identifier at lower right is **ai14606**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00040",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "Generally, when using this method, the user does not know in advance the variable update frequency."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00041",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "The software and implementation described in this document use two Flash memory pages to emulate EEPROM."
+  },
+  {
+    "segment_id": "stm32-an2594-p0007-text-00042",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 7,
+    "text": "Each variable element is defined by a virtual address and a value to be stored in Flash memory for subsequent retrieval or update (in the implemented software both virtual address and data are 16 bits long). When data is modified, the modified data associated with the earlier virtual address is stored into a new Flash memory location. Data retrieval returns the modified data in the latest Flash memory location."
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_figure_p0008_00002.png",
+    "caption": "**Figure 2. EEPROM variable format**\n\n- **EEPROM variable element = 32-bit word**\n- Each EEPROM variable element is divided into:\n  - **Variable data (16 bits)**\n  - **Variable virtual address (16 bits)**\n- The diagram shows EEPROM elements arranged in two pages, labeled **page0** and **page1**.\n- Page capacity:\n  - **256 elements (1 Kbyte page) for Medium-density devices**\n  - **or**\n  - **512 elements (2 Kbyte page) for High-density/Connectivity line devices**\n- The page stacks are illustrated with the first 32-bit element subdivided into the 16-bit variable data and 16-bit variable virtual address fields; remaining elements are shown as blank stacked words.\n- Figure identifier printed at lower right: **ai14608b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. EEPROM variable format",
+    "generated_captions": {
+      "luna": "**Figure 2. EEPROM variable format**\n\n- **EEPROM variable element = 32-bit word**\n- Each EEPROM variable element is divided into:\n  - **Variable data (16 bits)**\n  - **Variable virtual address (16 bits)**\n- The diagram shows EEPROM elements arranged in two pages, labeled **page0** and **page1**.\n- Page capacity:\n  - **256 elements (1 Kbyte page) for Medium-density devices**\n  - **or**\n  - **512 elements (2 Kbyte page) for High-density/Connectivity line devices**\n- The page stacks are illustrated with the first 32-bit element subdivided into the 16-bit variable data and 16-bit variable virtual address fields; remaining elements are shown as blank stacked words.\n- Figure identifier printed at lower right: **ai14608b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-text-00043",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "text": "2.1.1 Application example"
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-text-00044",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "text": "The following example shows the software management of three EEPROM variables (Var1,   \nVar2 and Var3) with the following virtual addresses:   \nVar1: 5555h, Var2: 6666h and Var3: 7777h"
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_figure_p0008_00003.png",
+    "caption": "**Figure 3. Data update flow** — visual sequence showing contents of two pages, **Page0** and **Page1**, during variable updates and page transfer/erase operations. Each cell contains two hexadecimal byte values. Dashed horizontal sections separate the active data area from the remaining/unused area. “FF FF” denotes the displayed erased/unused cell contents.\n\n### Initial state — top-left\n- Page0: all displayed cells are `FF FF`.\n- Page1: all displayed cells are `FF FF`.\n- **Active Page = Page0**\n\n### After `Add Var3 =1234h` — top, second diagram\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - remaining displayed upper entries: `FF FF`\n- Page1: all displayed cells are `FF FF`.\n- Lower separated entries: `FF FF` on both pages.\n- **Active Page = Page0**\n\n### After `Add Var3 =1234h` — top, third diagram\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `12 45`\n  - `77 77`\n  - remaining displayed upper entries: `FF FF`\n- Page1: all displayed cells are `FF FF`.\n- Lower separated entries: `FF FF` on both pages.\n- **Active Page = Page0**\n\n### After `Add Var1 =BCBCh` — top-right\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `12 45`\n  - `77 77`\n  - `BC BC`\n  - `55 55`\n  - remaining displayed entries: `FF FF`\n- Page1: all displayed cells are `FF FF`.\n- Lower separated entries: `FF FF` on both pages.\n- **Active Page = Page0**\n\n### After `Add var2 =3434h` — bottom-left\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `12 45`\n  - `77 77`\n  - `BC BC`\n  - `55 55`\n  - `34 34`\n  - `66 66`\n- Page0 lower separated entry: `FF FF`\n- Page1: displayed entries are `FF FF`, including the lower separated entry.\n- **Active Page = Page0**\n\n### Subsequent data state — bottom, second diagram\n- Page0, upper entries shown:\n  - `12 32`\n  - `77 77`\n  - `22 45`\n  - `77 77`\n  - `32 32`\n  - `77 77`\n  - `22 45`\n  - `66 66`\n  - `BD BD`\n  - `55 55`\n  - `54 54`\n  - `77 77`\n- Page0 lower separated entry: `FF FF`\n- Page1 displayed entries: `FF FF`.\n- **Active Page = Page0**\n\n### After `Add Var2 =6464h` — bottom, third diagram\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `22 45`\n  - `77 77`\n  - `32 32`\n  - `77 77`\n  - `22 45`\n  - `66 66`\n  - `BD BD`\n  - `55 55`\n  - `54 54`\n  - `77 77`\n- Page0 lower separated entry: `FF FF`\n- Page1, upper entries:\n  - `64 64`\n  - `66 66`\n  - `54 54`\n  - `77 77`\n  - `BD BD`\n  - `55 55`\n  - subsequent displayed entries: `FF FF`\n- Page1 lower separated entry: `FF FF`\n- **Active Page = Page1**\n\n### After `Erase Page0` — bottom-right\n- Page0: all displayed entries are `FF FF`, including the lower separated entry.\n- Page1, upper entries:\n  - `64 64`\n  - `66 66`\n  - `54 54`\n  - `77 77`\n  - `BD BD`\n  - `55 55`\n  - remaining displayed entries: `FF FF`\n- Page1 lower separated entry: `FF FF`\n- **Active Page = Page1**\n\nFigure identifier at lower right: `ai14609`.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Data update flow",
+    "generated_captions": {
+      "luna": "**Figure 3. Data update flow** — visual sequence showing contents of two pages, **Page0** and **Page1**, during variable updates and page transfer/erase operations. Each cell contains two hexadecimal byte values. Dashed horizontal sections separate the active data area from the remaining/unused area. “FF FF” denotes the displayed erased/unused cell contents.\n\n### Initial state — top-left\n- Page0: all displayed cells are `FF FF`.\n- Page1: all displayed cells are `FF FF`.\n- **Active Page = Page0**\n\n### After `Add Var3 =1234h` — top, second diagram\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - remaining displayed upper entries: `FF FF`\n- Page1: all displayed cells are `FF FF`.\n- Lower separated entries: `FF FF` on both pages.\n- **Active Page = Page0**\n\n### After `Add Var3 =1234h` — top, third diagram\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `12 45`\n  - `77 77`\n  - remaining displayed upper entries: `FF FF`\n- Page1: all displayed cells are `FF FF`.\n- Lower separated entries: `FF FF` on both pages.\n- **Active Page = Page0**\n\n### After `Add Var1 =BCBCh` — top-right\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `12 45`\n  - `77 77`\n  - `BC BC`\n  - `55 55`\n  - remaining displayed entries: `FF FF`\n- Page1: all displayed cells are `FF FF`.\n- Lower separated entries: `FF FF` on both pages.\n- **Active Page = Page0**\n\n### After `Add var2 =3434h` — bottom-left\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `12 45`\n  - `77 77`\n  - `BC BC`\n  - `55 55`\n  - `34 34`\n  - `66 66`\n- Page0 lower separated entry: `FF FF`\n- Page1: displayed entries are `FF FF`, including the lower separated entry.\n- **Active Page = Page0**\n\n### Subsequent data state — bottom, second diagram\n- Page0, upper entries shown:\n  - `12 32`\n  - `77 77`\n  - `22 45`\n  - `77 77`\n  - `32 32`\n  - `77 77`\n  - `22 45`\n  - `66 66`\n  - `BD BD`\n  - `55 55`\n  - `54 54`\n  - `77 77`\n- Page0 lower separated entry: `FF FF`\n- Page1 displayed entries: `FF FF`.\n- **Active Page = Page0**\n\n### After `Add Var2 =6464h` — bottom, third diagram\n- Page0, upper entries:\n  - `12 32`\n  - `77 77`\n  - `22 45`\n  - `77 77`\n  - `32 32`\n  - `77 77`\n  - `22 45`\n  - `66 66`\n  - `BD BD`\n  - `55 55`\n  - `54 54`\n  - `77 77`\n- Page0 lower separated entry: `FF FF`\n- Page1, upper entries:\n  - `64 64`\n  - `66 66`\n  - `54 54`\n  - `77 77`\n  - `BD BD`\n  - `55 55`\n  - subsequent displayed entries: `FF FF`\n- Page1 lower separated entry: `FF FF`\n- **Active Page = Page1**\n\n### After `Erase Page0` — bottom-right\n- Page0: all displayed entries are `FF FF`, including the lower separated entry.\n- Page1, upper entries:\n  - `64 64`\n  - `66 66`\n  - `54 54`\n  - `77 77`\n  - `BD BD`\n  - `55 55`\n  - remaining displayed entries: `FF FF`\n- Page1 lower separated entry: `FF FF`\n- **Active Page = Page1**\n\nFigure identifier at lower right: `ai14609`."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-text-00045",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "text": "2.1.2EEPROM software description"
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-text-00046",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "text": "This section describes the driver implemented for EEPROM emulation using the STM32F10xxx Flash memory driver provided by STMicroelectronics."
+  },
+  {
+    "segment_id": "stm32-an2594-p0008-text-00047",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 8,
+    "text": "A sample demonstration program is also supplied to demonstrate and test the EEPROM emulation driver using the three variables Var1, Var2 and Var3 defined in the VirtAddVarTab table declared in the software main.c file."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00048",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "The project contains three source files in addition to the Flash memory library source files:"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00049",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "●eeprom.c: it contains C code for the following project routines:"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00050",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "EE\\_Init()   \nEE\\_Format()   \nEE\\_FindValidPage()   \nEE\\_VerifyPageFullWriteVariable()   \nEE\\_ReadVariable()   \nEE\\_PageTransfer()   \nEE\\_WriteVariable()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00051",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "●eeprom.h: it contains the routine prototypes and some declarations."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00052",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "main.c: this application program is an example using the described routines in order to write to and read from the EEPROM."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00053",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "User API definition"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00054",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "The set of functions contained in the eeprom.c file, that are used for EEPROM emulation, are described below:"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00055",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "EE\\_Init()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00056",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "Sector header corruption is possible in the event of power loss during data update or sector erase / transfer. In this case, the EE\\_Init () function will attempt to restore the database to a known good state. This function should be called prior to accessing the database after each power-down. It accepts no parameters. The process is described in Table 2."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00057",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "EE\\_Format()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00058",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "This function erases page0 and page1 and writes a VALID\\_PAGE header to page0."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00059",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "EE\\_FindValidPage()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00060",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "This function reads both page headers and returns the valid page number. The passed parameter indicates if the valid page is sought for a write or read operation (READ\\_FROM\\_VALID\\_PAGE or WRITE\\_IN\\_VALID\\_PAGE)."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00061",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "EE\\_VerifyPageFullWriteVariable()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00062",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "It implements the write process that must either update or create the first instance of a variable. It consists in finding the first empty location on the active page, starting from the end, and filling it with the passed virtual address and data of the variable. In the case the active page is full, the PAGE\\_FULL value is returned. This routine uses the parameters below:"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00063",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "Virtual address: may be any of the three declared variables' virtual addresses (Var1, Var2 or Var3)"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00064",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "Data: the value of the variable to be stored"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00065",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "This function returns FLASH\\_COMPLETE on success, PAGE\\_FULL if there is not enough memory for a variable update, or a Flash memory error code to indicate operation failure (erase or program)."
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00066",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "EE\\_ReadVariable()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0009-text-00067",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 9,
+    "text": "This function returns the data corresponding to the virtual address passed as a parameter. Only the last update is read. The function enters in a loop in which it reads the variable entries until the last one. If no occurrence of the variable is found, the ReadStatus variable is returned with the value “1”, otherwise it is reset to indicate that the variable has been found and the variable value is returned on the Read\\_data variable."
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00068",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "• EE\\_PageTransfer()"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00069",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "It transfers the most recent data (last variable updates) from a full page to an empty one. At the beginning, it determines the active page, which is the page the data is to be transferred from. The new page header field is defined and written (new page status is RECEIVE\\_DATA given that it is in the process of receiving data). When the data transfer is complete, the new page header is VALID\\_PAGE, the old page is erased and its header becomes ERASED."
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00070",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "EE\\_WriteVariable(..)"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00071",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "This function is called by the user application to update a variable. It uses the EE\\_VerifyPageFullWriteVariable(), and EE\\_PageTransfer() routines that have already been described."
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00072",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "Figure 4 shows the procedure for updating a variable entry in the EEPROM."
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_figure_p0010_00004.png",
+    "caption": "**Figure 4. WriteVariable flowchart**\n\n- Left-side heading: **Function call**\n- Function-call labels shown on the left:\n  - `EE_VerifyPageFullWriteVariable()`\n  - `EE_FindValidPage()`\n  - `EE_PageTransfer()`\n  - `EE_ReadVariable()`\n\n**Flow:**\n\n1. **Add element request**\n2. **Find Valid page**\n3. Decision diamond: **current active page full**\n   - **Yes** branch:\n     - **Copy all current elements by reading the active page from the bottom, taking into account the new updated element.**\n     - **Erase previous active page**\n     - **Change the active page**\n     - **End**\n   - **No** branch:\n     - **Add new element at the 1st empty element in the current active page**\n     - **End**\n\nThe diagram uses downward arrows for the main flow; the decision branches are labeled **Yes** and **No**. Identifier at lower right: `ai14610b`.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. WriteVariable flowchart",
+    "generated_captions": {
+      "luna": "**Figure 4. WriteVariable flowchart**\n\n- Left-side heading: **Function call**\n- Function-call labels shown on the left:\n  - `EE_VerifyPageFullWriteVariable()`\n  - `EE_FindValidPage()`\n  - `EE_PageTransfer()`\n  - `EE_ReadVariable()`\n\n**Flow:**\n\n1. **Add element request**\n2. **Find Valid page**\n3. Decision diamond: **current active page full**\n   - **Yes** branch:\n     - **Copy all current elements by reading the active page from the bottom, taking into account the new updated element.**\n     - **Erase previous active page**\n     - **Change the active page**\n     - **End**\n   - **No** branch:\n     - **Add new element at the 1st empty element in the current active page**\n     - **End**\n\nThe diagram uses downward arrows for the main flow; the decision branches are labeled **Yes** and **No**. Identifier at lower right: `ai14610b`."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00073",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "Key features"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00074",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "●User-configured emulated EEPROM size"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00075",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "●Increased Flash memory endurance: page erased only when it is full"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00076",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "●Non-volatile data variables can be updated infrequently"
+  },
+  {
+    "segment_id": "stm32-an2594-p0010-text-00077",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 10,
+    "text": "●Interrupt servicing during program/erase is possible"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00078",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "Embedded application aspects"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00079",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "This section gives some advice on how to overcome software limitations in embedded applications and to fulfill the needs of different applications."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00080",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "3.1 Data granularity management"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00081",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "Emulated EEPROM can be used in embedded applications where non-volatile storage of data updated with a byte, half-word or word granularity is required. It generally depends on the user requirements and Flash memory architecture, such as stored data length, write access, etc."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00082",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "The STM32F10xxx on-chip Flash memory allows 16-bit, half-word programming. Data can however be programmed by bytes or words by using some software techniques."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00083",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "3.1.1 Programming on a word-by-word basis"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00084",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "The Flash memory driver provides a function that will write 32 bits of data “VarData” to the desired Flash memory address “VarAddress”: FLASH\\_ProgramWord(VarAddress, VarData). With this function, a whole word can be written to a specific embedded Flash memory location."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00085",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "3.1.2 Programming on a byte-by-byte basis"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00086",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "Writing by bytes offers the user the possibility of storing more data variables. The performance may however be reduced."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00087",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "Using the FLASH\\_ProgramHalfWord() function, both virtual address and data can be written in one go as a half word."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00088",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "3.2 Wear leveling: Flash memory endurance improvement"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00089",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "In the STM32F10xxx on-chip Flash memory, each page can be programmed or erased reliably around 10 000 times."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00090",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "For write-intensive applications that use more than two pages (3 or 4) for the emulated EEPROM, it is recommended to implement a wear-leveling algorithm to monitor and distribute the number of write cycles among the pages."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00091",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "When no wear-leveling algorithm is used, the pages are not used at the same rate. Pages with long-lived data do not endure as many write cycles as pages that contain frequently updated data. The wear-leveling algorithm ensures that equal use is made of all the available write cycles for each sector."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00092",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "3.2.1 Wear-leveling implementation example"
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00093",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "In this example, in order to enhance the emulated EEPROM capacity, four pages will be used (Page0, Page1, Page2 and Page3)."
+  },
+  {
+    "segment_id": "stm32-an2594-p0011-text-00094",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 11,
+    "text": "The wear-leveling algorithm is implemented as follows: when page n is full, the device switches to page n+1. Page n is garbage-collected and then erased. When it is the turn of"
+  },
+  {
+    "segment_id": "stm32-an2594-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 12,
+    "text": "Page3 to be full, the device goes back to Page0, Page3 is garbage-collected then erased and so on (refer to Figure 5)."
+  },
+  {
+    "segment_id": "stm32-an2594-p0012-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2594",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_figure_p0012_00005.png",
+    "caption": "Figure: page swap scheme with four pages (wear leveling).\n\n- Four vertically arranged page diagrams labeled **Page0**, **Page1**, **Page2**, and **Page3**.\n- Each page is shown as a two-column memory layout with:\n  - An upper table of eight rows.\n  - A dotted continuation section.\n  - A lower two-cell row.\n- All displayed cell values are two-character hexadecimal-style values, predominantly **FF**.\n\n**Page0**\n- Upper table, two columns × eight rows:\n  1. `12 | 32`\n  2. `55 | 55`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Active Page**\n\n**Page1**\n- Upper table, two columns × eight rows; every cell is `FF`:\n  1. `FF | FF`\n  2. `FF | FF`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Erased**\n\n**Page2**\n- Upper table, two columns × eight rows; every cell is `FF`:\n  1. `FF | FF`\n  2. `FF | FF`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Erased**\n\n**Page3**\n- Upper table, two columns × eight rows; every cell is `FF`:\n  1. `FF | FF`\n  2. `FF | FF`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Erased**\n\nCurved arrows beneath the page diagrams show the page-swap sequence between the four pages, including a long return path from the rightmost page toward Page0. Figure identifier at lower right: **ai14611**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Page swap scheme with four pages (wear leveling)\nIn the software, the wear-leveling algorithm can be implemented using the EE\\_FindValidPage() function.",
+    "generated_captions": {
+      "luna": "Figure: page swap scheme with four pages (wear leveling).\n\n- Four vertically arranged page diagrams labeled **Page0**, **Page1**, **Page2**, and **Page3**.\n- Each page is shown as a two-column memory layout with:\n  - An upper table of eight rows.\n  - A dotted continuation section.\n  - A lower two-cell row.\n- All displayed cell values are two-character hexadecimal-style values, predominantly **FF**.\n\n**Page0**\n- Upper table, two columns × eight rows:\n  1. `12 | 32`\n  2. `55 | 55`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Active Page**\n\n**Page1**\n- Upper table, two columns × eight rows; every cell is `FF`:\n  1. `FF | FF`\n  2. `FF | FF`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Erased**\n\n**Page2**\n- Upper table, two columns × eight rows; every cell is `FF`:\n  1. `FF | FF`\n  2. `FF | FF`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Erased**\n\n**Page3**\n- Upper table, two columns × eight rows; every cell is `FF`:\n  1. `FF | FF`\n  2. `FF | FF`\n  3. `FF | FF`\n  4. `FF | FF`\n  5. `FF | FF`\n  6. `FF | FF`\n  7. `FF | FF`\n  8. `FF | FF`\n- Lower row: `FF | FF`\n- Status label below: **Erased**\n\nCurved arrows beneath the page diagrams show the page-swap sequence between the four pages, including a long return path from the rightmost page toward Page0. Figure identifier at lower right: **ai14611**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0012-text-00096",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 12,
+    "text": "3.3 Page header recovery in case of power loss"
+  },
+  {
+    "segment_id": "stm32-an2594-p0012-text-00097",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 12,
+    "text": "Data or page header corruption is possible in case of a power loss during a variable update, page erase or transfer."
+  },
+  {
+    "segment_id": "stm32-an2594-p0012-text-00098",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 12,
+    "text": "To detect this corruption and recover from it, the EE\\_Init() routine is implemented. It should be called immediately after power-up. The principle of the routine is described in this application note. The routine uses the page status to check for integrity and perform repair if necessary."
+  },
+  {
+    "segment_id": "stm32-an2594-p0012-text-00099",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 12,
+    "text": "After power loss, the EE\\_Init() routine is used to check the page header status. There are 9 possible status combinations, three of which are invalid. Table 2 shows the actions that should be taken based on the page statuses upon power-up."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-table-00002",
+    "type": "table",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_table_p0013_00002.png",
+    "caption": "**Table 2. Status combinations and actions to be taken**\n\nA 3×3 status-combination table. Rows are **Page1** status; columns are **Page0** status.\n\n| **Page1 \\ Page0** | **ERASED** | **RECEIVE_DATA** | **VALID_PAGE** |\n|---|---|---|---|\n| **ERASED** | Invalid state<br>Erase both pages<br>and format page0 | Erase Page1 and mark<br>Page0 as VALID_PAGE | Use page0 as the valid page<br>and erase page1 |\n| **RECEIVE_DATA** | Erase Page0 and<br>mark Page1 as<br>VALID_PAGE | Invalid state<br>Erase both pages and<br>format page0 | Use page0 as the valid page<br>& transfer the last updated<br>variables from page0 to<br>page1 & mark page1 as valid<br>& erase page0 |\n| **VALID_PAGE** | Use page1 as the<br>valid page and<br>erase page0 | Use page1 as the valid page<br>& transfer the last updated<br>variables from page1 to<br>page0 & mark page0 as<br>valid & erase page1 | Invalid state<br>Erase both pages and format<br>page0 |\n\nThe table uses the exact status labels **ERASED**, **RECEIVE_DATA**, and **VALID_PAGE** for both Page0 and Page1.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Status combinations and actions to be taken",
+    "generated_captions": {
+      "luna": "**Table 2. Status combinations and actions to be taken**\n\nA 3×3 status-combination table. Rows are **Page1** status; columns are **Page0** status.\n\n| **Page1 \\ Page0** | **ERASED** | **RECEIVE_DATA** | **VALID_PAGE** |\n|---|---|---|---|\n| **ERASED** | Invalid state<br>Erase both pages<br>and format page0 | Erase Page1 and mark<br>Page0 as VALID_PAGE | Use page0 as the valid page<br>and erase page1 |\n| **RECEIVE_DATA** | Erase Page0 and<br>mark Page1 as<br>VALID_PAGE | Invalid state<br>Erase both pages and<br>format page0 | Use page0 as the valid page<br>& transfer the last updated<br>variables from page0 to<br>page1 & mark page1 as valid<br>& erase page0 |\n| **VALID_PAGE** | Use page1 as the<br>valid page and<br>erase page0 | Use page1 as the valid page<br>& transfer the last updated<br>variables from page1 to<br>page0 & mark page0 as<br>valid & erase page1 | Invalid state<br>Erase both pages and format<br>page0 |\n\nThe table uses the exact status labels **ERASED**, **RECEIVE_DATA**, and **VALID_PAGE** for both Page0 and Page1."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "3.4 Cycling capability"
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "A program/erase cycle consists of one or more write accesses and one page erase operation."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "When the EEPROM technology is used, each byte can be programmed and erased a finite number of times, typically in the range of 10 000 to 100 000."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00103",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "However, in embedded Flash memory, the minimum erase size is the page and the number of program/erase cycles applied to a page is the number of possible erase cycles. The STM32F10xxx’s electrical characteristics guarantee 10 000 program/erase cycles per page. The maximum lifetime of the emulated EEPROM is thereby limited by the update rate of the most frequently written parameter."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00104",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "The cycling capability is dependent of the amount/size of data that the user wants to handle."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00105",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "In this example, two pages (of 1 Kbyte for Medium-density devices or 2 Kbyte for Highdensity and Connectivity line devices) are used and programmed with 16-bit data. To each variable corresponds a 16-bit virtual address. That is, each variable occupies a word of storage space. A page can store 1 Kbyte (for Medium-density devices) or 2 Kbyte (for Highdensity and Connectivity line devices) multiplied by the Flash memory endurance of 10 000 cycles gives a total of 10 000 Kbytes (for Medium-density devices) or 20 000 Kbytes (for High-density and Connectivity line devices) of data storage capacity for the lifetime of one page in the emulated Flash memory. Consequently, 20 000 Kbytes (for Medium-density devices) or 40 000 Kbytes (for High-density and Connectivity line devices) can be stored in the emulated EEPROM provided that two pages are used in the emulation process. If more than two pages are used, this number is multiplied accordingly."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00106",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "Knowing the data width of a stored variable, it is possible to calculate the total number of variables that can be stored in the emulated EEPROM area during its lifetime."
+  },
+  {
+    "segment_id": "stm32-an2594-p0013-text-00107",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 13,
+    "text": "Table 3 gives an idea of the number of variables that can be stored in the emulated EEPROM according to the variable virtual address and data sizes."
+  },
+  {
+    "segment_id": "stm32-an2594-p0014-table-00003",
+    "type": "table",
+    "doc": "stm32-an2594",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_table_p0014_00003.png",
+    "caption": "### Table: Maximum number of variables stored in emulated EEPROM\n\n| Variable size | 2 × 1 Kbyte pages | 2 × 2 Kbyte pages | Unit |\n|---|---:|---:|---|\n| 8-bit variable (with 8-bit virtual address) | 10 000 × (2¹⁰ − 2) | 10 000 × (2¹¹ − 2) | Variable |\n| 16-bit variable (with 16-bit virtual address) | 5000 × (2¹⁰ − 4) | 5000 × (2¹¹ − 4) | Variable |\n| 32-bit variable (with 32-bit virtual address) | 2500 × (2¹⁰ − 8) | 2500 × (2¹¹ − 8) | Variable |\n\nThe table image does not show any footnotes or additional qualifications.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Maximum number of variables stored in emulated EEPROM (with 10 000 cycles)<sup>(1)</sup> <sup>(2)</sup>",
+    "generated_captions": {
+      "luna": "### Table: Maximum number of variables stored in emulated EEPROM\n\n| Variable size | 2 × 1 Kbyte pages | 2 × 2 Kbyte pages | Unit |\n|---|---:|---:|---|\n| 8-bit variable (with 8-bit virtual address) | 10 000 × (2¹⁰ − 2) | 10 000 × (2¹¹ − 2) | Variable |\n| 16-bit variable (with 16-bit virtual address) | 5000 × (2¹⁰ − 4) | 5000 × (2¹¹ − 4) | Variable |\n| 32-bit variable (with 32-bit virtual address) | 2500 × (2¹⁰ − 8) | 2500 × (2¹¹ − 8) | Variable |\n\nThe table image does not show any footnotes or additional qualifications."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0014-text-00108",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 14,
+    "text": "2. The value subtracted from the maximum number of variables that can be written using two pages, corresponds to the page status located at the top of the page. Depending on the variable granularity and, to preserve the alignment, some empty bytes are added to the page status. These bytes are also subtracted from this maximum number."
+  },
+  {
+    "segment_id": "stm32-an2594-p0015-text-00109",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 15,
+    "text": "4"
+  },
+  {
+    "segment_id": "stm32-an2594-p0015-text-00110",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 15,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2594-p0015-table-00004",
+    "type": "table",
+    "doc": "stm32-an2594",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2594/mineru/images/bbox_fallback_table_p0015_00004.png",
+    "caption": "**Table 4. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 05-Oct-2007 | 1 | Initial release. |\n| 24-Jun-2008 | 2 | Document updated to also apply to High-density STM32F10xxx MCUs.<br>Small text changes.<br>Write/Erase cycles added to **Table 1: Differences between embedded Flash memory and EEPROM**.<br>**EE_Init()** function added under **User API definition on page 9**.<br>**Figure 4: WriteVariable flowchart on page 10** modified. **Key features on page 10** updated.<br>**Section 3.3: Page header recovery in case of power loss** updated.<br>**Table 2: Status combinations and actions to be taken** updated.<br>**Table 3: Maximum number of variables stored in emulated EEPROM (with 10 000 cycles)** updated, notes added. |\n| 04-Aug-2009 | 3 | Updated for Connectivity line devices. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 4. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 05-Oct-2007 | 1 | Initial release. |\n| 24-Jun-2008 | 2 | Document updated to also apply to High-density STM32F10xxx MCUs.<br>Small text changes.<br>Write/Erase cycles added to **Table 1: Differences between embedded Flash memory and EEPROM**.<br>**EE_Init()** function added under **User API definition on page 9**.<br>**Figure 4: WriteVariable flowchart on page 10** modified. **Key features on page 10** updated.<br>**Section 3.3: Page header recovery in case of power loss** updated.<br>**Table 2: Status combinations and actions to be taken** updated.<br>**Table 3: Maximum number of variables stored in emulated EEPROM (with 10 000 cycles)** updated, notes added. |\n| 04-Aug-2009 | 3 | Updated for Connectivity line devices. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00111",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00112",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00113",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00114",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00115",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00116",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00117",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00118",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00119",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00120",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00121",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00122",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "© 2009 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00123",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00124",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2594-p0016-text-00125",
+    "type": "text",
+    "doc": "stm32-an2594",
+    "page": 16,
+    "text": "www.st.com"
+  }
+]

@@ -1,0 +1,1816 @@
+{
+  "case": {
+    "id": "flash-storage",
+    "question": "How does AN2594 EEPROM emulation use Flash pages, and what programming/erase restrictions in PM0075 must an implementation preserve?",
+    "candidate_source_documents": [
+      "AN2594",
+      "PM0075"
+    ],
+    "ground_truth_answer": null,
+    "requires_visual": null,
+    "status": "candidate_requires_source_review_not_scored",
+    "mode": "mrag"
+  },
+  "request": {
+    "message": "How does AN2594 EEPROM emulation use Flash pages, and what programming/erase restrictions in PM0075 must an implementation preserve?",
+    "mode": "mrag",
+    "doc": "stm32-ds5319",
+    "scope": "collection",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:48:51.772435+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "AN2594 STM32F10xxx EEPROM emulation Flash page usage and PM0075 Flash programming and erase restrictions",
+      "page": null,
+      "confidence": 0.99,
+      "reason": "Asks about listed STM32 Flash and EEPROM emulation technical documents",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.7230064272880554,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-an2594-p0001-text-chunk-000",
+          "doc": "stm32-an2594",
+          "doc_title": "AN2594 (rev 3) — STM32F10xxx EEPROM emulation",
+          "page": 1,
+          "type": "text",
+          "score": 0.7230064272880554,
+          "text": "AN2594 Application note\n\nIntroduction\n\nMany applications require EEPROM (electrically erasable programmable read-only memory) for non-volatile data storage. For low-cost purposes, the STM32F10x devices do not use EEPROM. Instead, they implement EEPROM emulation using the embedded Flash memory.\n\nThis application note explains the differences between external EEPROM and embedded Flash memory, and it describes a software method for emulating EEPROM using the onchip Flash memory of the STM32F10x devices.\n\nThis document also focuses on some embedded aspects in emulated EEPROM data storage, that the reader is assumed to know.\n\nGlossary\n\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes.\n\nMedium-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash memory density ranges between 32 and 128 Kbytes.\n\nHigh-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes.\n\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2594/1",
+          "bbox": null
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-pm0075-p0001-text-chunk-000",
+          "doc": "stm32-pm0075",
+          "doc_title": "PM0075 (rev 2) — STM32F10xxx Flash programming manual",
+          "page": 1,
+          "type": "text",
+          "score": 0.652686595916748,
+          "text": "STM32F10xxx Flash memory microcontrollers\n\nIntroduction\n\nThis programming manual describes how to program the Flash memory of STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and STM32F107xx microcontrollers. For convenience, these will be referred to as STM32F10xxx in the rest of this document unless otherwise specified.\n\nThe STM32F10xxx embedded Flash memory can be programmed using in-circuit programming or in-application programming.\n\nThe in-circuit programming (ICP) method is used to update the entire contents of the Flash memory, using the JTAG, SWD protocol or the boot loader to load the user application into the microcontroller. ICP offers quick and efficient design iterations and eliminates unnecessary package handling or socketing of devices.\n\nIn contrast to the ICP method, in-application programming (IAP) can use any communication interface supported by the microcontroller (I/Os, USB, CAN, UART, I²C, SPI, etc.) to download programming data into memory. IAP allows the user to re-program the Flash memory while the application is running. Nevertheless, part of the application has to have been previously programmed in the Flash memory using ICP.\n\nThe Flash interface implements instruction access and data access based on the AHB protocol. It implements a prefetch buffer that speeds up CPU code execution. It also implements the logic necessary to carry out Flash memory operations (Program/Erase). Program/Erase operations can be performed over the whole product voltage range. Read/Write protections and option bytes are also implemented.\n\nTable 1 lists the microcontrollers and evaluation tool concerned by this programming manual.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-pm0075/1",
+          "bbox": null
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-an2594-p0011-text-chunk-000",
+          "doc": "stm32-an2594",
+          "doc_title": "AN2594 (rev 3) — STM32F10xxx EEPROM emulation",
+          "page": 11,
+          "type": "text",
+          "score": 0.6752244234085083,
+          "text": "Embedded application aspects\n\nThis section gives some advice on how to overcome software limitations in embedded applications and to fulfill the needs of different applications.\n\n3.1 Data granularity management\n\nEmulated EEPROM can be used in embedded applications where non-volatile storage of data updated with a byte, half-word or word granularity is required. It generally depends on the user requirements and Flash memory architecture, such as stored data length, write access, etc.\n\nThe STM32F10xxx on-chip Flash memory allows 16-bit, half-word programming. Data can however be programmed by bytes or words by using some software techniques.\n\n3.1.1 Programming on a word-by-word basis\n\nThe Flash memory driver provides a function that will write 32 bits of data “VarData” to the desired Flash memory address “VarAddress”: FLASH\\_ProgramWord(VarAddress, VarData). With this function, a whole word can be written to a specific embedded Flash memory location.\n\n3.1.2 Programming on a byte-by-byte basis\n\nWriting by bytes offers the user the possibility of storing more data variables. The performance may however be reduced.\n\nUsing the FLASH\\_ProgramHalfWord() function, both virtual address and data can be written in one go as a half word.\n\n3.2 Wear leveling: Flash memory endurance improvement\n\nIn the STM32F10xxx on-chip Flash memory, each page can be programmed or erased reliably around 10 000 times.\n\nFor write-intensive applications that use more than two pages (3 or 4) for the emulated EEPROM, it is recommended to implement a wear-leveling algorithm to monitor and distribute the number of write cycles among the pages.\n\nWhen no wear-leveling algorithm is used, the pages are not used at the same rate. Pages with long-lived data do not endure as many write cycles as pages that contain frequently updated data. The wear-leveling algorithm ensures that equal use is made of all the available write cycles for each sector.\n\n3.2.1 Wear-leveling implementation example\n\nIn this example, in order to enhance the emulated EEPROM capacity, four pages will be used (Page0, Page1, Page2 and Page3).\n\nThe wear-leveling algorithm is implemented as follows: when page n is full, the device switches to page n+1. Page n is garbage-collected and then erased. When it is the turn of",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2594/11",
+          "bbox": null
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-pm0075-p0010-text-chunk-000",
+          "doc": "stm32-pm0075",
+          "doc_title": "PM0075 (rev 2) — STM32F10xxx Flash programming manual",
+          "page": 10,
+          "type": "text",
+          "score": 0.6368242502212524,
+          "text": "The main Flash memory can be protected against different types of unwanted access (read/write/erase). There are two types of protection:\n\n● Page Write Protection\n\nRead Protection\n\nRefer to Section 2.4 for more details.\n\nDuring a write operation to the Flash memory, any attempt to read the Flash memory will stall the bus. The read operation will proceed correctly once the write operation has completed. This means that code or data fetches cannot be made while a write/erase operation is ongoing.\n\nFor write and erase operations on the Flash memory (write/erase), the internal RC oscillator (HSI) must be ON.\n\nThe Flash memory can be programmed and erased using in-circuit programming and inapplication programming.\n\nIn the low-power modes, all Flash memory accesses are aborted. Refer to the STM32F10xxx reference manual for further information.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-pm0075/10",
+          "bbox": null
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-an2594-p0007-text-chunk-000",
+          "doc": "stm32-an2594",
+          "doc_title": "AN2594 (rev 3) — STM32F10xxx EEPROM emulation",
+          "page": 7,
+          "type": "text",
+          "score": 0.6404987573623657,
+          "text": "Implementing EEPROM emulation\n\n2.1 Principle\n\nEEPROM emulation is performed in various ways by considering the Flash memory limitations and product requirements. The approach detailed below requires at least two Flash memory pages of identical size allocated to non-volatile data. One that is initially erased, and offers byte-by-byte programmability; the other that is ready to take over when the former page needs to be garbage-collected. A header field that occupies the first 16-bit half word of each page indicates the page status.\n\nThe header field is located at the base address of each page and gives the page status information.\n\nEach page has three possible states:\n\n●ERASED: the page is empty.\n\n● RECEIVE\\_DATA: the page is receiving data from the other full page.\n\nVALID\\_PAGE: the page contains valid data and this state does not change until all valid data are completely transferred to the erased page.\n\nFigure 1 shows how the page statuses change with respect to each other.\n\nGenerally, when using this method, the user does not know in advance the variable update frequency.\n\nThe software and implementation described in this document use two Flash memory pages to emulate EEPROM.\n\nEach variable element is defined by a virtual address and a value to be stored in Flash memory for subsequent retrieval or update (in the implemented software both virtual address and data are 16 bits long). When data is modified, the modified data associated with the earlier virtual address is stored into a new Flash memory location. Data retrieval returns the modified data in the latest Flash memory location.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2594/7",
+          "bbox": null
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-pm0075-p0017-text-chunk-000",
+          "doc": "stm32-pm0075",
+          "doc_title": "PM0075 (rev 2) — STM32F10xxx Flash programming manual",
+          "page": 17,
+          "type": "text",
+          "score": 0.6248068809509277,
+          "text": "The sequence is as follows:\n\nCheck that no Flash memory operation is ongoing by checking the BSY bit in the FLASH\\_SR register.\n\n● Unlock the OPTWRE bit in the FLASH\\_CR register.\n\n● Set the OPTPG bit in the FLASH\\_CR register\n\nWrite the data (half-word) to the desired address\n\n● Wait for the BSY bit to be reset.\n\n● Read the programmed value and verify.\n\nWhen the Flash memory read protection option is changed from protected to unprotected, a Mass Erase of the main Flash memory is performed before reprogramming the read protection option. If the user wants to change an option other than the read protection option, then the mass erase is not performed. The erased state of the read protection option byte protects the Flash memory.\n\nErase procedure\n\nThe option byte erase sequence (OPTERASE) is as follows:\n\nCheck that no Flash memory operation is ongoing by reading the BSY bit in the FLASH\\_SR register\n\n● Unlock the OPTWRE bit in the FLASH\\_CR register\n\n● Set the OPTER bit in the FLASH\\_CR register\n\n● Set the STRT bit in the FLASH\\_CR register\n\n● Wait for BSY to reset\n\n● Read the erased option bytes and verify\n\n2.4 Protections\n\nThe user area of the Flash memory can be protected against read by untrusted code. The pages of the Flash memory can also be protected against unwanted write due to loss of program counter contexts. The write-protection granularity is then of:\n\n● four pages for low- and medium-density devices\n\n● two pages for high-density and connectivity line devices.\n\n2.4.1 Read protection\n\nThe read protection is activated by setting the RDP option byte and then, by applying a system reset to reload the new RDP option byte.\n\nIf the read protection is set while the debugger is still connected through JTAG/SWD, apply a POR (power-on reset) instead of a system reset (without debugger connection).\n\nOnce the protection byte has been programmed:\n\nMain Flash memory read access is not allowed except for the user code (when booting from main Flash memory itself with the debug mode not active).\n\nPages 0-3 (for low- and medium-density devices), or pages 0-1 (for high-density and connectivity line devices) are automatically write-protected. The rest of the memory can be programmed by the code executed from the main Flash memory (for IAP, constant storage, etc.), but it is protected against write/erase (but not against mass erase) in debug mode or when booting from the embedded SRAM.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-pm0075/17",
+          "bbox": null
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-rm0008-p0059-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 59,
+          "type": "text",
+          "score": 0.5975164771080017,
+          "text": "The prefetch buffer must be kept on when using a prescaler different from 1 on the AHB clock.\n\nThe prefetch buffer must be switched on/off only when SYSCLK is lower than 24 MHz and no prescaler is applied on the AHB clock (SYSCLK must be equal to HCLK). The prefetch buffer is usually switched on/off during the initialization routine, while the microcontroller is running on the internal 8 MHz RC (HSI) oscillator.\n\nUsing DMA: DMA accesses Flash memory on the DCode bus and has priority over ICode instructions. The DMA provides one free cycle after each transfer. Some instructions can be performed together with DMA transfer.\n\nProgramming and erasing the Flash memory\n\nThe Flash memory can be programmed 16 bits (half words) at a time.\n\nFor write and erase operations on the Flash memory (write/erase), the internal RC oscillator (HSI) must be ON.\n\nThe Flash memory erase operation can be performed at page level or on the whole Flash area (mass-erase). The mass-erase does not affect the information blocks.\n\nTo ensure that there is no over-programming, the Flash Programming and Erase Controller blocks are clocked by a fixed clock.\n\nThe End of write operation (programming or erasing) can trigger an interrupt. This interrupt can be used to exit from WFI mode, only if the FLITF clock is enabled. Otherwise, the interrupt is served only after an exit from WFI.\n\nThe FLASH\\_ACR register is used to enable/disable prefetch and half cycle access, and to control the Flash memory access time according to the CPU frequency. The tables below provide the bit map and bit descriptions for this register.\n\nFor complete information on Flash memory operations and register configurations, refer to the STM32F10xxx Flash programming manual (PM0075) or to the XL STM32F10xxx Flash programming manual (PM0068).",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/59",
+          "bbox": null
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-an3155-p0027-text-chunk-000",
+          "doc": "stm32-an3155",
+          "doc_title": "AN3155 (rev 2) — USART protocol used in STM32 bootloader",
+          "page": 27,
+          "type": "text",
+          "score": 0.563122034072876,
+          "text": "The host sends the bytes to the STM32F1xxx as follows:\n\nByte 1: 0x44\n\nByte 2: 0xBB\n\nWait for ACK\n\nBytes 3-4: - Special erase (0xFFFF, 0xFFFE or 0xFFFD)\n\nOR\n\n\\- Number of pages to be erased (N+1 where: 0 ≤N < Maximum number of pages).\n\nRemaining - Checksum of Bytes 3-4 in case of special erase (0x00 if 0xFFFFor 0x01 if bytes 0xFFFE or 0x02 if 0xFFFD).\n\nOR\n\n\\- (2 x (N + 1)) bytes (page numbers coded on two bytes MSB first) and then the checksum for bytes 3-4 and all the following bytes)\n\n3.10 Write Protect command\n\nThe Write Protect command is used to enable the write protection for some or all Flash memory sectors. When the bootloader receives the Write Protect command, it transmits the ACK byte to the host. After the transmission of the ACK byte, the bootloader waits for the number of bytes to be received (sectors to be protected) and then receives the Flash memory sector codes from the application.\n\nAt the end of the Write Protect command, the bootloader transmits the ACK byte and generates a system Reset to take into account the new configuration of the option byte.\n\nNote:\n\nRefer to Section 3.1: Device-dependent bootloader parameters for more details about the sector size for the device you are using.\n\nThe Write Protect command sequence is as follows:\n\nthe bootloader receives one byte that contains N, the number of sectors to be writeprotected – 1 (0 ≤ N ≤ 255)\n\n● the bootloader receives (N + 1) bytes, each byte contains a sector code\n\nNote: 1\n\nThe total number of sectors and the sector number to be protected are not checked, this means that no error is returned when a command is passed with a wrong number of sectors to be protected or a wrong sector number.\n\n2 If a second Write Protect command is executed, the Flash memory sectors that had been protected by the first command become unprotected and only the sectors passed within the second Write Protect command become protected.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an3155/27",
+          "bbox": null
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "259"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": " reserves"
+    },
+    {
+      "type": "token",
+      "text": " at"
+    },
+    {
+      "type": "token",
+      "text": " least"
+    },
+    {
+      "type": "token",
+      "text": " two"
+    },
+    {
+      "type": "token",
+      "text": " equal"
+    },
+    {
+      "type": "token",
+      "text": "-size"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " uses"
+    },
+    {
+      "type": "token",
+      "text": " them"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " append"
+    },
+    {
+      "type": "token",
+      "text": "-only"
+    },
+    {
+      "type": "token",
+      "text": " log"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " Each"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": " begins"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " status"
+    },
+    {
+      "type": "token",
+      "text": " header"
+    },
+    {
+      "type": "token",
+      "text": "—"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": "ER"
+    },
+    {
+      "type": "token",
+      "text": "ASE"
+    },
+    {
+      "type": "token",
+      "text": "D"
+    },
+    {
+      "type": "token",
+      "text": "`,"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "RE"
+    },
+    {
+      "type": "token",
+      "text": "CE"
+    },
+    {
+      "type": "token",
+      "text": "IVE"
+    },
+    {
+      "type": "token",
+      "text": "_DATA"
+    },
+    {
+      "type": "token",
+      "text": "`,"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "VALID"
+    },
+    {
+      "type": "token",
+      "text": "_PAGE"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": "—"
+    },
+    {
+      "type": "token",
+      "text": "and"
+    },
+    {
+      "type": "token",
+      "text": " each"
+    },
+    {
+      "type": "token",
+      "text": " stored"
+    },
+    {
+      "type": "token",
+      "text": " item"
+    },
+    {
+      "type": "token",
+      "text": " contains"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " virtual"
+    },
+    {
+      "type": "token",
+      "text": " address"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " value"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " Updating"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " variable"
+    },
+    {
+      "type": "token",
+      "text": " app"
+    },
+    {
+      "type": "token",
+      "text": "ends"
+    },
+    {
+      "type": "token",
+      "text": " its"
+    },
+    {
+      "type": "token",
+      "text": " new"
+    },
+    {
+      "type": "token",
+      "text": " value"
+    },
+    {
+      "type": "token",
+      "text": " rather"
+    },
+    {
+      "type": "token",
+      "text": " than"
+    },
+    {
+      "type": "token",
+      "text": " overw"
+    },
+    {
+      "type": "token",
+      "text": "riting"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " old"
+    },
+    {
+      "type": "token",
+      "text": " one"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " when"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " active"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": " fills"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " latest"
+    },
+    {
+      "type": "token",
+      "text": " valid"
+    },
+    {
+      "type": "token",
+      "text": " values"
+    },
+    {
+      "type": "token",
+      "text": " are"
+    },
+    {
+      "type": "token",
+      "text": " copied"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " receiving"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " which"
+    },
+    {
+      "type": "token",
+      "text": " becomes"
+    },
+    {
+      "type": "token",
+      "text": " valid"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " old"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " erased"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " reuse"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " More"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": " may"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " rotated"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " wear"
+    },
+    {
+      "type": "token",
+      "text": " leveling"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "An"
+    },
+    {
+      "type": "token",
+      "text": " implementation"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " preserve"
+    },
+    {
+      "type": "token",
+      "text": " these"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": " constraints"
+    },
+    {
+      "type": "token",
+      "text": ":\n\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Program"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " native"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " half"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": "words"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " Byte"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " behavior"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " implemented"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " software"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " native"
+    },
+    {
+      "type": "token",
+      "text": " byte"
+    },
+    {
+      "type": "token",
+      "text": "-program"
+    },
+    {
+      "type": "token",
+      "text": "m"
+    },
+    {
+      "type": "token",
+      "text": "able"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Erase"
+    },
+    {
+      "type": "token",
+      "text": " whole"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " individual"
+    },
+    {
+      "type": "token",
+      "text": " records"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": " supports"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": " erase"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " mass"
+    },
+    {
+      "type": "token",
+      "text": " erase"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " garbage"
+    },
+    {
+      "type": "token",
+      "text": " collection"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " copy"
+    },
+    {
+      "type": "token",
+      "text": " live"
+    },
+    {
+      "type": "token",
+      "text": " records"
+    },
+    {
+      "type": "token",
+      "text": " before"
+    },
+    {
+      "type": "token",
+      "text": " er"
+    },
+    {
+      "type": "token",
+      "text": "asing"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " old"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Keep"
+    },
+    {
+      "type": "token",
+      "text": " H"
+    },
+    {
+      "type": "token",
+      "text": "SI"
+    },
+    {
+      "type": "token",
+      "text": " enabled"
+    },
+    {
+      "type": "token",
+      "text": " during"
+    },
+    {
+      "type": "token",
+      "text": " every"
+    },
+    {
+      "type": "token",
+      "text": " program"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " erase"
+    },
+    {
+      "type": "token",
+      "text": " operation"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Do"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " enter"
+    },
+    {
+      "type": "token",
+      "text": " low"
+    },
+    {
+      "type": "token",
+      "text": "-power"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": " during"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " operation"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " low"
+    },
+    {
+      "type": "token",
+      "text": "-power"
+    },
+    {
+      "type": "token",
+      "text": " modes"
+    },
+    {
+      "type": "token",
+      "text": " abort"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": " accesses"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Account"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": "-read"
+    },
+    {
+      "type": "token",
+      "text": " stalls"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " any"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": " read"
+    },
+    {
+      "type": "token",
+      "text": " during"
+    },
+    {
+      "type": "token",
+      "text": " programming"
+    },
+    {
+      "type": "token",
+      "text": " stalls"
+    },
+    {
+      "type": "token",
+      "text": " until"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " write"
+    },
+    {
+      "type": "token",
+      "text": " completes"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " instruction"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " constant"
+    },
+    {
+      "type": "token",
+      "text": "-data"
+    },
+    {
+      "type": "token",
+      "text": " fetch"
+    },
+    {
+      "type": "token",
+      "text": "es"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": " cannot"
+    },
+    {
+      "type": "token",
+      "text": " proceed"
+    },
+    {
+      "type": "token",
+      "text": " during"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " interval"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Respect"
+    },
+    {
+      "type": "token",
+      "text": " write"
+    },
+    {
+      "type": "token",
+      "text": " protection"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " Its"
+    },
+    {
+      "type": "token",
+      "text": " gran"
+    },
+    {
+      "type": "token",
+      "text": "ularity"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " four"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " low"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " medium"
+    },
+    {
+      "type": "token",
+      "text": "-density"
+    },
+    {
+      "type": "token",
+      "text": " devices"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " two"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " high"
+    },
+    {
+      "type": "token",
+      "text": "-density"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " connectivity"
+    },
+    {
+      "type": "token",
+      "text": "-line"
+    },
+    {
+      "type": "token",
+      "text": " devices"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " read"
+    },
+    {
+      "type": "token",
+      "text": " protection"
+    },
+    {
+      "type": "token",
+      "text": " also"
+    },
+    {
+      "type": "token",
+      "text": " automatically"
+    },
+    {
+      "type": "token",
+      "text": " write"
+    },
+    {
+      "type": "token",
+      "text": "-pro"
+    },
+    {
+      "type": "token",
+      "text": "tect"
+    },
+    {
+      "type": "token",
+      "text": "s"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "0"
+    },
+    {
+      "type": "token",
+      "text": "–"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "0"
+    },
+    {
+      "type": "token",
+      "text": "–"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": " respectively"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " EEPROM"
+    },
+    {
+      "type": "token",
+      "text": " pages"
+    },
+    {
+      "type": "token",
+      "text": " therefore"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " placed"
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " they"
+    },
+    {
+      "type": "token",
+      "text": " remain"
+    },
+    {
+      "type": "token",
+      "text": " writable"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " do"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " unint"
+    },
+    {
+      "type": "token",
+      "text": "entionally"
+    },
+    {
+      "type": "token",
+      "text": " share"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " protection"
+    },
+    {
+      "type": "token",
+      "text": " group"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " other"
+    },
+    {
+      "type": "token",
+      "text": " content"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "The"
+    },
+    {
+      "type": "token",
+      "text": " page"
+    },
+    {
+      "type": "token",
+      "text": " addresses"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " sizes"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " selected"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " exact"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "10"
+    },
+    {
+      "type": "token",
+      "text": "xxx"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " rather"
+    },
+    {
+      "type": "token",
+      "text": " than"
+    },
+    {
+      "type": "token",
+      "text": " copied"
+    },
+    {
+      "type": "token",
+      "text": " blindly"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "259"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": " example"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "done",
+      "answer": "AN2594 reserves at least two equal-size Flash pages and uses them as an append-only log. Each page begins with a 16-bit status header—`ERASED`, `RECEIVE_DATA`, or `VALID_PAGE`—and each stored item contains a 16-bit virtual address and 16-bit value. Updating a variable appends its new value rather than overwriting the old one; when the active page fills, the latest valid values are copied to the receiving page, which becomes valid, and the old page is erased for reuse. More pages may be rotated for wear leveling. [S5] [S3]\n\nAn implementation must preserve these Flash constraints:\n\n- **Program in native 16-bit half-words.** Byte or 32-bit behavior must be implemented in software; it is not native byte-programmable Flash. [S3] [S7]\n- **Erase whole pages, not individual records.** STM32F1 Flash supports page erase or mass erase, so garbage collection must copy live records before erasing the old page. [S7]\n- **Keep HSI enabled during every program or erase operation.** [S4]\n- **Do not enter low-power mode during an operation:** low-power modes abort Flash accesses. [S4]\n- **Account for Flash-read stalls:** any Flash read during programming stalls until the write completes, so instruction and constant-data fetches from Flash cannot proceed during that interval. [S4]\n- **Respect write protection.** Its granularity is four pages on low- and medium-density devices and two pages on high-density and connectivity-line devices; read protection also automatically write-protects pages 0–3 or 0–1 respectively. EEPROM pages therefore must be placed so they remain writable and do not unintentionally share a protection group with other content. [S6]\n\nThe page addresses and sizes must be selected for the exact STM32F10xxx device rather than copied blindly from an AN2594 example.",
+      "cited": [
+        "S5",
+        "S3",
+        "S7",
+        "S4",
+        "S6"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 3095,
+        "retrieve": 355,
+        "first_token": 16379,
+        "total": 17076
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 17.08
+}

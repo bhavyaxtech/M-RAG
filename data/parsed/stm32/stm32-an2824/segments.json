@@ -1,0 +1,1003 @@
+[
+  {
+    "segment_id": "stm32-an2824-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 1,
+    "text": "STM32F10xxx I²C optimized examples"
+  },
+  {
+    "segment_id": "stm32-an2824-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2824-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 1,
+    "text": "The aim of this application note is to provide l²C firmware optimized examples based on polling, interrupts and DMA, covering the four l²C communication modes available in the STM32F10xxx, that is, slave transmitter, slave receiver, master transmitter and master receiver and to provide recommendations on the correct use of the l²C peripheral"
+  },
+  {
+    "segment_id": "stm32-an2824-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 1,
+    "text": "This application note applies to STM32F101xx and STM32F103xx medium, high and XL density microcontrollers, STM32F105/107xx connectivity line and STM32F100xx value line devices. Throughout this document, these devices are referred to collectively as STM32F10xxx."
+  },
+  {
+    "segment_id": "stm32-an2824-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 1,
+    "text": "The application note is organized in three parts. The first part describes the l2C master programming examples using Polling, DMA and Interrupts. The second part describes the I2C slave programming examples using DMA and Interrupts. The third part is an overview of the content of the firmware accompanying this application note. ."
+  },
+  {
+    "segment_id": "stm32-an2824-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2824-p0002-text-00007",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 2,
+    "text": "1 I2C master programming examples (DMA, interrupts, polling) . . . . . . 5   \n1.1 Overview 5   \n1.2 Description of the examples . . 5   \n1.2.1 Polling .5   \n1.2.2 DMA .9   \n1.2.3 Interrupt mode 11   \n2 I2C slave programming examples (DMA, interrupt) . . . . . . . . . .12   \n2.1 Overview 12   \n2.2 Description of the examples . . 12   \n2.2.1 Interrupt .12   \n2.2.2 DMA. 12   \n3 Firmware overview .14   \n4 Revision history . . .15"
+  },
+  {
+    "segment_id": "stm32-an2824-p0003-text-00008",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2824-p0003-text-00009",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 3,
+    "text": "Table 1. List of functions. . . . . . . . . ..14   \nTable 2. Document revision history . . .15"
+  },
+  {
+    "segment_id": "stm32-an2824-p0004-text-00010",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2824-p0004-text-00011",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 4,
+    "text": "Figure 1. Flowchart of master receiving more than 2 bytes using polling . . . 7   \nFigure 2. Flowchart of master receiving 1 or 2 bytes using polling . .8   \nFigure 3. Flowchart of master transmitter using polling . .9   \nFigure 4. Flowchart of master receiver using DMA . 10   \nFigure 5. Flowchart of master transmitter using DMA. 11"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00012",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "I2C master programming examples (DMA, interrupts, polling)"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00013",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "1.1 Overview"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00014",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "The purpose of this section is to describe the firmware examples of l2C master transmitting and receiving data using polling, DMA and interrupts, provided with this application note."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "Flowcharts of Master Transmitter/Receiver in all modes (DMA, Polling, Interrupts) are also provided."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "You can modify these examples to adapt them to your application requirements."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "1.2 Description of the examples"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "1.2.1 Polling"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "Master receiver"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "The master sends the START condition on the bus by setting START bit. The interface waits for the SB flag to be set and then cleared by writing the slave address in the DR register. The interface waits for the ADDR flag to be set then cleared by reading the SR1 and SR2 status register. After that, the master waits for the RXNE flag to be set in order to read data from the data register (EV7)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "The EV7 software sequence must complete before the end of the current byte transfer. In case EV7 software sequence can not be managed before the current byte end of transfer, it is recommended to use BTF instead."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "In order to close the communication, the software must guarantee the ACK bit is cleared in time in order to receive the last byte with a NACK. For this purpose, method 2 described in the device reference manuals is used: with this method, DataN\\_2 is not read, so that after DataN\\_1, the communication is stretched (both RxNE and BTF are set). Then:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "Clear the ACK bit before reading DataN-2 in DR to ensure it is cleared before the DataN Acknowledge pulse."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "●After this, just after reading DataN\\_2, set the STOP/ START bit and read DataN\\_1."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "●After RxNE is set, read DataN."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "This is illustrated below:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "When 3 bytes remain to be read:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00028",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "– RxNE = 1 => Nothing (DataN-2 not read)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00029",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "\\- DataN-1 received"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00030",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "BTF = 1 because both shift and data registers are full: DataN-2 in DR and DataN-1 in the shift register => SCL tied low: no other data will be received on the bus."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00031",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "– Clear ACK bit"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00032",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "– Read DataN-2 in DR => This starts DataN reception in the shift register."
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00033",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "– DataN received (with a NACK)"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00034",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "\\- Program START/STOP"
+  },
+  {
+    "segment_id": "stm32-an2824-p0005-text-00035",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 5,
+    "text": "\\- Read DataN-1"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00036",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- RxNE = 1"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00037",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- Read DataN"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00038",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00039",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Due to the “Wrong data read into data register” limitation described in the device errata sheet, interrupts should be masked between STOP programming and DataN-1 reading. Please refer to the device errata sheet for more details."
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00040",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "The procedure described above is valid for N>2. The cases where a single byte or two bytes are to be received should be handled differently, as described below:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00041",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Case of a single byte to be received:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00042",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "– In the ADDR event, clear the ACK bit."
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00043",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- Clear ADDR"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00044",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "– Program the STOP/START bit."
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00045",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Read the data after the RxNE flag is set."
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00046",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Note: The EV6\\_3 software sequence must complete before the current byte end of transfer. To ensure this, the interrupts should be masked between ADDR clearing and STOP/START programming."
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00047",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Case of two bytes to be received:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00048",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "– Set POS and ACK"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00049",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "– Wait for the ADDR flag to be set"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00050",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "– Clear ADDR"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00051",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- Clear ACK"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00052",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "– Wait for BTF to be set"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00053",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- Program STOP"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00054",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- Read DataN-1"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00055",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "\\- Read DataN"
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00056",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "Note: 1 Due to the “Wrong data read into data register” limitation described in the device errata sheet, interrupts must be masked between STOP programming and DataN-1 reading. Please refer to the device errata sheet for more details."
+  },
+  {
+    "segment_id": "stm32-an2824-p0006-text-00057",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 6,
+    "text": "2 The EV6\\_1 software sequence must complete before the ACK pulse of the current byte transfer. To ensure this, interrupts must be disabled between ADDR clearing and ACK clearing."
+  },
+  {
+    "segment_id": "stm32-an2824-p0007-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2824",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_figure_p0007_00001.png",
+    "caption": "**Flowchart: master receiving more than 2 bytes using polling**\n\nVisible flowchart elements and sequence:\n\n1. **Start**\n2. Process box:\n   - “Send slave address”\n   - “Wait until ADDR is set and clear it”\n3. Decision diamond: **“N > 3”**\n   - **Yes:** proceed to the receive-loop process:\n     - “If the software ensures that”\n     - “the EV7 software sequence is managed”\n     - “within 1 byte transfer duration then:”\n     - “  Wait until RXNE=1”\n     - “Else”\n     - “  Wait until BTF = 1”\n     - “Read data in DR”\n     - “Decrement the number of bytes to read”\n     - The flow loops back to the earlier path after this process.\n   - **No:** proceed to the final reception process:\n     - “Wait for BTF = 1”\n     - “ACK = 0”\n     - “Disable interrupts”\n     - “STOP = 1”\n     - “Read Data N-1”\n     - “Enable interrupts”\n     - “Wait for RXNE = 1”\n     - “Read DataN”\n     - “Wait until STOP is cleared by hardware.”\n     - “ACK = 1 (to be ready for another reception)”\n4. **End**\n\nThe diagram uses downward arrows from **Start** through the address phase and decision. The **Yes** branch loops through the data-reading process; the **No** branch performs the final-byte reception and terminates at **End**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Flowchart of master receiving more than 2 bytes using polling",
+    "generated_captions": {
+      "luna": "**Flowchart: master receiving more than 2 bytes using polling**\n\nVisible flowchart elements and sequence:\n\n1. **Start**\n2. Process box:\n   - “Send slave address”\n   - “Wait until ADDR is set and clear it”\n3. Decision diamond: **“N > 3”**\n   - **Yes:** proceed to the receive-loop process:\n     - “If the software ensures that”\n     - “the EV7 software sequence is managed”\n     - “within 1 byte transfer duration then:”\n     - “  Wait until RXNE=1”\n     - “Else”\n     - “  Wait until BTF = 1”\n     - “Read data in DR”\n     - “Decrement the number of bytes to read”\n     - The flow loops back to the earlier path after this process.\n   - **No:** proceed to the final reception process:\n     - “Wait for BTF = 1”\n     - “ACK = 0”\n     - “Disable interrupts”\n     - “STOP = 1”\n     - “Read Data N-1”\n     - “Enable interrupts”\n     - “Wait for RXNE = 1”\n     - “Read DataN”\n     - “Wait until STOP is cleared by hardware.”\n     - “ACK = 1 (to be ready for another reception)”\n4. **End**\n\nThe diagram uses downward arrows from **Start** through the address phase and decision. The **Yes** branch loops through the data-reading process; the **No** branch performs the final-byte reception and terminates at **End**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0008-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2824",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_figure_p0008_00002.png",
+    "caption": "**Figure 2 — Flowchart of master receiving 1 or 2 bytes using polling**\n\nThe flowchart contains the following sequence:\n\n1. **Start**\n2. Process box:\n   - **Send Slave address**\n   - **Wait until ADDR is set**\n3. Decision diamond: **N = 2**\n   - **Yes** branch proceeds to the two-byte reception sequence:\n     - **POS = 1**\n     - **Disable interrupts**\n     - **Clear ADDR**\n     - **ACK = 0**\n     - **Enable interrupts**\n     - **Wait for BTF = 1**\n     - **Disable interrupts**\n     - **STOP = 1**\n     - **Read Data1**\n     - **Enable interrupts**\n     - **Read Data2**\n     - **Wait until STOP is cleared by hardware.**\n     - **POS = 0 and ACK = 1 (to be ready for another reception)..**\n   - **No (N = 1)** branch proceeds to the one-byte reception sequence:\n     - **ACK = 0**\n     - **Disable interrupts**\n     - **Clear ADDR**\n     - **STOP = 1**\n     - **Enable interrupts**\n     - **Wait until RXNE = 1**\n     - **Read the data**\n     - **Wait until STOP is cleared by hardware.**\n     - **ACK = 1 (to be ready for another reception).**\n4. Both branches converge and proceed to **End**.\n\nThe flow is shown with downward arrows from **Start** through the address/ADDR step and decision, branch arrows labeled **Yes** and **No (N = 1)**, and both reception paths joining before **End**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Flowchart of master receiving 1 or 2 bytes using polling",
+    "generated_captions": {
+      "luna": "**Figure 2 — Flowchart of master receiving 1 or 2 bytes using polling**\n\nThe flowchart contains the following sequence:\n\n1. **Start**\n2. Process box:\n   - **Send Slave address**\n   - **Wait until ADDR is set**\n3. Decision diamond: **N = 2**\n   - **Yes** branch proceeds to the two-byte reception sequence:\n     - **POS = 1**\n     - **Disable interrupts**\n     - **Clear ADDR**\n     - **ACK = 0**\n     - **Enable interrupts**\n     - **Wait for BTF = 1**\n     - **Disable interrupts**\n     - **STOP = 1**\n     - **Read Data1**\n     - **Enable interrupts**\n     - **Read Data2**\n     - **Wait until STOP is cleared by hardware.**\n     - **POS = 0 and ACK = 1 (to be ready for another reception)..**\n   - **No (N = 1)** branch proceeds to the one-byte reception sequence:\n     - **ACK = 0**\n     - **Disable interrupts**\n     - **Clear ADDR**\n     - **STOP = 1**\n     - **Enable interrupts**\n     - **Wait until RXNE = 1**\n     - **Read the data**\n     - **Wait until STOP is cleared by hardware.**\n     - **ACK = 1 (to be ready for another reception).**\n4. Both branches converge and proceed to **End**.\n\nThe flow is shown with downward arrows from **Start** through the address/ADDR step and decision, branch arrows labeled **Yes** and **No (N = 1)**, and both reception paths joining before **End**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0008-text-00058",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 8,
+    "text": "Master transmitter"
+  },
+  {
+    "segment_id": "stm32-an2824-p0008-text-00059",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 8,
+    "text": "The master sends the START condition on the bus by setting the START bit. The interface waits for the SB flag to be set and then cleared by writing the slave address in the DR register. The interface waits for the ADDR flag to be set then cleared by reading the SR1 and SR2 status register. After that, the master writes the first data byte in the data register (EV8\\_1). It then continues by writing the next data bytes in the data register after every TXE (EV8)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0008-text-00060",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 8,
+    "text": "The EV8 software sequence must complete before the end of the current byte transfer. In case EV8 software sequence cannot be managed before the current byte end of transfer, it is recommended to use BTF instead."
+  },
+  {
+    "segment_id": "stm32-an2824-p0008-text-00061",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 8,
+    "text": "After the last byte is written to the DR register, the application software must wait until BTF is set (EV8\\_2: Both DR and shift register are set) before setting the STOP bit to generate a STOP condition."
+  },
+  {
+    "segment_id": "stm32-an2824-p0009-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2824",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_figure_p0009_00003.png",
+    "caption": "**Figure 3. Flowchart of master transmitter using polling**\n\nThe flowchart shows the polling sequence for an I²C master transmitter:\n\n1. **Start**\n2. **Send slave address**  \n   **Wait until ADDR is set and clear it**\n3. **Write the first data in DR register**\n4. Decision diamond: **Number of bytes to write = 0?**\n   - **Yes:** proceed to the STOP sequence:\n     - **Wait until BTF= 1**\n     - **Program the STOP bit**\n     - **Wait until STOP bit is cleared by hardware**\n     - **End**\n   - **No:** execute the right-hand process box:\n     - **If the software ensures that the EV8 software sequence is managed within 1 byte transfer duration then:**\n       - **Wait until TXE=1**\n     - **Else**\n       - **Wait until BTF = 1**\n     - **Write data in DR**\n     - **Decrement the number of bytes to write.**\n5. The right-hand process loops back to the flow path above the decision diamond, repeating the byte-count decision and data-transfer process.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Flowchart of master transmitter using polling",
+    "generated_captions": {
+      "luna": "**Figure 3. Flowchart of master transmitter using polling**\n\nThe flowchart shows the polling sequence for an I²C master transmitter:\n\n1. **Start**\n2. **Send slave address**  \n   **Wait until ADDR is set and clear it**\n3. **Write the first data in DR register**\n4. Decision diamond: **Number of bytes to write = 0?**\n   - **Yes:** proceed to the STOP sequence:\n     - **Wait until BTF= 1**\n     - **Program the STOP bit**\n     - **Wait until STOP bit is cleared by hardware**\n     - **End**\n   - **No:** execute the right-hand process box:\n     - **If the software ensures that the EV8 software sequence is managed within 1 byte transfer duration then:**\n       - **Wait until TXE=1**\n     - **Else**\n       - **Wait until BTF = 1**\n     - **Write data in DR**\n     - **Decrement the number of bytes to write.**\n5. The right-hand process loops back to the flow path above the decision diamond, repeating the byte-count decision and data-transfer process."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0009-text-00062",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 9,
+    "text": "1.2.2 DMA"
+  },
+  {
+    "segment_id": "stm32-an2824-p0009-text-00063",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 9,
+    "text": "Master receiver"
+  },
+  {
+    "segment_id": "stm32-an2824-p0009-text-00064",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 9,
+    "text": "DMA requests are generated only for data transfer. In reception, DMA requests are generated by the Data Register becoming full (RXNE = 1)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0009-text-00065",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 9,
+    "text": "All remaining events (SB, ADDR etc...) must be managed by polling or interrupts. In the examples accompanying the application note, they are managed by polling."
+  },
+  {
+    "segment_id": "stm32-an2824-p0009-text-00066",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 9,
+    "text": "The master sends the START condition on the bus by setting START bit. The interface waits for SB flag to be set and then cleared by writing the slave address in DR register. The interface waits for ADDR flag to be set then cleared by reading SR1 and SR2 status registers. At that point, DMA transfers begin."
+  },
+  {
+    "segment_id": "stm32-an2824-p0010-text-00067",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 10,
+    "text": "After the DMA end of transfer, the STOP bit is set in order to generate a STOP condition. Note: When using DMA, master reception of a single byte is not supported."
+  },
+  {
+    "segment_id": "stm32-an2824-p0010-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2824",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_figure_p0010_00004.png",
+    "caption": "**Figure 4: Flowchart of master receiver using DMA**\n\nA vertical flowchart with downward arrows:\n\n1. **Start**\n\n2. **Configure and enable the I2C DMA channel for reception.**\n\n3. **Set DMAEN bit**  \n   **Set LAST bit (used to generate a NACK automatically on the last received byte.)**\n\n4. **Send a START condition**  \n   **Wait until SB is set and clear it**\n\n5. **Send slave address**  \n   **Wait until ADDR is set and clear it**\n\n6. **Wait until the DMA end of transfer**  \n   **Disable the DMA channel**  \n   **Clear the DMA transfer complete flag**\n\n7. **Program the STOP bit**  \n   **Wait until STOP bit is cleared by hardware**\n\n8. **End**\n\nThe boxes are connected sequentially by downward-pointing arrows. No alternate branches, axes, legends, numeric values, or additional notes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. Flowchart of master receiver using DMA",
+    "generated_captions": {
+      "luna": "**Figure 4: Flowchart of master receiver using DMA**\n\nA vertical flowchart with downward arrows:\n\n1. **Start**\n\n2. **Configure and enable the I2C DMA channel for reception.**\n\n3. **Set DMAEN bit**  \n   **Set LAST bit (used to generate a NACK automatically on the last received byte.)**\n\n4. **Send a START condition**  \n   **Wait until SB is set and clear it**\n\n5. **Send slave address**  \n   **Wait until ADDR is set and clear it**\n\n6. **Wait until the DMA end of transfer**  \n   **Disable the DMA channel**  \n   **Clear the DMA transfer complete flag**\n\n7. **Program the STOP bit**  \n   **Wait until STOP bit is cleared by hardware**\n\n8. **End**\n\nThe boxes are connected sequentially by downward-pointing arrows. No alternate branches, axes, legends, numeric values, or additional notes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0010-text-00068",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 10,
+    "text": "Master transmitter"
+  },
+  {
+    "segment_id": "stm32-an2824-p0010-text-00069",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 10,
+    "text": "DMA requests are generated only for data transfer. In transmission, DMA requests are generated by the Data Register becoming empty (TXE = 1)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0010-text-00070",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 10,
+    "text": "All remaining events (SB, ADDR, etc.) must be managed by polling or interrupts. In the examples accompanying this application note, they are managed by polling."
+  },
+  {
+    "segment_id": "stm32-an2824-p0010-text-00071",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 10,
+    "text": "The master sends the START condition on the bus by setting START bit. The interface waits for the SB flag to be set and then cleared by writing the slave address in DR register. The interface waits for ADDR flag to be set then cleared by reading SR1 and SR2 status register. At that point, DMA transfers begin."
+  },
+  {
+    "segment_id": "stm32-an2824-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 11,
+    "text": "After the DMA end of transfer, the application software must wait until BTF is set (EV8\\_2: Both DR and shift register are set) before setting the STOP bit to generate a STOP condition."
+  },
+  {
+    "segment_id": "stm32-an2824-p0011-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2824",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_figure_p0011_00005.png",
+    "caption": "**Figure 5. Flowchart of master transmitter using DMA**\n\nVertical flowchart showing the DMA transmission sequence for an I2C master transmitter:\n\n1. **Start**\n2. **Configure and enable the I2C DMA channel for transmission.**\n3. **Set DMAEN bit**\n4. **Send a START condition**  \n   **Wait until SB is set and clear it**\n5. **Send slave address**  \n   **Wait until ADDR is set and clear it**\n6. **Wait until the DMA end of transfer**  \n   **Disable the DMA channel**  \n   **Clear the DMA transfer complete flag**\n7. **Wait until BTF = 1**  \n   **Program the STOP**  \n   **Wait until STOP bit is cleared by hardware**\n8. **End**\n\nThe steps are connected by downward arrows. “Start” and “End” are shown in rounded terminal shapes; all intermediate operations are in rectangular boxes.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Flowchart of master transmitter using DMA\nIn I2C master mode using polling or DMA, I2C errors (BERR, OVR, AF, ARLO) interrupts are enabled and configured. When an error occurs the corresponding error flag is cleared by software.",
+    "generated_captions": {
+      "luna": "**Figure 5. Flowchart of master transmitter using DMA**\n\nVertical flowchart showing the DMA transmission sequence for an I2C master transmitter:\n\n1. **Start**\n2. **Configure and enable the I2C DMA channel for transmission.**\n3. **Set DMAEN bit**\n4. **Send a START condition**  \n   **Wait until SB is set and clear it**\n5. **Send slave address**  \n   **Wait until ADDR is set and clear it**\n6. **Wait until the DMA end of transfer**  \n   **Disable the DMA channel**  \n   **Clear the DMA transfer complete flag**\n7. **Wait until BTF = 1**  \n   **Program the STOP**  \n   **Wait until STOP bit is cleared by hardware**\n8. **End**\n\nThe steps are connected by downward arrows. “Start” and “End” are shown in rounded terminal shapes; all intermediate operations are in rectangular boxes."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0011-text-00073",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 11,
+    "text": "1.2.3 Interrupt mode"
+  },
+  {
+    "segment_id": "stm32-an2824-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 11,
+    "text": "The basic principles of transmission and reception are the same in interrupt mode as in polling. The difference here is that the I2C EVT and BUF interrupts are enabled in addition to the I2C error flags. All I2C events are managed in the I2C event interrupt routine."
+  },
+  {
+    "segment_id": "stm32-an2824-p0011-text-00075",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 11,
+    "text": "The I2C interrupts should have the highest priority in the application in order to make them uninterruptible."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00076",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "2 I2C slave programming examples (DMA, interrupt)"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00077",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "2.1 Overview"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00078",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "The purpose of this section is to describe the firmware examples provided with this application note, showing an I2C slave transmitting and receiving data using DMA and interrupts."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00079",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "Flowcharts of Slave Transmitter/Receiver using DMA and Interrupts, are also provided."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00080",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "e: In slave mode, it is not recommended to use polling mode, especially for handling the ADDR event because the slave doesn’t know in advance when it will be addressed by the Master. Consequently, the application, which normally does other tasks and not just I2C communication, may get stuck waiting for the ADDR flag to be set. The same is true for the other events, for example the slave could also get stuck waiting for the RXNE or TXE flag to be set."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00081",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "That is why it is recommended to always manage the ADDR and STOPF events using interrupts and to manage data transfers using interrupts or DMA."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00082",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "2.2 Description of the examples"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00083",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "2.2.1 Interrupt"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00084",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "All I2C slave transmitter/receiver events are managed by the I2C event interrupt routine."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00085",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "I2C interrupts should have the highest priority in the application in order to make them uninterruptible."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "● Slave receiver"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00087",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "Following the address reception and after clearing ADDR, the slave receives bytes from Master device every RXNE event interrupt. When the master generates a STOP condition on the bus, the slave detects this STOP condition when the STOPF flag is set in the SR2 status register."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00088",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "● Slave Transmitter"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00089",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "Following the address reception and after clearing ADDR, the slave transmits bytes to the Master device after every TXE event interrupt. The slave detects the end of transmission when it receives a Non Acknowledge pulse telling it that it must stop transmission (AF flag is set in the I2C error interrupt routine)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00090",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "For transmission/reception using interrupts, the transmit and receiver counter are initialized every ADDR event."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00091",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "2.2.2 DMA"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00092",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "● Slave receiver"
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00093",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "DMA requests are generated only for data transfers. In reception, DMA requests are generated by the Data Register becoming full (RXNE = 1)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00094",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "Remaining events (ADDR and STOPF) are managed by interrupts."
+  },
+  {
+    "segment_id": "stm32-an2824-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 12,
+    "text": "● Slave Transmitter"
+  },
+  {
+    "segment_id": "stm32-an2824-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 13,
+    "text": "DMA requests are generated only for data transfers. In transmission, DMA requests are generated by the Data Register becoming empty (TXE = 1)."
+  },
+  {
+    "segment_id": "stm32-an2824-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 13,
+    "text": "All remaining events (ADDR and AF) are managed by interrupts."
+  },
+  {
+    "segment_id": "stm32-an2824-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 13,
+    "text": "Provided that the slave doesn’t know in advance how many data bytes are to be received/transmitted to/from the master device, the DMA channel transmit/receive end of transfer cannot be detected. So, it’s not possible to know when to update the DMA channel counter and memory base address to prepare the next transmission or reception. In order to update the DMA channel counter, the DMA channel must be disabled and of course the DMA channel must not be disabled while the master device is transmitting/receiving data."
+  },
+  {
+    "segment_id": "stm32-an2824-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 13,
+    "text": "The only period during which the slave has control of the line (master can not transmit neither receive) is the period between ADDR event (ADDR flag is set) and clearing the ADDR flag. For this purpose, in the provided slave examples using DMA, the DMA count and memory base address are initialized after ADDR flag is set and before ADDR flag is cleared."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00100",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "Firmware overview"
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00101",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "The Optimized I2C Examples folder is structured as follows:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00102",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "● src subfolder: contains the source files."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00103",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "I2CRoutines.c: containing the I2Cx (I2C1 or I2C2) master and slave initialization, write and read routines (using DMA, interrupts or polling) and DMA1 channels configured for I2Cx (I2C1 or I2C2) transmission/reception. See Table 1: List of functions. In the I2C write and read routines, the register are accessed directly. The I2C standard library is used only for the I2C peripheral initialization."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00104",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "main.c: where the I2Cx interrupts in the NVIC are configured and the routines in the I2CRoutines.c are called."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00105",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "stm32f10x\\_it.c: where the I2Cx (I2C1 and I2C2) event and error interrupts are handled."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00106",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "● inc subfolder: contains the header files."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00107",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "– stm32f10x\\_it.h: headers of the interrupt handlers"
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00108",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "– stm32f10x\\_conf.h: configuration file"
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00109",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "I2CRoutines.h: header file for I2CRoutines.c. It also contains the I2C bit/flag definitions and other definitions that are needed."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00110",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "EWARMv5, MDK-ARM and RIDE subfolders: contain tool-dependent preconfigured projects and workspaces."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-table-00001",
+    "type": "table",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_table_p0014_00001.png",
+    "caption": "**Table 1. List of functions**\n\n| Software routine | Purpose |\n|---|---|\n| `I2C_Master_BufferRead` | Reads a buffer of bytes from the slave |\n| `I2C_Master_BufferWrite` | Sends a buffer of bytes to the slave |\n| `I2C_Slave_BufferReadWrite (see notes below)` | Enables DMA and event interrupts for data transmission and reception |\n| `I2C_LowLevel_Init` | Initializes the I2C, GPIOs and DMA channels |\n| `I2C_DMAConfig` | Updates the buffer size and the buffer base address |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. List of functions",
+    "generated_captions": {
+      "luna": "**Table 1. List of functions**\n\n| Software routine | Purpose |\n|---|---|\n| `I2C_Master_BufferRead` | Reads a buffer of bytes from the slave |\n| `I2C_Master_BufferWrite` | Sends a buffer of bytes to the slave |\n| `I2C_Slave_BufferReadWrite (see notes below)` | Enables DMA and event interrupts for data transmission and reception |\n| `I2C_LowLevel_Init` | Initializes the I2C, GPIOs and DMA channels |\n| `I2C_DMAConfig` | Updates the buffer size and the buffer base address |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00111",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "Note: 1 In an application where the STM32 is slave transmitter/receiver, the I2C \\_Slave\\_BufferReadWrite( ) routine has to be called only once in order to enable the DMA requests or I2C interrupts."
+  },
+  {
+    "segment_id": "stm32-an2824-p0014-text-00112",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 14,
+    "text": "2 If the slave transmits or receives using DMA, uncomment the “#define SLAVE\\_DMA\\_USE” line in the stm32f10x\\_it.c source file."
+  },
+  {
+    "segment_id": "stm32-an2824-p0015-text-00113",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 15,
+    "text": "4"
+  },
+  {
+    "segment_id": "stm32-an2824-p0015-text-00114",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 15,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2824-p0015-table-00002",
+    "type": "table",
+    "doc": "stm32-an2824",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2824/mineru/images/bbox_fallback_table_p0015_00002.png",
+    "caption": "**Table 2. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 18-Sep-2008 | 1 | Initial release. |\n| 04-Mar-2009 | 2 | Added *Section 1.3* recommendations for I²C use.<br>Content added to *Section 2.1: I²C firmware configuration for different communication modes (polling, DMA and interrupts).*<br>Added *Section 3* example using DMA. |\n| 03-Nov-2009 | 3 | This application note applies to the whole STM32F10xxx family.<br>Subfolder descriptions modified in *Section 2.3: I²C firmware description* and *Section 3.4: Firmware details.* |\n| 22-June-2010 | 4 | Application note document and firmware completely rewritten. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 2. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 18-Sep-2008 | 1 | Initial release. |\n| 04-Mar-2009 | 2 | Added *Section 1.3* recommendations for I²C use.<br>Content added to *Section 2.1: I²C firmware configuration for different communication modes (polling, DMA and interrupts).*<br>Added *Section 3* example using DMA. |\n| 03-Nov-2009 | 3 | This application note applies to the whole STM32F10xxx family.<br>Subfolder descriptions modified in *Section 2.3: I²C firmware description* and *Section 3.4: Firmware details.* |\n| 22-June-2010 | 4 | Application note document and firmware completely rewritten. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00115",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00116",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00117",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00118",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00119",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00120",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00121",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00122",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00123",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00124",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00125",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00126",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "© 2010 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00127",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00128",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2824-p0016-text-00129",
+    "type": "text",
+    "doc": "stm32-an2824",
+    "page": 16,
+    "text": "www.st.com"
+  }
+]

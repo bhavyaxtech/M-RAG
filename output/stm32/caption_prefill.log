@@ -1,0 +1,57 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+{
+  "downloaded_documents": 20,
+  "target_documents": 20,
+  "pages": 1837,
+  "parsed_documents": 14,
+  "paid_calls_started_by_preflight": 0,
+  "budget_ceiling_usd": 30,
+  "status": "ready_to_parse"
+}
+Reusing parse: stm32-es096
+Reusing parse: stm32-pm0075
+Reusing parse: stm32-an2586
+Reusing parse: stm32-an2594
+Reusing parse: stm32-an2606
+Reusing parse: stm32-an2834
+Reusing parse: stm32-an3116
+Reusing parse: stm32-an2548
+Reusing parse: stm32-an2824
+Reusing parse: stm32-an2820
+Reusing parse: stm32-an2557
+Reusing parse: stm32-an2821
+Reusing parse: stm32-an2867
+Reusing parse: stm32-an2592
+Captioning stm32-es096
+  9 generated, 0 cached
+Captioning stm32-pm0075
+  Checkpoint: 25 visual segment(s) complete.
+  26 generated, 0 cached
+Captioning stm32-an2586
+  20 generated, 0 cached
+Captioning stm32-an2594
+  0 generated, 9 cached
+Captioning stm32-an2606
+  16 generated, 0 cached
+Captioning stm32-an2834
+  Checkpoint: 25 visual segment(s) complete.
+  25 generated, 0 cached
+Captioning stm32-an3116
+  15 generated, 0 cached
+Captioning stm32-an2548
+  6 generated, 0 cached
+Captioning stm32-an2824
+  7 generated, 0 cached
+Captioning stm32-an2820
+  Checkpoint: 25 visual segment(s) complete.
+  26 generated, 0 cached
+Captioning stm32-an2557
+  0 generated, 7 cached
+Captioning stm32-an2821
+  14 generated, 0 cached
+Captioning stm32-an2867
+  Checkpoint: 25 visual segment(s) complete.
+  27 generated, 0 cached
+Captioning stm32-an2592
+  7 generated, 0 cached
+Persistent Azure estimate including unknown-call reservations: $0.4595

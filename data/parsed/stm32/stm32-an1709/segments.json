@@ -1,0 +1,2385 @@
+[
+  {
+    "segment_id": "stm32-an1709-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 1,
+    "text": "EMC DESIGN GUIDE FOR ST MICROCONTROLLERS"
+  },
+  {
+    "segment_id": "stm32-an1709-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 1,
+    "text": "by Cyril Troise - Microcontroller Division Applications"
+  },
+  {
+    "segment_id": "stm32-an1709-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 1,
+    "text": "INTRODUCTION"
+  },
+  {
+    "segment_id": "stm32-an1709-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 1,
+    "text": "The continuing demand for more performance, complexity and cost reduction require the semiconductor industry to develop Microcontrollers with both high density design technology and higher clock frequencies. This has intrinsically increased the noise emission and noise sensitivity. Application developers therefore, must now apply EMC “hardening” techniques in the design of firmware, PCB layout and at system level. This note aims to explain ST Microcontroller EMC features and compliance standards to help application designers reach the optimum level of EMC performance."
+  },
+  {
+    "segment_id": "stm32-an1709-p0002-text-00005",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 2,
+    "text": "Table of Contents"
+  },
+  {
+    "segment_id": "stm32-an1709-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 2,
+    "text": "INTRODUCTION .   \n1 EMC DEFINITIONS .   \n1.1 EMC   \n1.2 EMS   \n1.3 EMI   \n2 EMC CHARACTERIZATION OF ST MICROCONTROLLERS 5   \n2.1 ELECTROMAGNETIC SUSCEPTIBILITY (EMS) .5   \n2.1.1 Functional EMS test 5   \n2.1.1.1 Functional ElectroStatic Discharge Test (F\\_ESD Test) 5   \n2.1.1.2 Fast Transient Burst (FTB) 7   \n2.1.1.3 ST Severity Level & Behavior Class .8   \n2.1.2 Latch-Up (LU) 10   \n2.1.2.1 Static Latch-Up (LU) test: 10   \n2.1.2.2 Dynamic Latch-Up (DLU) test: 10   \n2.1.3 Absolute Electrical Sensitivity 11   \n2.1.3.1 Human Body Model Test Sequence 12   \n2.1.3.2 Machine Model Test Sequence 12   \n2.2 ELECTROMAGNETIC INTERFERENCE (EMI) 13   \n2.2.1EMI radiated test 13   \n2.2.2 EMI level classification 16   \n3 ST MCU DESIGN STRATEGY & EMC SPECIFIC FEATURE . .17   \n3.1 SUSCEPTIBILITY. .17   \n3.1.1 Low Voltage Detector (LVD) 17   \n3.1.2 Auxiliary Voltage Detector (AVD) 19   \n3.1.3 I/O Features & properties 21   \n3.1.3.1 Electrostatic Discharge and Latch-up 21   \n3.1.3.2 Protective Interface 22   \n3.1.3.3 Internal Circuitry: Digital I/O pin. 23   \n3.1.3.4 Internal Circuitry: Analog Input pin 25   \n3.1.4Multiple VDD & VSS. 26   \n3.2 EMISSION .27   \n3.2.1Internal PLL 27   \n3.2.2 Global low power approach 27   \n3.2.2.1 Low powered oscillator 27   \n3.2.2.2 Internal Voltage Regulators (for MCUs with low power core). . . . 29"
+  },
+  {
+    "segment_id": "stm32-an1709-p0003-text-00007",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 3,
+    "text": "Table of Contents"
+  },
+  {
+    "segment_id": "stm32-an1709-p0003-text-00008",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 3,
+    "text": "3.2.3 Output l/O Current limitation & edge timing control . 29   \n4 EMC GUIDELINES FOR MCU BASED APPLICATIONS ... .. ... . . .. .. .. . .. . . 30   \n4.1 HARDWARE.........   \n4.2 HANDLING PRECAUTIONS FOR ESD PROTECTION. ................. . 34   \n4.3 FIRMWARE ......   \n4.4 WEB LINKS TO EMC RELATED ORGANISATIONS ......... ..... .. .. . . 36   \n5 CONCLUSION .........."
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00009",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "1 EMC DEFINITIONS"
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00010",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "1.1 EMC"
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00011",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "ElectroMagnetic Compatibility (EMC) is the capability of a system to work properly, undisturbed by the electromagnetic phenomena present in its normal environment, and not to create electrical disturbances that would interfere with other equipment."
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00012",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "1.2 EMS"
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00013",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "The ElectroMagnetic Susceptibility (EMS) level of a device is the resistance to electrical disturbances and conducted electrical noise. ElectroStatic Discharge (ESD) and Fast Transient Burst (FTB) tests determine the reliability level of a device operating in an undesirable electromagnetic environment."
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00014",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "1.3 EMI"
+  },
+  {
+    "segment_id": "stm32-an1709-p0004-text-00015",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 4,
+    "text": "The ElectroMagnetic Interference (EMI) is the level of conducted or radiated electrical noise sourced by the equipment. Conducted emission propagates along a cable or any interconnection line. Radiated emission propagates through free space."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "2 EMC CHARACTERIZATION OF ST MICROCONTROLLERS"
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "2.1 ELECTROMAGNETIC SUSCEPTIBILITY (EMS)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "Two different type of tests are performed:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "■Tests with device power-supplied (Functional EMS tests & Latch-up): The device behaviour is monitored during the stress."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "One test with device not powered supplied (Absolute Electrical Sensitivity): The device functionality and integrity is checked on tester after stress."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "2.1.1 Functional EMS test"
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "Functional Tests are performed to measure the robustness of ST Microcontrollers running in an application. Based on a simple program (toggling 2 LEDs through l/O ports), the product is stressed by 2 different EMC events until a run-away condition (failure) occurs."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "2.1.1.1 Functional ElectroStatic Discharge Test (F\\_ESD Test)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "This test is performed on any new microcontroller devices.Each pin is tested individually with a single positive or negative electrical discharge.This allows failures investigations inside the chip and further application recommendations to protect the concerned Microcontroller sensitive pins against ESD."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "High static voltage has both natural and man made origins. Some specific equipment can reproduce this phenomenon in order to test the device under real conditions. Equipment, test sequence and standards are described here below."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "ST Microcontroller F\\_ESD qualification test uses standards given in Table 1 as reference."
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-table-00001",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0005_00001.png",
+    "caption": "**Table 1. ESD standards**\n\n| EUROPEAN NORM | INTERNATIONAL NORM | DESCRIPTION |\n|---|---|---|\n| EN 61000-4-2 | IEC 1000-4-2 | Conducted ESD test |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. ESD standards",
+    "generated_captions": {
+      "luna": "**Table 1. ESD standards**\n\n| EUROPEAN NORM | INTERNATIONAL NORM | DESCRIPTION |\n|---|---|---|\n| EN 61000-4-2 | IEC 1000-4-2 | Conducted ESD test |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 5,
+    "text": "F\\_ESD tests uses a signal source and a power amplifier to generate a high level field into The Microcontroller. The insulator is using a conical tip. This tip is placed on the Device or Equipment Under Test (DUT or EUT) and an electrostatic discharge is applied (see Figure 1.)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0006-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0006_00001.png",
+    "caption": "Figure showing an EN 61000-4-2 current waveform and timing definitions, labeled “(EN 61000-4-2)”.\n\n- Vertical axis: **Current**\n- Horizontal axis: **time**\n- Horizontal reference levels marked:\n  - **100%**\n  - **90%**\n  - **I(30ns)**\n  - **I(60ns)**\n  - **10%**\n- The waveform rises sharply from near zero to a narrow peak at approximately the **100%** level, drops rapidly, then shows a lower-current hump/plateau around the **I(30ns)** level before decaying through the **I(60ns)** level toward the **10%** level.\n- Timing annotations:\n  - **30ns**, shown from the initial reference/start point to a vertical marker through the waveform near the I(30ns) interval.\n  - **60ns**, shown from the initial reference/start point to a later vertical marker through the waveform near the I(60ns) interval.\n  - **tr=0.7 to 1.0 ns**, shown beneath the time axis with a short rise-time interval marker.\n- Dashed/dotted horizontal construction lines extend from the labeled current levels, including the 90%, I(30ns), I(60ns), and 10% levels.\n- Dashed vertical construction lines indicate the timing positions associated with the **30ns** and **60ns** annotations.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing an EN 61000-4-2 current waveform and timing definitions, labeled “(EN 61000-4-2)”.\n\n- Vertical axis: **Current**\n- Horizontal axis: **time**\n- Horizontal reference levels marked:\n  - **100%**\n  - **90%**\n  - **I(30ns)**\n  - **I(60ns)**\n  - **10%**\n- The waveform rises sharply from near zero to a narrow peak at approximately the **100%** level, drops rapidly, then shows a lower-current hump/plateau around the **I(30ns)** level before decaying through the **I(60ns)** level toward the **10%** level.\n- Timing annotations:\n  - **30ns**, shown from the initial reference/start point to a vertical marker through the waveform near the I(30ns) interval.\n  - **60ns**, shown from the initial reference/start point to a later vertical marker through the waveform near the I(60ns) interval.\n  - **tr=0.7 to 1.0 ns**, shown beneath the time axis with a short rise-time interval marker.\n- Dashed/dotted horizontal construction lines extend from the labeled current levels, including the 90%, I(30ns), I(60ns), and 10% levels.\n- Dashed vertical construction lines indicate the timing positions associated with the **30ns** and **60ns** annotations."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0006-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0006_00002.png",
+    "caption": "**Figure 1. ESD test equipment**\n\nSchematic showing an ESD test setup:\n\n- **ESD generator** — label at left, with an arrow pointing to the generator/test lead arrangement above the EUT.\n- **ground plane** — label at top, arrow pointing to the large upper conductive plate/ground-plane structure.\n- **insulation** — label at upper right, arrow pointing to the inner rectangular insulating surface.\n- **EUT** — bold label inside a small rectangular device placed on the insulating surface.\n- **mains connections** — label at right, with an arrow pointing to a separate rectangular mains-connection box/outlet containing a black connection point.\n\nThe EUT is shown on the insulation within the ground-plane arrangement. A lead from the ESD generator extends down to the EUT. A curved connection line runs from the EUT area toward the right-side mains connections. No numerical values, units, axes, or additional legible notes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. ESD test equipment",
+    "generated_captions": {
+      "luna": "**Figure 1. ESD test equipment**\n\nSchematic showing an ESD test setup:\n\n- **ESD generator** — label at left, with an arrow pointing to the generator/test lead arrangement above the EUT.\n- **ground plane** — label at top, arrow pointing to the large upper conductive plate/ground-plane structure.\n- **insulation** — label at upper right, arrow pointing to the inner rectangular insulating surface.\n- **EUT** — bold label inside a small rectangular device placed on the insulating surface.\n- **mains connections** — label at right, with an arrow pointing to a separate rectangular mains-connection box/outlet containing a black connection point.\n\nThe EUT is shown on the insulation within the ground-plane arrangement. A lead from the ESD generator extends down to the EUT. A curved connection line runs from the EUT area toward the right-side mains connections. No numerical values, units, axes, or additional legible notes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0006-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0006_00003.png",
+    "caption": "Figure showing a typical ESD current waveform for contact-mode discharge, identified with “(EN 61000-4-2)”.\n\n- Vertical axis: **Current**, with an upward arrow.\n- Horizontal axis: **time**, with a right-pointing arrow.\n- Horizontal reference levels are labeled:\n  - **100%**\n  - **90%**\n  - **I(30ns)**\n  - **I(60ns)**\n  - **10%**\n- The waveform begins near zero current, rises very steeply to a peak at approximately the **100%** level, then drops sharply. It reaches the indicated **I(30ns)** level, remains comparatively low, and subsequently rises to a broad plateau around the **I(30ns)** reference level. The waveform then decays, passing the **I(60ns)** reference level and approaching the **10%** level before continuing downward gradually.\n- Dashed/dotted horizontal guides mark the 90%, I(30ns), I(60ns), and 10% levels. Vertical dashed construction lines indicate the timing points associated with the 30 ns and 60 ns annotations.\n- Timing annotations beneath the plot:\n  - **30ns**\n  - **60ns**\n  - **tr=0.7 to 1.0 ns**\n- The rise-time annotation **tr=0.7 to 1.0 ns** is associated with the initial steep current rise between the lower and upper reference levels.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Typical ESD Current Waveform in Contact-mode discharge",
+    "generated_captions": {
+      "luna": "Figure showing a typical ESD current waveform for contact-mode discharge, identified with “(EN 61000-4-2)”.\n\n- Vertical axis: **Current**, with an upward arrow.\n- Horizontal axis: **time**, with a right-pointing arrow.\n- Horizontal reference levels are labeled:\n  - **100%**\n  - **90%**\n  - **I(30ns)**\n  - **I(60ns)**\n  - **10%**\n- The waveform begins near zero current, rises very steeply to a peak at approximately the **100%** level, then drops sharply. It reaches the indicated **I(30ns)** level, remains comparatively low, and subsequently rises to a broad plateau around the **I(30ns)** reference level. The waveform then decays, passing the **I(60ns)** reference level and approaching the **10%** level before continuing downward gradually.\n- Dashed/dotted horizontal guides mark the 90%, I(30ns), I(60ns), and 10% levels. Vertical dashed construction lines indicate the timing points associated with the 30 ns and 60 ns annotations.\n- Timing annotations beneath the plot:\n  - **30ns**\n  - **60ns**\n  - **tr=0.7 to 1.0 ns**\n- The rise-time annotation **tr=0.7 to 1.0 ns** is associated with the initial steep current rise between the lower and upper reference levels."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0007_00004.png",
+    "caption": "**Figure 3. Simplified diagram of the ESD generator**\n\nSchematic showing the ESD-generator discharge path and return connection:\n\n- Left: circular source symbol labeled **“ESD generator”**.\n- The ESD generator connects upward to an open switch/contact symbol, then along the top conductor through:\n  - **Rch**\n  - **Rd**\n  - **HV relay**\n  - **Discharge tip** at the right.\n- The top path includes filled connection nodes at the switch contacts, between **Rch** and **Rd**, and at the HV-relay/discharge-tip connection.\n- A vertical branch from the node between **Rch** and **Rd** connects downward to a capacitor symbol labeled **“Cs = 150 pF”**.\n- The lower terminal of the capacitor connects to the bottom return conductor.\n- The bottom conductor runs from the ESD generator to the right-hand filled terminal labeled **“Discharge return connection”**.\n- The HV relay is drawn as an oval relay symbol on the discharge path and is labeled **“HV relay”**.\n- No numerical values are shown for **Rch** or **Rd**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Simplified diagram of the ESD generator",
+    "generated_captions": {
+      "luna": "**Figure 3. Simplified diagram of the ESD generator**\n\nSchematic showing the ESD-generator discharge path and return connection:\n\n- Left: circular source symbol labeled **“ESD generator”**.\n- The ESD generator connects upward to an open switch/contact symbol, then along the top conductor through:\n  - **Rch**\n  - **Rd**\n  - **HV relay**\n  - **Discharge tip** at the right.\n- The top path includes filled connection nodes at the switch contacts, between **Rch** and **Rd**, and at the HV-relay/discharge-tip connection.\n- A vertical branch from the node between **Rch** and **Rd** connects downward to a capacitor symbol labeled **“Cs = 150 pF”**.\n- The lower terminal of the capacitor connects to the bottom return conductor.\n- The bottom conductor runs from the ESD generator to the right-hand filled terminal labeled **“Discharge return connection”**.\n- The HV relay is drawn as an oval relay symbol on the discharge path and is labeled **“HV relay”**.\n- No numerical values are shown for **Rch** or **Rd**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-text-00028",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "text": "2.1.1.2 Fast Transient Burst (FTB)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-text-00029",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "text": "More complex than functional ESD, this test which submits the device to a large quantity of emitted disturbances in a short time, is useful for detecting infrequent and unrecoverable (Class B or C) Microcontroller states. FTB disturbances (see Figure 4.) are applied to the Microcontroller power lines through a capacitive coupling network."
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-text-00030",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "text": "ST Microcontroller FTB test correlates with the standards given in Table 2"
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-table-00002",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0007_00002.png",
+    "caption": "**Table 2. FTB standards**\n\n| EUROPEAN NORM | INTERNATIONAL NORM | DESCRIPTION |\n|---|---|---|\n| EN61000-4-4 | IEC 1000-4-4 | Fast Transient Burst |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. FTB standards\nFigure 4. FTB Waveform Diagram",
+    "generated_captions": {
+      "luna": "**Table 2. FTB standards**\n\n| EUROPEAN NORM | INTERNATIONAL NORM | DESCRIPTION |\n|---|---|---|\n| EN61000-4-4 | IEC 1000-4-4 | Fast Transient Burst |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0007_00005.png",
+    "caption": "Figure showing burst and pulse waveform timing/voltage definitions.\n\n**Left panel — burst waveform**\n- Vertical axis: **Voltage**\n- Horizontal axis: **Time**\n- A burst is shown as a group of closely spaced pulses, followed by a longer interval before the next burst.\n- Labels and dimensions:\n  - **Burst**\n  - **Burst Length**: **15ms**\n  - **Burst Period**: **300ms**\n- Note: **“Repetition Frequency: 5kHz; Bursts will be repeated for at least 1 minute.”**\n\n**Center panel — pulse waveform**\n- Vertical axis: **Voltage**\n- Horizontal axis: **Time**\n- Label: **Pulse**\n- Shows individual pulse waveforms, including a rising edge and pulse-duration indication. A small internal timing label appears to be **tᵣ**; the character is somewhat small but legible as a subscripted timing symbol.\n\n**Right panel — pulse amplitude and timing**\n- Vertical axis: **Voltage**\n- Horizontal axis: **Time**\n- Peak-voltage label: **Vpk**\n- Voltage reference levels:\n  - **0.9Vpk**\n  - **0.5Vpk**\n  - **0.1Vpk**\n- Timing annotations:\n  - **5ns**\n  - **50ns**\n- Dashed horizontal and vertical construction lines indicate the voltage-level and time measurements on the pulse waveform.\n- Note: **“Rising and Duration time (±30%) are referred to a 50Ω load”**.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing burst and pulse waveform timing/voltage definitions.\n\n**Left panel — burst waveform**\n- Vertical axis: **Voltage**\n- Horizontal axis: **Time**\n- A burst is shown as a group of closely spaced pulses, followed by a longer interval before the next burst.\n- Labels and dimensions:\n  - **Burst**\n  - **Burst Length**: **15ms**\n  - **Burst Period**: **300ms**\n- Note: **“Repetition Frequency: 5kHz; Bursts will be repeated for at least 1 minute.”**\n\n**Center panel — pulse waveform**\n- Vertical axis: **Voltage**\n- Horizontal axis: **Time**\n- Label: **Pulse**\n- Shows individual pulse waveforms, including a rising edge and pulse-duration indication. A small internal timing label appears to be **tᵣ**; the character is somewhat small but legible as a subscripted timing symbol.\n\n**Right panel — pulse amplitude and timing**\n- Vertical axis: **Voltage**\n- Horizontal axis: **Time**\n- Peak-voltage label: **Vpk**\n- Voltage reference levels:\n  - **0.9Vpk**\n  - **0.5Vpk**\n  - **0.1Vpk**\n- Timing annotations:\n  - **5ns**\n  - **50ns**\n- Dashed horizontal and vertical construction lines indicate the voltage-level and time measurements on the pulse waveform.\n- Note: **“Rising and Duration time (±30%) are referred to a 50Ω load”**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-text-00031",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "text": "The spike frequency is 5 kHz. The generator produces bursts of spikes that last 15 ms every 300 ms (75 spikes)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0007-text-00032",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 7,
+    "text": "The fast transients are coupled to the device DUT with capacitors $\\mathtt { C _ { C } }$ (See Figure 5.)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0008_00006.png",
+    "caption": "Figure: **Coupling Network** (MinerU caption context)\n\n- The diagram is labeled **“NSG 2025”** at the upper left, with a filled circular connection point.\n- Left side: **POWER SUPPLY**\n  - Upper rail labeled **+VDD**\n  - Lower rail labeled **GND**\n- Right side: **TO THE DEVICE UNDER TEST**\n  - Upper rail labeled **+VDD**\n  - Lower rail labeled **GND**\n- Between the power supply and the device-under-test rails is a coupled inductive element:\n  - Upper winding labeled **L**\n  - A second lower winding is drawn beneath it.\n  - The two windings are shown with a pair of thick horizontal black bars between them, indicating magnetic coupling/core.\n- Two capacitors are labeled **Cc**:\n  - One capacitor is drawn vertically between the upper NSG 2025 connection node and the +VDD rail.\n  - A second capacitor is drawn vertically on the right side between the +VDD rail and the GND rail.\n- The upper **NSG 2025** connection runs horizontally to a vertical interconnect with junction dots at the upper node and at the lower-right GND connection.\n- No component values, units, axis labels, or additional numeric specifications are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Coupling Network",
+    "generated_captions": {
+      "luna": "Figure: **Coupling Network** (MinerU caption context)\n\n- The diagram is labeled **“NSG 2025”** at the upper left, with a filled circular connection point.\n- Left side: **POWER SUPPLY**\n  - Upper rail labeled **+VDD**\n  - Lower rail labeled **GND**\n- Right side: **TO THE DEVICE UNDER TEST**\n  - Upper rail labeled **+VDD**\n  - Lower rail labeled **GND**\n- Between the power supply and the device-under-test rails is a coupled inductive element:\n  - Upper winding labeled **L**\n  - A second lower winding is drawn beneath it.\n  - The two windings are shown with a pair of thick horizontal black bars between them, indicating magnetic coupling/core.\n- Two capacitors are labeled **Cc**:\n  - One capacitor is drawn vertically between the upper NSG 2025 connection node and the +VDD rail.\n  - A second capacitor is drawn vertically on the right side between the +VDD rail and the GND rail.\n- The upper **NSG 2025** connection runs horizontally to a vertical interconnect with junction dots at the upper node and at the lower-right GND connection.\n- No component values, units, axis labels, or additional numeric specifications are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-text-00033",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "text": "Measurements are performed on a ground plane. The generator is connected to ground plane by a short wire. The supply wires are 10 cm from the ground plane. The DUT is on the insulator 10 cm from the ground plane. The FTB voltage level is increased until the device failure."
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-text-00034",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "text": "Severity Levels and Class help application designers to determine which ST microcontrollers are suitable for their target application, based on the susceptibility level (Severity level) and type of behavior (Class) indicated in the datasheet."
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-text-00035",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "text": "2.1.1.3 ST Severity Level & Behavior Class"
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-text-00036",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "text": "The 1000-4-2 and 1000-4-4 standards do not refer specifically to semiconductor components such as microcontrollers. Usually electromagnetic stress is applied on other parts of the system such as connectors, mains, supplies... The energy level of the F\\_ESD and FTB test decreases before reaching the microcontroller, governed by the laws of physics. A large amount of statistical data collected by ST on the behaviour of MCUs in various application environments has been used to develop a correlation chart between ST F\\_ESD or FTB test voltage and 1000-4-2/1000-4-4 severity levels (See Table 3)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-table-00003",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0008_00003.png",
+    "caption": "**Table 3. ST ESD Severity levels**\n\n| Severity Level | ESD (1000-4-2) Equipment standard (kV) | FTB (1000-4-4) Equipment standard (kV) | ST Testing Voltage ST internal EMC test (kV) |\n|---:|---:|---:|---:|\n| 1 | 2 | 0.5 | 0-0.5 |\n| 2 | 4 | 1 | 0.5-1 |\n| 3 | 6 | 2 | 1-1.5 |\n| 4 | 8 | 4 | >1.5 |\n\nNo footnotes or additional qualifications are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. ST ESD Severity levels",
+    "generated_captions": {
+      "luna": "**Table 3. ST ESD Severity levels**\n\n| Severity Level | ESD (1000-4-2) Equipment standard (kV) | FTB (1000-4-4) Equipment standard (kV) | ST Testing Voltage ST internal EMC test (kV) |\n|---:|---:|---:|---:|\n| 1 | 2 | 0.5 | 0-0.5 |\n| 2 | 4 | 1 | 0.5-1 |\n| 3 | 6 | 2 | 1-1.5 |\n| 4 | 8 | 4 | >1.5 |\n\nNo footnotes or additional qualifications are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0008-text-00037",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 8,
+    "text": "In addition to this severity level, MCU behaviour under ESD stress can be grouped into different Behaviour Classes (See Table 4) according to EN 50082-2 norm:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-table-00004",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0009_00004.png",
+    "caption": "**Table 4. ST Behavior Classes**\n\n| Class A | Class B | Class C | Class D |\n|---|---|---|---|\n| No failure detected | Failure detected but self recovery after disturbance | Needs an external user action to recover normal functionality | Normal functionality cannot be recovered |\n\nIn the image, “disturbance” is line-wrapped as “distur-” / “bance.”",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. ST Behavior Classes",
+    "generated_captions": {
+      "luna": "**Table 4. ST Behavior Classes**\n\n| Class A | Class B | Class C | Class D |\n|---|---|---|---|\n| No failure detected | Failure detected but self recovery after disturbance | Needs an external user action to recover normal functionality | Normal functionality cannot be recovered |\n\nIn the image, “disturbance” is line-wrapped as “distur-” / “bance.”"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00038",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "Class B could be caused by:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00039",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "– a parasitic reset correctly managed by the firmware (preferable case)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00040",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "– deprogramming of a peripheral register or memory recovered by the application."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00041",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "– a blocked status, recovered by a Watchdog or other firmware implementation."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00042",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "Class C could be caused by:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00043",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "– deprogramming of a peripheral register or memory not recovered by the application."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00044",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "– a blocked application status requiring an external user action."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00045",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "Table 5 shows ST target and acceptance limits."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-table-00005",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0009_00005.png",
+    "caption": "**Table 5. F_ESD / FTB target level & acceptance limit**\n\n|  | Acceptance limit | Target Level |\n|---|---:|---:|\n| F_ESD | 0.5kV | >1kV |\n| FTB | 0.5kV | >1.5kV |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. F\\_ESD / FTB target level & acceptance limit",
+    "generated_captions": {
+      "luna": "**Table 5. F_ESD / FTB target level & acceptance limit**\n\n|  | Acceptance limit | Target Level |\n|---|---:|---:|\n| F_ESD | 0.5kV | >1kV |\n| FTB | 0.5kV | >1.5kV |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00046",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "Special care during system design should be taken to avoid susceptibility issues."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-text-00047",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "text": "Table 6 shows how F\\_ESD / FTB test results are presented in ST datasheets."
+  },
+  {
+    "segment_id": "stm32-an1709-p0009-table-00006",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0009_00006.png",
+    "caption": "**Table 6. Example of F_ESD / FTB test results** *(caption/context; table title itself is not visible in the crop)*\n\n| Symbol | Ratings | Conditions | Severity/Criteria |\n|---|---|---|---|\n| **V<sub>F_ESD</sub>** | Voltage limits to be applied on any I/O pin to induce a functional disturbance | **T<sub>A</sub>=+25°C** | **2/A, 3/B** |\n| **V<sub>FTB</sub>** | Fast transient voltage burst limits to be applied through 100pF on VSS and VDD pins to induce a functional disturbance | **T<sub>A</sub>=+25°C** | **3/B** |\n\nThe visible column headings are **Symbol**, **Ratings**, **Conditions**, and **Severity/Criteria**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. Example of F\\_ESD / FTB test results",
+    "generated_captions": {
+      "luna": "**Table 6. Example of F_ESD / FTB test results** *(caption/context; table title itself is not visible in the crop)*\n\n| Symbol | Ratings | Conditions | Severity/Criteria |\n|---|---|---|---|\n| **V<sub>F_ESD</sub>** | Voltage limits to be applied on any I/O pin to induce a functional disturbance | **T<sub>A</sub>=+25°C** | **2/A, 3/B** |\n| **V<sub>FTB</sub>** | Fast transient voltage burst limits to be applied through 100pF on VSS and VDD pins to induce a functional disturbance | **T<sub>A</sub>=+25°C** | **3/B** |\n\nThe visible column headings are **Symbol**, **Ratings**, **Conditions**, and **Severity/Criteria**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00048",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "2.1.2 Latch-Up (LU)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00049",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "2.1.2.1 Static Latch-Up (LU) test:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00050",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "The Latch-up is a phenomenon which is defined by a high current consumption resulting from an overstress that triggers a parasitic thyristor structure and need a disconnection of the power supply to recover the initial state."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00051",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "NOTES"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00052",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "1 The overstress can be a voltage or current surge, an excessive rate of change of current or voltage, or any other abnormal condition that causes the parasitic thyristor structure to become self-sustaining."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00053",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "2 Latch-up will not damage the device if the current through the low-impedance path is sufficiently limited in magnitude or duration."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00054",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "This test conforms to the EIA/JESD 78 IC latch-up standard."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00055",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "True LU is self-sustaining and once triggered, the high current condition will remain until the power supply voltage is removed from the device. A temporary LU condition is considered to have been induced if the high current condition stops when only the trigger voltage is removed."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00056",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "Two complementary static tests are required on 10 parts to assess the latch-up performance:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00057",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "Power supply overvoltage (applied to each power supply pin) simulates a user induced situation where a transient over-voltage is applied on the power supply."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00058",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "Current injection (applied to each input, output and configurable l/O pin) simulates an application induced situation where the applied voltage to a pin is greater than the maximum rated conditions, such as severe overshoot above Vpp or undershoot below ground on an input due to ringing."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00059",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "Table 7 shows how LU test result is presented in ST datasheets."
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-table-00007",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0010_00007.png",
+    "caption": "**Visible table content**\n\n| Symbol | Parameter | Conditions | Class¹) |\n|---|---|---|---|\n| LU | Static latch-up class | T<sub>A</sub>=+25°C<br>T<sub>A</sub>=+85°C, T<sub>A</sub>=+125°C (depending on the temperature range of the device) | A |\n\n- The table header is: **Symbol**, **Parameter**, **Conditions**, **Class¹)**.\n- Symbol: **LU**\n- Parameter: **Static latch-up class**\n- Conditions:\n  - **T_A=+25°C**\n  - **T_A=+85°C, T_A=+125°C (depending on the temperature range of the device)**\n- Class: **A**\n- The footnote corresponding to superscript **¹)** is not visible in the crop.\n- No table title or caption is visible in the provided image.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Example of the LU test result on ST72F521",
+    "generated_captions": {
+      "luna": "**Visible table content**\n\n| Symbol | Parameter | Conditions | Class¹) |\n|---|---|---|---|\n| LU | Static latch-up class | T<sub>A</sub>=+25°C<br>T<sub>A</sub>=+85°C, T<sub>A</sub>=+125°C (depending on the temperature range of the device) | A |\n\n- The table header is: **Symbol**, **Parameter**, **Conditions**, **Class¹)**.\n- Symbol: **LU**\n- Parameter: **Static latch-up class**\n- Conditions:\n  - **T_A=+25°C**\n  - **T_A=+85°C, T_A=+125°C (depending on the temperature range of the device)**\n- Class: **A**\n- The footnote corresponding to superscript **¹)** is not visible in the crop.\n- No table title or caption is visible in the provided image."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00060",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "2.1.2.2 Dynamic Latch-Up (DLU) test:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0010-text-00061",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 10,
+    "text": "The product is evaluated for its LU susceptibility to ESD discharges when the microcontroller is “running.”"
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00062",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "Increasing electrostatic discharges are supplied to every pin of the component until a Latch-up occurs. Result is the maximum tolerated voltage without Latch-up."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00063",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "DLU Test methodology and characterization: Electro-Static Discharges (one positive then one negative test) are applied to each pin of 3 samples when the microcontroller is running to assess the latch-up performance in dynamic mode. Power supplies are set to the typical values, the oscillator is connected as near as possible to the pins of the microcontroller and the component is put in reset mode."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00064",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "Table 8 shows how the DLU test result is presented in ST datasheets."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-table-00008",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0011_00008.png",
+    "caption": "**Table 8. Example of DLU test Result on ST72F521** *(caption supplied as context; table title itself is not visible in the crop)*\n\n| Symbol | Parameter | Conditions | Class¹ |\n|---|---|---|---|\n| DLU | Dynamic latch-up class | V<sub>DD</sub> = 5V<br>f<sub>OSC</sub> = 4MHz,<br>T<sub>A</sub> = +25°C | A |\n\nVisible details:\n- Symbol: **DLU**\n- Parameter: **Dynamic latch-up class**\n- Conditions: **VDD=5V**, **fOSC=4MHz,**, **TA=+25°C**\n- Class: **A**\n- The column heading **Class** carries footnote marker **¹**; the corresponding footnote text is not visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 8. Example of DLU test Result on ST72F521",
+    "generated_captions": {
+      "luna": "**Table 8. Example of DLU test Result on ST72F521** *(caption supplied as context; table title itself is not visible in the crop)*\n\n| Symbol | Parameter | Conditions | Class¹ |\n|---|---|---|---|\n| DLU | Dynamic latch-up class | V<sub>DD</sub> = 5V<br>f<sub>OSC</sub> = 4MHz,<br>T<sub>A</sub> = +25°C | A |\n\nVisible details:\n- Symbol: **DLU**\n- Parameter: **Dynamic latch-up class**\n- Conditions: **VDD=5V**, **fOSC=4MHz,**, **TA=+25°C**\n- Class: **A**\n- The column heading **Class** carries footnote marker **¹**; the corresponding footnote text is not visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00065",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "1. Class description: “A” class is an STMicroelectronics internal specification. All its limits are higher than the JEDEC specifications, that means when a device belongs to Class A it exceeds the JEDEC standard. “B” Class strictly covers all the JEDEC criteria (international standard)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00066",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "LU/DLU test equipment is same as the one used for the functional EMS (see Figure 1.)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00067",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "2.1.3 Absolute Electrical Sensitivity"
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00068",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "This test is performed to assess the components immunity against destruction caused by ESD."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "Any devices that fails this electrical test program is classified as a failure."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "Using automatic ESD tester, Electro-Static Discharges (a positive then a negative pulse separated by 1 second) are applied to the pins of each sample according to each pin combination. The sample size depends of the number of supply pins of the device (3 parts\\*(n+1): n= supply pins). Two models are usually simulated: Human Body Model (HBM) and Machine Model (MM). All parts are re-tested on the production tester to verify the static and dynamic parameters still comply with the device datasheet (See Figure 6.)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 11,
+    "text": "This test conforms to the JESD22-A114A/A115A standard. See Figure 6. and the following test sequences."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0012_00007.png",
+    "caption": "**Figure 6. Absolute Electrical Sensitivity test models**\n\nThe figure shows two high-voltage pulse test circuits: a **HUMAN BODY MODEL** on the left and a **MACHINE MODEL** on the right.\n\n### HUMAN BODY MODEL\n- **HIGH VOLTAGE PULSE GENERATOR** at left.\n- Series/input switch labeled **S1**.\n- Capacitor labeled **Cₗ=100pF** connected from the S1 node to ground.\n- Series resistor labeled **R=1500Ω** on the upper path.\n- Microcontroller block labeled **μC**; its upper and lower terminals are shown.\n- Output/discharge switch at right labeled **S2**, connected between the upper circuit node and the lower return/ground node.\n- Ground symbol on the lower return node.\n- Caption beneath the circuit: **HUMAN BODY MODEL**.\n\n### MACHINE MODEL\n- **HIGH VOLTAGE PULSE GENERATOR** at left.\n- Series/input switch labeled **S1**.\n- Capacitor labeled **Cₗ=200pF** connected from the S1 node to ground.\n- Microcontroller block labeled **μC**; its upper and lower terminals are shown.\n- Resistor on the right-hand vertical path labeled **R=10kΩ**.\n- Output/discharge switch at right labeled **S2**, in the lower part of the right-hand path.\n- Ground symbol on the lower return node.\n- Caption beneath the circuit: **MACHINE MODEL**.\n\nSwitch symbols include curved arrows indicating switch operation.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. Absolute Electrical Sensitivity test models",
+    "generated_captions": {
+      "luna": "**Figure 6. Absolute Electrical Sensitivity test models**\n\nThe figure shows two high-voltage pulse test circuits: a **HUMAN BODY MODEL** on the left and a **MACHINE MODEL** on the right.\n\n### HUMAN BODY MODEL\n- **HIGH VOLTAGE PULSE GENERATOR** at left.\n- Series/input switch labeled **S1**.\n- Capacitor labeled **Cₗ=100pF** connected from the S1 node to ground.\n- Series resistor labeled **R=1500Ω** on the upper path.\n- Microcontroller block labeled **μC**; its upper and lower terminals are shown.\n- Output/discharge switch at right labeled **S2**, connected between the upper circuit node and the lower return/ground node.\n- Ground symbol on the lower return node.\n- Caption beneath the circuit: **HUMAN BODY MODEL**.\n\n### MACHINE MODEL\n- **HIGH VOLTAGE PULSE GENERATOR** at left.\n- Series/input switch labeled **S1**.\n- Capacitor labeled **Cₗ=200pF** connected from the S1 node to ground.\n- Microcontroller block labeled **μC**; its upper and lower terminals are shown.\n- Resistor on the right-hand vertical path labeled **R=10kΩ**.\n- Output/discharge switch at right labeled **S2**, in the lower part of the right-hand path.\n- Ground symbol on the lower return node.\n- Caption beneath the circuit: **MACHINE MODEL**.\n\nSwitch symbols include curved arrows indicating switch operation."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00072",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "2.1.3.1 Human Body Model Test Sequence"
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00073",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "The HBM ESD pulse simulates the direct transfer of electrostatic charge, from the Human Body, to a test device. A 100pF capacitor is discharged through a switching component and a 1.5 Kohm series resistor. This is currently the most requested industry model, for classifying device sensitivity to ESD."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00074",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "$- C _ { \\mathsf { L } }$ is loaded through S1 by the HV pulse generator."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00075",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "– S1 switches position from generator to R."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00076",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "– A discharge from $\\mathsf C _ { \\mathsf L }$ through R (body resistance) to the $\\mu \\ C$ occurs."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00077",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "– S2 must be closed 10 to 100ms after the pulse delivery period to ensure the $\\mu \\ C$ is not left in charge state. S2 must be opened at least 10ms prior to the delivery of the next pulse."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00078",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "2.1.3.2 Machine Model Test Sequence"
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00079",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "The MM ESD pulse emulates the rapid direct transfer of electrostatic charge, from a charged conductive object, such as a metallic tool or fixture, to a test device. This model consists of a discharged 200pF capacitor, with no series resistor. The demand for MM ESD testing has increased, with the replacement of individual packaging by automated systems."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00080",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "$- C _ { \\mathsf { L } }$ is loaded through S1 by the HV pulse generator."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00081",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "– S1 switches position from generator to the $\\mu \\ C$"
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00082",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "– A discharge from $\\mathsf C _ { \\mathsf L }$ to the $\\mu \\ C$ occurs."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00083",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "– S2 must be closed 10 to 100ms after the pulse delivery period to ensure the µC is not left in charge state. S2 must be opened at least 10ms prior to the delivery of the next pulse."
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00084",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "R (machine resistance), in series with S2, ensures a slow discharge of the $\\mu \\ C$"
+  },
+  {
+    "segment_id": "stm32-an1709-p0012-text-00085",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 12,
+    "text": "Table 9 shows how HBM/MM ESD test results are presented in ST datasheets."
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-table-00009",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0013_00009.png",
+    "caption": "**Table 9. Example of HBM/MM ESD test results on ST72F521**\n\n| Symbol | Ratings | Conditions | Maximum value¹) | Unit |\n|---|---|---|---:|---|\n| V<sub>ESD(HBM)</sub> | Electro-static discharge voltage (Human Body Model) | T<sub>A</sub>=+25°C | 2000 | V |\n| V<sub>ESD(MM)</sub> | Electro-static discharge voltage (Machine Model) | T<sub>A</sub>=+25°C | 200 | V |\n\nThe “Maximum value” column includes footnote marker **1)**; the corresponding footnote text is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. Example of HBM/MM ESD test results on ST72F521",
+    "generated_captions": {
+      "luna": "**Table 9. Example of HBM/MM ESD test results on ST72F521**\n\n| Symbol | Ratings | Conditions | Maximum value¹) | Unit |\n|---|---|---|---:|---|\n| V<sub>ESD(HBM)</sub> | Electro-static discharge voltage (Human Body Model) | T<sub>A</sub>=+25°C | 2000 | V |\n| V<sub>ESD(MM)</sub> | Electro-static discharge voltage (Machine Model) | T<sub>A</sub>=+25°C | 200 | V |\n\nThe “Maximum value” column includes footnote marker **1)**; the corresponding footnote text is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00086",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "2.2 ELECTROMAGNETIC INTERFERENCE (EMI)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00087",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "2.2.1 EMI radiated test"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00088",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "This test correlates with the SAE J1752/3 standard."
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00089",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "This test gives a good evaluation of the contribution of the microcontroller to radiated noise in an application environment. It takes into account the MCU chip and also the package which has a major influence on the noise radiated by the device."
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00090",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "Below is the package EMI contribution from the highest to the lowest:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00091",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "SDIP/DIP"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00092",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "SOP"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00093",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "QFP"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00094",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "TQFP"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00095",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "The test is performed in a Transverse Electromagnetic Mode Cell (TEMCELL) which allows radiated noise measurement in two directions, rotating the test board by 90°"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "Test description:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "The firmware running is based on a simple application, toggling 2 LEDs through the I/O ports."
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "The main directives for an SAE PCB are (Figure 8.):"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "– 100 x 100mm square board"
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "– At least 2-layer board (ideally 4-layer)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "– 5mm conductive edges on both sides connected to ground for contact with TEMCELL."
+  },
+  {
+    "segment_id": "stm32-an1709-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 13,
+    "text": "Figure 7. shows a typical example of an MCU EMC test board schematics."
+  },
+  {
+    "segment_id": "stm32-an1709-p0014-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0014_00008.png",
+    "caption": "Figure 7, “Example of test board schematics for ST7” — schematic of an ST7 test board.\n\n- **Central device/package:** large rectangular IC outline with the following labeled connections:\n  - **PB1**: left side, connected to pushbutton **BP1** and a **10k** pull-up resistor to an upward supply arrow.\n  - **PB2**: top side, connected to **LED 1** through a series resistor marked **220**; the resistor’s upper end connects to an upward supply arrow.\n  - **PB3**: top side, connected to **LED 2** through a series resistor marked **220**; the resistor’s upper end connects to an upward supply arrow.\n  - **Xtal 1** and **Xtal 2**: left side, connected to an external crystal/resonator symbol between the two lines and to two additional capacitor symbols connected toward ground. No values are shown for the crystal or these capacitors.\n  - **Reset**: left side, connected to a reset network consisting of a **4.7k** resistor to an upward supply arrow, pushbutton **BP2** to ground, and a capacitor to ground. The capacitor value is not shown.\n  - **Vpp**: bottom side, connected through a **10k** resistor to **GND**.\n  - **VddA**, **Vdd1**, **Vdd2**, **Vdd3**: right side, connected to a common supply rail labeled **+5V**.\n  - **VssA**, **Vss1**, **Vss2**, **Vss3**: right side, connected to a common ground rail labeled **GND**.\n\n- **LED indicators:**\n  - **LED 1** is connected between the **220** resistor and **PB2**.\n  - **LED 2** is connected between the **220** resistor and **PB3**.\n  - Both resistor upper terminals terminate in upward-pointing supply arrows.\n\n- **Pushbutton inputs:**\n  - **BP1** is connected between the **PB1** node and ground; the PB1 node has a **10k** pull-up resistor to an upward supply arrow.\n  - **BP2** is connected between the **Reset** node and ground; the Reset node has a **4.7k** pull-up resistor to an upward supply arrow and a capacitor to ground.\n\n- **Power and decoupling:**\n  - The supply rail for **VddA**, **Vdd1**, **Vdd2**, and **Vdd3** is labeled **+5V**.\n  - A capacitor marked **100 nF** is connected between the +5V supply rail and the ground rail.\n  - **VssA**, **Vss1**, **Vss2**, and **Vss3** terminate at the rail labeled **GND**.\n  - The **Vpp** connection has a **10k** resistor to **GND**.\n\n- **Other visible labels and symbols:** **Xtal 1**, **Xtal 2**, **Reset**, **Vpp**, **VddA**, **Vdd1**, **Vdd2**, **Vdd3**, **VssA**, **Vss1**, **Vss2**, **Vss3**, **PB1**, **PB2**, **PB3**, **BP1**, **BP2**, **LED 1**, **LED 2**, **+5V**, **GND**, **220**, **10k**, **4.7k**, and **100 nF**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Example of test board schematics for ST7",
+    "generated_captions": {
+      "luna": "Figure 7, “Example of test board schematics for ST7” — schematic of an ST7 test board.\n\n- **Central device/package:** large rectangular IC outline with the following labeled connections:\n  - **PB1**: left side, connected to pushbutton **BP1** and a **10k** pull-up resistor to an upward supply arrow.\n  - **PB2**: top side, connected to **LED 1** through a series resistor marked **220**; the resistor’s upper end connects to an upward supply arrow.\n  - **PB3**: top side, connected to **LED 2** through a series resistor marked **220**; the resistor’s upper end connects to an upward supply arrow.\n  - **Xtal 1** and **Xtal 2**: left side, connected to an external crystal/resonator symbol between the two lines and to two additional capacitor symbols connected toward ground. No values are shown for the crystal or these capacitors.\n  - **Reset**: left side, connected to a reset network consisting of a **4.7k** resistor to an upward supply arrow, pushbutton **BP2** to ground, and a capacitor to ground. The capacitor value is not shown.\n  - **Vpp**: bottom side, connected through a **10k** resistor to **GND**.\n  - **VddA**, **Vdd1**, **Vdd2**, **Vdd3**: right side, connected to a common supply rail labeled **+5V**.\n  - **VssA**, **Vss1**, **Vss2**, **Vss3**: right side, connected to a common ground rail labeled **GND**.\n\n- **LED indicators:**\n  - **LED 1** is connected between the **220** resistor and **PB2**.\n  - **LED 2** is connected between the **220** resistor and **PB3**.\n  - Both resistor upper terminals terminate in upward-pointing supply arrows.\n\n- **Pushbutton inputs:**\n  - **BP1** is connected between the **PB1** node and ground; the PB1 node has a **10k** pull-up resistor to an upward supply arrow.\n  - **BP2** is connected between the **Reset** node and ground; the Reset node has a **4.7k** pull-up resistor to an upward supply arrow and a capacitor to ground.\n\n- **Power and decoupling:**\n  - The supply rail for **VddA**, **Vdd1**, **Vdd2**, and **Vdd3** is labeled **+5V**.\n  - A capacitor marked **100 nF** is connected between the +5V supply rail and the ground rail.\n  - **VssA**, **Vss1**, **Vss2**, and **Vss3** terminate at the rail labeled **GND**.\n  - The **Vpp** connection has a **10k** resistor to **GND**.\n\n- **Other visible labels and symbols:** **Xtal 1**, **Xtal 2**, **Reset**, **Vpp**, **VddA**, **Vdd1**, **Vdd2**, **Vdd3**, **VssA**, **Vss1**, **Vss2**, **Vss3**, **PB1**, **PB2**, **PB3**, **BP1**, **BP2**, **LED 1**, **LED 2**, **+5V**, **GND**, **220**, **10k**, **4.7k**, and **100 nF**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0015-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0015_00009.png",
+    "caption": "**Figure 8. Test Printed Circuit Board specification according J1752/3 SAE standard** — PCB layout and cross-sectional construction for a DUT test board.\n\n### Top/plan view\n\n- Board outline: **101.6 +/-1 mm [4.00 +/-0.04 inch] square**\n- Four corner mounting holes are shown.\n- **Optional, 4 holes each 3.2 mm [0.125 inch] dia., and 5.1 mm [0.20 inch] from board edges**\n- **All non-ground layers recessed minimum of 1.6 mm [1/16 inch]**\n- Perimeter via strip:\n  - **Strip of vias connecting layer 1 to layer 4**\n  - **via spacing = 2.5 mm [0.1 inch]**\n  - **recessed minimum of 4.6 mm [0.18 inch] from edge**\n- Central device area marked **DUT**.\n- Around the DUT: **Area for surface-mounted pads to signal layers, or plated through holes for device pins**\n- Perimeter/tinned ground region:\n  - **Tinned area of layer 1 configuration**\n  - **minimum width of 3.2 mm [0.125 inch]**\n  - **recessed maximum of 0.75 mm [0.03 inch]**\n  - **adaptable to future IC test methods**\n\n### Side view\n\n- DUT is mounted on the upper surface of the PCB.\n- **All additional components and support chips on this side and inside of via perimeter**\n- Board thickness: **1.6 mm [1/16 inch] nominal thickness**\n\n### Enlarged cross-sectional detail\n\nThe enlarged section is marked **X 5 view** and identifies:\n\n- **inner layer edge**\n- **tinned ground**\n- **layer 1 ground**\n- **via perimeter center line**\n- Maximum recess/dimension: **0.75 mm [0.03 inch] max**\n\nLayer stack labels:\n\n1. **Layer 1 - Ground**\n2. **Layer 2 - Power**\n3. **Layer 3 - Signal**\n4. **Layer 4 - Signal / Ground**\n\nBottom note: **Additional signal layers may be added as necessary**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Test Printed Circuit Board specification according J1752/3 SAE standard",
+    "generated_captions": {
+      "luna": "**Figure 8. Test Printed Circuit Board specification according J1752/3 SAE standard** — PCB layout and cross-sectional construction for a DUT test board.\n\n### Top/plan view\n\n- Board outline: **101.6 +/-1 mm [4.00 +/-0.04 inch] square**\n- Four corner mounting holes are shown.\n- **Optional, 4 holes each 3.2 mm [0.125 inch] dia., and 5.1 mm [0.20 inch] from board edges**\n- **All non-ground layers recessed minimum of 1.6 mm [1/16 inch]**\n- Perimeter via strip:\n  - **Strip of vias connecting layer 1 to layer 4**\n  - **via spacing = 2.5 mm [0.1 inch]**\n  - **recessed minimum of 4.6 mm [0.18 inch] from edge**\n- Central device area marked **DUT**.\n- Around the DUT: **Area for surface-mounted pads to signal layers, or plated through holes for device pins**\n- Perimeter/tinned ground region:\n  - **Tinned area of layer 1 configuration**\n  - **minimum width of 3.2 mm [0.125 inch]**\n  - **recessed maximum of 0.75 mm [0.03 inch]**\n  - **adaptable to future IC test methods**\n\n### Side view\n\n- DUT is mounted on the upper surface of the PCB.\n- **All additional components and support chips on this side and inside of via perimeter**\n- Board thickness: **1.6 mm [1/16 inch] nominal thickness**\n\n### Enlarged cross-sectional detail\n\nThe enlarged section is marked **X 5 view** and identifies:\n\n- **inner layer edge**\n- **tinned ground**\n- **layer 1 ground**\n- **via perimeter center line**\n- Maximum recess/dimension: **0.75 mm [0.03 inch] max**\n\nLayer stack labels:\n\n1. **Layer 1 - Ground**\n2. **Layer 2 - Power**\n3. **Layer 3 - Signal**\n4. **Layer 4 - Signal / Ground**\n\nBottom note: **Additional signal layers may be added as necessary**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00103",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "2.2.2 EMI level classification"
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00104",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "The EMI classifications are directly based on the absolute frequency and amplitude of the emitted noise. Several international norms exist, based on different measurement methodologies, or emission levels, but the classification principle remains the same."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00105",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "The standardized diagram (see Figure 9.) is useful to get a synthesis and a classification of EMI results, according to a standard framework. Each ST microcontroller EMI result is classified according to 4 SAE levels."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0016_00010.png",
+    "caption": "**Figure 9. EMI level classification**\n\n- **Y-axis:** `dbu V` (as printed)\n  - Visible scale markings: `60`, `40`, `30`, `20`, `10`, `0`, `-20`\n- **X-axis:** `MHz`\n  - Visible logarithmic-scale markings: `0.1`, `1`, `10`, `30`, `100`, `1000`\n\nThe plot shows four EMI classification limits:\n\n- **Level 4:** horizontal limit at `40` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n- **Level 3:** horizontal limit at `30` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n- **Level 2:** horizontal limit at `20` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n- **Level 1:** horizontal limit at `10` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n\nAdditional visible graph features:\n\n- Dashed vertical marker at `1` MHz, extending upward to approximately the `20`-dbu V level and downward near the lower plot boundary.\n- Dashed vertical marker at `30` MHz, extending from approximately the `20`-dbu V level to near `-20` dbu V.\n- All four classification boundaries change from horizontal to downward-sloping at `30` MHz.\n- The descending Level 1 boundary reaches the lower boundary at `1000` MHz (`-20` dbu V). The other descending lines terminate at higher plotted levels; no exact endpoint values are labeled.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. EMI level classification:",
+    "generated_captions": {
+      "luna": "**Figure 9. EMI level classification**\n\n- **Y-axis:** `dbu V` (as printed)\n  - Visible scale markings: `60`, `40`, `30`, `20`, `10`, `0`, `-20`\n- **X-axis:** `MHz`\n  - Visible logarithmic-scale markings: `0.1`, `1`, `10`, `30`, `100`, `1000`\n\nThe plot shows four EMI classification limits:\n\n- **Level 4:** horizontal limit at `40` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n- **Level 3:** horizontal limit at `30` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n- **Level 2:** horizontal limit at `20` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n- **Level 1:** horizontal limit at `10` dbu V from `0.1` MHz to `30` MHz, then a descending line toward `1000` MHz.\n\nAdditional visible graph features:\n\n- Dashed vertical marker at `1` MHz, extending upward to approximately the `20`-dbu V level and downward near the lower plot boundary.\n- Dashed vertical marker at `30` MHz, extending from approximately the `20`-dbu V level to near `-20` dbu V.\n- All four classification boundaries change from horizontal to downward-sloping at `30` MHz.\n- The descending Level 1 boundary reaches the lower boundary at `1000` MHz (`-20` dbu V). The other descending lines terminate at higher plotted levels; no exact endpoint values are labeled."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00106",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "\\_ higher than 4. high risk due to EMI level."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00107",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "\\_ Level 4. may require cost for EMI compliance."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00108",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "\\_ Level 3. moderate EMI risk."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00109",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "\\_ Level 2. minimal EMI risk."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00110",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "Table 10 shows how EMI test results are presented in ST datasheets."
+  },
+  {
+    "segment_id": "stm32-an1709-p0016-text-00111",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 16,
+    "text": "<sup>mple</sup> <sup>of</sup> <sup>EMI</sup> <sup>re</sup>hetic view of th frequency is indicated. EMI data are provided with relevant information such as the device package and CPU frequency."
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00112",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "3 ST MCU DESIGN STRATEGY & EMC SPECIFIC FEATURE"
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00113",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "At the initial specification of a new product, EMC dedicated features are implemented after an identification of EMC constraints imposed by the MCU target applications. You should refer to the specific product datasheet to know which of these feature described here are embedded."
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0017_00011.png",
+    "caption": "**Figure 10 – Overview of specific features embedded in ST Microcontrollers**  \nVisible figure title: **“Embedded features for EMC in ST Microcontrollers”**\n\nThe figure shows separate feature boxes:\n\n- **Low Power Oscillator**\n  - **Multi Oscillator**\n- **Watchdog**\n  - **(Firmware Management refer to AN 1015)**\n- **Internal Voltage Regulators**\n  - **(For MCUs with low power core)**\n- **I/O Protection**\n  - **Controlled Slope**\n- **LVD/AVD**\n- **Internal PLL**\n\nNo axes, legends, numerical values, pin numbers, or interconnecting signal lines are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. Overview of specific features embedded in ST Microcontrollers",
+    "generated_captions": {
+      "luna": "**Figure 10 – Overview of specific features embedded in ST Microcontrollers**  \nVisible figure title: **“Embedded features for EMC in ST Microcontrollers”**\n\nThe figure shows separate feature boxes:\n\n- **Low Power Oscillator**\n  - **Multi Oscillator**\n- **Watchdog**\n  - **(Firmware Management refer to AN 1015)**\n- **Internal Voltage Regulators**\n  - **(For MCUs with low power core)**\n- **I/O Protection**\n  - **Controlled Slope**\n- **LVD/AVD**\n- **Internal PLL**\n\nNo axes, legends, numerical values, pin numbers, or interconnecting signal lines are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00114",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "3.1 SUSCEPTIBILITY"
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00115",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "3.1.1 Low Voltage Detector (LVD)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00116",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "The purpose of the LVD is to ensure that the Microcontroller will always work in its safe operating area (see Figure 12.). In terms of EMS, the presence of the LVD makes the MCU more robust, ensuring that if any outside disturbance affects the power supply, the application can recover safely."
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00117",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "When $\\mathsf { V } _ { \\mathsf { D D } }$ is below the « Min Working $\\mathsf { V } _ { \\mathsf { D } \\mathsf { D } } \\gg$ the behaviour of the Microcontroller is no longer guaranteed. There is not enough power to decode/execute the instructions and/or read the memory. When $\\mathsf { V } _ { \\mathsf { D D } }$ is below the LVD level the Microcontroller enters in reset state (internal reset High) in order to prevent unpredictable behaviour. There are 2 levels with 250mV hysteresis in order to avoid oscillating when the micro restarts. When a LVD reset occurs, a bit is set by HW. This bit can be used to recover an application."
+  },
+  {
+    "segment_id": "stm32-an1709-p0017-text-00118",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 17,
+    "text": "The Low Voltage Detector function generates a static reset when the $\\mathsf { V } _ { \\mathsf { D D } }$ supply voltage is below a $\\mathsf { V } _ { \\mathsf { I T } } .$ reference value. This means that it secures the power-up as well as the powerdown keeping the Microcontroller in reset."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00119",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "The $\\mathsf { V } _ { \\Pi } .$ reference value for a voltage drop is lower than the $\\mathsf { V } _ { \\Pi } .$ reference value for power-on in order to avoid a parasitic reset when the MCU starts running and sinks current on the supply (hysteresis)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00120",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "The LVD Reset circuitry generates a reset when $\\mathsf { V } _ { \\mathsf { D D } }$ is below:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00121",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "$- \\mathsf { V } _ { \\mathsf { I T } + }$ when $\\mathsf { V } _ { \\mathsf { D D } }$ is rising"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00122",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "$- \\mathsf { V } _ { \\mathsf { I T } } .$ <sub>-</sub> when $\\mathsf { V } _ { \\mathsf { D D } }$ is falling"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00123",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "The LVD function is illustrated in Figure 11.."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00124",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "The voltage threshold can be configured by option byte to be low, medium or high."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00125",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "Provided the minimum $\\mathsf { V } _ { \\mathsf { D D } }$ value (guaranteed for the oscillator frequency) is above $\\mathsf { V } _ { \\Pi } .$ <sub>-</sub>, the MCU can only be in two modes:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00126",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "– under full software control"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00127",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "– in static safe reset"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00128",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "In these conditions, secure operation is always ensured for the application without the need for external reset hardware."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00129",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "During a Low Voltage Detector Reset, the RESET pin is held low, thus permitting the MCU to reset other devices."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00130",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "Notes:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00131",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "The LVD allows the device to be used without any external RESET circuitry."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-text-00132",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "text": "The LVD is an optional function which can be selected by option byte. Refer to product specification."
+  },
+  {
+    "segment_id": "stm32-an1709-p0018-figure-00012",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0018_00012.png",
+    "caption": "**Figure 11 – Low Voltage Detector vs Reset** (caption/context; figure title itself is not visible in the crop)\n\n- Upper waveform is labeled **VDD** at the left, with an upward-pointing vertical arrow indicating increasing VDD.\n- Two horizontal dashed threshold lines are labeled at the left:\n  - **VIT+** — upper threshold\n  - **VIT−** — lower threshold\n- The separation between the two threshold levels is marked **Vhys**, with a vertical double-ended arrow between the VIT+ and VIT− dashed lines.\n- The VDD waveform is a repeating trapezoidal/low-high signal:\n  1. Starts at a low level.\n  2. Rises through **VIT+** to a high plateau.\n  3. Falls through **VIT−** to an intermediate low plateau.\n  4. Rises again through **VIT+** to a high plateau.\n  5. Falls again through **VIT−** to the low level.\n- Four vertical dashed guide lines mark the threshold-crossing points:\n  - First rising crossing of **VIT+**\n  - First falling crossing of **VIT−**\n  - Second rising crossing of **VIT+**\n  - Second falling crossing of **VIT−**\n- Lower waveform is labeled **RESET** at the left. It is initially low, transitions high after each rising VDD crossing of **VIT+**, remains high while VDD is above the relevant threshold region, and transitions low after each falling VDD crossing of **VIT−**.\n- No numeric voltage values, time scale, units, or axis tick marks are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. Low Voltage Detector vs Reset",
+    "generated_captions": {
+      "luna": "**Figure 11 – Low Voltage Detector vs Reset** (caption/context; figure title itself is not visible in the crop)\n\n- Upper waveform is labeled **VDD** at the left, with an upward-pointing vertical arrow indicating increasing VDD.\n- Two horizontal dashed threshold lines are labeled at the left:\n  - **VIT+** — upper threshold\n  - **VIT−** — lower threshold\n- The separation between the two threshold levels is marked **Vhys**, with a vertical double-ended arrow between the VIT+ and VIT− dashed lines.\n- The VDD waveform is a repeating trapezoidal/low-high signal:\n  1. Starts at a low level.\n  2. Rises through **VIT+** to a high plateau.\n  3. Falls through **VIT−** to an intermediate low plateau.\n  4. Rises again through **VIT+** to a high plateau.\n  5. Falls again through **VIT−** to the low level.\n- Four vertical dashed guide lines mark the threshold-crossing points:\n  - First rising crossing of **VIT+**\n  - First falling crossing of **VIT−**\n  - Second rising crossing of **VIT+**\n  - Second falling crossing of **VIT−**\n- Lower waveform is labeled **RESET** at the left. It is initially low, transitions high after each rising VDD crossing of **VIT+**, remains high while VDD is above the relevant threshold region, and transitions low after each falling VDD crossing of **VIT−**.\n- No numeric voltage values, time scale, units, or axis tick marks are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-figure-00013",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0019_00013.png",
+    "caption": "Figure: maximum operating frequency versus supply voltage.\n\n- Vertical axis: **Freq.**\n  - Marked levels: **16Mhz** and **8Mhz**.\n  - Upward arrow at the axis.\n- Horizontal axis: **Vsupply**\n  - Right-pointing arrow.\n  - No numeric supply-voltage scale is visible.\n- Low-voltage detector threshold markers across the top:\n  - **LVD low**\n  - **LVD med.**\n  - **LVD high**\n- A callout labeled **Absolute working window** points to the dashed upper boundary of the operating region.\n- Dashed boundary lines indicate:\n  - An upper limit at **16Mhz**\n  - A horizontal intermediate line at **8Mhz**\n  - A lower dashed baseline\n  - Vertical dashed threshold lines associated with the LVD regions.\n- Shaded operating areas:\n  - **Safe 8Mhz area**\n  - **Safe 16Mhz area. 3.5V Reset issued**\n  - **Safe 16Mhz area 3.8V Reset issued**\n- The safe regions are shown as overlapping oval/curved gray areas expanding toward higher supply voltage and frequency. No additional numeric supply-voltage values are legible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 12. Max. Operating frequency vs. supply voltage.",
+    "generated_captions": {
+      "luna": "Figure: maximum operating frequency versus supply voltage.\n\n- Vertical axis: **Freq.**\n  - Marked levels: **16Mhz** and **8Mhz**.\n  - Upward arrow at the axis.\n- Horizontal axis: **Vsupply**\n  - Right-pointing arrow.\n  - No numeric supply-voltage scale is visible.\n- Low-voltage detector threshold markers across the top:\n  - **LVD low**\n  - **LVD med.**\n  - **LVD high**\n- A callout labeled **Absolute working window** points to the dashed upper boundary of the operating region.\n- Dashed boundary lines indicate:\n  - An upper limit at **16Mhz**\n  - A horizontal intermediate line at **8Mhz**\n  - A lower dashed baseline\n  - Vertical dashed threshold lines associated with the LVD regions.\n- Shaded operating areas:\n  - **Safe 8Mhz area**\n  - **Safe 16Mhz area. 3.5V Reset issued**\n  - **Safe 16Mhz area 3.8V Reset issued**\n- The safe regions are shown as overlapping oval/curved gray areas expanding toward higher supply voltage and frequency. No additional numeric supply-voltage values are legible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00133",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "3.1.2 Auxiliary Voltage Detector (AVD)"
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00134",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "Like the LVD, this feature improves EMS performance by ensuring that the microcontroller behaves safely when the power supply is disturbed by external noise."
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00135",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "The AVD feature can be used only if the LVD is activated. AVD has also different levels (around 200mV above LVD levels), enabling a early warning before the reset caused by the LVD. Then, when AVD threshold is crossed, an interrupt is generated, requesting for example some user action or preparing the application to shut down in the interrupt routine until the power supply returns to the correct level for the device (refer to the product datasheet)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00136",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "Example: If $\\mathsf { f } _ { \\mathsf { C P U } }$ is between 8 MHZ and 16 MHZ the min. working level is 3.5 volt."
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00137",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "The Voltage Detector function (AVD) is based on an analog comparison between a $\\mathsf { V } _ { \\mathsf { I T } } .$ <sub>-</sub> and $\\mathsf { V } _ { \\Pi } .$ reference value and the $\\mathsf { V } _ { \\mathsf { D D } }$ main supply. The $\\mathsf { V } _ { \\mathsf { I T } } .$ reference value for falling voltage is lower than the $\\mathsf { V } _ { \\mathsf { I T } } .$ <sub>+</sub> reference value for rising voltage in order to avoid parasitic detection (hysteresis)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00138",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "The output of the AVD comparator is directly readable by the application software through a real time status bit (VDF). This bit is read only."
+  },
+  {
+    "segment_id": "stm32-an1709-p0019-text-00139",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 19,
+    "text": "The AVD voltage threshold value is relative to the selected LVD threshold configured by option byte (see Microcontroller spec)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00140",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "If the AVD interrupt is enabled, an interrupt is generated when the voltage crosses the $\\mathsf { V } _ { | \\mathsf { T } + ( \\mathsf { A V D } ) } \\mathsf { o r } \\mathsf { V } _ { | \\mathsf { T } - ( \\mathsf { A V D } ) }$ threshold (AVDF bit toggles)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00141",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "In the case of a drop in voltage, the AVD interrupt acts as an early warning, allowing software to shut down safely before the LVD resets the microcontroller. (See Figure 13.)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00142",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "The interrupt on the rising edge is used to inform the application that the $\\mathsf { V } _ { \\mathsf { D D } }$ warning state is over."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00143",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "If the voltage rise time $\\mathfrak { t } _ { \\mathsf { r v } }$ is less than 256 or 4096 CPU cycles (depending on the reset delay of the Microcontroller), no AVD interrupt will be generated when $\\mathsf { V } _ { \\mathsf { I T } + ( \\mathsf { A V D } ) }$ is reached."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00144",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "If $\\mathfrak { t } _ { \\mathsf { r v } }$ is greater than 256 or 4096 cycles then:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00145",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "– If the AVD interrupt is enabled before the $\\mathsf { V } _ { \\mathsf { I T } + ( \\mathsf { A V D } ) }$ threshold is reached, then 2 AVD interrupts will be received: the first when the AVDIE bit is set, and the second when the threshold is reached."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-text-00146",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "text": "– If the AVD interrupt is enabled after the $\\mathsf { V } _ { \\mathsf { I T } + ( \\mathsf { A V D } ) }$ threshold is reached then only one AVD interrupt will occur."
+  },
+  {
+    "segment_id": "stm32-an1709-p0020-figure-00014",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0020_00014.png",
+    "caption": "**Figure 13. Using the AVD to Monitor \\(V_{DD}\\)**\n\nThe figure shows \\(V_{DD}\\) falling and rising through AVD/LVD thresholds, with the corresponding AVD flag, interrupt request, and LVD reset behavior.\n\n### \\(V_{DD}\\) waveform and thresholds\n\n- Vertical axis label: \\(V_{DD}\\), with an upward-pointing axis arrow.\n- The \\(V_{DD}\\) waveform:\n  - Starts at a high, constant level.\n  - Falls linearly through the threshold levels.\n  - Remains at a low level.\n  - Rises linearly back to a high, constant level.\n- Horizontal dashed threshold lines, from highest to lowest:\n  1. \\(V_{IT+(\\mathrm{AVD})}\\)\n  2. \\(V_{IT-(\\mathrm{AVD})}\\)\n  3. \\(V_{IT+(\\mathrm{LVD})}\\)\n  4. \\(V_{IT-(\\mathrm{LVD})}\\)\n- A vertical double-headed arrow between \\(V_{IT+(\\mathrm{AVD})}\\) and \\(V_{IT-(\\mathrm{AVD})}\\) is labeled \\(V_{\\mathrm{hyst}}\\).\n- Callout on the falling waveform:\n  - **Early Warning Interrupt**\n  - “(Power has dropped, MCU not”\n  - “not yet in reset)”\n- On the rising waveform, a horizontal double-headed arrow between two dashed vertical timing markers is labeled:\n  - \\(t_r\\) **VOLTAGE RISE TIME**\n\n### AVD flag\n\nSignal label: **AVDF bit**\n\nThe bit waveform is divided into the following labeled states, from left to right:\n\n- `0`\n- `1`\n- `RESET VALUE`\n- `1`\n- `0`\n\nThe transitions are aligned with dashed vertical markers at the relevant AVD/LVD threshold crossings.\n\n### AVD interrupt request\n\nSignal labels:\n\n- **AVD INTERRUPT**\n- **REQUEST**\n- **IF AVDIE bit = 1**\n\nThe interrupt-request waveform:\n\n- Is initially high.\n- Goes low when the falling \\(V_{DD}\\) crosses the AVD threshold region.\n- Returns high after the first **INTERRUPT PROCESS**.\n- Goes low again during the rising-voltage sequence.\n- Returns high after the second **INTERRUPT PROCESS**.\n\nTwo callouts labeled **INTERRUPT PROCESS** point to the interrupt-processing intervals, one after the falling-voltage transition and one after the rising-voltage transition.\n\n### LVD reset\n\nSignal label: **LVD RESET**\n\n- Initially high.\n- Goes low when \\(V_{DD}\\) falls through the LVD threshold.\n- Remains low while \\(V_{DD}\\) is below the LVD reset threshold.\n- Returns high when \\(V_{DD}\\) rises through the LVD threshold region.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 13. Using the AVD to Monitor $\\mathsf { v } _ { \\mathsf { D D } }$",
+    "generated_captions": {
+      "luna": "**Figure 13. Using the AVD to Monitor \\(V_{DD}\\)**\n\nThe figure shows \\(V_{DD}\\) falling and rising through AVD/LVD thresholds, with the corresponding AVD flag, interrupt request, and LVD reset behavior.\n\n### \\(V_{DD}\\) waveform and thresholds\n\n- Vertical axis label: \\(V_{DD}\\), with an upward-pointing axis arrow.\n- The \\(V_{DD}\\) waveform:\n  - Starts at a high, constant level.\n  - Falls linearly through the threshold levels.\n  - Remains at a low level.\n  - Rises linearly back to a high, constant level.\n- Horizontal dashed threshold lines, from highest to lowest:\n  1. \\(V_{IT+(\\mathrm{AVD})}\\)\n  2. \\(V_{IT-(\\mathrm{AVD})}\\)\n  3. \\(V_{IT+(\\mathrm{LVD})}\\)\n  4. \\(V_{IT-(\\mathrm{LVD})}\\)\n- A vertical double-headed arrow between \\(V_{IT+(\\mathrm{AVD})}\\) and \\(V_{IT-(\\mathrm{AVD})}\\) is labeled \\(V_{\\mathrm{hyst}}\\).\n- Callout on the falling waveform:\n  - **Early Warning Interrupt**\n  - “(Power has dropped, MCU not”\n  - “not yet in reset)”\n- On the rising waveform, a horizontal double-headed arrow between two dashed vertical timing markers is labeled:\n  - \\(t_r\\) **VOLTAGE RISE TIME**\n\n### AVD flag\n\nSignal label: **AVDF bit**\n\nThe bit waveform is divided into the following labeled states, from left to right:\n\n- `0`\n- `1`\n- `RESET VALUE`\n- `1`\n- `0`\n\nThe transitions are aligned with dashed vertical markers at the relevant AVD/LVD threshold crossings.\n\n### AVD interrupt request\n\nSignal labels:\n\n- **AVD INTERRUPT**\n- **REQUEST**\n- **IF AVDIE bit = 1**\n\nThe interrupt-request waveform:\n\n- Is initially high.\n- Goes low when the falling \\(V_{DD}\\) crosses the AVD threshold region.\n- Returns high after the first **INTERRUPT PROCESS**.\n- Goes low again during the rising-voltage sequence.\n- Returns high after the second **INTERRUPT PROCESS**.\n\nTwo callouts labeled **INTERRUPT PROCESS** point to the interrupt-processing intervals, one after the falling-voltage transition and one after the rising-voltage transition.\n\n### LVD reset\n\nSignal label: **LVD RESET**\n\n- Initially high.\n- Goes low when \\(V_{DD}\\) falls through the LVD threshold.\n- Remains low while \\(V_{DD}\\) is below the LVD reset threshold.\n- Returns high when \\(V_{DD}\\) rises through the LVD threshold region."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00147",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "3.1.3 I/O Features & properties"
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00148",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "Although integrated circuit data sheets provide the user with conservative limits and conditions in order to prevent damage, sometimes it is useful for the hardware system designer to know the internal failure mechanisms: the risk of exposure to illegal voltages and conditions can be reduced by smart protection design."
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00149",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "It is not possible to classify and to predict all the possible damage resulting from violating maximum ratings and conditions, due to the large number of variables that come into play in defining the failures: in fact, when an overvoltage condition is applied, the effects on the device can vary significantly depending on lot-to-lot process variations, operating temperature, external interfacing of the Microcontroller with other devices, etc."
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00150",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "In the following sections, background technical information is given in order to help system designers to reduce risk of damage to the Microcontroller device."
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00151",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "3.1.3.1 Electrostatic Discharge and Latch-up"
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00152",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "CMOS integrated circuits are generally sensitive to exposure to high voltage static electricity, which can induce permanent damage to the device: a typical failure is the breakdown of thin oxides, which causes high leakage current and sometimes shorts."
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00153",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "Latch-up is another typical phenomenon occurring in integrated circuits: unwanted turning on of parasitic bipolar structures, or silicon-controlled rectifiers (SCR), may overheat and rapidly destroy the device. These unintentional structures are composed of P and N regions which work as emitters, bases and collectors of parasitic bipolar transistors: the bulk resistance of the silicon in the wells and substrate act as resistors on the SCR structure. Applying voltages below $\\vee _ { \\mathsf { S S } }$ or above $\\mathsf { V } _ { \\mathsf { D D } }$ , and when the level of current is able to generate a voltage drop across the SCR parasitic resistor, the SCR may be turned on; to turn off the SCR it is necessary to remove the power supply from the device."
+  },
+  {
+    "segment_id": "stm32-an1709-p0021-text-00154",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 21,
+    "text": "ST Microcontroller design implements layout and process solutions to decrease the effects of electrostatic discharges (ESD) and latch-up. Of course it is not possible to test all devices, due to the destructive nature of the mechanism; in order to guarantee product reliability, destructive tests are carried out on groups of devices, according to STMicroelectronics internal Quality Assurance standards and recommendations (see 2.1.2 Latch-Up (LU))."
+  },
+  {
+    "segment_id": "stm32-an1709-p0022-text-00155",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 22,
+    "text": "3.1.3.2 Protective Interface"
+  },
+  {
+    "segment_id": "stm32-an1709-p0022-text-00156",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 22,
+    "text": "Although ST Microcontroller input/output circuitry has been designed taking ESD and Latchup problems into account, for those applications and systems where ST Microcontroller pins are exposed to illegal voltages and high current injections, the user is strongly recommended to implement hardware solutions which reduce the risk of damage: low-pass filters and clamp diodes are usually sufficient in preventing stress conditions."
+  },
+  {
+    "segment_id": "stm32-an1709-p0022-text-00157",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 22,
+    "text": "The risk of having out-of-range voltages and currents is greater for those signals coming from outside the system, where noise effect or uncontrolled spikes could occur with higher probability than for the internal signals; it must be underlined that in some cases, adoption of filters or other dedicated interface circuitries might affect global microcontroller performance, inducing undesired timing delays, and impacting the global system speed."
+  },
+  {
+    "segment_id": "stm32-an1709-p0022-figure-00015",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0022_00015.png",
+    "caption": "**Figure 14. Digital Input/Output – Push-Pull** (schematic)\n\nThe figure depicts a microcontroller pin, ESD protection, I/O output circuitry, and port input circuitry.\n\n- **PIN**: A rectangular block labeled “PIN” connects to a horizontal signal line.\n- **ESD PROTECTION CIRCUITRY**: Dashed rectangular block surrounding the pin-protection network.\n  - The pin signal line connects to a vertical pair of protection diodes/symbols.\n  - The upper protection device connects to an unlabeled upper rail.\n  - The lower protection device connects to a ground symbol.\n  - A branch from the pin signal runs downward and through a series resistor into the port circuitry.\n- **I/O CIRCUITRY**: Dashed block at the upper right.\n  - Contains an **OUTPUT BUFFER**.\n  - The output buffer consists of complementary devices labeled **P** (upper device) and **N** (lower device).\n  - The P device is connected toward an upper supply rail; the N device is connected toward ground.\n  - The buffer output connects to the horizontal pin signal line.\n  - Gate/control terminals are shown on the right side of the P and N devices; no additional readable labels are present.\n- **PORT CIRCUITRY**: Dashed block in the lower right.\n  - Contains a left-side device labeled **P**, connected toward an upper supply rail and to the signal path entering from the ESD protection circuitry.\n  - Contains complementary port devices labeled **P** and **N** in the central portion.\n  - The central P device is above the signal node and the central N device is below it; their control connections are tied to the incoming port-control node.\n  - On the right is an **INPUT BUFFER**, consisting of an upper device labeled **P** and a lower device labeled **N**.\n  - The input-buffer control path is labeled **EN** near the upper device and **EN** near the lower device. The upper EN marking is shown with a gate bubble; the lower EN marking is shown without a bubble.\n  - The input-buffer output is the horizontal node on the right, connected to the P/N input-buffer stage.\n  - Multiple upper connections terminate in unlabeled supply-rail symbols; the lower N-side connections terminate in ground symbols.\n- Visible labels and symbols include: **I/O CIRCUITRY**, **ESD PROTECTION CIRCUITRY**, **PORT CIRCUITRY**, **OUTPUT BUFFER**, **INPUT BUFFER**, **PIN**, **P**, **N**, and **EN**.\n- No numerical values, units, axes, or electrical conditions are shown in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 14. Digital Input/Output - Push-Pull",
+    "generated_captions": {
+      "luna": "**Figure 14. Digital Input/Output – Push-Pull** (schematic)\n\nThe figure depicts a microcontroller pin, ESD protection, I/O output circuitry, and port input circuitry.\n\n- **PIN**: A rectangular block labeled “PIN” connects to a horizontal signal line.\n- **ESD PROTECTION CIRCUITRY**: Dashed rectangular block surrounding the pin-protection network.\n  - The pin signal line connects to a vertical pair of protection diodes/symbols.\n  - The upper protection device connects to an unlabeled upper rail.\n  - The lower protection device connects to a ground symbol.\n  - A branch from the pin signal runs downward and through a series resistor into the port circuitry.\n- **I/O CIRCUITRY**: Dashed block at the upper right.\n  - Contains an **OUTPUT BUFFER**.\n  - The output buffer consists of complementary devices labeled **P** (upper device) and **N** (lower device).\n  - The P device is connected toward an upper supply rail; the N device is connected toward ground.\n  - The buffer output connects to the horizontal pin signal line.\n  - Gate/control terminals are shown on the right side of the P and N devices; no additional readable labels are present.\n- **PORT CIRCUITRY**: Dashed block in the lower right.\n  - Contains a left-side device labeled **P**, connected toward an upper supply rail and to the signal path entering from the ESD protection circuitry.\n  - Contains complementary port devices labeled **P** and **N** in the central portion.\n  - The central P device is above the signal node and the central N device is below it; their control connections are tied to the incoming port-control node.\n  - On the right is an **INPUT BUFFER**, consisting of an upper device labeled **P** and a lower device labeled **N**.\n  - The input-buffer control path is labeled **EN** near the upper device and **EN** near the lower device. The upper EN marking is shown with a gate bubble; the lower EN marking is shown without a bubble.\n  - The input-buffer output is the horizontal node on the right, connected to the P/N input-buffer stage.\n  - Multiple upper connections terminate in unlabeled supply-rail symbols; the lower N-side connections terminate in ground symbols.\n- Visible labels and symbols include: **I/O CIRCUITRY**, **ESD PROTECTION CIRCUITRY**, **PORT CIRCUITRY**, **OUTPUT BUFFER**, **INPUT BUFFER**, **PIN**, **P**, **N**, and **EN**.\n- No numerical values, units, axes, or electrical conditions are shown in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0023-text-00158",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 23,
+    "text": "3.1.3.3 Internal Circuitry: Digital I/O pin"
+  },
+  {
+    "segment_id": "stm32-an1709-p0023-text-00159",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 23,
+    "text": "Figure 14. shows a schematic representation of an ST Microcontroller pin able to operate either as an input or as an output is shown. The circuitry implements a standard input buffer and a push-pull configuration for the output buffer. It is evident that although it is possible to disable the output buffer when the input section is used, the MOS transistors of the buffer itself can still affect the behaviour of the pin when exposed to illegal conditions. In fact, the P-channel transistor of the output buffer implements a direct diode to $\\mathsf { V } _ { \\mathsf { D D } }$ (P-diffusion of the drain connected to the pin and N-well connected to $\\mathsf { V } _ { \\mathsf { D D } } )$ , while the N-channel of the output buffer implements a diode to $\\mathsf { V } _ { \\mathsf { S S } }$ (P-substrate connected to VSS and N-diffusion of the drain connected to the pin). In parallel to these diodes, dedicated circuitry is implemented to protect the logic from ESD events (MOS, diodes and input series resistor)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0023-text-00160",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 23,
+    "text": "The most important characteristic of these extra devices is that they must not disturb normal operating modes, while acting during exposure to over limit conditions, avoiding permanent damage to the logic circuitry."
+  },
+  {
+    "segment_id": "stm32-an1709-p0023-text-00161",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 23,
+    "text": "According to the MCU used, some I/O pins can be programmed to work also as open-drain outputs, by simply writing in the corresponding register of the I/O Port. The gate of the Pchannel of the output buffer is disabled: it is important to highlight that physically the P-channel transistor is still present, so the diode to $\\mathsf { V } _ { \\mathsf { D D } }$ works. In some applications it can occur that the voltage applied to the pin is higher than the $\\mathsf { V } _ { \\mathsf { D D } }$ value (supposing the external line is kept high, while the Microcontroller power supply is turned off): this condition will inject current through the diode, risking permanent damages to the device."
+  },
+  {
+    "segment_id": "stm32-an1709-p0023-text-00162",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 23,
+    "text": "In any case, programming I/O pins as open-drain can help when several pins in the system are tied to the same point: of course software must pay attention to program only one of them as output at any time, to avoid output driver contentions; it is advisable to configure these pins as output open-drain in order to reduce the risk of current contentions."
+  },
+  {
+    "segment_id": "stm32-an1709-p0024-figure-00016",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0024_00016.png",
+    "caption": "**Figure 15. Digital Input/Output - True Open Drain Output**\n\nSchematic of an I/O pin showing ESD protection, output-buffer, and input-buffer circuitry.\n\n- Left-side rectangular terminal label: **PIN**.\n- Dashed overall circuitry regions are labeled:\n  - **I/O CIRCUITRY** at the top\n  - **ESD PROTECTION CIRCUITRY** at lower left\n  - **PORT CIRCUITRY** at lower right\n\n**ESD protection circuitry**\n- The PIN signal enters a horizontal node with multiple connection dots.\n- Two diode-like clamp symbols are connected from the signal node to ground symbols.\n- A vertical branch from the signal node continues downward and passes through a resistor symbol before entering the port circuitry.\n- No resistor value or other numerical value is shown.\n\n**Output buffer**\n- Dashed subregion labeled **OUTPUT BUFFER**.\n- Contains a transistor symbol labeled **N**.\n- The lower transistor connection is tied to a ground symbol.\n- The buffer has a rightward-facing output connection.\n\n**Port circuitry / input buffer**\n- Dashed subregion labeled **INPUT BUFFER** within the port circuitry.\n- The input-buffer network contains stacked transistor symbols labeled:\n  - **P**\n  - **N**\n  - **N**\n  - A second upper-right device labeled **P**\n- Two control labels **EN** are visible:\n  - One **EN** label is connected to the left-side input-buffer control, with a small open-circle marker at the gate/control connection.\n  - One **EN** label is connected to the upper-right P-device control, also with a small open-circle marker.\n- The upper device connections terminate at top horizontal supply lines; the lower N-device connections terminate at a ground symbol.\n- Multiple connection dots and horizontal/vertical interconnects are shown between the P and N devices and the input-buffer network.\n- No voltage, timing, or component values are provided in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 15. Digital Input/Output - True Open Drain Output",
+    "generated_captions": {
+      "luna": "**Figure 15. Digital Input/Output - True Open Drain Output**\n\nSchematic of an I/O pin showing ESD protection, output-buffer, and input-buffer circuitry.\n\n- Left-side rectangular terminal label: **PIN**.\n- Dashed overall circuitry regions are labeled:\n  - **I/O CIRCUITRY** at the top\n  - **ESD PROTECTION CIRCUITRY** at lower left\n  - **PORT CIRCUITRY** at lower right\n\n**ESD protection circuitry**\n- The PIN signal enters a horizontal node with multiple connection dots.\n- Two diode-like clamp symbols are connected from the signal node to ground symbols.\n- A vertical branch from the signal node continues downward and passes through a resistor symbol before entering the port circuitry.\n- No resistor value or other numerical value is shown.\n\n**Output buffer**\n- Dashed subregion labeled **OUTPUT BUFFER**.\n- Contains a transistor symbol labeled **N**.\n- The lower transistor connection is tied to a ground symbol.\n- The buffer has a rightward-facing output connection.\n\n**Port circuitry / input buffer**\n- Dashed subregion labeled **INPUT BUFFER** within the port circuitry.\n- The input-buffer network contains stacked transistor symbols labeled:\n  - **P**\n  - **N**\n  - **N**\n  - A second upper-right device labeled **P**\n- Two control labels **EN** are visible:\n  - One **EN** label is connected to the left-side input-buffer control, with a small open-circle marker at the gate/control connection.\n  - One **EN** label is connected to the upper-right P-device control, also with a small open-circle marker.\n- The upper device connections terminate at top horizontal supply lines; the lower N-device connections terminate at a ground symbol.\n- Multiple connection dots and horizontal/vertical interconnects are shown between the P and N devices and the input-buffer network.\n- No voltage, timing, or component values are provided in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0024-text-00163",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 24,
+    "text": "In Figure 15. a true open-drain pin schematic is shown. In this case all paths to $\\mathsf { V } _ { \\mathsf { D D } }$ are removed (P-channel driver, ESD protection diode, internal weak pull-up) in order to allow the system to turn off the power supply of the microcontroller and keep the voltage level at the pin high without injecting current in the device. This is a typical condition which can occur when several devices interface a serial bus: if one device is not involved in the communication, it can be disabled by turning off its power supply to reduce the system current consumption."
+  },
+  {
+    "segment_id": "stm32-an1709-p0024-text-00164",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 24,
+    "text": "When an illegal negative voltage level is applied to the Microcontroller I/O pins (both versions, push-pull and true open-drain output) the clamp diode is always present and active (see ESD protection circuitry and N-channel driver)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0025-text-00165",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 25,
+    "text": "3.1.3.4 Internal Circuitry: Analog Input pin"
+  },
+  {
+    "segment_id": "stm32-an1709-p0025-text-00166",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 25,
+    "text": "Figure 16. shows the internal circuitry used for analog input. It is primarily a digital I/O with an added analog multiplexer for the selection of the input channel of the Analog to Digital Converter (ADC)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0025-text-00167",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 25,
+    "text": "The presence of the multiplexer P-channel and N-channel can affect the behaviour of the pin when exposed to illegal voltage conditions. These transistors are controlled by a low noise logic, biased through $\\mathsf { A V } _ { \\mathsf { D D } }$ and $\\mathsf { A V } _ { \\mathsf { S S } }$ including P-channel N-well: it is important to always verify the input voltage value with respect to both analog power supply and digital power supply, in order to avoid unintentional current injections which (if not limited) could destroy the device."
+  },
+  {
+    "segment_id": "stm32-an1709-p0025-figure-00017",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 25,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0025_00017.png",
+    "caption": "**Figure purpose:** Integrated I/O circuitry schematic showing a pin’s ESD protection, push-pull output buffer, input buffer, and additional port circuitry. The visible figure title is **“I/O CIRCUITRY.”** The nearby figure context identifies it as **“Digital Input/Output - Push-Pull Output - Analog Multiplexer Input.”**\n\n### Main signal path\n- A rectangular block labeled **“PIN”** appears at left.\n- The PIN connects by a horizontal signal line into the dashed **“ESD PROTECTION CIRCUITRY”** block.\n- The protected signal node branches:\n  - Horizontally to the **OUTPUT BUFFER** circuitry.\n  - Downward through a series resistor into the **PORT CIRCUITRY** block.\n- Signal interconnects are shown with filled black connection dots.\n\n### ESD protection circuitry\n- Dashed rectangle labeled **“ESD PROTECTION CIRCUITRY.”**\n- The PIN signal node is connected to two vertically stacked diode symbols:\n  - An upper diode connected toward an unlabeled upper vertical rail.\n  - A lower diode connected toward a ground symbol.\n- The lower branch from the signal node passes through a resistor before entering the port circuitry.\n- No supply-rail voltage names are shown.\n\n### Output buffer\n- Dashed rectangle labeled **“OUTPUT BUFFER.”**\n- Contains complementary transistor elements labeled:\n  - **P** for the upper device.\n  - **N** for the lower device.\n- The P device is connected toward an unlabeled upper supply rail.\n- The N device is connected toward a ground symbol.\n- Their common output node connects leftward to the protected PIN signal line.\n- Separate transistor control/gate lines extend to the right; they have no visible text labels.\n- The output-buffer circuitry is enclosed in a dashed box beneath the overall **“I/O CIRCUITRY”** heading.\n\n### Input buffer and port circuitry\n- A larger dashed rectangle is labeled **“PORT CIRCUITRY.”**\n- The upper portion contains the **“INPUT BUFFER.”**\n- Visible transistor labels and control labels include:\n  - Multiple **P** labels on upper pull-up devices.\n  - Multiple **N** labels on lower pull-down devices.\n  - **EN** labels on input/control lines.\n- The input-buffer signal path includes:\n  - An upper horizontal node connected to P-type devices.\n  - A lower path containing N-type devices connected toward ground.\n  - A right-side branch labeled **“EN”** controlling a P-type device.\n  - A further lower control line labeled **“EN.”**\n- The text **“INPUT BUFFER”** is printed to the right of the upper port circuitry.\n- Several vertical connections terminate in ground symbols; upper vertical connections terminate in unlabeled supply rails.\n\n### Lower port-circuit section\n- The lower part of the **PORT CIRCUITRY** dashed box shows additional transistor circuitry, consistent with the analog-multiplexer portion indicated by the nearby caption.\n- Visible device labels:\n  - One upper transistor labeled **N**.\n  - Two lower-left/right devices labeled **P**.\n- The lower P devices have separate gate/control terminals shown with small open circles.\n- The lower circuit connects between left and right horizontal nodes and includes a ground symbol beneath the upper **N** device.\n- No additional signal name is legible for the lower circuitry.\n\nNo numerical values, units, pin numbers, or voltage values are visible in this figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 16. Digital Input/Output - Push-Pull Output - Analog Multiplexer Input",
+    "generated_captions": {
+      "luna": "**Figure purpose:** Integrated I/O circuitry schematic showing a pin’s ESD protection, push-pull output buffer, input buffer, and additional port circuitry. The visible figure title is **“I/O CIRCUITRY.”** The nearby figure context identifies it as **“Digital Input/Output - Push-Pull Output - Analog Multiplexer Input.”**\n\n### Main signal path\n- A rectangular block labeled **“PIN”** appears at left.\n- The PIN connects by a horizontal signal line into the dashed **“ESD PROTECTION CIRCUITRY”** block.\n- The protected signal node branches:\n  - Horizontally to the **OUTPUT BUFFER** circuitry.\n  - Downward through a series resistor into the **PORT CIRCUITRY** block.\n- Signal interconnects are shown with filled black connection dots.\n\n### ESD protection circuitry\n- Dashed rectangle labeled **“ESD PROTECTION CIRCUITRY.”**\n- The PIN signal node is connected to two vertically stacked diode symbols:\n  - An upper diode connected toward an unlabeled upper vertical rail.\n  - A lower diode connected toward a ground symbol.\n- The lower branch from the signal node passes through a resistor before entering the port circuitry.\n- No supply-rail voltage names are shown.\n\n### Output buffer\n- Dashed rectangle labeled **“OUTPUT BUFFER.”**\n- Contains complementary transistor elements labeled:\n  - **P** for the upper device.\n  - **N** for the lower device.\n- The P device is connected toward an unlabeled upper supply rail.\n- The N device is connected toward a ground symbol.\n- Their common output node connects leftward to the protected PIN signal line.\n- Separate transistor control/gate lines extend to the right; they have no visible text labels.\n- The output-buffer circuitry is enclosed in a dashed box beneath the overall **“I/O CIRCUITRY”** heading.\n\n### Input buffer and port circuitry\n- A larger dashed rectangle is labeled **“PORT CIRCUITRY.”**\n- The upper portion contains the **“INPUT BUFFER.”**\n- Visible transistor labels and control labels include:\n  - Multiple **P** labels on upper pull-up devices.\n  - Multiple **N** labels on lower pull-down devices.\n  - **EN** labels on input/control lines.\n- The input-buffer signal path includes:\n  - An upper horizontal node connected to P-type devices.\n  - A lower path containing N-type devices connected toward ground.\n  - A right-side branch labeled **“EN”** controlling a P-type device.\n  - A further lower control line labeled **“EN.”**\n- The text **“INPUT BUFFER”** is printed to the right of the upper port circuitry.\n- Several vertical connections terminate in ground symbols; upper vertical connections terminate in unlabeled supply rails.\n\n### Lower port-circuit section\n- The lower part of the **PORT CIRCUITRY** dashed box shows additional transistor circuitry, consistent with the analog-multiplexer portion indicated by the nearby caption.\n- Visible device labels:\n  - One upper transistor labeled **N**.\n  - Two lower-left/right devices labeled **P**.\n- The lower P devices have separate gate/control terminals shown with small open circles.\n- The lower circuit connects between left and right horizontal nodes and includes a ground symbol beneath the upper **N** device.\n- No additional signal name is legible for the lower circuitry.\n\nNo numerical values, units, pin numbers, or voltage values are visible in this figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0026-text-00168",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 26,
+    "text": "3.1.4 Multiple $\\mathsf { v } _ { \\mathsf { D D } }$ & $\\yen 5 s$"
+  },
+  {
+    "segment_id": "stm32-an1709-p0026-text-00169",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 26,
+    "text": "As already said for the I/O pins, in order to ensure ST Microcontroller compliance with respect to Quality Assurance recommendations concerning ESD and Latch-up, dedicated circuits are added to the different power supply and ground pins (digital and analog). These structures create preferred paths for the high current injected during discharges, avoiding damage to active logic and circuitry. It is important for the system designer to take this added circuitry into account, when applying different current levels and voltages to the power supply and ground pins. Figure 17. shows schematically the protection net implemented on ST Microcontroller devices, composed of diodes and other special structures."
+  },
+  {
+    "segment_id": "stm32-an1709-p0026-text-00170",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 26,
+    "text": "The clamp structure between the $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ pins is designed to be active during very fast transitions (typical of electrostatic discharges). Other paths are implemented through diodes: they limit the possibility of positively differentiating $\\mathsf { A V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { D D } } \\left( \\mathsf { i . e . \\ A V _ { D D } > V _ { D D } } \\right)$ ; similar considerations are valid for $\\mathsf { A V } _ { \\mathsf { S S } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ due to the back-to-back diode structure implemented between the two pins. Anyway, it must be highlighted that, because $\\mathsf { V } _ { \\mathsf { S S } }$ and $\\mathsf { A V } _ { \\mathsf { S S } }$ are connected to the substrate of the silicon die (even though in different areas of the die itself), they represent the reference point from which all other voltages are measured, and it is recommended to never differentiate $\\mathsf { A V } _ { \\mathsf { S S } }$ from $\\vee _ { \\mathsf { S S } }$"
+  },
+  {
+    "segment_id": "stm32-an1709-p0026-text-00171",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 26,
+    "text": "Note: If more than one pair of pins for $\\vee _ { \\mathsf { S S } }$ and $\\mathsf { V } _ { \\mathsf { D D } }$ is available on the device, they are connected internally and the protection net diagram remains the same as shown in Figure 17.."
+  },
+  {
+    "segment_id": "stm32-an1709-p0026-figure-00018",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0026_00018.png",
+    "caption": "**Figure 17. Power Supply and Ground Configuration (on ST9)**\n\nSchematic showing the interconnection of the digital and analog supply/ground nodes, including test and protection/isolation devices.\n\n### Labeled supply nodes\n- **V_TEST** — left-side test supply/input node, connected through a transistor/switch arrangement to the upper supply rail and the **V_DD** node.\n- **V_DD** — digital supply node, shown in a rectangular terminal box near the left-center.\n- **V_SS** — digital ground node, shown in a rectangular terminal box near the right-center.\n- **AV_DD** — analog supply node, shown in a rectangular terminal box to the right of **V_SS**.\n- **AV_SS** — analog ground node, shown in a rectangular terminal box at the far right.\n\n### External connections and protection devices\n- The upper horizontal rail runs from the left-side **V_TEST/V_DD** switching network toward the **V_SS** region.\n- **V_SS** is connected to **AV_DD** through a diode symbol on the horizontal connection between the two labeled boxes.\n- A lower horizontal rail connects **V_DD** downward and across toward **AV_DD**; a diode is inserted in this lower connection.\n- The upper-right network connects the **V_SS** rail to the **AV_SS** rail through two opposing/antiparallel diode symbols in a rectangular loop:\n  - upper diode symbol oriented toward the left;\n  - lower diode symbol oriented toward the right.\n- The right-hand vertical connection from this diode network terminates at **AV_SS**.\n- **AV_DD** has a vertical connection extending downward to the lower rail.\n\n### Internal transistor/resistor network\nBetween the **V_DD** and **V_SS** regions is a network containing:\n- Two transistor symbols labeled **N**:\n  - one in the upper portion of the network;\n  - one in the lower portion.\n- Two transistor symbols labeled **P**:\n  - one in the upper-middle portion;\n  - one in the lower-middle portion.\n- The upper **P** device includes a visible gate/bubble marking.\n- The lower **P** device also includes a visible gate/bubble marking.\n- Resistor symbols are present:\n  - one resistor in the lower-left branch of the internal network;\n  - one resistor in the lower-right branch, between the lower **P**-device region and the right-side vertical node.\n- The internal network has left and right vertical conductors with multiple horizontal branches connecting the **N** and **P** devices and the resistors.\n- The right-side internal conductor connects to the node leading toward **V_SS**.\n- The left-side internal conductor connects to the **V_DD** side.\n\nNo axes, legend, numeric values, or additional textual notes are visible in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 17. Power Supply and Ground Configuration (on ST9)",
+    "generated_captions": {
+      "luna": "**Figure 17. Power Supply and Ground Configuration (on ST9)**\n\nSchematic showing the interconnection of the digital and analog supply/ground nodes, including test and protection/isolation devices.\n\n### Labeled supply nodes\n- **V_TEST** — left-side test supply/input node, connected through a transistor/switch arrangement to the upper supply rail and the **V_DD** node.\n- **V_DD** — digital supply node, shown in a rectangular terminal box near the left-center.\n- **V_SS** — digital ground node, shown in a rectangular terminal box near the right-center.\n- **AV_DD** — analog supply node, shown in a rectangular terminal box to the right of **V_SS**.\n- **AV_SS** — analog ground node, shown in a rectangular terminal box at the far right.\n\n### External connections and protection devices\n- The upper horizontal rail runs from the left-side **V_TEST/V_DD** switching network toward the **V_SS** region.\n- **V_SS** is connected to **AV_DD** through a diode symbol on the horizontal connection between the two labeled boxes.\n- A lower horizontal rail connects **V_DD** downward and across toward **AV_DD**; a diode is inserted in this lower connection.\n- The upper-right network connects the **V_SS** rail to the **AV_SS** rail through two opposing/antiparallel diode symbols in a rectangular loop:\n  - upper diode symbol oriented toward the left;\n  - lower diode symbol oriented toward the right.\n- The right-hand vertical connection from this diode network terminates at **AV_SS**.\n- **AV_DD** has a vertical connection extending downward to the lower rail.\n\n### Internal transistor/resistor network\nBetween the **V_DD** and **V_SS** regions is a network containing:\n- Two transistor symbols labeled **N**:\n  - one in the upper portion of the network;\n  - one in the lower portion.\n- Two transistor symbols labeled **P**:\n  - one in the upper-middle portion;\n  - one in the lower-middle portion.\n- The upper **P** device includes a visible gate/bubble marking.\n- The lower **P** device also includes a visible gate/bubble marking.\n- Resistor symbols are present:\n  - one resistor in the lower-left branch of the internal network;\n  - one resistor in the lower-right branch, between the lower **P**-device region and the right-side vertical node.\n- The internal network has left and right vertical conductors with multiple horizontal branches connecting the **N** and **P** devices and the resistors.\n- The right-side internal conductor connects to the node leading toward **V_SS**.\n- The left-side internal conductor connects to the **V_DD** side.\n\nNo axes, legend, numeric values, or additional textual notes are visible in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00172",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "3.2 EMISSION"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00173",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "3.2.1 Internal PLL"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00174",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "Some ST Microcontrollers have an embedded programmable PLL Clock Generator allowing the usage of standard 3 to 5 MHz crystals to obtain a large range of internal frequencies (up to 24MHz). By these means, ST Microcontroller can operate with cheaper, medium frequency crystals, while still providing a high frequency internal clock for maximum system performance. The high clock frequency source is contained inside the chip and does not go through the PCB (Printed Circuit Board) tracks and external components. This reduces the potential noise emission of the application."
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00175",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "The use of PLL network also filters CPU clock against external sporadic disturbances (glitches)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00176",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "3.2.2 Global low power approach"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00177",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "3.2.2.1 Low powered oscillator"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00178",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "The oscillator is an major source of noise. To reduce this noise emission, the current driven by the oscillator is limited."
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00179",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "The main clock of some of ST Microcontrollers can be generated by four different source types coming from the multi-oscillator block (MO). This allows the designer to easily select the best trade-off in terms of cost, performance and noise emission. The clock sources are listed below in order from the most noisy to the least noisy:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00180",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "■ an external source"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00181",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "■ crystal or ceramic resonator oscillators"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00182",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "■ an internal high frequency RC oscillator"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00183",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "Each oscillator is optimized for a given frequency range in terms of consumption and is selectable through the option byte. The associated hardware configurations are shown in Table 11. Refer to the electrical characteristics section of the datasheet for more details in each case."
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00184",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "External Clock Source"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00185",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "In external clock mode, a clock signal (square, sinus or triangle) with \\~50% duty cycle has to drive the OSC1 pin while the OSC2 pin is tied to ground."
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00186",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "Crystal/Ceramic Oscillators"
+  },
+  {
+    "segment_id": "stm32-an1709-p0027-text-00187",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 27,
+    "text": "This family of oscillators has the advantage of producing a very accurate rate on the main clock of the microcontroller. The selection within a list of 5 oscillators with different frequency ranges has to be done by option byte in order to reduce consumption (refer to the Microcontroller datasheet for more details on the frequency ranges). In this mode of the multi-oscillator, the resonator and the load capacitors have to be placed as close as possible to the oscillator pins in order to minimize output distortion and start-up stabilization time. The loading capacitance values must be adjusted according to the selected oscillator."
+  },
+  {
+    "segment_id": "stm32-an1709-p0028-text-00188",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 28,
+    "text": "These oscillators are not stopped during the RESET phase to avoid the delay needed for the the oscillator start-up."
+  },
+  {
+    "segment_id": "stm32-an1709-p0028-text-00189",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 28,
+    "text": "Internal RC Oscillator"
+  },
+  {
+    "segment_id": "stm32-an1709-p0028-text-00190",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 28,
+    "text": "The internal RC oscillator is the most cost effective solution, with the drawback of lower frequency accuracy. Its frequency is in the low single digit MHz range. In this mode, the two oscillator pins have to be tied to ground."
+  },
+  {
+    "segment_id": "stm32-an1709-p0028-text-00191",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 28,
+    "text": "Process variations will also bring some differences from lots to lots (20 to 60%)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0028-text-00192",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 28,
+    "text": "Some ST Microcontrollers (refer to product specification) embed a process compensation. This feature is called “Trimmable internal RC”. A procedure during test operation analyzes the process variation and calibrate the internal oscillator accordingly. This brings the internal RC accuracy to 1%. This procedure can be also performed by the user:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0028-table-00010",
+    "type": "table",
+    "doc": "stm32-an1709",
+    "page": 28,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_table_p0028_00010.png",
+    "caption": "**Hardware Configuration**\n\nA 2×2 hardware-configuration table for ST7 clock sources.\n\n### External Clock\n- **External Clock** configuration:\n  - Device labeled **ST7**.\n  - Pins/terminals labeled **OSC1** and **OSC2**.\n  - **EXTERNAL SOURCE** is connected to **OSC1**.\n  - **OSC2** is connected to ground.\n- **External RC Oscillator** configuration:\n  - Device labeled **ST7** with terminals **OSC1** and **OSC2**.\n  - **R_EX** resistor is connected from **OSC1** to a common lower node.\n  - **C_EX** capacitor is connected from **OSC2** to the same common lower node.\n  - The common node is connected to ground.\n\n### Crystal/Ceramic Resonators\n- **Crystal/Ceramic Resonators** configuration:\n  - Device labeled **ST7** with terminals **OSC1** and **OSC2**.\n  - A resonator symbol is connected between **OSC1** and **OSC2**.\n  - Capacitors labeled **C_L1** and **C_L2** are connected from the resonator/oscillator nodes to ground.\n  - The figure labels the capacitors **LOAD CAPACITORS**.\n- **Internal RC Oscillator** configuration:\n  - Device labeled **ST7** with terminals **OSC1** and **OSC2**.\n  - **OSC1** and **OSC2** are connected together at a common node.\n  - The common node is connected to ground.\n\nNo numeric values, units, or footnotes are visible in the cropped table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Refer to AN1324 “Calibrating the RC oscillator of the ST7FLITE0 using the mains” Table 11. ST7 Clock Sources",
+    "generated_captions": {
+      "luna": "**Hardware Configuration**\n\nA 2×2 hardware-configuration table for ST7 clock sources.\n\n### External Clock\n- **External Clock** configuration:\n  - Device labeled **ST7**.\n  - Pins/terminals labeled **OSC1** and **OSC2**.\n  - **EXTERNAL SOURCE** is connected to **OSC1**.\n  - **OSC2** is connected to ground.\n- **External RC Oscillator** configuration:\n  - Device labeled **ST7** with terminals **OSC1** and **OSC2**.\n  - **R_EX** resistor is connected from **OSC1** to a common lower node.\n  - **C_EX** capacitor is connected from **OSC2** to the same common lower node.\n  - The common node is connected to ground.\n\n### Crystal/Ceramic Resonators\n- **Crystal/Ceramic Resonators** configuration:\n  - Device labeled **ST7** with terminals **OSC1** and **OSC2**.\n  - A resonator symbol is connected between **OSC1** and **OSC2**.\n  - Capacitors labeled **C_L1** and **C_L2** are connected from the resonator/oscillator nodes to ground.\n  - The figure labels the capacitors **LOAD CAPACITORS**.\n- **Internal RC Oscillator** configuration:\n  - Device labeled **ST7** with terminals **OSC1** and **OSC2**.\n  - **OSC1** and **OSC2** are connected together at a common node.\n  - The common node is connected to ground.\n\nNo numeric values, units, or footnotes are visible in the cropped table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00193",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "3.2.2.2 Internal Voltage Regulators (for MCUs with low power core)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00194",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "An internal Voltage Regulator is used to power some ST Microcontrollers Cores starting from the external power supply."
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00195",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "The Voltage Regulator reduces EMI due to the MCU Core with 2 effects:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00196",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "– Lower CPU Supply Voltage"
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00197",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "– Isolate CPU Supply from external MCU supplies."
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00198",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "3.2.3 Output I/O Current limitation & edge timing control"
+  },
+  {
+    "segment_id": "stm32-an1709-p0029-text-00199",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 29,
+    "text": "Output buffers are embedded in ST Microcontrollers, their switching speed is controlled in order to avoid parasitic oscillations when they are switched. The MCU design makes a tradeoff between noise and speed."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00200",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "4 EMC GUIDELINES FOR MCU BASED APPLICATIONS"
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00201",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "The following guidelines result from experience gained in a wide variety of applications."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00202",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "4.1 HARDWARE"
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00203",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "The major noise receptors and generators are the tracks and wiring on the Printed Circuit Board (PCB), especially those near the MCU. The first actions to prevent noise problems thus concern the PCB layout and the design of the power supply."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00204",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "In general, the smaller the number of components surrounding the MCU, the better the immunity versus noise. A ROMless solution, for instance, is typically more sensitive to and a bigger generator of noise than an embedded memory circuit."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00205",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "Optimized PCB layout"
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00206",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "Noise is basically received and transmitted through tracks and components which, once excited, act as antennas. Each loop and track includes parasitic inductance and capacitance which radiate and absorb energy once submitted to a variation of current, voltage or electromagnetic flux."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00207",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "An MCU chip itself presents high immunity to and low generation of EMI since its dimensions are small versus the wave lengths of EMI signals (typically mm versus 10's of cm for EMI signals in the GHz range). So a single chip solution with small loops and short wires reduces noise problems."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00208",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "The initial action at the PCB level is to reduce the number of possible antennas. The loops and wires connected to the MCU such as supply, oscillator and I/O should be considered with a special attention. The oscillator loop has to be especially small since it operates at high frequency Figure 18."
+  },
+  {
+    "segment_id": "stm32-an1709-p0030-text-00209",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 30,
+    "text": "A reduction of both the inductance and the capacitance of a track is generally difficult. Practical experience suggests that in most cases the inductance is the first parameter to be minimized."
+  },
+  {
+    "segment_id": "stm32-an1709-p0031-figure-00019",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 31,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0031_00019.png",
+    "caption": "**Figure 18. PCB Board Oscillator Layout Examples**\n\nThe figure contains two PCB oscillator-layout illustrations: a left-hand layout labeled **VA00102** and a right-hand layout labeled **VA00103**. The right-hand layout is overlaid with a large diagonal **X**.\n\n### Left layout — VA00102\n- A hatched copper area at the top is labeled **GND**.\n- A rectangular IC/package at right is labeled **MCU**.\n- Along the MCU’s left side, the oscillator pins are labeled:\n  - **OSCOUT**\n  - **OSCIN**\n- A horizontal component at lower left is labeled **CRYSTAL**.\n- Two capacitors are shown:\n  - **C L1** (shown near the upper oscillator connection)\n  - **C L2** (shown at the far left)\n- Conductive traces connect the crystal and capacitors to the MCU oscillator connections and the upper **GND** area.\n- The identifier **VA00102** appears below the MCU.\n\n### Right layout — VA00103\n- A large hatched copper area at the top is labeled **GND**.\n- A rectangular package at lower right is labeled **MCU**.\n- Oscillator connections at the MCU’s left side are labeled:\n  - **OSCOUT**\n  - **OSCIN**\n- A horizontal component at the upper-right of the oscillator network is labeled **CRYSTAL**.\n- Two capacitors are shown:\n  - **C L1** at the left side of the oscillator network\n  - **C L2** at the upper right, connected toward the **GND** region\n- Multiple routed traces surround and cross through the oscillator area.\n- The entire layout is marked with a large diagonal **X** extending from lower-left to upper-right and from upper-left to lower-right.\n- The identifier **VA00103** appears below the MCU.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 18. PCB Board Oscillator Layout Examples",
+    "generated_captions": {
+      "luna": "**Figure 18. PCB Board Oscillator Layout Examples**\n\nThe figure contains two PCB oscillator-layout illustrations: a left-hand layout labeled **VA00102** and a right-hand layout labeled **VA00103**. The right-hand layout is overlaid with a large diagonal **X**.\n\n### Left layout — VA00102\n- A hatched copper area at the top is labeled **GND**.\n- A rectangular IC/package at right is labeled **MCU**.\n- Along the MCU’s left side, the oscillator pins are labeled:\n  - **OSCOUT**\n  - **OSCIN**\n- A horizontal component at lower left is labeled **CRYSTAL**.\n- Two capacitors are shown:\n  - **C L1** (shown near the upper oscillator connection)\n  - **C L2** (shown at the far left)\n- Conductive traces connect the crystal and capacitors to the MCU oscillator connections and the upper **GND** area.\n- The identifier **VA00102** appears below the MCU.\n\n### Right layout — VA00103\n- A large hatched copper area at the top is labeled **GND**.\n- A rectangular package at lower right is labeled **MCU**.\n- Oscillator connections at the MCU’s left side are labeled:\n  - **OSCOUT**\n  - **OSCIN**\n- A horizontal component at the upper-right of the oscillator network is labeled **CRYSTAL**.\n- Two capacitors are shown:\n  - **C L1** at the left side of the oscillator network\n  - **C L2** at the upper right, connected toward the **GND** region\n- Multiple routed traces surround and cross through the oscillator area.\n- The entire layout is marked with a large diagonal **X** extending from lower-left to upper-right and from upper-left to lower-right.\n- The identifier **VA00103** appears below the MCU."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0031-text-00210",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 31,
+    "text": "The reduction of inductance can be obtained by making the lengths and surfaces of the track smaller. This can be obtained by placing the track loops closer on the same PCB layer or on top of one another (Figure 19.). The resulting loop area is small and the electromagnetic fields reduce one another."
+  },
+  {
+    "segment_id": "stm32-an1709-p0031-text-00211",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 31,
+    "text": "The ratio in order of magnitude relating to the inductance value and the area defined by the wire loop is around 10nH/cm2. Typical examples of low inductivity wires are coaxial, twisted pair cables or multiple layer PCBs with one ground and one supply layers. The current density in the track can also be smaller due to track enlargement or the paralleling of several small capacitances mounted in the current flow."
+  },
+  {
+    "segment_id": "stm32-an1709-p0031-text-00212",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 31,
+    "text": "In critical cases, the distance between the MCU and the PCB, and therefore the surfaces of the loops between an MCU and its environment, has also to be minimized. This can be achieved by removing any socket between the MCU package and the PCB, by replacing a ceramic MCU package by a plastic one or by using Surface Mounting instead of Dual In Line packages."
+  },
+  {
+    "segment_id": "stm32-an1709-p0031-text-00213",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 31,
+    "text": "Note: Board vias are inductances. Try to avoid them. If needed, use multi vias."
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-text-00214",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "text": "Low Inductance"
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-figure-00020",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0032_00020.png",
+    "caption": "**Figure 19. Reduction of PCB Tracks Loop Surfaces**\n\n- Schematic PCB-track/loop-surface illustration with four labeled connection points:\n  - **A** — left-side connection, marked by a black dot.\n  - **B** — lower-left connection, marked by a black dot.\n  - **C** — upper-right connection, marked by a black dot.\n  - **D** — lower-right connection, marked by a black dot.\n- The drawing shows rectangular PCB track outlines extending from the left-side A/B region toward the right side.\n- A curved track/connection runs from **C** downward along the right side and terminates at **D**.\n- A small dashed rectangular/outlined region is visible around the left-side A/B connection area.\n- No axes, units, legend, or numeric values are shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 19. Reduction of PCB Tracks Loop Surfaces",
+    "generated_captions": {
+      "luna": "**Figure 19. Reduction of PCB Tracks Loop Surfaces**\n\n- Schematic PCB-track/loop-surface illustration with four labeled connection points:\n  - **A** — left-side connection, marked by a black dot.\n  - **B** — lower-left connection, marked by a black dot.\n  - **C** — upper-right connection, marked by a black dot.\n  - **D** — lower-right connection, marked by a black dot.\n- The drawing shows rectangular PCB track outlines extending from the left-side A/B region toward the right side.\n- A curved track/connection runs from **C** downward along the right side and terminates at **D**.\n- A small dashed rectangular/outlined region is visible around the left-side A/B connection area.\n- No axes, units, legend, or numeric values are shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-figure-00021",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0032_00021.png",
+    "caption": "Figure showing a traced interconnect with labeled terminals and inductance values.\n\n- Left-side terminals/labels: **A** (upper) and **B** (lower).\n- Right-side terminals/labels: **C** (upper) and **D** (lower).\n- The drawing contains a rectangular routed conductor/path extending from the A/B side toward the C/D side, with inner and outer rectangular sections.\n- Several black arrow/marker symbols are shown along the vertical right-hand section near the C/D labels.\n- Inductance annotation for the A–B section: **L_AB = 14 nH (12 + 2)**.\n- Inductance annotation for the C–D section: **L_CD = 2 nH**.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing a traced interconnect with labeled terminals and inductance values.\n\n- Left-side terminals/labels: **A** (upper) and **B** (lower).\n- Right-side terminals/labels: **C** (upper) and **D** (lower).\n- The drawing contains a rectangular routed conductor/path extending from the A/B side toward the C/D side, with inner and outer rectangular sections.\n- Several black arrow/marker symbols are shown along the vertical right-hand section near the C/D labels.\n- Inductance annotation for the A–B section: **L_AB = 14 nH (12 + 2)**.\n- Inductance annotation for the C–D section: **L_CD = 2 nH**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-figure-00022",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0032_00022.png",
+    "caption": "Figure labeled in context as **“High Inductance”**. It shows a rectangular outline/core with four labeled terminals or connection points:\n\n- **A** — left-side upper connection, horizontal lead entering the rectangle and terminating at a filled dot.\n- **B** — left-side lower connection, horizontal lead entering from the left.\n- **C** — right-side upper connection, adjacent to a filled dot near the upper-right side; the line curves toward the rectangle’s right edge.\n- **D** — right-side lower connection, adjacent to a filled dot near the lower-right side.\n\nThe drawing contains a large outer rectangular outline and a smaller inset rectangular outline, with the right-side upper connection visibly curved toward the outer edge. No numerical values, axes, units, or additional legible annotations are present.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "High Inductance",
+    "generated_captions": {
+      "luna": "Figure labeled in context as **“High Inductance”**. It shows a rectangular outline/core with four labeled terminals or connection points:\n\n- **A** — left-side upper connection, horizontal lead entering the rectangle and terminating at a filled dot.\n- **B** — left-side lower connection, horizontal lead entering from the left.\n- **C** — right-side upper connection, adjacent to a filled dot near the upper-right side; the line curves toward the rectangle’s right edge.\n- **D** — right-side lower connection, adjacent to a filled dot near the lower-right side.\n\nThe drawing contains a large outer rectangular outline and a smaller inset rectangular outline, with the right-side upper connection visibly curved toward the outer edge. No numerical values, axes, units, or additional legible annotations are present."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-figure-00023",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0032_00023.png",
+    "caption": "- Schematic-like figure with a large rectangular outline.\n- Left side:\n  - Label **A** appears beside an upper horizontal lead entering from the left.\n  - The upper lead terminates at a filled black dot near the left interior/edge of the rectangle.\n  - Label **B** appears beside a second, lower horizontal lead entering from the left; no additional legible pin number is shown.\n- Right side:\n  - Three circular/filled connection markers are arranged vertically along the right edge, approximately at the upper, middle, and lower positions.\n  - Label **C** is printed to the left of the upper/middle right-side connections.\n  - Label **D** is printed to the right of the middle/lower right-side connections.\n- No title, pin numbers, units, numeric values, legend, or explanatory notes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "- Schematic-like figure with a large rectangular outline.\n- Left side:\n  - Label **A** appears beside an upper horizontal lead entering from the left.\n  - The upper lead terminates at a filled black dot near the left interior/edge of the rectangle.\n  - Label **B** appears beside a second, lower horizontal lead entering from the left; no additional legible pin number is shown.\n- Right side:\n  - Three circular/filled connection markers are arranged vertically along the right edge, approximately at the upper, middle, and lower positions.\n  - Label **C** is printed to the left of the upper/middle right-side connections.\n  - Label **D** is printed to the right of the middle/lower right-side connections.\n- No title, pin numbers, units, numeric values, legend, or explanatory notes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-text-00215",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "text": "Note: This test is done with a double sided PCB. Insulator thickness is 1.5mm, copper thickness is 0.13mm. The overall board size is 65 x 200mm."
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-text-00216",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "text": "Power supply filtering"
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-text-00217",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "text": "The power supply is used by all parts of the circuit, so it has to be considered with special attention. The supply loops have to be decoupled to make sure that signal levels and power currents do not interfere. These loops can be separated using star wiring with one node designated as common for the circuit (Figure 20.)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0032-text-00218",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 32,
+    "text": "The decoupling capacitance should be placed very close to the MCU supply pins to minimize the resultant loop. It should be also large enough to absorb, without significant voltage increase, parasitic currents coming from the MCU via the input protection diodes. The decoupling of the board can be done with electrolytic capacitors (typ. 10µF to $1 0 0 \\mu \\mathsf { F } )$ since the dielectric used in such capacitors provides a high volumic capacitance. However these capacitors behave like inductances at high frequency (typ. above 10MHz) while ceramic or plastic capacitors keep a capacitive behaviour at higher frequency. A ceramic capacitance of, for instance, 0.1µF to 1µF should be used as high frequency supply decoupling for critical chips operating at high frequency."
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-figure-00024",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0033_00024.png",
+    "caption": "**Figure 20. Power Supply Lay-out Examples** (page 33)\n\nThe figure contains four schematic-style power-supply layout examples. The two examples on the left are crossed out with large “X” marks; arrows point to corresponding arrangements on the right. The only text inside the diagrams is **“MCU”** in the upper-left example. The figure identifier **“VR001801”** appears at the lower right.\n\n### Upper pair\n\n- **Upper-left, crossed-out layout:**\n  - A rectangular block labeled **“MCU”**.\n  - Two square connection pads are shown on the MCU outline:\n    - Left-side pad marked **“+”**.\n    - Upper-right pad marked **“−”**.\n  - The supply wiring runs around the MCU outline in a long loop.\n  - A capacitor symbol is placed below the MCU and connected into the wiring between two black junction dots.\n  - Two downward-pointing arrows are shown below the junctions.\n  - A large diagonal **X** overlays the entire arrangement.\n\n- **Upper-right, replacement layout:**\n  - A rectangular block labeled **“MCU”**.\n  - Two square connection pads are located along the lower edge:\n    - Left pad marked **“+”**.\n    - Right pad marked **“−”**.\n  - Short connections run from the two MCU supply pads down to a capacitor located directly below the MCU.\n  - The capacitor is connected between two black junction dots.\n  - External wiring continues downward from both junctions, with downward-pointing arrows at the ends.\n  - A dashed horizontal line is visible inside the lower part of the MCU outline between the supply-pad regions.\n\n### Lower pair\n\n- **Lower-left, crossed-out layout:**\n  - Two adjacent rectangular blocks are shown side by side.\n  - Each block has square connection pads at its upper-left and lower-left/right-side corners:\n    - The left block’s upper-left pad is marked **“+”**.\n    - The left block’s lower-left pad is marked **“−”**.\n    - The right block’s upper-left pad is marked **“+”**.\n    - The right block’s lower-left pad is marked **“−”**.\n  - Dashed horizontal connections run between the two blocks.\n  - A capacitor symbol is placed on the far-left vertical branch between two black junction dots.\n  - The far-left branch has arrows pointing left at its upper and lower ends.\n  - A large diagonal **X** overlays the complete arrangement.\n\n- **Lower-right, replacement layout:**\n  - Two adjacent rectangular blocks are shown side by side.\n  - Each block has a square pad at its upper-left and lower-left side:\n    - Left block: upper pad marked **“+”**, lower pad marked **“−”**.\n    - Right block: upper pad marked **“+”**, lower pad marked **“−”**.\n  - Dashed horizontal lines extend from the supply-pad areas inside the blocks toward the central interconnection region.\n  - The two blocks are connected through a central vertical branch containing two black junction dots and a capacitor symbol between the upper and lower connections.\n  - External wiring from the central branch runs toward the left and branches to upper and lower left-pointing arrows.\n  - The central branch is connected to the supply-pad regions of both blocks.\n  - No large X is present on this arrangement.\n\nAn outlined right-pointing arrow is positioned between each crossed-out left-hand arrangement and its corresponding right-hand arrangement.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 20. Power Supply Lay-out Examples",
+    "generated_captions": {
+      "luna": "**Figure 20. Power Supply Lay-out Examples** (page 33)\n\nThe figure contains four schematic-style power-supply layout examples. The two examples on the left are crossed out with large “X” marks; arrows point to corresponding arrangements on the right. The only text inside the diagrams is **“MCU”** in the upper-left example. The figure identifier **“VR001801”** appears at the lower right.\n\n### Upper pair\n\n- **Upper-left, crossed-out layout:**\n  - A rectangular block labeled **“MCU”**.\n  - Two square connection pads are shown on the MCU outline:\n    - Left-side pad marked **“+”**.\n    - Upper-right pad marked **“−”**.\n  - The supply wiring runs around the MCU outline in a long loop.\n  - A capacitor symbol is placed below the MCU and connected into the wiring between two black junction dots.\n  - Two downward-pointing arrows are shown below the junctions.\n  - A large diagonal **X** overlays the entire arrangement.\n\n- **Upper-right, replacement layout:**\n  - A rectangular block labeled **“MCU”**.\n  - Two square connection pads are located along the lower edge:\n    - Left pad marked **“+”**.\n    - Right pad marked **“−”**.\n  - Short connections run from the two MCU supply pads down to a capacitor located directly below the MCU.\n  - The capacitor is connected between two black junction dots.\n  - External wiring continues downward from both junctions, with downward-pointing arrows at the ends.\n  - A dashed horizontal line is visible inside the lower part of the MCU outline between the supply-pad regions.\n\n### Lower pair\n\n- **Lower-left, crossed-out layout:**\n  - Two adjacent rectangular blocks are shown side by side.\n  - Each block has square connection pads at its upper-left and lower-left/right-side corners:\n    - The left block’s upper-left pad is marked **“+”**.\n    - The left block’s lower-left pad is marked **“−”**.\n    - The right block’s upper-left pad is marked **“+”**.\n    - The right block’s lower-left pad is marked **“−”**.\n  - Dashed horizontal connections run between the two blocks.\n  - A capacitor symbol is placed on the far-left vertical branch between two black junction dots.\n  - The far-left branch has arrows pointing left at its upper and lower ends.\n  - A large diagonal **X** overlays the complete arrangement.\n\n- **Lower-right, replacement layout:**\n  - Two adjacent rectangular blocks are shown side by side.\n  - Each block has a square pad at its upper-left and lower-left side:\n    - Left block: upper pad marked **“+”**, lower pad marked **“−”**.\n    - Right block: upper pad marked **“+”**, lower pad marked **“−”**.\n  - Dashed horizontal lines extend from the supply-pad areas inside the blocks toward the central interconnection region.\n  - The two blocks are connected through a central vertical branch containing two black junction dots and a capacitor symbol between the upper and lower connections.\n  - External wiring from the central branch runs toward the left and branches to upper and lower left-pointing arrows.\n  - The central branch is connected to the supply-pad regions of both blocks.\n  - No large X is present on this arrangement.\n\nAn outlined right-pointing arrow is positioned between each crossed-out left-hand arrangement and its corresponding right-hand arrangement."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00219",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "I/O configuration"
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00220",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "An open (floating) pin is a potential hazard to the circuit."
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00221",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "I/O pins which are not used in the application should be preferably configured in output low state. This will also minimize the current consumption."
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00222",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "A major source of emission in Microcontroller based applications can be due to high speed digital I/O and communication interfaces such as SPI, I2C clocks, USB or PWM... The Rise/ Fall times are critical. Typical designs add RC low pass filters."
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00223",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "Shielding"
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00224",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "Shielding can help in reducing noise sensitivity and emission, but its success depends directly on the material chosen as shield (high permeability, low resistivity) and on its connection to a stable voltage source including a decoupling capacitance via a low serial impedance (low inductance, low resistance)."
+  },
+  {
+    "segment_id": "stm32-an1709-p0033-text-00225",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 33,
+    "text": "If the generator of major disturbances is near to the MCU board and can be identified as a strong dV/dt generator (i.e. a transformer or Klystron), the noise is carried mainly by the electrostatic field. The critical coupling between the noise generator and the control board is capacitive. A highly conductive shield (i.e. copper) creating a Faraday cage around the control board may strongly increase the immunity."
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00226",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "If the strongest source of perturbations is a dI/dt generator (i.e. a relay), it is a high source of electromagnetic fields. Therefore, the permeability of the shielding material (i.e. alloy) is crucial to increase the immunity of the board. In addition, the number and size of the holes on the shield should be reduced as much as possible to increase its efficiency."
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00227",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "In critical cases, the implantation of a ground plane below the MCU and the removal of sockets between the device and the PCB can reduce the MCU noise sensitivity. Indeed, both actions lead to a reduction of the apparent surface of loops between the MCU, its supply, its I/O and the PCB."
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00228",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "4.2 HANDLING PRECAUTIONS FOR ESD PROTECTION."
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00229",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "Electronic components have to be protected from the hazard of static electricity from the manufacturing stage down to where they are utilized in order to avoid ESD related destruction. A specific no-compromise strategy is implemented at ST for all ESD sensitive products."
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00230",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "From the wafer level to the shipping of finished goods, each workstation and processing step is guaranteed. For final packing, ST uses anti-static tubes. This solution ensures full ESD protection of devices. However, the supplier's greatest efforts are in vain if the end user does not provide the same level of protection and care in the application."
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00231",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "A relative humidity of 50% to 65% is the best to prevent electrostatic problems (the lower the relative humidity, the higher the electrostatic voltage). Nevertheless, the person handling the semiconductors as well as the equipment will be charged to a certain level. The work environment is very important to protect devices against static electricity"
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00232",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "Anti-static electricity measures during work"
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00233",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "(1) Conductive mat"
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00234",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "(2) Wrist"
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00235",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "(3) Conductive floor mat"
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00236",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "(4) Work suit with anti-static measure"
+  },
+  {
+    "segment_id": "stm32-an1709-p0034-text-00237",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 34,
+    "text": "(5) Conductive shoes grounding the human body"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-figure-00025",
+    "type": "figure",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "image_path": "data/parsed/stm32/stm32-an1709/mineru/images/bbox_fallback_figure_p0035_00025.png",
+    "caption": "Figure 21, “Grounding the Human Body” (as identified by the nearby caption), consists of two boxed line drawings illustrating human-body grounding/ESD grounding.\n\n- **Upper drawing:** A person is seated/working at a table or workbench. The drawing shows a grounding arrangement involving the person, the work surface, a lead/cable, and a grounded floor/connection. Several numbered callouts are present, including visible circled markers **(1)**, **(2)**, and **(3)**. The fine text or functional names associated with these callouts are not legible in the crop.\n- **Lower drawing:** A simplified grounding connection is shown:\n  - A hand/wrist area at the upper left is connected by a cable.\n  - The cable passes through a vertically drawn inline component at the upper right, marked with callout **(1)**.\n  - The cable loops downward and continues toward a grounding/contact point at the lower right.\n  - A callout **(3)** points to the cable/lead in the middle-left area.\n  - A callout **(2)** is located beneath the lower grounding/contact symbol.\n- No axes, legend, electrical values, units, or additional readable explanatory text are visible in the figure crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 21. Grounding the Human Body",
+    "generated_captions": {
+      "luna": "Figure 21, “Grounding the Human Body” (as identified by the nearby caption), consists of two boxed line drawings illustrating human-body grounding/ESD grounding.\n\n- **Upper drawing:** A person is seated/working at a table or workbench. The drawing shows a grounding arrangement involving the person, the work surface, a lead/cable, and a grounded floor/connection. Several numbered callouts are present, including visible circled markers **(1)**, **(2)**, and **(3)**. The fine text or functional names associated with these callouts are not legible in the crop.\n- **Lower drawing:** A simplified grounding connection is shown:\n  - A hand/wrist area at the upper left is connected by a cable.\n  - The cable passes through a vertically drawn inline component at the upper right, marked with callout **(1)**.\n  - The cable loops downward and continues toward a grounding/contact point at the lower right.\n  - A callout **(3)** points to the cable/lead in the middle-left area.\n  - A callout **(2)** is located beneath the lower grounding/contact symbol.\n- No axes, legend, electrical values, units, or additional readable explanatory text are visible in the figure crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00238",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "(1) Wrist ring"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00239",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "(2) Grounding wire: threaded copper wire, vinyl covered, about 1 meter"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00240",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "(3) 250 KW to 1 MW resistance is built in"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00241",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "Device handling:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00242",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "Static control wrist straps, used and connected properly, must be worn."
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00243",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "All tools, persons, testing machines, which could come in contact with device leads, must be conductive and grounded. Each tabletop must be protected with a conductive mat, properly grounded. Use static control shoe strap. Use vacuum pipes."
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00244",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "Storage box:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00245",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "Keep parts in the original packing bags up to the very last moment of the production line."
+  },
+  {
+    "segment_id": "stm32-an1709-p0035-text-00246",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 35,
+    "text": "If bigger containers are used for in-plant transport of devices or PC boards, they must be electrically conductive like the carbon-loaded types. Avoid use of high dielectric materials (like polystyrene) for sub-assembly construction, storing, and transportation."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00247",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "Equipment and tools:"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00248",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "Use Ionized air blowers to neutralize static charges of non-conductive materials."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00249",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "Use only the grounded tip variety of soldering iron."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00250",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "Use proper power supply systems in testing and application."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00251",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "Supply voltage should be applied before and removed after input signals."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00252",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "Insertion and removal of components from sockets should be carried out with no power applied."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00253",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "An open (floating) pin is a potential hazard to the circuit. Each “Non Connected” pin should be grounded or connected to $\\mathsf { V } _ { \\mathsf { D D } }$ through a resistor whenever possible."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00254",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "4.3 FIRMWARE"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00255",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "This part is Treated by a dedicated Application Note (AN1015) available on ST Website."
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00256",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "4.4 WEB LINKS TO EMC RELATED ORGANISATIONS"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00257",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "FCC: Federal Communication Commission http://www.fcc.gov"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00258",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "EIA: Electronic Industries Alliance http://www.eia.org/"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00259",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "SAE: Society of Automotive Engineers http://www.sae.org"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00260",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "IEC: The International Electrotechnical Commission http://wwwiec.ch"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00261",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "CENELEC: European Committee for Electrotechnical Standardisation http://ww.cenelec.be"
+  },
+  {
+    "segment_id": "stm32-an1709-p0036-text-00262",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 36,
+    "text": "JEDEC: Joint Electron Device Engineering Council http://www.jedec.org"
+  },
+  {
+    "segment_id": "stm32-an1709-p0037-text-00263",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 37,
+    "text": "5 CONCLUSION"
+  },
+  {
+    "segment_id": "stm32-an1709-p0037-text-00264",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 37,
+    "text": "For any microcontroller application, EMC requirements must be considered at the very beginning of the development project. Standards, features and parameters given in ST Microcontroller datasheets will help the system designer to determine the most suitable component for a given application. Hardware and firmware precautions have to be taken to optimize EMC and system stability."
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00265",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "“THE PRESENT NOTE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS WITH INFORMATIONREGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME. AS A RESULT, STMICROELECTRONICSSHALL NOT BE HELD LIABLE FOR ANY DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TOANY CLAIMS ARISING FROM THE CONTENT OF SUCH A NOTE AND/OR THE USE MADE BY CUSTOMERS OFTHE INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.”"
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00266",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "Information furnished is believed to be accurate and reliable. However, STMicroelectronics assumes no responsibility for the consequences of use of such information nor for any infringement of patents or other rights of third parties which may result from its use. No license is granted by implication or otherwise under any patent or patent rights of STMicroelectronics. Specifications mentioned in this publication are subject to change without notice. This publication supersedes and replaces all information previously supplied. STMicroelectronics products are not authorized for use as critical components in life support devices or systems without express written approval of STMicroelectronics."
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00267",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "The ST logo is a registered trademark of STMicroelectronics."
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00268",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "All other names are the property of their respective owners"
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00269",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "© 2003 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00270",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "STMicroelectronics GROUP OF COMPANIES"
+  },
+  {
+    "segment_id": "stm32-an1709-p0038-text-00271",
+    "type": "text",
+    "doc": "stm32-an1709",
+    "page": 38,
+    "text": "Australia – Belgium - Brazil - Canada - China – Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States www.st.com"
+  }
+]

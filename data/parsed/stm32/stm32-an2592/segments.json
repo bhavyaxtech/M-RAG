@@ -1,0 +1,1248 @@
+[
+  {
+    "segment_id": "stm32-an2592-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 1,
+    "text": "How to achieve 32-bit timer resolution using the link system in STM32F101xx and STM32F103xx microcontrollers"
+  },
+  {
+    "segment_id": "stm32-an2592-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2592-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 1,
+    "text": "In many applications, 32-bit resolution is required to measure external signal periods of up to several hundreds of seconds or, to generate delays or periodic signals with large periods."
+  },
+  {
+    "segment_id": "stm32-an2592-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 1,
+    "text": "The STM32F101xx and STM32F103xx microcontrollers offer the possibility of chaining two 16-bit timers to obtain a 32-bit resolution based on a specific configuration of the timers and on the use of the timer link system."
+  },
+  {
+    "segment_id": "stm32-an2592-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 1,
+    "text": "This application note gives general guidelines to emulate a 32-bit timer. The two basic operating modes, that is the input capture mode and the output compare mode, are presented. Each mode is treated independently and, each time, examples of applications are provided."
+  },
+  {
+    "segment_id": "stm32-an2592-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2592-p0002-text-00007",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 2,
+    "text": "1 STM32F10xxx timer synchronization 4   \n1.1 Timer link system presentation . 4   \n1.2 How to synchronize two timers using the link system 4   \n2 32-bit input capture timer resolution . . . 6   \n2.1 Principle 6   \n2.2 Timer configuration 6   \n2.2.1 TIM3 master configuration   \n2.2.2 TIM2 slave configuration . 8   \n2.2.3 Master and slave synchronization . 8   \n3 32-bit output compare timer resolution . 9   \n3.1 Principle and timer configuration 9   \n3.2 Output compare mode configuration 11   \n3.2.1 Output compare active mode example . 11   \n3.2.2 Output compare toggle mode example . 13   \n4 Revision history . 15"
+  },
+  {
+    "segment_id": "stm32-an2592-p0003-text-00008",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 3,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2592-p0003-text-00009",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 3,
+    "text": "Figure 1. Simplified TIM2 trigger controller block. . . 4   \nFigure 2. Timer synchronization in input capture mode . . 7   \nFigure 3. Timer synchronization in output compare mode. . 10   \nFigure 4. TIM2 output signals 12   \nFigure 5. TIM2 output signals 14   \nFigure 6. TIM2 Channel1 output signal . 14"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00010",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "STM32F10xxx timer synchronization"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00011",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "1.1 Timer link system presentation"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00012",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "In the STM32F101xx and STM32F103xx microcontrollers, the embedded timers can be linked together for timer synchronization or chaining purposes."
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00013",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "Using the timer link system, a timer configured in Master mode can:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00014",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "● reset the counter of the slave timer"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00015",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "● start and/or stop the slave timer counter"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00016",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "● clock the slave timer counter"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00017",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "1.2 How to synchronize two timers using the link system"
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00018",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "In addition to the TIMx\\_CHx pins, timers have several internal triggers that are indispensable for linking and chaining operation."
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-text-00019",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "text": "Figure 1 shows a simplified representation of the timer block, that highlights the internal triggers. TIM2 is used as an example."
+  },
+  {
+    "segment_id": "stm32-an2592-p0004-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2592",
+    "page": 4,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_figure_p0004_00001.png",
+    "caption": "**Figure 1. Simplified TIM2 trigger controller block**\n\n- Large gray block labeled **TIM2**.\n- Inside TIM2 is a large outlined block labeled **Trigger controller**.\n- Two outlined wedge-shaped selector/multiplexer symbols are shown to the left of the Trigger controller.\n\n**Inputs and signal labels:**\n\n- **TIMxCLK** enters TIM2 directly from the upper left.\n- **ETR** enters the first selector.\n  - A dashed branch from the ETR line runs upward and rightward into TIM2, entering near the top of the Trigger controller.\n- The first selector has three internal-trigger inputs:\n  - **TRG01** → **ITR0**\n  - **TRG03** → **ITR2**\n  - **TRG04** → **ITR3**\n- The output of the first selector feeds the second selector.\n- The second selector receives:\n  - **TI1FP1**, shown as a dashed connection\n  - **TI2FP2**, shown as a dashed connection\n- The dashed **TI1FP1** and **TI2FP2** lines also continue directly rightward into TIM2 and enter the Trigger controller.\n- The selected signal from the second selector enters the Trigger controller.\n\n**Output:**\n\n- The Trigger controller output is labeled **TRG0** inside the TIM2 block.\n- The output continues rightward outside TIM2 and is labeled **TRG02**.\n\nArrows on the signal lines indicate left-to-right signal flow. The dashed lines distinguish the alternate/direct connections involving **ETR**, **TI1FP1**, and **TI2FP2**. The figure identifier **ai14603** appears at the lower right.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Simplified TIM2 trigger controller block",
+    "generated_captions": {
+      "luna": "**Figure 1. Simplified TIM2 trigger controller block**\n\n- Large gray block labeled **TIM2**.\n- Inside TIM2 is a large outlined block labeled **Trigger controller**.\n- Two outlined wedge-shaped selector/multiplexer symbols are shown to the left of the Trigger controller.\n\n**Inputs and signal labels:**\n\n- **TIMxCLK** enters TIM2 directly from the upper left.\n- **ETR** enters the first selector.\n  - A dashed branch from the ETR line runs upward and rightward into TIM2, entering near the top of the Trigger controller.\n- The first selector has three internal-trigger inputs:\n  - **TRG01** → **ITR0**\n  - **TRG03** → **ITR2**\n  - **TRG04** → **ITR3**\n- The output of the first selector feeds the second selector.\n- The second selector receives:\n  - **TI1FP1**, shown as a dashed connection\n  - **TI2FP2**, shown as a dashed connection\n- The dashed **TI1FP1** and **TI2FP2** lines also continue directly rightward into TIM2 and enter the Trigger controller.\n- The selected signal from the second selector enters the Trigger controller.\n\n**Output:**\n\n- The Trigger controller output is labeled **TRG0** inside the TIM2 block.\n- The output continues rightward outside TIM2 and is labeled **TRG02**.\n\nArrows on the signal lines indicate left-to-right signal flow. The dashed lines distinguish the alternate/direct connections involving **ETR**, **TI1FP1**, and **TI2FP2**. The figure identifier **ai14603** appears at the lower right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "For example, if TIM2 uses ITR2 as an internal trigger, this means that TIM2 is synchronized with TIM3."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "These triggers can be easily redirected to the master by setting the right combination of TS bits in the SMCR register."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "The trigger output, TRGO, is used when TIM2 is configured in the Master mode. It then determines which events or signals is sent to the slave timers for synchronization."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "Different events or signals can be transmitted to the slave, as listed below. They are selected using the MMS bits in the CR2 register."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "● reset event"
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "● enable event"
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "● update event"
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "● compare pulse"
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00028",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "● OCxREF where x is 1, 2, 3 or 4."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00029",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "Once the master trigger output, TRGO, and the slave’s internal triggers, ITRx, are configured, the two timers are chained."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00030",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "There are four different slave modes that are selected using the SMS bits in the SMCR register. They are the following:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00031",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "Reset mode: in this mode, the rising edge of the trigger signal reinitializes the counter and generates an update of the registers."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00032",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "Gated mode: the slave counter start and stop are both controlled by the high level on the trigger input."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00033",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "Trigger mode: the start of the slave counter is controlled by the rising edge of the trigger input signal."
+  },
+  {
+    "segment_id": "stm32-an2592-p0005-text-00034",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 5,
+    "text": "External clock mode1: the slave counter is clocked by the rising edges of the selected trigger input signal."
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00035",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "32-bit input capture timer resolution"
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00036",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "2.1 Principle"
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00037",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "To measure the period of an external signal, the timer can be used in input capture mode. The maximum frequency, that can be measured with the 16-bit timer, depends on the TIMxCLK signal."
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00038",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "For example, if the timer is clocked by 72 MHz (TIMxCLK = 72 MHz), the minimum frequency F that can be measured is:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00039",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "$$\n\\mathsf { F } = \\frac { \\mathsf { T I M x C L K } } { \\mathsf { A R R } } = \\frac { 7 2 \\times 1 0 ^ { 6 } } { 0 \\mathsf { x F F F F } } = 1 0 9 8 ~ \\mathsf { H z }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00040",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "In some applications, the user needs to measure large periods. The idea is to increase the timer resolution from 16-bit to 32-bit using a specific configuration based on the timer link system."
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00041",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "2.2 Timer configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00042",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "The measure is performed by two timers synchronized in a specific mode. The master measures the LSB part of the external signal period/frequency and the slave measures the MSB part. The two timers are used in input capture mode."
+  },
+  {
+    "segment_id": "stm32-an2592-p0006-text-00043",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 6,
+    "text": "Figure 2 further explains the typical internal connection of the master and slave timers. TIM3 is used as the master for the TIM2 timer."
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_figure_p0007_00002.png",
+    "caption": "**Figure 2. Timer synchronization in input capture mode** (source: STM32 AN2592, page 7)\n\nThe figure shows synchronization between **TIM3** and **TIM2** using trigger outputs and input-capture circuitry.\n\n### TIM3 block\n\nA gray block labeled **TIM3** contains a trigger-selection path, **Trigger controller**, and a **16-bit CCR1 register**.\n\nVisible clock and trigger inputs:\n\n- **TIMxCLK**: solid input to the TIM3 timer block.\n- **ETR**: external trigger input, shown as a dashed connection to the first multiplexer.\n- **TRG01** → **ITR0**\n- **TRG02** → **ITR1**\n- **TRG04** → **ITR3**\n\nThe first multiplexer selects among the ETR/ITR trigger inputs. Its output feeds a second multiplexer. Additional visible inputs to the second multiplexer are:\n\n- **TI1FP1**\n- **TI2FP2** (shown on dashed paths)\n\nThe selected signal feeds the **Trigger controller**. The trigger-controller output is labeled:\n\n- **TRGO**\n\nThe TIM3 trigger path also connects to the **16-bit CCR1 register** through dashed/solid internal signal paths associated with the input-capture circuitry.\n\nAt the lower left of TIM3:\n\n- External input pin label: **TI1**\n- An **Input filter & edge detector**\n- Output to the **16-bit CCR1 register**\n\n### TIM3-to-TIM2 synchronization connection\n\nThe **TRGO** output of TIM3 is routed to TIM2 as:\n\n- **TRGO** from TIM3\n- **TRG03** at the TIM2 trigger-input side\n\nThe connection is drawn as a thick black line from the TIM3 **TRGO** output, downward, and into the TIM2 trigger-selection path.\n\n### TIM2 block\n\nA gray block labeled **TIM2** contains a trigger-selection path, **Trigger controller**, and a **16-bit CCR1 register**.\n\nVisible clock and trigger inputs:\n\n- **TIMxCLK**: solid input to the TIM2 timer block.\n- A dashed clock/control path also enters the timer block.\n- **TRG03**: dashed trigger input associated with the signal from TIM3 **TRGO**.\n- **ITR0**\n- **ITR2**\n- **ITR3**\n\nThe first TIM2 multiplexer selects among the visible ITR/trigger inputs. Its output feeds a second multiplexer. Additional visible inputs are:\n\n- **TI1FP1**\n- **TI2FP2**\n\nThe selected signal feeds the **Trigger controller**. The controller output is labeled:\n\n- **TRGO**\n\nAt the bottom of TIM2:\n\n- External input pin label: **TI1**\n- An **Input filter & edge detector**\n- Output to the **16-bit CCR1 register**\n\nThe lower external-input line is labeled **External signal** and includes a drawn square-waveform symbol. This signal branches to the TI1 input circuitry for the TIM3 and TIM2 paths. The figure also shows dashed internal connections from **TI1FP1** and **TI2FP2** toward the trigger-selection/timer circuitry and capture-register paths.\n\nOther visible labels and identifiers:\n\n- **TIM3**\n- **TIM2**\n- **Trigger controller** (inside each timer block)\n- **16-bit CCR1 register** (inside each timer block)\n- **Input filter & edge detector** (inside each timer block)\n- **TI1**, **TI1FP1**, **TI2FP2**\n- **ETR**\n- **ITR0**, **ITR1**, **ITR2**, **ITR3**\n- **TRG01**, **TRG02**, **TRG03**, **TRG04**\n- **TRGO**\n- **TIMxCLK**\n- **External signal**\n- Figure identifier at lower right: **ai14604**",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Timer synchronization in input capture mode",
+    "generated_captions": {
+      "luna": "**Figure 2. Timer synchronization in input capture mode** (source: STM32 AN2592, page 7)\n\nThe figure shows synchronization between **TIM3** and **TIM2** using trigger outputs and input-capture circuitry.\n\n### TIM3 block\n\nA gray block labeled **TIM3** contains a trigger-selection path, **Trigger controller**, and a **16-bit CCR1 register**.\n\nVisible clock and trigger inputs:\n\n- **TIMxCLK**: solid input to the TIM3 timer block.\n- **ETR**: external trigger input, shown as a dashed connection to the first multiplexer.\n- **TRG01** → **ITR0**\n- **TRG02** → **ITR1**\n- **TRG04** → **ITR3**\n\nThe first multiplexer selects among the ETR/ITR trigger inputs. Its output feeds a second multiplexer. Additional visible inputs to the second multiplexer are:\n\n- **TI1FP1**\n- **TI2FP2** (shown on dashed paths)\n\nThe selected signal feeds the **Trigger controller**. The trigger-controller output is labeled:\n\n- **TRGO**\n\nThe TIM3 trigger path also connects to the **16-bit CCR1 register** through dashed/solid internal signal paths associated with the input-capture circuitry.\n\nAt the lower left of TIM3:\n\n- External input pin label: **TI1**\n- An **Input filter & edge detector**\n- Output to the **16-bit CCR1 register**\n\n### TIM3-to-TIM2 synchronization connection\n\nThe **TRGO** output of TIM3 is routed to TIM2 as:\n\n- **TRGO** from TIM3\n- **TRG03** at the TIM2 trigger-input side\n\nThe connection is drawn as a thick black line from the TIM3 **TRGO** output, downward, and into the TIM2 trigger-selection path.\n\n### TIM2 block\n\nA gray block labeled **TIM2** contains a trigger-selection path, **Trigger controller**, and a **16-bit CCR1 register**.\n\nVisible clock and trigger inputs:\n\n- **TIMxCLK**: solid input to the TIM2 timer block.\n- A dashed clock/control path also enters the timer block.\n- **TRG03**: dashed trigger input associated with the signal from TIM3 **TRGO**.\n- **ITR0**\n- **ITR2**\n- **ITR3**\n\nThe first TIM2 multiplexer selects among the visible ITR/trigger inputs. Its output feeds a second multiplexer. Additional visible inputs are:\n\n- **TI1FP1**\n- **TI2FP2**\n\nThe selected signal feeds the **Trigger controller**. The controller output is labeled:\n\n- **TRGO**\n\nAt the bottom of TIM2:\n\n- External input pin label: **TI1**\n- An **Input filter & edge detector**\n- Output to the **16-bit CCR1 register**\n\nThe lower external-input line is labeled **External signal** and includes a drawn square-waveform symbol. This signal branches to the TI1 input circuitry for the TIM3 and TIM2 paths. The figure also shows dashed internal connections from **TI1FP1** and **TI2FP2** toward the trigger-selection/timer circuitry and capture-register paths.\n\nOther visible labels and identifiers:\n\n- **TIM3**\n- **TIM2**\n- **Trigger controller** (inside each timer block)\n- **16-bit CCR1 register** (inside each timer block)\n- **Input filter & edge detector** (inside each timer block)\n- **TI1**, **TI1FP1**, **TI2FP2**\n- **ETR**\n- **ITR0**, **ITR1**, **ITR2**, **ITR3**\n- **TRG01**, **TRG02**, **TRG03**, **TRG04**\n- **TRGO**\n- **TIMxCLK**\n- **External signal**\n- Figure identifier at lower right: **ai14604**"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00044",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "2.2.1 TIM3 master configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00045",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "The master timer is used to measure the LSB part of the external period or frequency. To do so, it is configured as follows:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00046",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "● no prescaler is used"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00047",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "the external signal is connected to channel 1 and the rising edge is configured as the active edge."
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00048",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "The input capture module is used to latch the value of the counter after a transition detected by the corresponding input channel. To get the external signal period, two consecutive captures are needed and the period is calculated by subtracting these two values."
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00049",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "To avoid this method and facilitate the input capture measurement, the master counter is reset after each rising edge detected on the timer input channel by:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00050",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "● selecting TI1FP1 as the input trigger by setting the TS bits in the SMCR register"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00051",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "selecting the reset mode as the slave mode by configuring the SMS bits in the SMCR register"
+  },
+  {
+    "segment_id": "stm32-an2592-p0007-text-00052",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 7,
+    "text": "Using this configuration, when an edge is detected, the counter is reset and the period of the external signal is automatically given by the value on the CCR1 register."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00053",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "2.2.2 TIM2 slave configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00054",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "The slave timer is used to measure the MSB part of the external frequency. To do so, it is configured as follows:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00055",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "● prescaler is fixed to 0xFFFF"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00056",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "the external signal is connected to channel 1 and the rising edge is configured as the active edge."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00057",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "2.2.3 Master and slave synchronization"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00058",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Master configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00059",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "● Use the master update event as the master trigger output (TRGO)"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00060",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "● Enable the Master/Slave mode."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00061",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Slave configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00062",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Select the slave input trigger: the master trigger output (TRGO) used as the input trigger for the slave."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00063",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "● Enable the Master/Slave mode"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00064",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Use the external clock mode 1 as the Slave mode: the slave is clocked by the update event of the master timer. That is, when the master counter is overflow, the slave counter is incremented."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00065",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Using this configuration, each time the period to be measured exceeds the 16-bit master timer Auto-reload register, an update event is generated to clock the slave timer."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00066",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "When the active edge is detected on the master and slave timer inputs, the two counter values are copied into the master CCR1 register and the slave CCR1 register, respectively."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00067",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Since the slave is clocked by the master update event, the number of master overflow is recorded by the slave as the MSB part of the 32-bit input capture register, the LSB is read on the Master CCR1."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00068",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "The external signal frequency is calculated on each master input capture interrupt as follows:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00069",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "$$\n{ \\mathsf { E x t S i g n a l F r e q } } = { \\frac { 7 2 \\times 1 0 ^ { 6 } } { { \\mathsf { M S B } } \\times 6 5 5 3 5 + { \\mathsf { L S B } } } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00070",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "LSB is the master capture compare register value (LSB = TIM3->CCR1 register value)."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00071",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "To get the MSB value, two consecutive captures are needed and the MSB variable is calculated by subtracting these two values as shown below:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00072",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "$$\n\\mathsf { I f } \\mathsf { M S B 1 } > \\mathsf { M S B 2 } \\mathsf { t h e n } \\mathsf { M S B } = 0 \\mathsf { x F F F } - ( ( \\mathsf { M S B 1 } - \\mathsf { M S B 2 } ) ) - 1\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00073",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "$$\n\\mathsf { I f } \\mathsf { M S B } \\mathsf { 1 } < \\mathsf { M S B 2 } \\mathsf { t h e n } \\mathsf { M S B } = ( \\mathsf { M S B 2 } - \\mathsf { M S B } \\mathsf { 1 } ) - \\mathsf { 1 }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00074",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "MSB1 and MSB2 are given by the slave capture compare value (TIM2->CCR2 register value)."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00075",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Since the master timer is used in Reset mode, when the active edge is detected on the master timer, the counter is reinitialized and an update is generated. To avoid this additional update event, 1 is subtracted from the MSB value."
+  },
+  {
+    "segment_id": "stm32-an2592-p0008-text-00076",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 8,
+    "text": "Using this method, the maximum frequency that can be measured, with TIMxCLK equal to 72 MHz, is 17 mHz instead of 1098 Hz when a 16-bit timer is used."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00077",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "32-bit output compare timer resolution"
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00078",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "Principle and timer configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00079",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "The idea is to use two timers to generate a 32-bit resolution output compare signal; one timer that gives the MSB, and the other that provides the LSB of the 32-bit output compare signal."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00080",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "Compare pulse is one of the master modes offered by the STM32F10xxx timers. With the Compare pulse mode selected, each time the CC1IF flag is to be set, that is, as soon as there is a compare match, the master trigger output (TRGO) sends a positive pulse."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00081",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "In addition, if the timer master is being used in output compare mode, the LSB or MSB part of the 32-bit output compare signal is loaded into the master CCRx register. When the counter of the master reaches the loaded value, it triggers the other timer, causing it to generate the missing MSB or LSB."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00082",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "To generate the MSB or the LSB part of the output compare signal, the slave timer must wait for the master trigger output signal and then start counting in order to introduce the missing 16-bit (LSB or MSB) part. For this, the slave timer has to be configured in the one-pulse mode (OPM)."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00083",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "The one-pulse mode is a particular case of the input capture and output compare modes. It allows the counter to be started in response to a stimulus, and to generate a pulse with a programmable length after a programmable delay."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00084",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "The counter start can be controlled through the slave mode controller and the waveform can be generated in output compare mode. If the one-pulse mode (OPM) is selected by setting the OPM bit in the CR1 register, the counter stops automatically at the next update event."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00085",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "The STM32F10xxx timers offer the possibility of redirecting the internal trigger (ITR) and to use it as the input signal for the capture/compare array. In this case, the internal trigger can be used as a stimulus for a slave timer initially configured in one-pulse mode (OPM). This is done by configuring the CCxS bits in the CCMRx register to be mapped on TRC."
+  },
+  {
+    "segment_id": "stm32-an2592-p0009-text-00086",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 9,
+    "text": "This configuration allows the cascading of two timers to obtain a 32-bit time base resolution.   \nFigure 3 explains how the two timers are cascaded."
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_figure_p0010_00003.png",
+    "caption": "Figure showing timer synchronization in output-compare mode, with TIM3 acting as the upstream timer and TIM2 receiving its trigger.\n\n- **TIM3** block, upper left:\n  - Clock input: **TIMxCLK**\n  - External trigger input: **ETR**\n  - Trigger inputs shown at the first selector:\n    - **TRG01** / **ITR0**\n    - **TRG02** / **ITR1**\n    - **TRG04** / **ITR3**\n  - A second selector receives the internally routed signals **TI1FP1** and **TI2FP2** through dashed connections.\n  - The selected trigger signal enters the **Trigger controller**.\n  - Trigger-controller output: **TRGO**\n  - Bottom output-compare path:\n    - **16-bit CCRx register**\n    - Signal **CCx**\n    - Output terminal **OCx**\n  - The TIM3 **TRGO** output is connected by a heavy line to the TIM2 trigger input.\n\n- **TIM2** block, right:\n  - Clock input: **TIMxCLK**\n  - Trigger input from TIM3 connection: **TRGI**\n  - Trigger-selection inputs shown:\n    - **ITR0**\n    - **ITR2**\n    - **ITR3**\n  - The selected signal is labeled **TRC** between the first and second selector stages.\n  - The second selector feeds the **Trigger controller**.\n  - Trigger-controller output: **TRGO**\n  - Lower output-compare path:\n    - Input terminal **OCx**\n    - **Input filter & edge detector**\n    - **Prescaler**\n    - **16-bit CCRx register**\n    - Signal **CCx**\n    - Output terminal **OCx**\n  - Dashed connections from the input/filter path and lower trigger-selection circuitry enter the second selector.\n\n- Diagram conventions:\n  - Solid arrows indicate signal paths.\n  - Dashed paths indicate alternate/internal routing into the trigger selectors.\n  - Small open square symbols mark the external **OCx** terminals.\n  - The figure identifier printed at the lower-right corner is **ai14605**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Timer synchronization in output compare mode",
+    "generated_captions": {
+      "luna": "Figure showing timer synchronization in output-compare mode, with TIM3 acting as the upstream timer and TIM2 receiving its trigger.\n\n- **TIM3** block, upper left:\n  - Clock input: **TIMxCLK**\n  - External trigger input: **ETR**\n  - Trigger inputs shown at the first selector:\n    - **TRG01** / **ITR0**\n    - **TRG02** / **ITR1**\n    - **TRG04** / **ITR3**\n  - A second selector receives the internally routed signals **TI1FP1** and **TI2FP2** through dashed connections.\n  - The selected trigger signal enters the **Trigger controller**.\n  - Trigger-controller output: **TRGO**\n  - Bottom output-compare path:\n    - **16-bit CCRx register**\n    - Signal **CCx**\n    - Output terminal **OCx**\n  - The TIM3 **TRGO** output is connected by a heavy line to the TIM2 trigger input.\n\n- **TIM2** block, right:\n  - Clock input: **TIMxCLK**\n  - Trigger input from TIM3 connection: **TRGI**\n  - Trigger-selection inputs shown:\n    - **ITR0**\n    - **ITR2**\n    - **ITR3**\n  - The selected signal is labeled **TRC** between the first and second selector stages.\n  - The second selector feeds the **Trigger controller**.\n  - Trigger-controller output: **TRGO**\n  - Lower output-compare path:\n    - Input terminal **OCx**\n    - **Input filter & edge detector**\n    - **Prescaler**\n    - **16-bit CCRx register**\n    - Signal **CCx**\n    - Output terminal **OCx**\n  - Dashed connections from the input/filter path and lower trigger-selection circuitry enter the second selector.\n\n- Diagram conventions:\n  - Solid arrows indicate signal paths.\n  - Dashed paths indicate alternate/internal routing into the trigger selectors.\n  - Small open square symbols mark the external **OCx** terminals.\n  - The figure identifier printed at the lower-right corner is **ai14605**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00087",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "To connect the TRGO3 output of TIM3 to TIM2, TIM2 must be configured in slave mode using ITR2 as the internal trigger."
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00088",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "Then the slave mode controller is configured in trigger mode. This causes the TIM2 counter to be started at a rising edge of the TIM3 trigger signal (that corresponds to the TIM3 compare match)."
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00089",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "The two timers are configured as described below:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00090",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "TIM3 master configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00091",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "configure TIM3 in output compare mode, the CCRx register must be loaded with the LSB or the MSB part of the signal"
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00092",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "● use the timer master compare pulse event as the trigger output (TRGO)"
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00093",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "● set the prescaler value"
+  },
+  {
+    "segment_id": "stm32-an2592-p0010-text-00094",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 10,
+    "text": "enable the master/slave mode"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00095",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "TIM2 slave configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00096",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "● TIM2 is used in one-pulse mode, so there are three steps of configuration:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00097",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "– the input capture module"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00098",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "– the output compare module and the trigger controller"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00099",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "– and the synchronization part"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00100",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "● to configure the TIM2 timer the user has to:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00101",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "– map TRC onto TIx by writing $\\mathsf { C C X S } = \" 1 1 \"$ into the TIMx\\_CCMRx register"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00102",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "– configure ITR2 as the trigger for the slave mode controller (TRGI) by writing ${ \\mathsf { T } } { \\mathsf { S } } = { \\mathsf { \\bar { \\Omega } } } 0 1 0 ^ { \\mathsf { \\prime } }$ in the TIMx\\_SMCR register"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00103",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "use the trigger mode as the slave mode by writing SMS to $\\because 1 1 0 ^ { \\prime }$ in the TIMx\\_SMCR register: the counter start is controlled by the master"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00104",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "configure the output compare mode by setting the right combination of the OCxM bits in the TIMx\\_CCMRx register (OCxM can be set to '000', '001', '010' or '011'). The CCRx register must be loaded with the MSB or the LSB part"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00105",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "– set the prescaler value"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00106",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "一 select the output pin by configuring the CCxS bits in the TIMx\\_CCMRx register"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00107",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "enable the one-pulse mode by setting the bit OPM in the TIMx\\_CR1 register. This causes the counter to stop at the next update event. So the counter start is controlled by the master but the stop is controlled by the counter itself."
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00108",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "3.2 Output compare mode configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00109",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "3.2.1 Output compare active mode example"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00110",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "Master configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00111",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "TIM3 is used as the master timer in output compare active mode. TIM3CLK is equal to 72 MHz, no prescaler is used, so the TIM3 counter clock is equal to:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00112",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "$$\n\\mathsf { T I M 3 ~ c o u n t e r ~ c l o c k } = \\mathsf { T I M 3 C L K } / ( \\mathsf { p r e s c a l e r } + 1 ) = 7 2 ~ \\mathsf { M H } z\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00113",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "TIM3 generates the LSB part of the 32 bit output compare delay, and this delay value is loaded into the CCR1 register."
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00114",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "Slave configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00115",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "TIM2 is used as the slave timer in one-pulse mode as described below:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00116",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "channel1, channel2 and channel3 are used in output compare active mode. The corresponding CCRx registers are loaded with the MSB part"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00117",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "● channel4 is used in input capture mode: CC4S is connected to TRC"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00118",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "● the prescaler is set to 0xFFFF"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00119",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "● the trigger mode is used as the slave mode"
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00120",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "TIM2 is a slave for TIM3 so ITR2 is used as the internal trigger $( \\mathsf { T S } = \\mathsf { \\cdot } 0 1 0 ^ { \\mathsf { \\prime } }$ in TIM2\\_SMCR register)."
+  },
+  {
+    "segment_id": "stm32-an2592-p0011-text-00121",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 11,
+    "text": "In one-pulse mode, the edge detection on TIM2 IC4 (TRC) sets the TIM2 counter enable (CEN) bit, which enables the counter."
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00122",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "When a match is found between the capture/compare register and the counter, the output compare function assigns the corresponding output pin with a programmable value determined by the output compare mode and the output polarity. In this example, after the programmed delays, the TIM2 pins are set to their active mode."
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00123",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "In this example, the three capture compare register values are TIM2\\_CCR1 = MSB1 = 0xC000, TIM2\\_CCR2 = MSB2 = 0xA000 and TIM2\\_CCR3 = MSB3 = 0x8000, respectively. TIM3\\_CCR1 = LSB = 0x8534."
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00124",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "The equations of the TIM2 output compare delays are given below and shown in Figure 4."
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00125",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "$\\mathsf { C C 1 \\mathsf { d e l a y } } = \\frac { \\mathsf { M S B 1 } \\times 6 5 5 3 6 + \\mathsf { L S B } } { 7 2 \\times 1 0 ^ { 6 } }$ , which gives . CC1 delay 44.74 s ="
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00126",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "$\\mathsf { C C 2 } \\mathsf { d e l a y } = \\frac { \\mathsf { M S B 2 } \\times 6 5 5 3 6 + \\mathsf { L S B } } { 7 2 \\times 1 0 ^ { 6 } }$ , which gives .CC2 delay 37.28 s ="
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00127",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "$$\n\\mathrm { C C 3 \\ d e l a y = \\frac { M S B 3 \\times 6 S 5 3 6 + L S B } { 7 2 \\times 1 0 ^ { 6 } } , w h i c h \\ g i v e s \\ C C 3 \\ d e l a y = 2 9 . 8 2 \\ s i m a l l a y }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00128",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "The same configuration steps are used for the output compare inactive mode. The user only needs to place TIM2 in output compare inactive mode instead of output compare active mode, and then to go through the same steps."
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-text-00129",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "text": "Figure 4 shows the three signals."
+  },
+  {
+    "segment_id": "stm32-an2592-p0012-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2592",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_figure_p0012_00004.png",
+    "caption": "**Figure 4. TIM2 output signals** — four-channel oscilloscope capture.\n\n- Oscilloscope display label: **Tek PreVu**\n- Four traces are shown, identified by colored channel markers at the left:\n  - **Ch1** (yellow)\n  - **Ch2** (cyan)\n  - **Ch3** (magenta)\n  - **Ch4** (green)\n- The traces are vertically offset and show staggered digital-level transitions:\n  - Ch1 (yellow) transitions near the left side from a lower level to a higher level and then remains high.\n  - Ch2 (cyan) transitions near the middle of the display from a lower level to a higher level.\n  - Ch3 (magenta) transitions earlier than Ch2 from a lower level to a higher level.\n  - Ch4 (green) transitions earlier than Ch3 from a lower level to a higher level.\n- Right-side measurement annotations:\n  - **Ch2→Ch1** followed by an edge/transition symbol; **−44.74 s**; **Low signal amplitude**\n  - **Ch3→Ch1** followed by an edge/transition symbol; **−37.28 s**; **Low signal amplitude**\n  - **Ch4→Ch1** followed by an edge/transition symbol; **−29.82 s**; **Low signal amplitude**\n- Bottom oscilloscope settings:\n  - **Ch1 5.00 V**\n  - **Ch2 5.00 V**\n  - **Ch3 5.00 V**\n  - **Ch4 5.00 V**\n  - Main timebase: **M 10.0 s**\n  - Trigger indication: **A Ch1** with an edge symbol and **3.60 V**\n- The display contains a gridded time/voltage oscilloscope plot; no axis titles or numeric axis scales beyond the settings listed above are legible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. TIM2 output signals",
+    "generated_captions": {
+      "luna": "**Figure 4. TIM2 output signals** — four-channel oscilloscope capture.\n\n- Oscilloscope display label: **Tek PreVu**\n- Four traces are shown, identified by colored channel markers at the left:\n  - **Ch1** (yellow)\n  - **Ch2** (cyan)\n  - **Ch3** (magenta)\n  - **Ch4** (green)\n- The traces are vertically offset and show staggered digital-level transitions:\n  - Ch1 (yellow) transitions near the left side from a lower level to a higher level and then remains high.\n  - Ch2 (cyan) transitions near the middle of the display from a lower level to a higher level.\n  - Ch3 (magenta) transitions earlier than Ch2 from a lower level to a higher level.\n  - Ch4 (green) transitions earlier than Ch3 from a lower level to a higher level.\n- Right-side measurement annotations:\n  - **Ch2→Ch1** followed by an edge/transition symbol; **−44.74 s**; **Low signal amplitude**\n  - **Ch3→Ch1** followed by an edge/transition symbol; **−37.28 s**; **Low signal amplitude**\n  - **Ch4→Ch1** followed by an edge/transition symbol; **−29.82 s**; **Low signal amplitude**\n- Bottom oscilloscope settings:\n  - **Ch1 5.00 V**\n  - **Ch2 5.00 V**\n  - **Ch3 5.00 V**\n  - **Ch4 5.00 V**\n  - Main timebase: **M 10.0 s**\n  - Trigger indication: **A Ch1** with an edge symbol and **3.60 V**\n- The display contains a gridded time/voltage oscilloscope plot; no axis titles or numeric axis scales beyond the settings listed above are legible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00130",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "3.2.2 Output compare toggle mode example"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00131",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "Master configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00132",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "TIM3 is used as the master timer in output compare toggle mode. TIM3CLK is equal to 72 MHz, The prescaler is set to 0xFFFF."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00133",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "TIM3 generates the MSB part of the 32-bit output compare delay, and this delay value is loaded into the CCR1 register."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00134",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "Slave configuration"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00135",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "TIM2 is used as the slave timer in one-pulse mode as described below:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00136",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "channel 1, channel2 and channel3 are used in output compare toggle mode. The corresponding CCRx registers are loaded with the LSB part"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00137",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "● channel4 is used in input capture mode: CC4S is connected to TRC"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00138",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "● the prescaler is set to 0x0"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00139",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "● the trigger mode is used as the slave mode"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00140",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "TIM2 is a slave for TIM3 so ITR2 is used as the internal trigger (TS = ‘010’ in TIM2\\_SMCR register)."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00141",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "In one-pulse mode, the edge detection on TIM2 IC4 (TRC) sets the TIM2 counter enable (CEN) bit, which enables the counter."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00142",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "When a match is found between the capture/compare register and the counter, the output compare function assigns the corresponding output pin with a programmable value determined by the output compare mode and the output polarity. In this example, when the match is found between the counter and the TIM2\\_CCRx registers, the TIM2 pins toggle and capture compare interrupts are generated. In the corresponding routine, the TIM2\\_CCRx registers are updated in order to have three periodic signals with three different frequencies."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00143",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "In this example, the three capture compare register values are TIM2\\_CCR1 = LSB1 = 0x5FFF, TIM2\\_CCR2 = LSB2 = 0x9FFF and TIM2\\_CCR3 = LSB3 = 0xEFFF, respectively. TIM3\\_CCR1 = MSB = 0x1."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00144",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "$$\n\\mathsf { C C 1 } \\mathsf { d e l a y } = \\frac { \\mathsf { M S B } \\times 6 5 5 3 6 + \\mathsf { L S B } 1 } { 7 2 \\times 1 0 ^ { 6 } } , \\mathsf { w h i c h ~ g i v e s } \\colon \\mathsf { C C 1 } \\mathsf { d e l a y } = 1 . 2 5 \\mathsf { m s } .\n$$"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00145",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "CC2 delay = , which gives: .<sup>MSB</sup> <sup>65536</sup> <sup>LSB2</sup> <sup>×</sup> <sup>+</sup>----------------------------------------------------------- CC2 delay 1.48 ms = 72 10<sup>6</sup>×"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00146",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "CC3 delay = MSB 65536 LSB3× + , which gives: .CC3 delay 1.76 ms = 72 10<sup>6</sup>×"
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00147",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "Note: The same configuration steps are used for the output compare timing mode. The user only needs to place TIM2 in output compare timing mode instead of output compare toggle mode, and then to go through the same steps."
+  },
+  {
+    "segment_id": "stm32-an2592-p0013-text-00148",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 13,
+    "text": "Figure 5 shows the three signals."
+  },
+  {
+    "segment_id": "stm32-an2592-p0014-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2592",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_figure_p0014_00005.png",
+    "caption": "**Figure: TIM2 output signals** (oscilloscope capture; figure title itself is not visible in the crop)\n\n- Oscilloscope display labeled **“Tek PreVu”**.\n- Four traces are shown:\n  - **Channel 1 (yellow):** upper trace, largely steady at a high level after an initial transition.\n  - **Channel 2 (cyan):** recurring square-wave/pulse signal.\n  - **Channel 3 (magenta):** recurring square-wave/pulse signal.\n  - **Channel 4 (green):** recurring square-wave/pulse signal.\n- The waveforms are displayed against a graticule with multiple vertical and horizontal divisions. A vertical dashed cursor/marker is visible near the left side of the display.\n\n**Timing annotations at right:**\n- **“Ch2→Ch1”** followed by a rising-edge/slope symbol and **“−1.253ms”**; qualification: **“Low signal amplitude”**.\n- **“Ch3→Ch1”** followed by an edge/slope symbol and **“−1.480ms”**; qualification: **“Low signal amplitude”**.\n- **“Ch4→Ch1”** followed by a rising-edge/slope symbol and **“−1.767ms”**; qualification: **“Low signal amplitude”**.\n\n**Oscilloscope settings shown along the bottom:**\n- **Ch1 5.00 V**\n- **Ch2 5.00 V**\n- **Ch3 5.00 V**\n- **Ch4 5.00 V**\n- Horizontal timebase: **M 1.00ms**\n- Trigger: **A Ch1** with an edge/slope symbol, **4.00 V**\n\nThe screenshot does not show numeric voltage-axis values beyond the per-channel **5.00 V** settings.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. TIM2 output signals\nFigure 6 shows the maximum delay with the following configuration: MSB = LSB1 = 0xFFFF.",
+    "generated_captions": {
+      "luna": "**Figure: TIM2 output signals** (oscilloscope capture; figure title itself is not visible in the crop)\n\n- Oscilloscope display labeled **“Tek PreVu”**.\n- Four traces are shown:\n  - **Channel 1 (yellow):** upper trace, largely steady at a high level after an initial transition.\n  - **Channel 2 (cyan):** recurring square-wave/pulse signal.\n  - **Channel 3 (magenta):** recurring square-wave/pulse signal.\n  - **Channel 4 (green):** recurring square-wave/pulse signal.\n- The waveforms are displayed against a graticule with multiple vertical and horizontal divisions. A vertical dashed cursor/marker is visible near the left side of the display.\n\n**Timing annotations at right:**\n- **“Ch2→Ch1”** followed by a rising-edge/slope symbol and **“−1.253ms”**; qualification: **“Low signal amplitude”**.\n- **“Ch3→Ch1”** followed by an edge/slope symbol and **“−1.480ms”**; qualification: **“Low signal amplitude”**.\n- **“Ch4→Ch1”** followed by a rising-edge/slope symbol and **“−1.767ms”**; qualification: **“Low signal amplitude”**.\n\n**Oscilloscope settings shown along the bottom:**\n- **Ch1 5.00 V**\n- **Ch2 5.00 V**\n- **Ch3 5.00 V**\n- **Ch4 5.00 V**\n- Horizontal timebase: **M 1.00ms**\n- Trigger: **A Ch1** with an edge/slope symbol, **4.00 V**\n\nThe screenshot does not show numeric voltage-axis values beyond the per-channel **5.00 V** settings."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0014-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2592",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_figure_p0014_00006.png",
+    "caption": "Figure 6, “TIM2 Channel1 output signal” — oscilloscope capture.\n\n- Oscilloscope status: **Tek Stop**\n- Two displayed traces:\n  - **Ch1**, yellow, channel marker **1**\n  - **Ch2**, cyan, channel marker **2**\n- Waveform behavior:\n  - Ch1 begins at a lower level on the left and transitions upward near the left side of the graticule, remaining at the higher level across most of the display.\n  - Ch2 is at an upper level initially, transitions downward near the same left-side time position, remains low for most of the display, then transitions upward near the right-center.\n- Right-side on-screen timing readout: **Ch2→Ch1** and **−59.65 s**. Additional slope/edge symbols are displayed beside the channel names.\n- Bottom oscilloscope settings:\n  - **Ch1 2.00 V**\n  - **Ch2 2.00 V**\n  - **M 10.0 s**\n  - **A Ch1** with an edge/slope trigger symbol and **4.00 V**\n- The display shows a black graticule with yellow and cyan grid markings, vertical cursor/marker lines, and an orange trigger-position marker at the top.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. TIM2 Channel1 output signal",
+    "generated_captions": {
+      "luna": "Figure 6, “TIM2 Channel1 output signal” — oscilloscope capture.\n\n- Oscilloscope status: **Tek Stop**\n- Two displayed traces:\n  - **Ch1**, yellow, channel marker **1**\n  - **Ch2**, cyan, channel marker **2**\n- Waveform behavior:\n  - Ch1 begins at a lower level on the left and transitions upward near the left side of the graticule, remaining at the higher level across most of the display.\n  - Ch2 is at an upper level initially, transitions downward near the same left-side time position, remains low for most of the display, then transitions upward near the right-center.\n- Right-side on-screen timing readout: **Ch2→Ch1** and **−59.65 s**. Additional slope/edge symbols are displayed beside the channel names.\n- Bottom oscilloscope settings:\n  - **Ch1 2.00 V**\n  - **Ch2 2.00 V**\n  - **M 10.0 s**\n  - **A Ch1** with an edge/slope trigger symbol and **4.00 V**\n- The display shows a black graticule with yellow and cyan grid markings, vertical cursor/marker lines, and an orange trigger-position marker at the top."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0015-text-00149",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 15,
+    "text": "4 Revision history"
+  },
+  {
+    "segment_id": "stm32-an2592-p0015-table-00001",
+    "type": "table",
+    "doc": "stm32-an2592",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2592/mineru/images/bbox_fallback_table_p0015_00001.png",
+    "caption": "**Table 1. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 31-Aug-2007 | 1 | Initial release. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 1. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 31-Aug-2007 | 1 | Initial release. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00150",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00151",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00152",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00153",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00154",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00155",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00156",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00157",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00158",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00159",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00160",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00161",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "© 2007 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00162",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00163",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2592-p0016-text-00164",
+    "type": "text",
+    "doc": "stm32-an2592",
+    "page": 16,
+    "text": "www.st.com"
+  }
+]

@@ -1,0 +1,1741 @@
+{
+  "case": {
+    "id": "timer-linking",
+    "question": "How does the AN2592 timer-linking technique obtain 32-bit resolution, and how does it map to the timer control described in RM0008?",
+    "candidate_source_documents": [
+      "AN2592",
+      "RM0008"
+    ],
+    "ground_truth_answer": null,
+    "requires_visual": null,
+    "status": "candidate_requires_source_review_not_scored",
+    "mode": "text_only"
+  },
+  "request": {
+    "message": "How does the AN2592 timer-linking technique obtain 32-bit resolution, and how does it map to the timer control described in RM0008?",
+    "mode": "text_only",
+    "doc": "stm32-ds5319",
+    "scope": "collection",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:49:32.950987+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "AN2592 STM32F101/F103 32-bit timer resolution timer linking technique and RM0008 timer control configuration",
+      "page": null,
+      "confidence": 0.99,
+      "reason": "Asks about listed STM32 timer application note and reference manual mapping",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.7335192561149597,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-an2592-p0001-text-chunk-000",
+          "doc": "stm32-an2592",
+          "doc_title": "AN2592 (rev 1) — 32-bit timer resolution using STM32F101/F103 timer linking",
+          "page": 1,
+          "type": "text",
+          "score": 0.7335192561149597,
+          "text": "How to achieve 32-bit timer resolution using the link system in STM32F101xx and STM32F103xx microcontrollers\n\nIntroduction\n\nIn many applications, 32-bit resolution is required to measure external signal periods of up to several hundreds of seconds or, to generate delays or periodic signals with large periods.\n\nThe STM32F101xx and STM32F103xx microcontrollers offer the possibility of chaining two 16-bit timers to obtain a 32-bit resolution based on a specific configuration of the timers and on the use of the timer link system.\n\nThis application note gives general guidelines to emulate a 32-bit timer. The two basic operating modes, that is the input capture mode and the output compare mode, are presented. Each mode is treated independently and, each time, examples of applications are provided.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2592/1",
+          "bbox": null
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-rm0008-p0292-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 292,
+          "type": "text",
+          "score": 0.6084537506103516,
+          "text": "14 Advanced-control timers (TIM1 and TIM8)\n\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes.\n\nMedium-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes.\n\nHigh-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes.\n\nXL-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 768 Kbytes and 1 Mbyte.\n\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\n\nLow- and medium-density STM32F103xx devices, and the STM32F105xx/STM32F107xx connectivity line devices, contain one advanced-control timer (TIM1) whereas high-density and XL-density STM32F103xx devices feature two advance-control timers (TIM1 and TIM8).\n\n14.1 TIM1 and TIM8 introduction\n\nThe advanced-control timers (TIM1 and TIM8) consist of a 16-bit auto-reload counter driven by a programmable prescaler.\n\nIt may be used for a variety of purposes, including measuring the pulse lengths of input signals (input capture) or generating output waveforms (output compare, PWM, complementary PWM with dead-time insertion).\n\nPulse lengths and waveform periods can be modulated from a few microseconds to several milliseconds using the timer prescaler and the RCC clock controller prescalers.\n\nThe advanced-control (TIM1 and TIM8) and general-purpose (TIMx) timers are completely independent, and do not share any resources. They can be synchronized together as described in Section 14.3.20.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/292",
+          "bbox": null
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-an2592-p0002-text-chunk-000",
+          "doc": "stm32-an2592",
+          "doc_title": "AN2592 (rev 1) — 32-bit timer resolution using STM32F101/F103 timer linking",
+          "page": 2,
+          "type": "text",
+          "score": 0.6964571475982666,
+          "text": "Contents\n\n1 STM32F10xxx timer synchronization 4   \n1.1 Timer link system presentation . 4   \n1.2 How to synchronize two timers using the link system 4   \n2 32-bit input capture timer resolution . . . 6   \n2.1 Principle 6   \n2.2 Timer configuration 6   \n2.2.1 TIM3 master configuration   \n2.2.2 TIM2 slave configuration . 8   \n2.2.3 Master and slave synchronization . 8   \n3 32-bit output compare timer resolution . 9   \n3.1 Principle and timer configuration 9   \n3.2 Output compare mode configuration 11   \n3.2.1 Output compare active mode example . 11   \n3.2.2 Output compare toggle mode example . 13   \n4 Revision history . 15",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2592/2",
+          "bbox": null
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-rm0008-p0011-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 11,
+          "type": "text",
+          "score": 0.5667886734008789,
+          "text": "14.3.18 Interfacing with Hall sensors 332   \n14.3.19 TIMx and external trigger synchronization 334   \n14.3.20 Timer synchronization 337   \n14.3.21 Debug mode 337   \n14.4 TIM1 and TIM8 registers 338   \n14.4.1 TIM1 and TIM8 control register 1 (TIMx\\_CR1) 338   \n14.4.2 TIM1 and TIM8 control register 2 (TIMx\\_CR2) .339   \n14.4.3 TIM1 and TIM8 slave mode control register (TIMx\\_SMCR) .342   \n14.4.4 TIM1 and TIM8 DMA/interrupt enable register (TIMx\\_DIER) .344   \n14.4.5 TIM1 and TIM8 status register (TIMx\\_SR) .346   \n14.4.6 TIM1 and TIM8 event generation register (TIMx\\_EGR) .347   \n14.4.7 TIM1 and TIM8 capture/compare mode register 1 (TIMxCCMR1) ..349   \n14.4.8 TIM1 and TIM8 capture/compare mode register 2 (TIMx\\_CCMR2) ..351   \n14.4.9 TIM1 and TIM8 capture/compare enable register (TIMx\\_CCER) ....353   \n14.4.10 TIM1 and TIM8 counter (TIMx CNT) .356   \n14.4.11 TIM1 and TIM8 prescaler (TIMx\\_PSC) 356   \n14.4.12 TIM1 and TIM8 auto-reload register (TIMx\\_ARR) 356   \n14.4.13 TIM1 and TIM8 repetition counter register (TIMx\\_RCR) .357   \n14.4.14 TIM1 and TIM8 capture/compare register 1 (TIMx\\_CCR1) .357   \n14.4.15 TIM1 and TIM8 capture/compare register 2 (TIMx\\_CCR2) .358   \n14.4.16 TIM1 and TIM8 capture/compare register 3 (TIMx\\_CCR3) .358   \n14.4.17 TIM1 and TIM8 capture/compare register 4 (TIMx CCR4) .359   \n14.4.18 TIM1 and TIM8 break and dead-time register (TIMx\\_BDTR) .359   \n14.4.19 TIM1 and TIM8 DMA control register (TIMx\\_DCR) .361   \n14.4.20 TIM1 and TIM8 DMA address for full transfer (TIMx\\_DMAR) .362   \n14.4.21 TIM1 and TIM8 register map 363   \nGeneral-purpose timers (TIM2 to TIM5) . . .365   \n15.1 TIM2 to TIM5 introduction 365   \n15.2 TIMx main features 366   \n15.3 TIMx functional description 368   \n15.3.1 Time-base unit .368   \n15.3.2 Counter modes .369   \n15.3.3 Clock selection .379   \n15.3.4 Capture/compare channels 382   \n15.3.5 Input capture mode 384   \n15.3.6 PWM input mode 385   \nRM0008 Rev 20 11/1134   \n15.3.7Forced output mode .386   \n15.3.8 Output compare mode .386   \n15.3.9 PWM mode 387   \n15.3.10 One-pulse mode .390   \n15.3.11 Clearing the OCxREF signal on an external event .391   \n15.3.12 Encoder interface mode .392   \n15.3.13 Timer input XOR function .395   \n15.3.14 Timers and external trigger synchronization .395   \n15.3.15Timer synchronization .398   \n15.3.16 Debug mode .403   \n15.4 TIMx registers 404   \n15.4.1 TIMx control register 1 (TIMx\\_CR1) .404   \n15.4.2 TIMx control register 2 (TIMx\\_CR2) .406   \n15.4.3 TIMx slave mode control register (TIMx\\_SMCR) .407   \n15.4.4 TIMx DMA/Interrupt enable register (TIMx\\_DIER) .409   \n15.4.5 TIMx status register (TIMx\\_SR) .410   \n15.4.6 TIMx event generation register (TIMx\\_EGR) .412   \n15.4.7 TIMx capture/compare mode register 1 (TIMx\\_CCMR1) .413   \n15.4.8 TIMx capture/compare mode register 2 (TIMx\\_CCMR2) ..416   \n15.4.9 TIMx capture/compare enable register (TIMx\\_CCER) .417   \n15.4.10 TIMx counter (TIMx\\_CNT) .418   \n15.4.11 TIMx prescaler (TIMx PSC) .418   \n15.4.12 TIMx auto-reload register (TIMx\\_ARR) .419   \n15.4.13 TIMx capture/compare register 1 (TIMx\\_CCR1) .419   \n15.4.14 TIMx capture/compare register 2 (TIMx\\_CCR2)",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/11",
+          "bbox": null
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-an2592-p0004-text-chunk-000",
+          "doc": "stm32-an2592",
+          "doc_title": "AN2592 (rev 1) — 32-bit timer resolution using STM32F101/F103 timer linking",
+          "page": 4,
+          "type": "text",
+          "score": 0.6733012795448303,
+          "text": "STM32F10xxx timer synchronization\n\n1.1 Timer link system presentation\n\nIn the STM32F101xx and STM32F103xx microcontrollers, the embedded timers can be linked together for timer synchronization or chaining purposes.\n\nUsing the timer link system, a timer configured in Master mode can:\n\n● reset the counter of the slave timer\n\n● start and/or stop the slave timer counter\n\n● clock the slave timer counter\n\n1.2 How to synchronize two timers using the link system\n\nIn addition to the TIMx\\_CHx pins, timers have several internal triggers that are indispensable for linking and chaining operation.\n\nFigure 1 shows a simplified representation of the timer block, that highlights the internal triggers. TIM2 is used as an example.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2592/4",
+          "bbox": null
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-rm0008-p0295-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 295,
+          "type": "text",
+          "score": 0.5665441751480103,
+          "text": "14.3 TIM1 and TIM8 functional description\n\n14.3.1Time-base unit\n\nThe main block of the programmable advanced-control timer is a 16-bit counter with its related auto-reload register. The counter can count up, down or both up and down. The counter clock can be divided by a prescaler.\n\nThe counter, the auto-reload register and the prescaler register can be written or read by software. This is true even when the counter is running.\n\nThe time-base unit includes:\n\n• Counter register (TIMx\\_CNT)\n\n• Prescaler register (TIMx\\_PSC)\n\n• Auto-reload register (TIMx\\_ARR)\n\n• Repetition counter register (TIMx\\_RCR)\n\nThe auto-reload register is preloaded. Writing to or reading from the auto-reload register accesses the preload register. The content of the preload register are transferred into the shadow register permanently or at each update event (UEV), depending on the auto-reload preload enable bit (ARPE) in TIMx\\_CR1 register. The update event is sent when the counter reaches the overflow (or underflow when downcounting) and if the UDIS bit equals 0 in the TIMx\\_CR1 register. It can also be generated by software. The generation of the update event is described in detailed for each configuration.\n\nThe counter is clocked by the prescaler output CK\\_CNT, which is enabled only when the counter enable bit (CEN) in TIMx CR1 register is set (refer also to the slave mode controller description to get more details on counter enabling).\n\nNote that the counter starts counting 1 clock cycle after setting the CEN bit in the TIMx\\_CR1 register.\n\nPrescaler description\n\nThe prescaler can divide the counter clock frequency by any factor between 1 and 65536. It is based on a 16-bit counter controlled through a 16-bit register (in the TIMx\\_PSC register). It can be changed on the fly as this control register is buffered. The new prescaler ratio is taken into account at the next update event.\n\nFigure 53 and Figure 54 give some examples of the counter behavior when the prescaler ratio is changed on the fly:",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/295",
+          "bbox": null
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-ds5319-p0018-text-chunk-000",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 18,
+          "type": "text",
+          "score": 0.585820198059082,
+          "text": "Advanced-control timer (TIM1)\n\nThe advanced-control timer (TIM1) can be seen as a three-phase PWM multiplexed on 6 channels. It has complementary PWM outputs with programmable inserted dead-times. It can also be seen as a complete general-purpose timer. The 4 independent channels can be used for\n\n• Input capture\n\n• Output compare\n\n• PWM generation (edge- or center-aligned modes)\n\n• One-pulse mode output\n\nIf configured as a general-purpose 16-bit timer, it has the same features as the TIMx timer. If configured as the 16-bit PWM generator, it has full modulation capability (0-100%).\n\nIn debug mode, the advanced-control timer counter can be frozen and the PWM outputs disabled to turn off any power switch driven by these outputs.\n\nMany features are shared with those of the general-purpose TIM timers which have the same architecture. The advanced-control timer can therefore work together with the TIM timers via the Timer Link feature for synchronization or event chaining.\n\nGeneral-purpose timers (TIMx)\n\nThere are up to three synchronizable general-purpose timers embedded in the STM32F103xx performance line devices. These timers are based on a 16-bit auto-reload up/down counter, a 16-bit prescaler and feature four independent channels each for input capture/output compare, PWM or one-pulse mode output. This gives up to 12 input captures/output compares/PWMs on the largest packages.\n\nThe general-purpose timers can work together with the advanced-control timer via the Timer Link feature for synchronization or event chaining. Their counter can be frozen in debug mode. Any of the general-purpose timers can be used to generate PWM outputs. They all have independent DMA request generation.\n\nThese timers are capable of handling quadrature (incremental) encoder signals and the digital outputs from one to three Hall-effect sensors.\n\nIndependent watchdog\n\nThe independent watchdog is based on a 12-bit downcounter and 8-bit prescaler. It is clocked from an independent 40 kHz internal RC and as it operates independently of the main clock, it can operate in Stop and Standby modes. It can be used either as a watchdog to reset the device when a problem occurs, or as a free-running timer for application timeout management. It is hardware- or software-configurable through the option bytes. The counter can be frozen in debug mode.\n\nWindow watchdog\n\nThe window watchdog is based on a 7-bit downcounter that can be set as free-running. It can be used as a watchdog to reset the device when a problem occurs. It is clocked from the main clock. It has an early warning interrupt capability and the counter can be frozen in debug mode.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-ds5319/18",
+          "bbox": null
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-an2821-p0001-text-chunk-000",
+          "doc": "stm32-an2821",
+          "doc_title": "AN2821 (rev 2) — STM32F10xxx RTC clock/calendar implementation",
+          "page": 1,
+          "type": "text",
+          "score": 0.5428534746170044,
+          "text": "Clock/calendar implementation on the STM32F10xxx microcontroller RTC\n\nThe internal RTC (real-time clock) of the 32-bit, ARM® Cortex™-M3-based medium-density STM32F10xxx microcontroller is an independent timer. It provides a set of continuously running counters, which, using suitable software, can be used to implement a clock/calendar function. The RTC and backup registers are supplied through a switch that draws power from either the $\\mathsf { V } _ { \\mathsf { D D } }$ supply (when present) or the backup battery. Thus the RTC runs even when the main supply is switched off.\n\nThis application note gives an example of how to implement the clock/calendar functionality using the medium-density STM32F10xxx microcontroller in low-power and standard applications. The firmware example also performs leap year counting and tamper time stamping. It provides a low-power mode demonstration and a basic RTC calibration routine to compensate for crystal and temperature variations.\n\nThe STM3210B-EVAL board supports the firmware example described in this application note without any modification to its hardware.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2821/1",
+          "bbox": null
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "259"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": " obtains"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " resolution"
+    },
+    {
+      "type": "token",
+      "text": " by"
+    },
+    {
+      "type": "token",
+      "text": " cascading"
+    },
+    {
+      "type": "token",
+      "text": " two"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " timers"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " hardware"
+    },
+    {
+      "type": "token",
+      "text": ":"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "master"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " low"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " counter"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " each"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " overflow"
+    },
+    {
+      "type": "token",
+      "text": " clocks"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "slave"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " which"
+    },
+    {
+      "type": "token",
+      "text": " forms"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " high"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": " bits"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " combined"
+    },
+    {
+      "type": "token",
+      "text": " count"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " therefore"
+    },
+    {
+      "type": "token",
+      "text": " concept"
+    },
+    {
+      "type": "token",
+      "text": "ually"
+    },
+    {
+      "type": "token",
+      "text": " `("
+    },
+    {
+      "type": "token",
+      "text": "slave"
+    },
+    {
+      "type": "token",
+      "text": " CNT"
+    },
+    {
+      "type": "token",
+      "text": " <<"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": ")"
+    },
+    {
+      "type": "token",
+      "text": " |"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " CNT"
+    },
+    {
+      "type": "token",
+      "text": "`;"
+    },
+    {
+      "type": "token",
+      "text": " no"
+    },
+    {
+      "type": "token",
+      "text": " native"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " timer"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " created"
+    },
+    {
+      "type": "token",
+      "text": "—the"
+    },
+    {
+      "type": "token",
+      "text": " Timer"
+    },
+    {
+      "type": "token",
+      "text": " Link"
+    },
+    {
+      "type": "token",
+      "text": " system"
+    },
+    {
+      "type": "token",
+      "text": " makes"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " two"
+    },
+    {
+      "type": "token",
+      "text": " counters"
+    },
+    {
+      "type": "token",
+      "text": " behave"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " one"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "259"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": " applies"
+    },
+    {
+      "type": "token",
+      "text": " this"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " both"
+    },
+    {
+      "type": "token",
+      "text": " input"
+    },
+    {
+      "type": "token",
+      "text": " capture"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " output"
+    },
+    {
+      "type": "token",
+      "text": " compare"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " its"
+    },
+    {
+      "type": "token",
+      "text": " input"
+    },
+    {
+      "type": "token",
+      "text": "-c"
+    },
+    {
+      "type": "token",
+      "text": "apture"
+    },
+    {
+      "type": "token",
+      "text": " example"
+    },
+    {
+      "type": "token",
+      "text": " using"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " TIM"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "In"
+    },
+    {
+      "type": "token",
+      "text": " RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " terminology"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " configuration"
+    },
+    {
+      "type": "token",
+      "text": " maps"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " follows"
+    },
+    {
+      "type": "token",
+      "text": ":\n\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " timer"
+    },
+    {
+      "type": "token",
+      "text": " runs"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " its"
+    },
+    {
+      "type": "token",
+      "text": " normal"
+    },
+    {
+      "type": "token",
+      "text": " time"
+    },
+    {
+      "type": "token",
+      "text": " base"
+    },
+    {
+      "type": "token",
+      "text": " using"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_P"
+    },
+    {
+      "type": "token",
+      "text": "SC"
+    },
+    {
+      "type": "token",
+      "text": "`,"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_"
+    },
+    {
+      "type": "token",
+      "text": "ARR"
+    },
+    {
+      "type": "token",
+      "text": "`,"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_CNT"
+    },
+    {
+      "type": "token",
+      "text": "`;"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " overflow"
+    },
+    {
+      "type": "token",
+      "text": " produces"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "update"
+    },
+    {
+      "type": "token",
+      "text": " event"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " Master"
+    },
+    {
+      "type": "token",
+      "text": "-mode"
+    },
+    {
+      "type": "token",
+      "text": " control"
+    },
+    {
+      "type": "token",
+      "text": " routes"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " event"
+    },
+    {
+      "type": "token",
+      "text": " onto"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " internal"
+    },
+    {
+      "type": "token",
+      "text": " trigger"
+    },
+    {
+      "type": "token",
+      "text": " through"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_CR"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "`.\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_SM"
+    },
+    {
+      "type": "token",
+      "text": "CR"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": " selects"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " internal"
+    },
+    {
+      "type": "token",
+      "text": " trigger"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": " clock"
+    },
+    {
+      "type": "token",
+      "text": "ing"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " one"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " rollover"
+    },
+    {
+      "type": "token",
+      "text": " increments"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "259"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": " notes"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " linked"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " can"
+    },
+    {
+      "type": "token",
+      "text": " clock"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " reset"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " start"
+    },
+    {
+      "type": "token",
+      "text": "/"
+    },
+    {
+      "type": "token",
+      "text": "stop"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_C"
+    },
+    {
+      "type": "token",
+      "text": "CM"
+    },
+    {
+      "type": "token",
+      "text": "R"
+    },
+    {
+      "type": "token",
+      "text": "`,"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_CC"
+    },
+    {
+      "type": "token",
+      "text": "ER"
+    },
+    {
+      "type": "token",
+      "text": "`,"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_C"
+    },
+    {
+      "type": "token",
+      "text": "CR"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": " provide"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " capture"
+    },
+    {
+      "type": "token",
+      "text": "/"
+    },
+    {
+      "type": "token",
+      "text": "compare"
+    },
+    {
+      "type": "token",
+      "text": " portion"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " while"
+    },
+    {
+      "type": "token",
+      "text": " `"
+    },
+    {
+      "type": "token",
+      "text": "TIM"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "_CR"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": ".C"
+    },
+    {
+      "type": "token",
+      "text": "EN"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": " enables"
+    },
+    {
+      "type": "token",
+      "text": " counting"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " documents"
+    },
+    {
+      "type": "token",
+      "text": " these"
+    },
+    {
+      "type": "token",
+      "text": " under"
+    },
+    {
+      "type": "token",
+      "text": " general"
+    },
+    {
+      "type": "token",
+      "text": "-purpose"
+    },
+    {
+      "type": "token",
+      "text": " timer"
+    },
+    {
+      "type": "token",
+      "text": " synchronization"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " timer"
+    },
+    {
+      "type": "token",
+      "text": " register"
+    },
+    {
+      "type": "token",
+      "text": " set"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "Thus"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " key"
+    },
+    {
+      "type": "token",
+      "text": " mapping"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "259"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": " “"
+    },
+    {
+      "type": "token",
+      "text": "timer"
+    },
+    {
+      "type": "token",
+      "text": " linking"
+    },
+    {
+      "type": "token",
+      "text": "”"
+    },
+    {
+      "type": "token",
+      "text": " ="
+    },
+    {
+      "type": "token",
+      "text": " RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " trigger"
+    },
+    {
+      "type": "token",
+      "text": " output"
+    },
+    {
+      "type": "token",
+      "text": " plus"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": "-mode"
+    },
+    {
+      "type": "token",
+      "text": " controller"
+    },
+    {
+      "type": "token",
+      "text": "/internal"
+    },
+    {
+      "type": "token",
+      "text": "-trigger"
+    },
+    {
+      "type": "token",
+      "text": " selection"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " exact"
+    },
+    {
+      "type": "token",
+      "text": " internal"
+    },
+    {
+      "type": "token",
+      "text": "-trigger"
+    },
+    {
+      "type": "token",
+      "text": " route"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " available"
+    },
+    {
+      "type": "token",
+      "text": " timer"
+    },
+    {
+      "type": "token",
+      "text": " pairing"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " checked"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " selected"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "/x"
+    },
+    {
+      "type": "token",
+      "text": "B"
+    },
+    {
+      "type": "token",
+      "text": " provides"
+    },
+    {
+      "type": "token",
+      "text": " synchron"
+    },
+    {
+      "type": "token",
+      "text": "izable"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": "-bit"
+    },
+    {
+      "type": "token",
+      "text": " timers"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " explicitly"
+    },
+    {
+      "type": "token",
+      "text": " supports"
+    },
+    {
+      "type": "token",
+      "text": " Timer"
+    },
+    {
+      "type": "token",
+      "text": " Link"
+    },
+    {
+      "type": "token",
+      "text": " synchronization"
+    },
+    {
+      "type": "token",
+      "text": "/event"
+    },
+    {
+      "type": "token",
+      "text": " chaining"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "done",
+      "answer": "AN2592 obtains 32-bit resolution by cascading two 16-bit timers in hardware: the **master** is the low 16-bit counter, and each master overflow clocks the **slave**, which forms the high 16 bits. The combined count is therefore conceptually `(slave CNT << 16) | master CNT`; no native 32-bit timer is created—the Timer Link system makes the two counters behave as one. AN2592 applies this to both input capture and output compare, with its input-capture example using **TIM3 as master and TIM2 as slave**.[S1][S3]\n\nIn RM0008 terminology, the configuration maps as follows:\n\n- The master timer runs from its normal time base using `TIMx_PSC`, `TIMx_ARR`, and `TIMx_CNT`; an overflow produces an **update event**.[S6]\n- Master-mode control routes that event onto an internal trigger through `TIMx_CR2`.\n- The slave’s `TIMx_SMCR` selects that internal trigger and a slave clocking mode, so one master rollover increments the slave. AN2592 notes that a linked master can clock, reset, or start/stop the slave.[S5]\n- `TIMx_CCMR`, `TIMx_CCER`, and `TIMx_CCR` provide the capture/compare portion, while `TIMx_CR1.CEN` enables counting. RM0008 documents these under general-purpose timer synchronization and the timer register set.[S4][S6]\n\nThus the key mapping is **AN2592 “timer linking” = RM0008 master trigger output plus slave-mode controller/internal-trigger selection**. The exact internal-trigger route and available timer pairing must be checked for the selected STM32F103 device; the STM32F103x8/xB provides synchronizable 16-bit timers and explicitly supports Timer Link synchronization/event chaining.[S7]",
+      "cited": [
+        "S1",
+        "S3",
+        "S6",
+        "S5",
+        "S4",
+        "S7"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 3202,
+        "retrieve": 719,
+        "first_token": 19915,
+        "total": 20428
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 20.45
+}

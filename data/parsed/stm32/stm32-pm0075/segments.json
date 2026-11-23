@@ -1,0 +1,2486 @@
+[
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "STM32F10xxx Flash memory microcontrollers"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "This programming manual describes how to program the Flash memory of STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and STM32F107xx microcontrollers. For convenience, these will be referred to as STM32F10xxx in the rest of this document unless otherwise specified."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "The STM32F10xxx embedded Flash memory can be programmed using in-circuit programming or in-application programming."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "The in-circuit programming (ICP) method is used to update the entire contents of the Flash memory, using the JTAG, SWD protocol or the boot loader to load the user application into the microcontroller. ICP offers quick and efficient design iterations and eliminates unnecessary package handling or socketing of devices."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "In contrast to the ICP method, in-application programming (IAP) can use any communication interface supported by the microcontroller (I/Os, USB, CAN, UART, I²C, SPI, etc.) to download programming data into memory. IAP allows the user to re-program the Flash memory while the application is running. Nevertheless, part of the application has to have been previously programmed in the Flash memory using ICP."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "The Flash interface implements instruction access and data access based on the AHB protocol. It implements a prefetch buffer that speeds up CPU code execution. It also implements the logic necessary to carry out Flash memory operations (Program/Erase). Program/Erase operations can be performed over the whole product voltage range. Read/Write protections and option bytes are also implemented."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "text": "Table 1 lists the microcontrollers and evaluation tool concerned by this programming manual."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0001-table-00001",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 1,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0001_00001.png",
+    "caption": "**Table 1. Applicable products**\n\n| Type | Applicable products |\n|---|---|\n| Microcontrollers | STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and STM32F107xx microcontrollers |\n| Evaluation tool | STM3210C-EVAL evaluation board |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Applicable products",
+    "generated_captions": {
+      "luna": "**Table 1. Applicable products**\n\n| Type | Applicable products |\n|---|---|\n| Microcontrollers | STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and STM32F107xx microcontrollers |\n| Evaluation tool | STM3210C-EVAL evaluation board |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0002-text-00009",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0002-text-00010",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 2,
+    "text": "1 Overview 6   \n1.1 Features 6   \n1.2 Flash module organization 6   \n2 Reading/programming the embedded Flash memory . 11   \n2.1 Introduction 11   \n2.2 Read operation 11   \n2.2.1 Instruction fetch 11   \n2.2.2 D-Code interface .12   \n2.2.3 Flash access controller .12   \n2.3 Flash program and erase controller (FPEC) 12   \n2.3.1 Key values .12   \n2.3.2 Unlocking the Flash memory .13   \n2.3.3 Main Flash memory programming . . .13   \n2.3.4 Flash memory erase 14   \n2.3.5 Option byte programming .16   \n2.4 Protections 17   \n2.4.1 Read protection 17   \n2.4.2 Write protection .18   \n2.4.3 Option byte block write protection .19   \n2.5 Option byte description 19   \n3 Register descriptions 23   \n3.1 Flash access control register (FLASH\\_ACR) 23   \n3.2 FPEC key register (FLASH\\_KEYR) 24   \n3.3 Flash OPTKEY register (FLASH\\_OPTKEYR) 24   \n3.4 Flash status register (FLASH\\_SR) 25   \n3.5 Flash control register (FLASH\\_CR) 26   \n3.6 Flash address register (FLASH\\_AR) 27   \n3.7 Option byte register (FLASH\\_OBR) 27   \n3.8 Write protection register (FLASH\\_WRPR) 28   \n3.9 Flash register map 29   \n4 Revision history .30   \n2/31 Doc ID 17863 Rev 2 S"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0003-text-00011",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0003-text-00012",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 3,
+    "text": "Table 1. Applicable products 1   \nTable 2. Flash module organization (low-density devices) . 7   \nTable 3. Flash module organization (medium-density devices) 7   \nTable 4. Flash module organization (high-density devices) . .8   \nTable 5. Flash module organization (connectivity line devices) .9   \nTable 6. Flash memory protection status . 18   \nTable 7. Option byte format . 19   \nTable 8. Option byte organization. . 20   \nTable 9. Description of the option bytes . 20   \nTable 10. Abbreviations . 23   \nTable 11. Flash interface - register map and reset values . 29   \nTable 12. Document revision history 30"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0004-text-00013",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0004-text-00014",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 4,
+    "text": "Figure 1. Programming procedure . . . . .13   \nFigure 2. Flash memory Page Erase procedure 15   \nFigure 3. Flash memory Mass Erase procedure . .16"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "Glossary"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "This section gives a brief definition of acronyms and abbreviations used in this document:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "Low-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "Medium-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "High-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●Connectivity line devices are STM32F105xx and STM32F107xx microcontrollers."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●The Cortex-M3 core integrates two debug ports:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "JTAG debug port (JTAG-DP) provides a 5-pin standard interface based on the Joint Test Action Group (JTAG) protocol."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "SWD debug port (SWD-DP) provides a 2-pin (clock and data) interface based on the Serial Wire Debug (SWD) protocol."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "For both the JTAG and SWD protocols please refer to the Cortex M3 Technical Reference Manual"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "Word: data/instruction of 32-bit length"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●Half word: data/instruction of 16-bit length"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●Byte: data of 8-bit length"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00028",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "FPEC (Flash memory program/erase controller): write operations to the main memory and the information block are managed by an embedded Flash program/erase controller (FPEC)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00029",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "IAP (in-application programming): IAP is the ability to re-program the Flash memory of a microcontroller while the user program is running."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00030",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "ICP (in-circuit programming): ICP is the ability to program the Flash memory of a microcontroller using the JTAG protocol, the SWD protocol or the boot loader while the device is mounted on the user application board."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00031",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "l-Code: this bus connects the Instruction bus of the Cortex-M3 core to the Flash instruction interface. Prefetch is performed on this bus."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00032",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "D-Code: this bus connects the D-Code bus (literal load and debug access) of the Cortex-M3 to the Flash Data Interface."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00033",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●Option bytes: product configuration bits stored in the Flash memory"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00034",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●OBL: option byte loader."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0005-text-00035",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 5,
+    "text": "●AHB: advanced high-performance bus."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00036",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "1 Overview"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00037",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "1.1 Features"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00038",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "●up to 512 Kbytes of Flash memory"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00039",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "●Memory organization:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00040",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "– Main memory block:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00041",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "4 Kbits × 64 bits for low-density devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00042",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "16 Kbits × 64 bits for medium-density devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00043",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "64 Kbits × 64 bits for high-density devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00044",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "32 Kbits × 64 bits for connectivity line devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00045",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "\\- Information block:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00046",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "2306 × 64 bits for connectivity line devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00047",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "258 × 64 bits for other devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00048",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "Flash memory interface (FLITF) features:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00049",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "Read interface with prefetch buffer (2 × 64-bit words)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00050",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "●Option byte Loader"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00051",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "●Flash Program / Erase operation"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00052",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "● Read / Write protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00053",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "● Low-power mode"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00054",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "1.2 Flash module organization"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0006-text-00055",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 6,
+    "text": "The memory organization is based on a main memory block containing 32 pages of 1 Kbyte (for low-density devices), 128 pages of 1 Kbyte (for medium-density devices), 128 pages of 2 Kbyte (for connectivity line devices) or 256 pages of 2 Kbyte (for high-density devices), and an information block as shown in Table 3 and Table 4."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0007-table-00002",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0007_00002.png",
+    "caption": "**Table 2. Flash module organization (low-density devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---|\n| Main memory | Page 0 | 0x0800 0000 - 0x0800 03FF | 1 Kbyte |\n| Main memory | Page 1 | 0x0800 0400 - 0x0800 07FF | 1 Kbyte |\n| Main memory | Page 2 | 0x0800 0800 - 0x0800 0BFF | 1 Kbyte |\n| Main memory | Page 3 | 0x0800 0C00 - 0x0800 0FFF | 1 Kbyte |\n| Main memory | Page 4 | 0x0800 1000 - 0x0800 13FF | 1 Kbyte |\n| Main memory | `.` | `.` | `.` |\n| Main memory | `.` | `.` | `.` |\n| Main memory | `.` | `.` | `.` |\n| Main memory | Page 31 | 0x0800 7C00 - 0x0800 7FFF | 1 Kbyte |\n| Information block | System memory | 0x1FFF F000 - 0x1FFF F7FF | 2 Kbytes |\n| Information block | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n| Flash memory interface registers | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n| Flash memory interface registers | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n| Flash memory interface registers | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n| Flash memory interface registers | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n| Flash memory interface registers | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n| Flash memory interface registers | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n| Flash memory interface registers | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n| Flash memory interface registers | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n| Flash memory interface registers | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe table is vertically divided into the blocks **Main memory**, **Information block**, and **Flash memory interface registers**. The visible table ends after the `FLASH_WRPR` row; any subsequent content is not shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Flash module organization (low-density devices)",
+    "generated_captions": {
+      "luna": "**Table 2. Flash module organization (low-density devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---|\n| Main memory | Page 0 | 0x0800 0000 - 0x0800 03FF | 1 Kbyte |\n| Main memory | Page 1 | 0x0800 0400 - 0x0800 07FF | 1 Kbyte |\n| Main memory | Page 2 | 0x0800 0800 - 0x0800 0BFF | 1 Kbyte |\n| Main memory | Page 3 | 0x0800 0C00 - 0x0800 0FFF | 1 Kbyte |\n| Main memory | Page 4 | 0x0800 1000 - 0x0800 13FF | 1 Kbyte |\n| Main memory | `.` | `.` | `.` |\n| Main memory | `.` | `.` | `.` |\n| Main memory | `.` | `.` | `.` |\n| Main memory | Page 31 | 0x0800 7C00 - 0x0800 7FFF | 1 Kbyte |\n| Information block | System memory | 0x1FFF F000 - 0x1FFF F7FF | 2 Kbytes |\n| Information block | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n| Flash memory interface registers | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n| Flash memory interface registers | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n| Flash memory interface registers | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n| Flash memory interface registers | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n| Flash memory interface registers | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n| Flash memory interface registers | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n| Flash memory interface registers | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n| Flash memory interface registers | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n| Flash memory interface registers | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe table is vertically divided into the blocks **Main memory**, **Information block**, and **Flash memory interface registers**. The visible table ends after the `FLASH_WRPR` row; any subsequent content is not shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0007-table-00003",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0007_00003.png",
+    "caption": "**Table 3. Flash module organization (medium-density devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---|\n| Main memory | Page 0 | 0x0800 0000 - 0x0800 03FF | 1 Kbyte |\n| Main memory | Page 1 | 0x0800 0400 - 0x0800 07FF | 1 Kbyte |\n| Main memory | Page 2 | 0x0800 0800 - 0x0800 0BFF | 1 Kbyte |\n| Main memory | Page 3 | 0x0800 0C00 - 0x0800 0FFF | 1 Kbyte |\n| Main memory | Page 4 | 0x0800 1000 - 0x0800 13FF | 1 Kbyte |\n| Main memory | ⋮ | ⋮ | ⋮ |\n| Main memory | Page 127 | 0x0801 FC00 - 0x0801 FFFF | 1 Kbyte |\n| Information block | System memory | 0x1FFF F000 - 0x1FFF F7FF | 2 Kbytes |\n| Information block | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n\nThe ellipsis indicates additional main-memory pages between Page 4 and Page 127.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Flash module organization (medium-density devices)",
+    "generated_captions": {
+      "luna": "**Table 3. Flash module organization (medium-density devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---|\n| Main memory | Page 0 | 0x0800 0000 - 0x0800 03FF | 1 Kbyte |\n| Main memory | Page 1 | 0x0800 0400 - 0x0800 07FF | 1 Kbyte |\n| Main memory | Page 2 | 0x0800 0800 - 0x0800 0BFF | 1 Kbyte |\n| Main memory | Page 3 | 0x0800 0C00 - 0x0800 0FFF | 1 Kbyte |\n| Main memory | Page 4 | 0x0800 1000 - 0x0800 13FF | 1 Kbyte |\n| Main memory | ⋮ | ⋮ | ⋮ |\n| Main memory | Page 127 | 0x0801 FC00 - 0x0801 FFFF | 1 Kbyte |\n| Information block | System memory | 0x1FFF F000 - 0x1FFF F7FF | 2 Kbytes |\n| Information block | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n\nThe ellipsis indicates additional main-memory pages between Page 4 and Page 127."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0008-table-00004",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0008_00004.png",
+    "caption": "Table columns: **Block**, **Name**, **Base addresses**, **Size (bytes)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---:|\n| Flash memory interface registers | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n| Flash memory interface registers | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n| Flash memory interface registers | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n| Flash memory interface registers | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n| Flash memory interface registers | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n| Flash memory interface registers | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n| Flash memory interface registers | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n| Flash memory interface registers | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n| Flash memory interface registers | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe visible crop does not include a table title or additional notes.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Table columns: **Block**, **Name**, **Base addresses**, **Size (bytes)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---:|\n| Flash memory interface registers | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n| Flash memory interface registers | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n| Flash memory interface registers | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n| Flash memory interface registers | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n| Flash memory interface registers | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n| Flash memory interface registers | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n| Flash memory interface registers | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n| Flash memory interface registers | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n| Flash memory interface registers | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe visible crop does not include a table title or additional notes."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0008-table-00005",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0008_00005.png",
+    "caption": "**Table 4. Flash module organization (high-density devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---:|\n| **Main memory** | Page 0 | 0x0800 0000 - 0x0800 07FF | 2 Kbytes |\n|  | Page 1 | 0x0800 0800 - 0x0800 0FFF | 2 Kbytes |\n|  | Page 2 | 0x0800 1000 - 0x0800 17FF | 2 Kbytes |\n|  | Page 3 | 0x0800 1800 - 0x0800 1FFF | 2 Kbytes |\n|  | ·<br>·<br>· | ·<br>·<br>· | ·<br>·<br>· |\n|  | Page 255 | 0x0807 F800 - 0x0807 FFFF | 2 Kbytes |\n| **Information block** | System memory | 0x1FFF F000 - 0x1FFF F7FF | 2 Kbytes |\n|  | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n| **Flash memory interface registers** | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n|  | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n|  | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n|  | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n|  | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n|  | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n|  | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n|  | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n|  | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe image shows the table title area cropped; the title above is provided by the nearby caption.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. Flash module organization (high-density devices)",
+    "generated_captions": {
+      "luna": "**Table 4. Flash module organization (high-density devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---:|\n| **Main memory** | Page 0 | 0x0800 0000 - 0x0800 07FF | 2 Kbytes |\n|  | Page 1 | 0x0800 0800 - 0x0800 0FFF | 2 Kbytes |\n|  | Page 2 | 0x0800 1000 - 0x0800 17FF | 2 Kbytes |\n|  | Page 3 | 0x0800 1800 - 0x0800 1FFF | 2 Kbytes |\n|  | ·<br>·<br>· | ·<br>·<br>· | ·<br>·<br>· |\n|  | Page 255 | 0x0807 F800 - 0x0807 FFFF | 2 Kbytes |\n| **Information block** | System memory | 0x1FFF F000 - 0x1FFF F7FF | 2 Kbytes |\n|  | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n| **Flash memory interface registers** | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n|  | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n|  | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n|  | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n|  | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n|  | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n|  | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n|  | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n|  | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe image shows the table title area cropped; the title above is provided by the nearby caption."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-table-00006",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0009_00006.png",
+    "caption": "**Table 5. Flash module organization (connectivity line devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---|\n| Main memory | Page 0 | 0x0800 0000 - 0x0800 07FF | 2 Kbytes |\n| Main memory | Page 1 | 0x0800 0800 - 0x0800 0FFF | 2 Kbytes |\n| Main memory | Page 2 | 0x0800 1000 - 0x0800 17FF | 2 Kbytes |\n| Main memory | Page 3 | 0x0800 1800 - 0x0800 1FFF | 2 Kbytes |\n| Main memory | ⋮ | ⋮ | ⋮ |\n| Main memory | Page 127 | 0x0803 F800 - 0x0803 FFFF | 2 Kbytes |\n| Information block | System memory | 0x1FFF B000 - 0x1FFF F7FF | 18 Kbytes |\n| Information block | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n| Flash memory interface registers | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n| Flash memory interface registers | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n| Flash memory interface registers | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n| Flash memory interface registers | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n| Flash memory interface registers | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n| Flash memory interface registers | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n| Flash memory interface registers | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n| Flash memory interface registers | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n| Flash memory interface registers | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe main-memory ellipsis indicates intervening pages between Page 3 and Page 127.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. Flash module organization (connectivity line devices)",
+    "generated_captions": {
+      "luna": "**Table 5. Flash module organization (connectivity line devices)**\n\n| Block | Name | Base addresses | Size (bytes) |\n|---|---|---|---|\n| Main memory | Page 0 | 0x0800 0000 - 0x0800 07FF | 2 Kbytes |\n| Main memory | Page 1 | 0x0800 0800 - 0x0800 0FFF | 2 Kbytes |\n| Main memory | Page 2 | 0x0800 1000 - 0x0800 17FF | 2 Kbytes |\n| Main memory | Page 3 | 0x0800 1800 - 0x0800 1FFF | 2 Kbytes |\n| Main memory | ⋮ | ⋮ | ⋮ |\n| Main memory | Page 127 | 0x0803 F800 - 0x0803 FFFF | 2 Kbytes |\n| Information block | System memory | 0x1FFF B000 - 0x1FFF F7FF | 18 Kbytes |\n| Information block | Option Bytes | 0x1FFF F800 - 0x1FFF F80F | 16 |\n| Flash memory interface registers | FLASH_ACR | 0x4002 2000 - 0x4002 2003 | 4 |\n| Flash memory interface registers | FLASH_KEYR | 0x4002 2004 - 0x4002 2007 | 4 |\n| Flash memory interface registers | FLASH_OPTKEYR | 0x4002 2008 - 0x4002 200B | 4 |\n| Flash memory interface registers | FLASH_SR | 0x4002 200C - 0x4002 200F | 4 |\n| Flash memory interface registers | FLASH_CR | 0x4002 2010 - 0x4002 2013 | 4 |\n| Flash memory interface registers | FLASH_AR | 0x4002 2014 - 0x4002 2017 | 4 |\n| Flash memory interface registers | Reserved | 0x4002 2018 - 0x4002 201B | 4 |\n| Flash memory interface registers | FLASH_OBR | 0x4002 201C - 0x4002 201F | 4 |\n| Flash memory interface registers | FLASH_WRPR | 0x4002 2020 - 0x4002 2023 | 4 |\n\nThe main-memory ellipsis indicates intervening pages between Page 3 and Page 127."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-text-00056",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "text": "The Flash memory is organized as 32-bit wide memory cells that can be used for storing both code and data constants. The Flash module is located at a specific base address in the memory map of each STM32F10xxx microcontroller type. For the base address, please refer to the related STM32F10xxx reference manual."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-text-00057",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "text": "The information block is divided into two parts:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-text-00058",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "text": "System memory is used to boot the device in System memory boot mode. The area is reserved for use by STMicroelectronics and contains the boot loader which is used to reprogram the Flash memory using the USART1 serial interface. It is programmed by ST when the device is manufactured, and protected against spurious write/erase operations. For further details please refer to AN2606."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-text-00059",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "text": "In connectivity line devices the boot loader can be activated through one of the following interfaces: USART1, USART2 (remapped), CAN2 (remapped) or USB OTG FS in Device mode (DFU: device firmware upgrade). The USART peripheral operates with the internal 8 MHz oscillator (HSI). The CAN and USB OTG FS, however, can only function if an external 8 MHz, 14.7456 MHz or 25 MHz clock (HSE) is present. For further details, please refer to AN2662 (“STM32F105xx and STM32F107xx system memory boot mode”) available from www.st.com."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-text-00060",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "text": "●Option bytes"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0009-text-00061",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 9,
+    "text": "Write operations to the main memory block and the option bytes are managed by an embedded Flash Program/Erase Controller (FPEC). The high voltage needed for Program/Erase operations is internally generated."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00062",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "The main Flash memory can be protected against different types of unwanted access (read/write/erase). There are two types of protection:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00063",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "● Page Write Protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00064",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "Read Protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00065",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "Refer to Section 2.4 for more details."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00066",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "During a write operation to the Flash memory, any attempt to read the Flash memory will stall the bus. The read operation will proceed correctly once the write operation has completed. This means that code or data fetches cannot be made while a write/erase operation is ongoing."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00067",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "For write and erase operations on the Flash memory (write/erase), the internal RC oscillator (HSI) must be ON."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00068",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "The Flash memory can be programmed and erased using in-circuit programming and inapplication programming."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0010-text-00069",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 10,
+    "text": "In the low-power modes, all Flash memory accesses are aborted. Refer to the STM32F10xxx reference manual for further information."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "Reading/programming the embedded Flash memory"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "2.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "This section describes how to read from or program to the STM32F10xxx embedded Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00073",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "2.2 Read operation"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The embedded Flash module can be addressed directly, as a common memory space. Any data read operation accesses the content of the Flash module through dedicated read senses and provides the requested data."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00075",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The read interface consists of a read controller on one side to access the Flash memory and an AHB interface on the other side to interface with the CPU. The main task of the read interface is to generate the control signals to read from the Flash memory and to prefetch the blocks required by the CPU. The prefetch block is only used for instruction fetches over the I-Code bus. The Literal pool is accessed over the D-Code bus. Since these two buses have the same Flash memory as target, D-code bus accesses have priority over prefetch accesses."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00076",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "2.2.1 Instruction fetch"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00077",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The Cortex-M3 fetches the instruction over the I-Code bus and the literal pool (constant/data) over the D-code bus. The prefetch block aims at increasing the efficiency of I-Code bus accesses."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00078",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "Prefetch buffer"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00079",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The prefetch buffer is 2 blocks wide where each block consists of 8 bytes. The prefetch blocks are direct-mapped. A block can be completely replaced on a single read to the Flash memory as the size of the block matches the bandwidth of the Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00080",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The implementation of this prefetch buffer makes a faster CPU execution possible as the CPU fetches one word at a time with the next word readily available in the prefetch buffer. This implies that the acceleration ratio will be of the order of 2 assuming that the code is aligned at a 64-bit boundary for the jumps."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00081",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "Prefetch controller"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00082",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The prefetch controller decides to access the Flash memory depending on the available space in the prefetch buffer. The Controller initiates a read request when there is at least one block free in the prefetch buffer."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00083",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "After reset, the state of the prefetch buffer is on."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00084",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The prefetch buffer should be switched on/off only when SYSCLK is lower than 24 MHz and no prescaler is applied on the AHB clock (SYSCLK must be equal to HCLK). The prefetch buffer is usually switched on/off during the initialization routine, while the microcontroller is running on the internal 8 MHz RC (HSI) oscillator."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0011-text-00085",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 11,
+    "text": "The prefetch buffer must be kept on (FLASH\\_ACR[4]=’1’) when using a prescaler different from 1 on the AHB clock."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00087",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "In case of non-availability of a high frequency clock in the system, Flash memory accesses can be made on a half cycle of HCLK (AHB clock), the frequency of HCLK permitting (halfcycle access can only be used with a low-frequency clock of less than 8 MHz that can be obtained with the use of HSI or HSE but not of PLL). This mode can be chosen by setting a control bit in the Flash access control register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00088",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "Half-cycle access cannot be used when there is a prescaler different from 1 on the AHB clock."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00089",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "Access time tuner"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00090",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "In order to maintain the control signals to read the Flash memory, the ratio of the prefetch controller clock period to the access time of the Flash memory has to be programmed in the Flash access control register. This value gives the number of cycles needed to maintain the control signals of the Flash memory and correctly read the required data. After reset, the value is zero and only one cycle is required to access the Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00091",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "2.2.2 D-Code interface"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00092",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "The D-Code interface consists of a simple AHB interface on the CPU side and a request generator to the Arbiter of the Flash access controller. D-code accesses have priority over prefetch accesses. This interface uses the Access Time Tuner block of the prefetch buffer."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00093",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "2.2.3 Flash access controller"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00094",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "Mainly, this block is a simple arbiter between the read requests of the prefetch/I-code and D-Code interfaces."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "D-Code interface requests have priority over I-Code requests."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00096",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "2.3 Flash program and erase controller (FPEC)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00097",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "The FPEC block handles the program and erase operations of the Flash memory. The FPEC consists of seven 32-bit registers."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00098",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● FPEC key register (FLASH\\_KEYR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00099",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● Option byte key register (FLASH\\_OPTKEYR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00100",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● Flash control register (FLASH\\_CR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00101",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● Flash status register (FLASH\\_SR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00102",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● Flash address register (FLASH\\_AR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00103",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● Option byte register (FLASH\\_OBR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00104",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● Write protection register (FLASH\\_WRPR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00105",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "An ongoing Flash memory operation will not block the CPU as long as the CPU does not access the Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00106",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "2.3.1 Key values"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00107",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "The key values are as follows:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00108",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● RDPRT key = 0x00A5"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00109",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● KEY1 = 0x45670123"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0012-text-00110",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 12,
+    "text": "● KEY2 = 0xCDEF89AB"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0013-text-00111",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 13,
+    "text": "2.3.2 Unlocking the Flash memory"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0013-text-00112",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 13,
+    "text": "After reset, the FPEC block is protected. The FLASH\\_CR register is not accessible in write mode. An unlocking sequence should be written to the FLASH\\_KEYR register to open up the FPEC block. This sequence consists of two write cycles, where two key values (KEY1 and KEY2) are written to the FLASH\\_KEYR address (refer to Section 2.3.1 for key values). Any wrong sequence locks up the FPEC block and FLASH\\_CR register until the next reset."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0013-text-00113",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 13,
+    "text": "Also a bus error is returned on a wrong key sequence. This is done after the first write cycle if KEY1 does not match, or during the second write cycle if KEY1 has been correctly written but KEY2 does not match. The FPEC block and FLASH\\_CR register can be locked by the user’s software by writing the LOCK bit of the FLASH\\_CR register to 1. In this case, the FPEC can be unlocked by writing the correct sequence of keys into FLASH\\_KEYR."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0013-text-00114",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 13,
+    "text": "2.3.3 Main Flash memory programming"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0013-text-00115",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 13,
+    "text": "The main Flash memory can be programmed 16 bits at a time. The program operation is started when the CPU writes a half-word into a main Flash memory address with the PG bit of the FLASH\\_CR register set. Any attempt to write data that are not half-word long will result in a bus error response from the FPEC. If a read/write operation is initiated during programming, (BSY bit set), the CPU stalls until the ongoing main Flash memory programming is over."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0013-figure-00001",
+    "type": "figure",
+    "doc": "stm32-pm0075",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_figure_p0013_00001.png",
+    "caption": "Figure 1. Programming procedure — flowchart.\n\nFlow sequence and labels:\n\n1. **Read `FLASH_CR_LOCK`**\n2. Decision: **`FLASH_CR_LOCK = 1`**\n   - **Yes** → **Perform unlock sequence**\n   - **No** → continue downward\n3. **Write `FLASH_CR_PG to 1`**\n4. **Perform half-word write at the desired address**\n5. Decision: **`FLASH_SR_BSY = 1`**\n   - **Yes** → loop back to the flow point immediately after the half-word write / repeat the busy-status check\n   - **No** → continue downward\n6. **Check the programmed value by reading the programmed address**\n\nThe flowchart uses rectangular process boxes, diamond-shaped decision boxes, downward arrows for the main sequence, and a right-side return loop for the `FLASH_SR_BSY = 1` (“Yes”) condition. Figure identifier at lower right: **ai14307b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Programming procedure",
+    "generated_captions": {
+      "luna": "Figure 1. Programming procedure — flowchart.\n\nFlow sequence and labels:\n\n1. **Read `FLASH_CR_LOCK`**\n2. Decision: **`FLASH_CR_LOCK = 1`**\n   - **Yes** → **Perform unlock sequence**\n   - **No** → continue downward\n3. **Write `FLASH_CR_PG to 1`**\n4. **Perform half-word write at the desired address**\n5. Decision: **`FLASH_SR_BSY = 1`**\n   - **Yes** → loop back to the flow point immediately after the half-word write / repeat the busy-status check\n   - **No** → continue downward\n6. **Check the programmed value by reading the programmed address**\n\nThe flowchart uses rectangular process boxes, diamond-shaped decision boxes, downward arrows for the main sequence, and a right-side return loop for the `FLASH_SR_BSY = 1` (“Yes”) condition. Figure identifier at lower right: **ai14307b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00116",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "Standard programming"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00117",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "In this mode the CPU programs the main Flash memory by performing standard half-word write operations. The PG bit in the FLASH\\_CR register must be set. FPEC preliminarily reads the value at the addressed main Flash memory location and checks that it has been erased. If not, the program operation is skipped and a warning is issued by the PGERR bit in FLASH\\_SR register (the only exception to this is when 0x0000 is programmed. In this case, the location is correctly programmed to 0x0000 and the PGERR bit is not set). If the addressed main Flash memory location is write-protected by the FLASH\\_WRPR register, the program operation is skipped and a warning is issued by the WRPRTERR bit in the FLASH\\_SR register. The end of the program operation is indicated by the EOP bit in the FLASH\\_SR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00118",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "The main Flash memory programming sequence in standard mode is as follows:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00119",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "Check that no main Flash memory operation is ongoing by checking the BSY bit in the FLASH\\_SR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00120",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Set the PG bit in the FLASH\\_CR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00121",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Perform the data write (half-word) at the desired address."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00122",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Wait for the BSY bit to be reset."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00123",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Read the programmed value and verify."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00124",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "The registers are not accessible in write mode when the BSY bit of the FLASH\\_SR register is set."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00125",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "2.3.4 Flash memory erase"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00126",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "The Flash memory can be erased page by page or completely (Mass Erase)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00127",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "Page Erase"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00128",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "A page of the Flash memory can be erased using the Page Erase feature of the FPEC. To erase a page, the procedure below should be followed:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00129",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "Check that no Flash memory operation is ongoing by checking the BSY bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00130",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "Set the PER bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00131",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Program the FLASH\\_AR register to select a page to erase"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00132",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Set the STRT bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00133",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Wait for the BSY bit to be reset"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0014-text-00134",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 14,
+    "text": "● Read the erased page and verify"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-figure-00002",
+    "type": "figure",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_figure_p0015_00002.png",
+    "caption": "**Figure 2 — Flash memory Page Erase procedure** (flowchart)\n\nVisible flow:\n\n1. **Read `FLASH_CR_LOCK`**\n2. Decision: **`FLASH_CR_LOCK = 1`**\n   - **Yes** → **Perform unlock sequence**\n   - **No** → continue downward\n3. **Write `FLASH_CR_PER` to 1**\n4. **Write into FAR an address within the page to erase**\n5. **Write `FLASH_CR_STRT` to 1**\n6. Decision: **`FLASH_SR_BSY = 1`**\n   - **Yes** → loop back and continue checking `FLASH_SR_BSY`\n   - **No** → continue downward\n7. **Check the page is erased by reading all the addresses in the page**\n\nFigure identifier printed at lower right: **ai14305c**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Flash memory Page Erase procedure",
+    "generated_captions": {
+      "luna": "**Figure 2 — Flash memory Page Erase procedure** (flowchart)\n\nVisible flow:\n\n1. **Read `FLASH_CR_LOCK`**\n2. Decision: **`FLASH_CR_LOCK = 1`**\n   - **Yes** → **Perform unlock sequence**\n   - **No** → continue downward\n3. **Write `FLASH_CR_PER` to 1**\n4. **Write into FAR an address within the page to erase**\n5. **Write `FLASH_CR_STRT` to 1**\n6. Decision: **`FLASH_SR_BSY = 1`**\n   - **Yes** → loop back and continue checking `FLASH_SR_BSY`\n   - **No** → continue downward\n7. **Check the page is erased by reading all the addresses in the page**\n\nFigure identifier printed at lower right: **ai14305c**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00135",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "Mass Erase"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00136",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "The Mass Erase command can be used to completely erase the user pages of the Flash memory. The information block is unaffected by this procedure. The following sequence is recommended:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00137",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "Check that no Flash memory operation is ongoing by checking the BSY bit in the FLASH\\_SR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00138",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "Set the MER bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00139",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "● Set the STRT bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00140",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "● Wait for the BSY bit to be reset"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0015-text-00141",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 15,
+    "text": "● Read all the pages and verify"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0016-figure-00003",
+    "type": "figure",
+    "doc": "stm32-pm0075",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_figure_p0016_00003.png",
+    "caption": "**Figure 3. Flash memory Mass Erase procedure** — flowchart.\n\n- **Read `FLASH_CR_LOCK`**\n- Decision: **`FLASH_CR_LOCK = 1`**\n  - **Yes** → **Perform unlock sequence**\n  - **No** → **Write into `FLASH_CR_MER` to 1**\n- **Write `FLASH_CR_STRT` to 1**\n- Decision: **`FLASH_SR_BSY = 1`**\n  - **Yes** → loop back to the busy-status check\n  - **No** → **Check the erase operation by reading all the addresses in the user memory**\n\nFigure identifier at bottom right: **ai14306b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Flash memory Mass Erase procedure",
+    "generated_captions": {
+      "luna": "**Figure 3. Flash memory Mass Erase procedure** — flowchart.\n\n- **Read `FLASH_CR_LOCK`**\n- Decision: **`FLASH_CR_LOCK = 1`**\n  - **Yes** → **Perform unlock sequence**\n  - **No** → **Write into `FLASH_CR_MER` to 1**\n- **Write `FLASH_CR_STRT` to 1**\n- Decision: **`FLASH_SR_BSY = 1`**\n  - **Yes** → loop back to the busy-status check\n  - **No** → **Check the erase operation by reading all the addresses in the user memory**\n\nFigure identifier at bottom right: **ai14306b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0016-text-00142",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 16,
+    "text": "2.3.5 Option byte programming"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0016-text-00143",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 16,
+    "text": "The option bytes are programmed differently from normal user addresses. The number of option bytes is limited to 8 (4 for write protection, 1 for read protection, 1 for configuration and 2 for user data storage). After unlocking the FPEC, the user has to authorize the programming of the option bytes by writing the same set of KEYS (KEY1 and KEY2) to the FLASH\\_OPTKEYR register to set the OPTWRE bit in the FLASH\\_CR register (refer to Section 2.3.1 for key values). Then the user has to set the OPTPG bit in the FLASH\\_CR register and perform a half-word write operation at the desired Flash address."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0016-text-00144",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 16,
+    "text": "FPEC preliminarily reads the value of the addressed option byte and checks that it has been erased. If not, the program operation is skipped and a warning is issued by the PGERR bit in the FLASH\\_SR register. The end of the program operation is indicated by the EOP bit in the FLASH\\_SR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0016-text-00145",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 16,
+    "text": "The FPEC takes the LSB and automatically computes the MSB (which is the complement of the LSB) and starts the programming operation. This guarantees that the option byte and its complement are always correct."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00146",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "The sequence is as follows:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00147",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Check that no Flash memory operation is ongoing by checking the BSY bit in the FLASH\\_SR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00148",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Unlock the OPTWRE bit in the FLASH\\_CR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00149",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Set the OPTPG bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00150",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Write the data (half-word) to the desired address"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00151",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Wait for the BSY bit to be reset."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00152",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Read the programmed value and verify."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00153",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "When the Flash memory read protection option is changed from protected to unprotected, a Mass Erase of the main Flash memory is performed before reprogramming the read protection option. If the user wants to change an option other than the read protection option, then the mass erase is not performed. The erased state of the read protection option byte protects the Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00154",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Erase procedure"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00155",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "The option byte erase sequence (OPTERASE) is as follows:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00156",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Check that no Flash memory operation is ongoing by reading the BSY bit in the FLASH\\_SR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00157",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Unlock the OPTWRE bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00158",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Set the OPTER bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00159",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Set the STRT bit in the FLASH\\_CR register"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00160",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Wait for BSY to reset"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00161",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● Read the erased option bytes and verify"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00162",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "2.4 Protections"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00163",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "The user area of the Flash memory can be protected against read by untrusted code. The pages of the Flash memory can also be protected against unwanted write due to loss of program counter contexts. The write-protection granularity is then of:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00164",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● four pages for low- and medium-density devices"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00165",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "● two pages for high-density and connectivity line devices."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00166",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "2.4.1 Read protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00167",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "The read protection is activated by setting the RDP option byte and then, by applying a system reset to reload the new RDP option byte."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00168",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "If the read protection is set while the debugger is still connected through JTAG/SWD, apply a POR (power-on reset) instead of a system reset (without debugger connection)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00169",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Once the protection byte has been programmed:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00170",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Main Flash memory read access is not allowed except for the user code (when booting from main Flash memory itself with the debug mode not active)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0017-text-00171",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 17,
+    "text": "Pages 0-3 (for low- and medium-density devices), or pages 0-1 (for high-density and connectivity line devices) are automatically write-protected. The rest of the memory can be programmed by the code executed from the main Flash memory (for IAP, constant storage, etc.), but it is protected against write/erase (but not against mass erase) in debug mode or when booting from the embedded SRAM."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00172",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "All features linked to loading code into and executing code from the embedded SRAM are still active (JTAG/SWD and boot from embedded SRAM) and this can be used to disable the read protection. When the read protection option byte is altered to a memory-unprotect value, a mass erase is performed."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00173",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "When booting from the embedded SRAM, Flash memory accesses through the code and through data read using DMA1 and DMA2 are not allowed."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00174",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "Flash memory access through data read using JTAG, SWV (serial wire viewer), SWD (serial wire debug), ETM and boundary scan are not allowed."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00175",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "The Flash memory is protected when the RDP option byte and its complement contain the pair of values shown in Table 6."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-table-00007",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0018_00007.png",
+    "caption": "**Table 6. Flash memory protection status**\n\n| RDP byte value | RDP complement value | Read protection status |\n|---|---|---|\n| 0xFF | 0xFF | Protected |\n| RDPRT | Complement of RDP byte | Not protected |\n| Any value | Not the complement value of RDP | Protected |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. Flash memory protection status",
+    "generated_captions": {
+      "luna": "**Table 6. Flash memory protection status**\n\n| RDP byte value | RDP complement value | Read protection status |\n|---|---|---|\n| 0xFF | 0xFF | Protected |\n| RDPRT | Complement of RDP byte | Not protected |\n| Any value | Not the complement value of RDP | Protected |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00176",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "Erasing the option byte block will not trigger a mass erase as the erased value (0xFF) corresponds to a protected value."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00177",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "Unprotection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00178",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "To disable the read protection from the embedded SRAM:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00179",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "Erase the entire option byte area. As a result, the read protection code (RDP) will be 0xFF. At this stage the read protection is still enabled."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00180",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "Program the correct RDP code 0x00A5 to unprotect the memory. This operation first forces a Mass Erase of the main Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00181",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "Reset the device (POR Reset) to reload the option bytes (and the new RDP code) and, to disable the read protection."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00182",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "The read protection can be disabled using the boot loader (in this case only a System Reset is necessary to reload the option bytes). For more details refer to AN2606."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00183",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "2.4.2 Write protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00184",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "In high-density and connectivity line devices, from page 0 to page 61, write protection is implemented with a granularity of two pages at a time. The remaining memory block (from page 62 to page 255 in high-density devices, and from page 62 to page 127 in connectivity line devices) is write-protected at once."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00185",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "In low- and medium-density devices, write protection is implemented with a granularity of four pages at a time."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00186",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "If a program or an erase operation is performed on a protected page, the Flash memory returns a protection error flag on the Flash memory Status Register (FLASH\\_SR)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0018-text-00187",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 18,
+    "text": "The write protection is activated by configuring the WRP[3:0] option bytes, and then by applying a system reset to reload the new WRPx option bytes."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00188",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Unprotection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00189",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "To disable the write protection, two application cases are provided:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00190",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "● Case 1: Read protection disabled after the write unprotection:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00191",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Erase the entire option byte area by using the OPTER bit in the Flash memory control register (FLASH\\_CR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00192",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Program the correct RDP code 0x00A5 to unprotect the memory. This operation first forces a Mass Erase of the main Flash memory."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00193",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Reset the device (system reset) to reload the option bytes (and the new WRP[3:0] bytes), and to disable the write protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00194",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Case 2: Read protection maintained active after the write unprotection, useful for inapplication programming with a user boot loader:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00195",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Erase the entire option byte area by using the OPTER bit in the Flash memory control register (FLASH\\_CR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00196",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "Reset the device (system reset) to reload the option bytes (and the new WRP[3:0] bytes), and to disable the write protection."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00197",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "2.4.3 Option byte block write protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00198",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "The option bytes are always read-accessible and write-protected by default. To gain write access (Program/Erase) to the option bytes, a sequence of keys (same as for lock) has to be written into the OPTKEYR. A correct sequence of keys gives write access to the option bytes and this is indicated by OPTWRE in the FLASH\\_CR register being set. Write access can be disabled by resetting the bit through software."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00199",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "2.5 Option byte description"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00200",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "There are eight option bytes. They are configured by the end user depending on the application requirements. As a configuration example, the watchdog may be selected in hardware or software mode."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00201",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "A 32-bit word is split up as follows in the option bytes."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-table-00008",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0019_00008.png",
+    "caption": "**Table 7. Option byte format**\n\n| Bits | Field |\n|---|---|\n| **31-24** | complemented option byte1 |\n| **23-16** | Option byte 1 |\n| **15 -8** | complemented option byte0 |\n| **7-0** | Option byte 0 |\n\nThe table depicts a 32-bit option-byte format divided into four 8-bit fields.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Option byte format",
+    "generated_captions": {
+      "luna": "**Table 7. Option byte format**\n\n| Bits | Field |\n|---|---|\n| **31-24** | complemented option byte1 |\n| **23-16** | Option byte 1 |\n| **15 -8** | complemented option byte0 |\n| **7-0** | Option byte 0 |\n\nThe table depicts a 32-bit option-byte format divided into four 8-bit fields."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00202",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "The organization of these bytes inside the information block is as shown in Table 8."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00203",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "The option bytes can be read from the memory locations listed in Table 8 or from the Option byte register (FLASH\\_OBR)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0019-text-00204",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 19,
+    "text": "The new programmed option bytes (user, read/write protection) are loaded after a system reset."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0020-table-00009",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0020_00009.png",
+    "caption": "**Table 8. Option byte organization**\n\n| Address | [31:24] | [23:16] | [15:8] | [7:0] |\n|---|---|---|---|---|\n| 0x1FFF F800 | nUSER | USER | nRDP | RDP |\n| 0x1FFF F804 | nData1 | Data1 | nData0 | Data0 |\n| 0x1FFF F808 | nWRP1 | WRP1 | nWRP0 | WRP0 |\n| 0x1FFF F80C | nWRP3 | WRP3 | nWRP2 | WRP2 |\n\nNo additional footnotes, conditions, or notes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 8. Option byte organization",
+    "generated_captions": {
+      "luna": "**Table 8. Option byte organization**\n\n| Address | [31:24] | [23:16] | [15:8] | [7:0] |\n|---|---|---|---|---|\n| 0x1FFF F800 | nUSER | USER | nRDP | RDP |\n| 0x1FFF F804 | nData1 | Data1 | nData0 | Data0 |\n| 0x1FFF F808 | nWRP1 | WRP1 | nWRP0 | WRP0 |\n| 0x1FFF F80C | nWRP3 | WRP3 | nWRP2 | WRP2 |\n\nNo additional footnotes, conditions, or notes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0020-table-00010",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0020_00010.png",
+    "caption": "**Table 9. Description of the option bytes**  \n**Columns:** Flash memory address | Option bytes\n\n### Flash memory address: `0x1FFF F800`\n\n- Bits [31:24] **nUSER**\n- Bits [23:16] **USER**: User option byte (stored in `FLASH_OBR[9:2]`)\n- This byte is used to configure the following features:\n  - Select the watchdog event: Hardware or software.\n  - Reset event when entering Stop mode.\n  - Reset event when entering Standby mode.\n- **Note:** Only bits [16:18] are used, bits [23:19]: `0x1F` are not used.\n\n- **Bit 18: nRST_STDBY**\n  - 0: Reset generated when entering Standby mode.\n  - 1: No reset generated.\n\n- **Bit 17: nRST_STOP**\n  - 0: Reset generated when entering Stop mode\n  - 1: No reset generated\n\n- **Bit 16: WDG_SW**\n  - 0: Hardware watchdog\n  - 1: Software watchdog\n\n- **Bits [15:8]: nRDP**\n- **Bits [7:0]: RDP**: Read protection option byte\n  - The read protection helps the user protect the software code stored in Flash memory. It is activated by setting the RDP option byte.\n  - When this option byte is programmed to a correct value (RDPRT key = `0x00A5`), read access to the Flash memory is allowed.\n  - (The result of RDP level enabled/disabled is stored in `FLASH_OBR[1]`.)\n\n### Flash memory address: `0x1FFF F804`\n\n- **Datax:** Two bytes for user data storage.\n- These addresses can be programmed using the option byte programming procedure.\n- Bits [31:24]: **nData1**\n- Bits [23:16]: **Data1** (stored in `FLASH_OBR[25:18]`)\n- Bits [15:8]: **nData0**\n- Bits [7:0]: **Data0** (stored in `FLASH_OBR[17:10]`)\n\n### Flash memory address: `0x1FFF F808`\n\n- **WRPx:** Flash memory write protection option bytes\n- Bits [31:24]: **nWRP1**\n- Bits [23:16]: **WRP1** (stored in `FLASH_WRPR[15:8]`)\n- Bits [15:8]: **nWRP0**\n- Bits [7:0]: **WRP0** (stored in `FLASH_WRPR[7:0]`)",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. Description of the option bytes",
+    "generated_captions": {
+      "luna": "**Table 9. Description of the option bytes**  \n**Columns:** Flash memory address | Option bytes\n\n### Flash memory address: `0x1FFF F800`\n\n- Bits [31:24] **nUSER**\n- Bits [23:16] **USER**: User option byte (stored in `FLASH_OBR[9:2]`)\n- This byte is used to configure the following features:\n  - Select the watchdog event: Hardware or software.\n  - Reset event when entering Stop mode.\n  - Reset event when entering Standby mode.\n- **Note:** Only bits [16:18] are used, bits [23:19]: `0x1F` are not used.\n\n- **Bit 18: nRST_STDBY**\n  - 0: Reset generated when entering Standby mode.\n  - 1: No reset generated.\n\n- **Bit 17: nRST_STOP**\n  - 0: Reset generated when entering Stop mode\n  - 1: No reset generated\n\n- **Bit 16: WDG_SW**\n  - 0: Hardware watchdog\n  - 1: Software watchdog\n\n- **Bits [15:8]: nRDP**\n- **Bits [7:0]: RDP**: Read protection option byte\n  - The read protection helps the user protect the software code stored in Flash memory. It is activated by setting the RDP option byte.\n  - When this option byte is programmed to a correct value (RDPRT key = `0x00A5`), read access to the Flash memory is allowed.\n  - (The result of RDP level enabled/disabled is stored in `FLASH_OBR[1]`.)\n\n### Flash memory address: `0x1FFF F804`\n\n- **Datax:** Two bytes for user data storage.\n- These addresses can be programmed using the option byte programming procedure.\n- Bits [31:24]: **nData1**\n- Bits [23:16]: **Data1** (stored in `FLASH_OBR[25:18]`)\n- Bits [15:8]: **nData0**\n- Bits [7:0]: **Data0** (stored in `FLASH_OBR[17:10]`)\n\n### Flash memory address: `0x1FFF F808`\n\n- **WRPx:** Flash memory write protection option bytes\n- Bits [31:24]: **nWRP1**\n- Bits [23:16]: **WRP1** (stored in `FLASH_WRPR[15:8]`)\n- Bits [15:8]: **nWRP0**\n- Bits [7:0]: **WRP0** (stored in `FLASH_WRPR[7:0]`)"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0021-table-00011",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 21,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0021_00011.png",
+    "caption": "**Table 9. Description of the option bytes (continued)**\n\n**Column headings:**\n- **Flash memory address**\n- **Option bytes**\n\n**Flash memory address:** `0x1FFF F80C`\n\n**Option byte: WRPx — Flash memory write protection option bytes**\n- Bits `[31:24]`: **nWRP3**\n- Bits `[23:16]`: **WRP3** (stored in `FLASH_WRPR[31:24]`)\n- Bits `[15:8]`: **nWRP2**\n- Bits `[7:0]`: **WRP2** (stored in `FLASH_WRPR[23:16]`)\n\n- **For low-density devices**, one bit of the user option bytes WRPx is used to protect 4 pages of 1 Kbyte in main memory block.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, one user option byte is used to protect the 32-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 31\n\n- **For medium-density devices**, one bit of the user option bytes WRPx is used to protect 4 pages of 1 Kbyte in main memory block.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, four user option bytes are used to protect the 128-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 31\n  - `WRP1`: Write-protects pages 32 to 63\n  - `WRP2`: Write-protects pages 64 to 95\n  - `WRP3`: Write-protects pages 96 to 127\n\n- **For high-density devices**, one bit of the user option bytes WRPx is used to protect 2 pages of 2 Kbytes in main memory block. However, the bit 7 of WRP3 write protects pages 62 to 255.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, four user option bytes are used to protect the 512-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 15.\n  - `WRP1`: Write-protects pages 16 to 31.\n  - `WRP2`: Write-protects pages 32 to 47.\n  - `WRP3`: bits 0-6 write-protect pages 48 to 61\n  - bit 7 write-protects pages 62 to 255.\n\n- **For connectivity line devices**, one bit of the user option bytes WRPx is used to protect 2 pages of 2 Kbytes in main memory block. However, the bit 7 of WRP3 write protects pages 62 to 127.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, four user option bytes are used to protect the 256-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 15.\n  - `WRP1`: Write-protects pages 16 to 31.\n  - `WRP2`: Write-protects pages 32 to 47.\n  - `WRP3`: bits 0-6 write-protect pages 48 to 61\n  - bit 7 write-protects pages 62 to 127.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. Description of the option bytes (continued)",
+    "generated_captions": {
+      "luna": "**Table 9. Description of the option bytes (continued)**\n\n**Column headings:**\n- **Flash memory address**\n- **Option bytes**\n\n**Flash memory address:** `0x1FFF F80C`\n\n**Option byte: WRPx — Flash memory write protection option bytes**\n- Bits `[31:24]`: **nWRP3**\n- Bits `[23:16]`: **WRP3** (stored in `FLASH_WRPR[31:24]`)\n- Bits `[15:8]`: **nWRP2**\n- Bits `[7:0]`: **WRP2** (stored in `FLASH_WRPR[23:16]`)\n\n- **For low-density devices**, one bit of the user option bytes WRPx is used to protect 4 pages of 1 Kbyte in main memory block.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, one user option byte is used to protect the 32-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 31\n\n- **For medium-density devices**, one bit of the user option bytes WRPx is used to protect 4 pages of 1 Kbyte in main memory block.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, four user option bytes are used to protect the 128-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 31\n  - `WRP1`: Write-protects pages 32 to 63\n  - `WRP2`: Write-protects pages 64 to 95\n  - `WRP3`: Write-protects pages 96 to 127\n\n- **For high-density devices**, one bit of the user option bytes WRPx is used to protect 2 pages of 2 Kbytes in main memory block. However, the bit 7 of WRP3 write protects pages 62 to 255.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, four user option bytes are used to protect the 512-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 15.\n  - `WRP1`: Write-protects pages 16 to 31.\n  - `WRP2`: Write-protects pages 32 to 47.\n  - `WRP3`: bits 0-6 write-protect pages 48 to 61\n  - bit 7 write-protects pages 62 to 255.\n\n- **For connectivity line devices**, one bit of the user option bytes WRPx is used to protect 2 pages of 2 Kbytes in main memory block. However, the bit 7 of WRP3 write protects pages 62 to 127.\n  - `0`: Write protection active\n  - `1`: Write protection not active\n  - In total, four user option bytes are used to protect the 256-Kbyte main Flash memory.\n  - `WRP0`: Write-protects pages 0 to 15.\n  - `WRP1`: Write-protects pages 16 to 31.\n  - `WRP2`: Write-protects pages 32 to 47.\n  - `WRP3`: bits 0-6 write-protect pages 48 to 61\n  - bit 7 write-protects pages 62 to 127."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0022-text-00205",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 22,
+    "text": "On every system reset, the option byte loader (OBL) reads the information block and stores the data into the Option byte register (FLASH\\_OBR) and the Write protection register (FLASH\\_WRPR). Each option byte also has its complement in the information block. During option loading, by verifying the option bit and its complement, it is possible to check that the loading has correctly taken place. If this is not the case, an option byte error (OPTERR) is generated. When a comparison error occurs the corresponding option byte is forced to 0xFF. The comparator is disabled when the option byte and its complement are both equal to 0xFF (Electrical Erase state)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0022-text-00206",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 22,
+    "text": "All option bytes (but not their complements) are available to configure the product. The option registers are accessible in read mode by the CPU. See Section 3: Register descriptions for more details."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00207",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Register descriptions"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00208",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "In this section, the following abbreviations are used:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-table-00012",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0023_00012.png",
+    "caption": "**Table 10. Abbreviations**\n\n| Abbreviation | Meaning |\n|---|---|\n| read/write (rw) | Software can read from and write to these bits. |\n| read-only (r) | Software can only read these bits. |\n| write-only (w) | Software can only write to this bit. Reading the bit returns the reset value. |\n| read/clear (rc_w0) | Software can read as well as clear this bit by writing ‘0’. Writing ‘1’ has no effect on the bit value. |\n| read/set (rs) | Software can read as well as set this bit. Writing ‘0’ has no effect on the bit value. |\n| Reserved (Res.) | Reserved bit, must be kept at reset value. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 10. Abbreviations",
+    "generated_captions": {
+      "luna": "**Table 10. Abbreviations**\n\n| Abbreviation | Meaning |\n|---|---|\n| read/write (rw) | Software can read from and write to these bits. |\n| read-only (r) | Software can only read these bits. |\n| write-only (w) | Software can only write to this bit. Reading the bit returns the reset value. |\n| read/clear (rc_w0) | Software can read as well as clear this bit by writing ‘0’. Writing ‘1’ has no effect on the bit value. |\n| read/set (rs) | Software can read as well as set this bit. Writing ‘0’ has no effect on the bit value. |\n| Reserved (Res.) | Reserved bit, must be kept at reset value. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00209",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Note: The Flash memory registers have to be accessed by 32-bit words (half-word and byte accesses are not allowed)."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00210",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "3.1 Flash access control register (FLASH\\_ACR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00211",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Address offset: 0x00   \nReset value: 0x0000 0030"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-table-00013",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0023_00013.png",
+    "caption": "Visible register bit-field diagram/table (title not visible):\n\n- **Bits 31–16:** `Reserved`\n- Bit-position headings across the upper row: `31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16`\n- Bit-position headings across the lower row: `15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0`\n\nLower bit fields:\n\n- **Bits 15–6:** `Reserved`\n- **Bit 5:** `PRET` / `BS`; access: `r`\n- **Bit 4:** `PRET` / `BE`; access: `rw`\n- **Bit 3:** `HLF` / `CYA`; access: `rw`\n- **Bits 2–0:** `LATENCY`; access: `rw` for each bit (bits 2, 1, and 0)\n\nNo electrical values, units, test conditions, or footnotes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Visible register bit-field diagram/table (title not visible):\n\n- **Bits 31–16:** `Reserved`\n- Bit-position headings across the upper row: `31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16`\n- Bit-position headings across the lower row: `15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0`\n\nLower bit fields:\n\n- **Bits 15–6:** `Reserved`\n- **Bit 5:** `PRET` / `BS`; access: `r`\n- **Bit 4:** `PRET` / `BE`; access: `rw`\n- **Bit 3:** `HLF` / `CYA`; access: `rw`\n- **Bits 2–0:** `LATENCY`; access: `rw` for each bit (bits 2, 1, and 0)\n\nNo electrical values, units, test conditions, or footnotes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00212",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Bits 31:6 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00213",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Bit 5 PRFTBS: Prefetch buffer status This bit provides the status of the prefetch buffer. 0: Prefetch buffer is disabled 1: Prefetch buffer is enabled"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00214",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Bit 4 PRFTBE: Prefetch buffer enable 0: Prefetch is disabled 1: Prefetch is enabled"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0023-text-00215",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 23,
+    "text": "Bit 3 HLFCYA: Flash half cycle access enable 0: Half cycle is disabled 1: Half cycle is enabled"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00216",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "These bits represent the keys to unlock the OPTWRE."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00217",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "Bits 2:0 LATENCY: Latency"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00218",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "These bits represent the ratio of the SYSCLK (system clock) period to the Flash access time."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00219",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "000 Zero wait state, if 0 < SYSCLK≤ 24 MHz"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00220",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "001 One wait state, if 24 MHz < SYSCLK ≤ 48 MHz"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00221",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "010 Two wait states, if 48 MHz < SYSCLK ≤ 72 MHz"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00222",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "3.2 FPEC key register (FLASH\\_KEYR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00223",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "Address offset: 0x04"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00224",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "Reset value: xxxx xxxx"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-table-00014",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0024_00014.png",
+    "caption": "Register bitfield diagram (page 24):\n\n- Bit positions: **31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16**\n  - Field: **FKEYR[31:16]**\n  - Access designation for each bit: **w** (write)\n\n- Bit positions: **15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0**\n  - Field: **FKEYR[15:0]**\n  - Access designation for each bit: **w** (write)\n\nThe visible diagram therefore shows the full **FKEYR[31:0]** register, with all bits writable.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Bits 31:0 OPTKEYR: Option byte key",
+    "generated_captions": {
+      "luna": "Register bitfield diagram (page 24):\n\n- Bit positions: **31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16**\n  - Field: **FKEYR[31:16]**\n  - Access designation for each bit: **w** (write)\n\n- Bit positions: **15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0**\n  - Field: **FKEYR[15:0]**\n  - Access designation for each bit: **w** (write)\n\nThe visible diagram therefore shows the full **FKEYR[31:0]** register, with all bits writable."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00225",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "Bits 31:0 FKEYR: FPEC key"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00226",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "These bits represent the keys to unlock the FPEC."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-text-00227",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "text": "3.3 Flash OPTKEY register (FLASH\\_OPTKEYR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0024-table-00015",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0024_00015.png",
+    "caption": "Register bit-field layout table:\n\n- Upper half:\n  - Bit positions, left to right: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16**\n  - Field label: **OPTKEYR[31:16]**\n  - Each bit is marked **w**\n\n- Lower half:\n  - Bit positions, left to right: **15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**\n  - Field label: **OPTKEYR[15:0]**\n  - Each bit is marked **w**\n\nThe diagram shows the **OPTKEYR** register divided into two 16-bit fields, with all bits writable (`w`).",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Register bit-field layout table:\n\n- Upper half:\n  - Bit positions, left to right: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16**\n  - Field label: **OPTKEYR[31:16]**\n  - Each bit is marked **w**\n\n- Lower half:\n  - Bit positions, left to right: **15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**\n  - Field label: **OPTKEYR[15:0]**\n  - Each bit is marked **w**\n\nThe diagram shows the **OPTKEYR** register divided into two 16-bit fields, with all bits writable (`w`)."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00228",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "3.4 Flash status register (FLASH\\_SR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00229",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Address offset: 0x0C Reset value: 0x0000 0000"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-table-00016",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0025_00016.png",
+    "caption": "Table content (register bitfield layout; register name/title not visible):\n\n- Bit positions 31–16: **Reserved**\n- Bit positions 15–6: **Reserved**\n- Bit 5: **EOP**\n  - Access: **rw**\n- Bit 4: **WRPRT ERR**\n  - Access: **rw**\n- Bit 3: **Res.**\n- Bit 2: **PG ERR**\n  - Access: **rw**\n- Bit 1: **Res.**\n- Bit 0: **BSY**\n  - Access: **r**\n\nBit-position labels shown across the table: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Table content (register bitfield layout; register name/title not visible):\n\n- Bit positions 31–16: **Reserved**\n- Bit positions 15–6: **Reserved**\n- Bit 5: **EOP**\n  - Access: **rw**\n- Bit 4: **WRPRT ERR**\n  - Access: **rw**\n- Bit 3: **Res.**\n- Bit 2: **PG ERR**\n  - Access: **rw**\n- Bit 1: **Res.**\n- Bit 0: **BSY**\n  - Access: **r**\n\nBit-position labels shown across the table: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00230",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bits 31:6 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00231",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bit 5 EOP: End of operation"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00232",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Set by hardware when a Flash operation (programming / erase) is completed. Reset by writing a 1"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00233",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Note: EOP is asserted at the end of each successful program or erase operation"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00234",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bit 4 WRPRTERR: Write protection error"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00235",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Set by hardware when programming a write-protected address of the Flash memory.   \nReset by writing 1."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00236",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bit 3 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00237",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bit 2 PGERR: Programming error"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00238",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Set by hardware when an address to be programmed contains a value different from '0xFFFF' before programming.   \nReset by writing 1."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00239",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Note: The STRT bit in the FLASH\\_CR register should be reset before starting a programming operation."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00240",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bit 1 Reserved, must be kept cleared"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00241",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "Bit 0 BSY: Busy"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0025-text-00242",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 25,
+    "text": "This indicates that a Flash operation is in progress. This is set on the beginning of a Flash operation and reset when the operation finishes or when an error occurs."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00243",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "3.5 Flash control register (FLASH\\_CR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00244",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Address offset: 0x10"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00245",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Reset value: 0x0000 0080"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-table-00017",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0026_00017.png",
+    "caption": "Table excerpt (register bit-field layout; register title not visible):\n\n- Bits **31:16**: **Reserved**\n- Lower-word bit positions shown across the top: **15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0**\n- Bit fields:\n  - **Bits 15:13**: **Reserved**\n  - **Bit 12**: **EOPIE**, access **rw**\n  - **Bit 11**: **Res.**\n  - **Bit 10**: **ERRIE**, access **rw**\n  - **Bit 9**: **OPTWRE**, access **rw**\n  - **Bit 8**: **Res.**\n  - **Bit 7**: **LOCK**, access **rw**\n  - **Bit 6**: **STRT**, access **rw**\n  - **Bit 5**: **OPTER**, access **rw**\n  - **Bit 4**: **OPTPG**, access **rw**\n  - **Bit 3**: **Res.**\n  - **Bit 2**: **MER**, access **rw**\n  - **Bit 1**: **PER**, access **rw**\n  - **Bit 0**: **PG**, access **rw**\n\nThe labels **OPTWRE** and **OPTPG** are line-wrapped in the visible table.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Table excerpt (register bit-field layout; register title not visible):\n\n- Bits **31:16**: **Reserved**\n- Lower-word bit positions shown across the top: **15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0**\n- Bit fields:\n  - **Bits 15:13**: **Reserved**\n  - **Bit 12**: **EOPIE**, access **rw**\n  - **Bit 11**: **Res.**\n  - **Bit 10**: **ERRIE**, access **rw**\n  - **Bit 9**: **OPTWRE**, access **rw**\n  - **Bit 8**: **Res.**\n  - **Bit 7**: **LOCK**, access **rw**\n  - **Bit 6**: **STRT**, access **rw**\n  - **Bit 5**: **OPTER**, access **rw**\n  - **Bit 4**: **OPTPG**, access **rw**\n  - **Bit 3**: **Res.**\n  - **Bit 2**: **MER**, access **rw**\n  - **Bit 1**: **PER**, access **rw**\n  - **Bit 0**: **PG**, access **rw**\n\nThe labels **OPTWRE** and **OPTPG** are line-wrapped in the visible table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00246",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bits 31:13 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00247",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 12 EOPIE: End of operation interrupt enable This bit enables the interrupt generation when the EOP bit in the FLASH\\_SR register goes to 1. 0: Interrupt generation disabled 1: Interrupt generation enabled"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00248",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 11 Reserved, must be kept cleared"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00249",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 10 ERRIE: Error interrupt enable This bit enables the interrupt generation on an FPEC error (when PGERR / WRPRTERR are set in the FLASH\\_SR register). 0: Interrupt generation disabled 1: Interrupt generation enabled"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00250",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "When set, the option bytes can be programmed. This bit is set on writing the correct key sequence to the FLASH\\_OPTKEYR register.   \nThis bit can be reset by software"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00251",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 8 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00252",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 7 LOCK: Lock Write to 1 only. When it is set, it indicates that the FPEC and FLASH\\_CR are locked. This bit is reset by hardware after detecting the unlock sequence. In the event of unsuccessful unlock operation, this bit remains set until the next reset."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00253",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 6 STRT: Start This bit triggers an ERASE operation when set. This bit is set only by software and reset when the BSY bit is reset."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00254",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 5 OPTER: Option byte erase Option byte erase chosen."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00255",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 4 OPTPG: Option byte programming Option byte programming chosen."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00256",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 3 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00257",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 2 MER: Mass erase Erase of all user pages chosen."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00258",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 1 PER: Page erase Page Erase chosen."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0026-text-00259",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 26,
+    "text": "Bit 0 PG: Programming Flash programming chosen."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00260",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "3.6 Flash address register (FLASH\\_AR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00261",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Address offset: 0x14"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-table-00018",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0027_00018.png",
+    "caption": "- **Register/bit-field diagram**\n- Top bit-position labels, left to right: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16**\n- Field label: **FAR[31:16]**\n- Access/type row contains **W** in each of 16 cells, corresponding to the displayed bit-field positions.\n- Lower bit-position labels, left to right: **15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**\n- Nearby caption: **Reset value: 0x0000 0000**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Reset value: 0x0000 0000",
+    "generated_captions": {
+      "luna": "- **Register/bit-field diagram**\n- Top bit-position labels, left to right: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16**\n- Field label: **FAR[31:16]**\n- Access/type row contains **W** in each of 16 cells, corresponding to the displayed bit-field positions.\n- Lower bit-position labels, left to right: **15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**\n- Nearby caption: **Reset value: 0x0000 0000**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-table-00019",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0027_00019.png",
+    "caption": "- Table field/header: **FAR[15:0]**\n- The field is divided into **16 columns/bits**.\n- Each of the 16 visible bit cells is labeled **“w”** (lowercase):\n  1. w\n  2. w\n  3. w\n  4. w\n  5. w\n  6. w\n  7. w\n  8. w\n  9. w\n  10. w\n  11. w\n  12. w\n  13. w\n  14. w\n  15. w\n  16. w\n\nNo additional column labels, numeric bit positions, or footnotes are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "- Table field/header: **FAR[15:0]**\n- The field is divided into **16 columns/bits**.\n- Each of the 16 visible bit cells is labeled **“w”** (lowercase):\n  1. w\n  2. w\n  3. w\n  4. w\n  5. w\n  6. w\n  7. w\n  8. w\n  9. w\n  10. w\n  11. w\n  12. w\n  13. w\n  14. w\n  15. w\n  16. w\n\nNo additional column labels, numeric bit positions, or footnotes are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00262",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Updated by hardware with the currently/last used address. For Page Erase operations, this should be updated by software to indicate the chosen page."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00263",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Bits 31:0 FAR: Flash Address"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00264",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Chooses the address to program when programming is selected, or a page to erase when Page Erase is selected."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00265",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Note: Write access to this register is blocked when the BSY bit in the FLASH\\_SR register is set."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00266",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "3.7 Option byte register (FLASH\\_OBR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00267",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Address offset 0x1C"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00268",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Reset value: 0x03FF FFFC"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00269",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Note: The reset value of this register depends on the value programmed in the option byte and the OPTERR bit reset value depends on the comparison of the option byte and its complement during the option byte loading phase."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-table-00020",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0027_00020.png",
+    "caption": "Visible register bit-field table (title/context not visible):\n\n- Bit ordering runs left to right from bit **31** to bit **0**.\n- **Bits 31:26 — Reserved**\n- **Bits 25:18 — Data1**\n- **Bits 17:10 — Data0**\n- **Bits 9:5 — Not used**\n- Individual low-order bit labels:\n  - **Bit 4 — nBST_STDBY**\n  - **Bit 3 — nRST_STOP**\n  - **Bit 2 — WDG_SW**\n  - **Bit 1 — RDPRT**\n  - **Bit 0 — OPTERR**\n\nThe lower access row visibly contains lowercase **“r”** entries for bits **25 through 0**. No corresponding lower-row entry is visible under the **Reserved** field (bits 31:26).",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Visible register bit-field table (title/context not visible):\n\n- Bit ordering runs left to right from bit **31** to bit **0**.\n- **Bits 31:26 — Reserved**\n- **Bits 25:18 — Data1**\n- **Bits 17:10 — Data0**\n- **Bits 9:5 — Not used**\n- Individual low-order bit labels:\n  - **Bit 4 — nBST_STDBY**\n  - **Bit 3 — nRST_STOP**\n  - **Bit 2 — WDG_SW**\n  - **Bit 1 — RDPRT**\n  - **Bit 0 — OPTERR**\n\nThe lower access row visibly contains lowercase **“r”** entries for bits **25 through 0**. No corresponding lower-row entry is visible under the **Reserved** field (bits 31:26)."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00270",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Bits 31:26 Reserved, must be kept cleared."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00271",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Bits 25:18 Data1"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00272",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Bits 17:10 Data0"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00273",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "Bits 9:2 USER: User option bytes"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0027-text-00274",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 27,
+    "text": "This contains the user option byte loaded by the OBL.   \nBits [9:5]: Not used (if these bits are written in the Flash option byte, they will be read in this register with no effect on the device.)   \nBit 4: nRST\\_STDBY   \nBit 3: nRST\\_STOP   \nBit 2: WDG\\_SW"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00275",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Bit 1 RDPRT: Read protection"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00276",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "When set, this indicates that the Flash memory is read-protected."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00277",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Note: This bit is read-only."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00278",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Bit 0 OPTERR: Option byte error"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00279",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "When set, this indicates that the loaded option byte and its complement do not match. The corresponding byte and its complement are read as 0xFF in the FLASH\\_OBR or FLASH\\_WRPR register."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00280",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Note: This bit is read-only."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00281",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "3.8 Write protection register (FLASH\\_WRPR)"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00282",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Address offset: 0x20"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00283",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Reset value: 0xFFFF FFFF"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-table-00021",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0028_00021.png",
+    "caption": "Table showing a 32-bit register field layout:\n\n- Upper half:\n  - Bit positions labeled left to right: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16**\n  - A merged field labeled **WRP[31:16]**\n  - Each bit cell contains **r** (read-only)\n\n- Lower half:\n  - Bit positions labeled left to right: **15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**\n  - A merged field labeled **WRP[15:0]**\n  - Each bit cell contains **r** (read-only)\n\nNo table title, register name, reset values, or additional footnotes are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Table showing a 32-bit register field layout:\n\n- Upper half:\n  - Bit positions labeled left to right: **31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16**\n  - A merged field labeled **WRP[31:16]**\n  - Each bit cell contains **r** (read-only)\n\n- Lower half:\n  - Bit positions labeled left to right: **15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0**\n  - A merged field labeled **WRP[15:0]**\n  - Each bit cell contains **r** (read-only)\n\nNo table title, register name, reset values, or additional footnotes are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00284",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "This register contains the write-protection option bytes loaded by the OBL."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00285",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "0: Write protection active"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00286",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "1: Write protection not active"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0028-text-00287",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 28,
+    "text": "Note: These bits are read-only."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0029-text-00288",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 29,
+    "text": "3.9 Flash register map"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0029-table-00022",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 29,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0029_00022.png",
+    "caption": "**Table 11. Flash interface - register map and reset values**\n\nRegister-map bit columns are **31 through 0** (MSB to LSB). The table contains the following registers and reset values:\n\n- **Offset 0x000 — `FLASH_ACR`**\n  - Field: **Reserved** over the upper bits.\n  - Low-order fields:\n    - **`PRFTBS`**, bit 5\n    - **`PRFTBE`**, bit 4\n    - **`HLFCYA`**, bit 3\n    - **`LATENCY[2:0]`**, bits 2:0\n  - Reset value shown: `1 0 0 0 0 0` for bits 5:0; the remaining reserved bits are blank/reserved.\n\n- **Offset 0x004 — `FLASH_KEYR`**\n  - Field: **`KEYR[31:0]`**\n  - Reset value: `x` in every bit position, bits 31:0.\n\n- **Offset 0x008 — `FLASH_OPTKEYR`**\n  - Field: **`OPTKEYR[31:0]`**\n  - Reset value: `x` in every bit position, bits 31:0.\n\n- **Offset 0x00C — `FLASH_SR`**\n  - Upper bits are **Reserved**.\n  - Low-order fields, bits 5:0:\n    - **`EOP`**\n    - **`WRPRTERR`**\n    - **Reserved**\n    - **`PGERR`**\n    - **`ERBSY`**\n    - **`BSY`**\n  - Reset value shown: `0` for each displayed status bit; the reserved bit is also shown as `0`.\n\n- **Offset 0x010 — `FLASH_CR`**\n  - Upper bits are **Reserved**.\n  - Displayed control fields:\n    - **`EOPIE`**\n    - **Reserved**\n    - **`ERRIE`**\n    - **`OPTWRE`**\n    - **Reserved**\n    - **`LOCK`**\n    - **`STRT`**\n    - **`OPTER`**\n    - **`OPTPG`**\n    - **Reserved**\n    - **`PER`**\n    - **`MER`**\n    - **`PG`**\n  - Reset values shown for the displayed fields/bits are predominantly `0`; **`LOCK`** is shown with reset value `1`. Reserved positions are shown as `0` where individually displayed.\n\n- **Offset 0x014 — `FLASH_AR`**\n  - Field: **`FAR[31:0]`**\n  - Reset value: `0` in all 32 bit positions.\n\n- **Offset 0x018**\n  - Entire row labeled **Reserved**.\n\n- **Offset 0x01C — `FLASH_OBR`**\n  - Fields:\n    - Upper portion: **Reserved**\n    - **`Data1`**\n    - **`Data0`**\n    - **`Not used`**\n    - Low-order option/control fields labeled:\n      - **`NRST_STDBY`**\n      - **`NRST_STOP`**\n      - **`WDG_SW`**\n      - **`NRST`**-prefixed field; the remainder of this label is difficult to read in the crop\n      - **`OPTRT`**-prefixed field; exact lettering is partially unclear\n      - **`OPTER`**\n  - Reset value:\n    - `Data1`: all `1`s\n    - `Data0`: all `1`s\n    - `Not used`: shown as `1`s\n    - Rightmost option bits: shown as `0 0` in the legible portion.\n\n- **Offset 0x020 — `FLASH_WRPR`**\n  - Field: **`WRP[31:0]`**\n  - Reset value: `1` in every bit position, bits 31:0.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 11. Flash interface - register map and reset values",
+    "generated_captions": {
+      "luna": "**Table 11. Flash interface - register map and reset values**\n\nRegister-map bit columns are **31 through 0** (MSB to LSB). The table contains the following registers and reset values:\n\n- **Offset 0x000 — `FLASH_ACR`**\n  - Field: **Reserved** over the upper bits.\n  - Low-order fields:\n    - **`PRFTBS`**, bit 5\n    - **`PRFTBE`**, bit 4\n    - **`HLFCYA`**, bit 3\n    - **`LATENCY[2:0]`**, bits 2:0\n  - Reset value shown: `1 0 0 0 0 0` for bits 5:0; the remaining reserved bits are blank/reserved.\n\n- **Offset 0x004 — `FLASH_KEYR`**\n  - Field: **`KEYR[31:0]`**\n  - Reset value: `x` in every bit position, bits 31:0.\n\n- **Offset 0x008 — `FLASH_OPTKEYR`**\n  - Field: **`OPTKEYR[31:0]`**\n  - Reset value: `x` in every bit position, bits 31:0.\n\n- **Offset 0x00C — `FLASH_SR`**\n  - Upper bits are **Reserved**.\n  - Low-order fields, bits 5:0:\n    - **`EOP`**\n    - **`WRPRTERR`**\n    - **Reserved**\n    - **`PGERR`**\n    - **`ERBSY`**\n    - **`BSY`**\n  - Reset value shown: `0` for each displayed status bit; the reserved bit is also shown as `0`.\n\n- **Offset 0x010 — `FLASH_CR`**\n  - Upper bits are **Reserved**.\n  - Displayed control fields:\n    - **`EOPIE`**\n    - **Reserved**\n    - **`ERRIE`**\n    - **`OPTWRE`**\n    - **Reserved**\n    - **`LOCK`**\n    - **`STRT`**\n    - **`OPTER`**\n    - **`OPTPG`**\n    - **Reserved**\n    - **`PER`**\n    - **`MER`**\n    - **`PG`**\n  - Reset values shown for the displayed fields/bits are predominantly `0`; **`LOCK`** is shown with reset value `1`. Reserved positions are shown as `0` where individually displayed.\n\n- **Offset 0x014 — `FLASH_AR`**\n  - Field: **`FAR[31:0]`**\n  - Reset value: `0` in all 32 bit positions.\n\n- **Offset 0x018**\n  - Entire row labeled **Reserved**.\n\n- **Offset 0x01C — `FLASH_OBR`**\n  - Fields:\n    - Upper portion: **Reserved**\n    - **`Data1`**\n    - **`Data0`**\n    - **`Not used`**\n    - Low-order option/control fields labeled:\n      - **`NRST_STDBY`**\n      - **`NRST_STOP`**\n      - **`WDG_SW`**\n      - **`NRST`**-prefixed field; the remainder of this label is difficult to read in the crop\n      - **`OPTRT`**-prefixed field; exact lettering is partially unclear\n      - **`OPTER`**\n  - Reset value:\n    - `Data1`: all `1`s\n    - `Data0`: all `1`s\n    - `Not used`: shown as `1`s\n    - Rightmost option bits: shown as `0 0` in the legible portion.\n\n- **Offset 0x020 — `FLASH_WRPR`**\n  - Field: **`WRP[31:0]`**\n  - Reset value: `1` in every bit position, bits 31:0."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0030-text-00289",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 30,
+    "text": "4 Revision history"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0030-table-00023",
+    "type": "table",
+    "doc": "stm32-pm0075",
+    "page": 30,
+    "image_path": "data/parsed/stm32/stm32-pm0075/mineru/images/bbox_fallback_table_p0030_00023.png",
+    "caption": "**Table 12. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 30-Aug-2010 | 1 | Initial release. Same content as PM0042 revision 8. |\n| 27-Aug-2012 | 2 | Updated *Section 2.3.5: Option byte programming on page 16.* |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 12. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 12. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 30-Aug-2010 | 1 | Initial release. Same content as PM0042 revision 8. |\n| 27-Aug-2012 | 2 | Updated *Section 2.3.5: Option byte programming on page 16.* |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00290",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00291",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00292",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00293",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00294",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00295",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00296",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY TWO AUTHORIZED ST REPRESENTATIVES, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00297",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00298",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00299",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00300",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00301",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "© 2012 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00302",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00303",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-pm0075-p0031-text-00304",
+    "type": "text",
+    "doc": "stm32-pm0075",
+    "page": 31,
+    "text": "www.st.com"
+  }
+]

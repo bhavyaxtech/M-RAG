@@ -1,0 +1,318 @@
+{
+  "case": {
+    "id": "wrong-component",
+    "question": "Which pin is TXD0 on the ESP32-WROOM-32E?",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "mode": "mrag"
+  },
+  "request": {
+    "message": "Which pin is TXD0 on the ESP32-WROOM-32E?",
+    "mode": "mrag",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:50:31.897019+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "out_of_scope",
+      "search_query": "Which pin is TXD0 on the ESP32-WROOM-32E?",
+      "page": null,
+      "confidence": 1.0,
+      "reason": "Asks about an ESP32 module, not the active STM32F103 datasheet.",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "You"
+    },
+    {
+      "type": "token",
+      "text": " have"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "DS"
+    },
+    {
+      "type": "token",
+      "text": "531"
+    },
+    {
+      "type": "token",
+      "text": "9"
+    },
+    {
+      "type": "token",
+      "text": " ("
+    },
+    {
+      "type": "token",
+      "text": "rev"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "20"
+    },
+    {
+      "type": "token",
+      "text": ")"
+    },
+    {
+      "type": "token",
+      "text": " —"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "/x"
+    },
+    {
+      "type": "token",
+      "text": "B"
+    },
+    {
+      "type": "token",
+      "text": " datas"
+    },
+    {
+      "type": "token",
+      "text": "heet"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " open"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " but"
+    },
+    {
+      "type": "token",
+      "text": " your"
+    },
+    {
+      "type": "token",
+      "text": " question"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " about"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "ESP"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "-W"
+    },
+    {
+      "type": "token",
+      "text": "ROOM"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "E"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " Its"
+    },
+    {
+      "type": "token",
+      "text": " datas"
+    },
+    {
+      "type": "token",
+      "text": "heet"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " loaded"
+    },
+    {
+      "type": "token",
+      "text": " collection"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": " can"
+    },
+    {
+      "type": "token",
+      "text": "’t"
+    },
+    {
+      "type": "token",
+      "text": " check"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " TX"
+    },
+    {
+      "type": "token",
+      "text": "D"
+    },
+    {
+      "type": "token",
+      "text": "0"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": " here"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "done",
+      "answer": "You have the **DS5319 (rev 20) — STM32F103x8/xB datasheet** open, but your question is about the **ESP32-WROOM-32E**. Its datasheet is not in the loaded collection, so I can’t check the TXD0 pin here.",
+      "cited": [],
+      "provenance": "out_of_scope",
+      "timings_ms": {
+        "route": 1536,
+        "retrieve": 0,
+        "first_token": 3211,
+        "total": 3274
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 3.27
+}

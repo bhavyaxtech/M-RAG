@@ -1,0 +1,2136 @@
+[
+  {
+    "segment_id": "stm32-an2821-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 1,
+    "text": "Clock/calendar implementation on the STM32F10xxx microcontroller RTC"
+  },
+  {
+    "segment_id": "stm32-an2821-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 1,
+    "text": "The internal RTC (real-time clock) of the 32-bit, ARM® Cortex™-M3-based medium-density STM32F10xxx microcontroller is an independent timer. It provides a set of continuously running counters, which, using suitable software, can be used to implement a clock/calendar function. The RTC and backup registers are supplied through a switch that draws power from either the $\\mathsf { V } _ { \\mathsf { D D } }$ supply (when present) or the backup battery. Thus the RTC runs even when the main supply is switched off."
+  },
+  {
+    "segment_id": "stm32-an2821-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 1,
+    "text": "This application note gives an example of how to implement the clock/calendar functionality using the medium-density STM32F10xxx microcontroller in low-power and standard applications. The firmware example also performs leap year counting and tamper time stamping. It provides a low-power mode demonstration and a basic RTC calibration routine to compensate for crystal and temperature variations."
+  },
+  {
+    "segment_id": "stm32-an2821-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 1,
+    "text": "The STM3210B-EVAL board supports the firmware example described in this application note without any modification to its hardware."
+  },
+  {
+    "segment_id": "stm32-an2821-p0001-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 1,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0001_00001.png",
+    "caption": "**Figure 1. STM3210B-EVAL board**\n\nPhotograph of an STMicroelectronics STM32 evaluation board demonstrating an RTC/calendar application.\n\nLegible markings and displayed text:\n\n- Board marking: **STM32F10x-128K-EVAL** (printed across the central evaluation-board area).\n- STMicroelectronics **ST** logos are visible on the board.\n- The LCD display shows:\n  - **STM32**\n  - **RTC AND CALENDAR**\n  - **IMPLEMENTATION**\n  - **10:45:18**\n  - **23 May 2008**\n  - **Fri**\n  - **MENU**\n\nVisible hardware/features include:\n\n- Central STM32 evaluation-board circuitry with the STM32 device area and surrounding headers.\n- A small joystick/control switch near the center of the board.\n- Multiple illuminated status/user LEDs, including a prominent red LED near the lower-middle area and another red light below the LCD.\n- Character/graphic LCD module mounted in the lower half of the board.\n- Top-mounted expansion/header connector.\n- Left and right side connectors, including large D-sub-style connectors.\n- Right-side vertical pin-header arrays and a small circular-hole expansion/header area.\n- Push-buttons, rotary/control components, and other user-interface connectors around the lower and side edges.\n- Oscillator/crystal, coin-cell/battery-like component, capacitors, and other discrete components visible on the PCB.\n\nThe image is a board photograph rather than a pinout or specification table; no complete pin numbering or electrical values are legible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. STM3210B-EVAL board",
+    "generated_captions": {
+      "luna": "**Figure 1. STM3210B-EVAL board**\n\nPhotograph of an STMicroelectronics STM32 evaluation board demonstrating an RTC/calendar application.\n\nLegible markings and displayed text:\n\n- Board marking: **STM32F10x-128K-EVAL** (printed across the central evaluation-board area).\n- STMicroelectronics **ST** logos are visible on the board.\n- The LCD display shows:\n  - **STM32**\n  - **RTC AND CALENDAR**\n  - **IMPLEMENTATION**\n  - **10:45:18**\n  - **23 May 2008**\n  - **Fri**\n  - **MENU**\n\nVisible hardware/features include:\n\n- Central STM32 evaluation-board circuitry with the STM32 device area and surrounding headers.\n- A small joystick/control switch near the center of the board.\n- Multiple illuminated status/user LEDs, including a prominent red LED near the lower-middle area and another red light below the LCD.\n- Character/graphic LCD module mounted in the lower half of the board.\n- Top-mounted expansion/header connector.\n- Left and right side connectors, including large D-sub-style connectors.\n- Right-side vertical pin-header arrays and a small circular-hole expansion/header area.\n- Push-buttons, rotary/control components, and other user-interface connectors around the lower and side edges.\n- Oscillator/crystal, coin-cell/battery-like component, capacitors, and other discrete components visible on the PCB.\n\nThe image is a board photograph rather than a pinout or specification table; no complete pin numbering or electrical values are legible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0002-text-00005",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2821-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 2,
+    "text": "1 Overview of the medium-density STM32F10xxx backup domain . . . . . 6   \n1.1 Main backup domain features 6   \n1.2 Main RTC features   \n2 Configuring the RTC registers 8   \n3 Clock/calendar functionality features   \n3.1 Clock/calendar basics 9   \n3.1.1 Implementing the clock function on the medium-density STM32F10xxx . 9   \n3.1.2 Implementing calendar function on the medium-density STM32F10xxx . 9   \n3.1.3 Summer time correction 11   \n3.2 Clock source selection 11   \n3.3 Calibration 11   \n3.4 Low-power modes 13   \n3.4.1 Stop mode 13   \n3.4.2 Standby mode 14   \n3.5 Tamper detection and time stamping 15   \n3.5.1 TAMPER-RTC pin functionality 15   \n3.5.2 Tamper timestamping 15   \n3.5.3 Battery tamper timestamping 15   \n4 Firmware description 16   \n5 Hardware description 17   \n6 Running the demonstrator 18   \n6.1 Clock/calendar 18   \n6.1.1 Setting the time 18   \n6.1.2 Setting the alarm 18   \n6.1.3 Setting the date 18   \n6.1.4 Summer time correction 18   \n6.2 Low-power demonstration 18   \n6.2.1 Stop mode 18   \n6.2.2 Standby mode 19   \n6.3 Timestamping . 19   \n6.3.1 Tamper events 19   \n6.3.2 Battery removal and installation . . 19   \n6.4 Clock calibration 20   \n6.5 Clock source selection 20   \n6.5.1 50 Hz time base selection .21   \n6.5.2 60 Hz time base selection .21   \nAppendix A Calibration table.. .23   \nAppendix B Additional notes on calibration and clock accuracy .. . . .. . . .. . 25   \n7 Revision history .27"
+  },
+  {
+    "segment_id": "stm32-an2821-p0004-text-00007",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 4,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2821-p0004-text-00008",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 4,
+    "text": "Table 1. Calibration lookup table . . . . . . . . . . . . . . . . ..23   \nTable 2. Document revision history. .27"
+  },
+  {
+    "segment_id": "stm32-an2821-p0005-text-00009",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 5,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2821-p0005-text-00010",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 5,
+    "text": "Figure 1. STM3210B-EVAL board . 1   \nFigure 2. RTC block diagram . .6   \nFigure 3. Time system flowchart(1) .9   \nFigure 4. Calendar algorithm . 10   \nFigure 5. Leap year flowchart 10   \nFigure 6. Calibration process . 12   \nFigure 7. Stop mode entry sequence. 13   \nFigure 8. Standby mode entry sequence . 14   \nFigure 9. STM3210B-EVAL board description. 17   \nFigure 10. RTC time base connection 21   \nFigure 11. Clock source selection 22"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00011",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "Overview of the medium-density STM32F10xxx backup domain"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00012",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "Figure 2 shows the RTC block diagram."
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0006_00002.png",
+    "caption": "Figure 2. RTC block diagram (identifier visible at lower right: **ai15437**).\n\n- An outer rectangular boundary encloses the RTC circuitry.\n- Clock-source inputs at the top:\n  - **HSE OSC**\n  - **LSI RC**\n  - **LSE OSC/ EXT CLOCK**\n- The clock sources feed a selector block labeled **RTCsel [1:0]**.\n- A vertical divider above the selector is labeled **/1/128**; the **HSE OSC** connection enters this divider.\n- The selector output is labeled **fRTC** and connects to the **RTC divider**.\n- Main functional blocks:\n  - **RTC prescaler**\n  - **RTC divider**\n  - **RTC counter**\n  - **RTC alarm**\n  - Comparator block marked **=**\n  - **RTC control register**\n  - **Backup registers**\n- Connections and signal flow shown:\n  - **RTC prescaler** connects downward toward the RTC-divider path.\n  - **RTC divider** connects leftward to the **RTC counter**.\n  - **RTC counter** connects downward to the **RTC control register**.\n  - **RTC alarm** connects downward to the **=** comparator.\n  - The comparator connects into the control-register signal path.\n  - Additional vertical signal lines feed the **RTC control register**.\n- Outputs from the bottom of the **RTC control register**:\n  - **Alarm IT**\n  - **Overflow IT**\n  - **Second IT**\n- Arrows indicate the direction of signal flow between the clock-selection/divider stages, counter, comparator, and control register.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. RTC block diagram",
+    "generated_captions": {
+      "luna": "Figure 2. RTC block diagram (identifier visible at lower right: **ai15437**).\n\n- An outer rectangular boundary encloses the RTC circuitry.\n- Clock-source inputs at the top:\n  - **HSE OSC**\n  - **LSI RC**\n  - **LSE OSC/ EXT CLOCK**\n- The clock sources feed a selector block labeled **RTCsel [1:0]**.\n- A vertical divider above the selector is labeled **/1/128**; the **HSE OSC** connection enters this divider.\n- The selector output is labeled **fRTC** and connects to the **RTC divider**.\n- Main functional blocks:\n  - **RTC prescaler**\n  - **RTC divider**\n  - **RTC counter**\n  - **RTC alarm**\n  - Comparator block marked **=**\n  - **RTC control register**\n  - **Backup registers**\n- Connections and signal flow shown:\n  - **RTC prescaler** connects downward toward the RTC-divider path.\n  - **RTC divider** connects leftward to the **RTC counter**.\n  - **RTC counter** connects downward to the **RTC control register**.\n  - **RTC alarm** connects downward to the **=** comparator.\n  - The comparator connects into the control-register signal path.\n  - Additional vertical signal lines feed the **RTC control register**.\n- Outputs from the bottom of the **RTC control register**:\n  - **Alarm IT**\n  - **Overflow IT**\n  - **Second IT**\n- Arrows indicate the direction of signal flow between the clock-selection/divider stages, counter, comparator, and control register."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00013",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "1.1 Main backup domain features"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00014",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "The backup domain of the medium-density STM32F10xxx:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00015",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "includes ten 16-bit backup data registers, backup control/status registers and RTC registers."
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00016",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "● is powered by $\\mathsf { V } _ { \\mathsf { B A T } }$ when the $\\mathsf { V } _ { \\mathsf { D D } }$ main power is switched off."
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00017",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "is not reset due to system reset, power reset or when the microcontroller wakes up from the Standby mode."
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00018",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "is protected from parasitic write access after reset (access to the backup domain is disabled after reset)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00019",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "●consists of two main units:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00020",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "an APB1 interface used to interface with the APB1 bus. The backup domain registers are accessible through the APB1 bus in read/write access mode."
+  },
+  {
+    "segment_id": "stm32-an2821-p0006-text-00021",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 6,
+    "text": "– an RTC core which is clocked by the RTC clock."
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00022",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "1.2 Main RTC features"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00023",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "The RTC:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00024",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "●has three clock sources:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00025",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "– LSE (low-speed external) clock that can also be bypassed by an external clock"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00026",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "– LSI (low-speed internal) RC oscillator"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00027",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "–HSE (high-speed external) clock divided by 128."
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00028",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "has a 20-bit programmable prescaler that can be programmed to generate the RTC time base. The prescaler load register contains the period counting value of the prescaler."
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00029",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "●has three interrupt sources:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00030",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "second"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00031",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "一 overflow"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00032",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "– alarm (also connected to EXTI Line 17 for auto-wakeup from Stop mode)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00033",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "●its clock can be output on the TAMPER-RTC pin for calibration purposes."
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00034",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "Please refer to Figure 2 for an illustration of the medium-density STM32F10xxx RTC block diagram."
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00035",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "All of the above mentioned features of the medium-density STM32F10xxx backup domain can be used to develop a clock/calendar application equivalent to dedicated real-time clocks."
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00036",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0007-text-00037",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 7,
+    "text": "Be careful when choosing the 32.768 kHz crystal for your application. It is strongly recommended to use a crystal with a load capacitance less than or equal to 7 pF. Never use a crystal with a load capacitance of 12.5 pF."
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00038",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Configuring the RTC registers"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00039",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "On startup, follow the steps below to configure the RTC to generate an interrupt every second:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00040",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Enable the APB1 backup domain and power interface clocks by writing the BKPEN and PWREN bits $t o \\textrm { \\ -- }$ in the RCC\\_APB1ENR register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00041",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Enable access to backup domain by writing the DBP bit to $\" 1 \"$ in the PWR\\_CR register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00042",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Enable the LSE clock by writing the LSEON bit to $\" 1 \"$ (also write LSEBYP to “1” when the external clock has to be bypassed)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00043",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Poll the LSERDY flag in the RCC\\_BDCR register until the LSE clock is ready (if the external crystal is used as the clock source)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00044",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Select LSE as the RTC clock source by writing $\\bullet \\mathsf { 1 } ^ { \\prime }$ to the RTCSEL bits in the RCC\\_BDCR register."
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00045",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "●Enable the RTC clock by setting the RTCEN bit in the RCC\\_BDCR register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00046",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Poll the RSF bit in the RTC\\_CRL register until the RTC registers are synchronized (if a 50/60 Hz external clock source is used this step may take up to a minute to complete)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00047",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "● Poll the RTOFF bit in the RTC\\_CRL register until the last operation on the RTC registers is over"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00048",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Enable the RTC second global interrupt by setting the SECIE bit in the RTC\\_CRH register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00049",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Wait for the last task to complete"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00050",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "Set the RTC prescaler value using the following formula:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00051",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "$\\mathsf { f } _ { \\mathsf { T R C L K } } = \\mathsf { f } _ { \\mathsf { R T C C L K } } / ( \\mathsf { P R L } [ 1 9 : 0 ] + 1 )$ , where:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00052",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "– fRTCCLK is the input clock frequency"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00053",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "$- \\mathrm { \\Delta } \\mathsf { f } _ { \\mathsf { T R C L K } }$ is the time base generated from the prescaler block"
+  },
+  {
+    "segment_id": "stm32-an2821-p0008-text-00054",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 8,
+    "text": "For example, if an external 32.768 kHz (32 kHz) crystal oscillator is used, set the prescaler to 32767. If an external 50 Hz supply is used set the prescaler value to 49."
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00055",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "Clock/calendar functionality features"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00056",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "3.1 Clock/calendar basics"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00057",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "A real-time clock keeps track of the time (hours, minutes, seconds) and date (day, month, year). It should also take into account leap years. A leap year is a year where an extra day is added to the calendar in order to synchronize it to the seasons. Since the tropical year is 365.242190 days long, a leap day must be added roughly once every 4 years (4 × 0.242190 = 0.968760). Thus, every four years, the month of February counts 29 days instead of 28."
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00058",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "3.1.1 Implementing the clock function on the medium-density STM32F10xxx"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00059",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "The used registers are RTC registers: prescaler register, counter register and alarm register."
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00060",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "The medium-density STM32F10xxx RTC peripheral consists of a chain of programmable counters consisting of two main units:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00061",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "the RTC prescaler block generates the RTC time base. Depending on the clock period applied to the LSE input, this prescaler can be adjusted to generate a time base (RTC\\_CLK) of 1 second by writing to the prescaler load register."
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00062",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "the 32-bit programmable counter can be initialized to the current system time. The system time is incremented at the RTC\\_CLK rate and compared with the alarm register value. When it reaches the alarm register value, an interrupt is generated."
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00063",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "The current system time can be inferred from the value in the counter register by following the steps shown in Figure 3 (“/” implies division, “%” implies modulus)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0009_00003.png",
+    "caption": "**Figure 3. Time system flowchart(1)**\n\nA top-to-bottom flowchart with downward arrows connecting four process boxes:\n\n1. **Read RTC counter value**  \n   **(TimeVar)**\n\n2. **Hours = TimeVar / 3600**  \n   The figure presents this as a fraction, with **TimeVar** over **3600**.\n\n3. **Minutes = TimeVar % 3600 / 60**  \n   The figure presents this as a fraction, with **TimeVar % 3600** over **60**.\n\n4. **Seconds = (TimeVar % 3600) % 60**\n\nBottom-right identifier: **ai15438**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Time system flowchart(1)",
+    "generated_captions": {
+      "luna": "**Figure 3. Time system flowchart(1)**\n\nA top-to-bottom flowchart with downward arrows connecting four process boxes:\n\n1. **Read RTC counter value**  \n   **(TimeVar)**\n\n2. **Hours = TimeVar / 3600**  \n   The figure presents this as a fraction, with **TimeVar** over **3600**.\n\n3. **Minutes = TimeVar % 3600 / 60**  \n   The figure presents this as a fraction, with **TimeVar % 3600** over **60**.\n\n4. **Seconds = (TimeVar % 3600) % 60**\n\nBottom-right identifier: **ai15438**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00064",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "3.1.2 Implementing calendar function on the medium-density STM32F10xxx"
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00065",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "The used registers are the 16-bit backup data registers."
+  },
+  {
+    "segment_id": "stm32-an2821-p0009-text-00066",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 9,
+    "text": "When the 32-bit counter register value reaches 86399, this means that one day has elapsed, and that the date has to be updated. The counter value is then reset. Whenever the system date is updated, the new date is stored into the 16-bit backup data registers so that"
+  },
+  {
+    "segment_id": "stm32-an2821-p0010-text-00067",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 10,
+    "text": "the system remains at the current date even after system reset, power reset or wakeup from the Standby mode."
+  },
+  {
+    "segment_id": "stm32-an2821-p0010-text-00068",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 10,
+    "text": "The calendar algorithm given in Figure 4 can be used to develop the date update function."
+  },
+  {
+    "segment_id": "stm32-an2821-p0010-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0010_00004.png",
+    "caption": "**Figure 4. Calendar algorithm** — flowchart for incrementing the day, month, and year.\n\nVisible flowchart text and connections:\n\n- **“Month has 31 days ?”** decision:\n  - **Yes** → **“Day < 31 ?”**\n    - **Yes** → **“Day++”**\n    - **No** → **“Month = 12 ?”**\n      - **No** → process box:\n        - **“Month++”**\n        - **“Day=1”**\n      - **Yes** → process box:\n        - **“Month=1”**\n        - **“Day=1”**\n        - **“Year++”**\n  - **No** → routed left and downward to **“Month has 30 days ?”**\n\n- **“Month has 30 days ?”** decision:\n  - **Yes** → **“Day < 31 ?”**\n    - **Yes** → **“Day++”**\n    - **No** → process box:\n      - **“Month++”**\n      - **“Day=1”**\n  - **No** → routed right and upward into **“Month = 2 ?”**\n\n- **“Month = 2 ?”** decision:\n  - **Yes** → **“Day < 28 ?”**\n    - **Yes** → **“Day++”**\n    - **No** → **“Day == 28 ?”**\n      - **Yes** → **“Is it a leap year?”**\n        - **Yes** → **“Day++”**\n        - **No** → process box:\n          - **“Month++”**\n          - **“Day=1”**\n      - **No** → routed right, then downward and left to **“Day == 29 ?”**\n        - **Yes** → process box:\n          - **“Month++”**\n          - **“Day=1”**\n\nAdditional visible details:\n\n- Decision nodes are diamond-shaped; actions are rectangular process boxes.\n- Branch labels are **“Yes”** and **“No”**.\n- Arrows indicate the flow direction; the left-side **“No”** path from **“Month has 31 days ?”** loops down into **“Month has 30 days ?”**.\n- The **“No”** path from **“Month has 30 days ?”** routes upward into the February-related logic beginning at **“Month = 2 ?”**.\n- The figure identifier at the bottom right is **“ai15439”**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. Calendar algorithm",
+    "generated_captions": {
+      "luna": "**Figure 4. Calendar algorithm** — flowchart for incrementing the day, month, and year.\n\nVisible flowchart text and connections:\n\n- **“Month has 31 days ?”** decision:\n  - **Yes** → **“Day < 31 ?”**\n    - **Yes** → **“Day++”**\n    - **No** → **“Month = 12 ?”**\n      - **No** → process box:\n        - **“Month++”**\n        - **“Day=1”**\n      - **Yes** → process box:\n        - **“Month=1”**\n        - **“Day=1”**\n        - **“Year++”**\n  - **No** → routed left and downward to **“Month has 30 days ?”**\n\n- **“Month has 30 days ?”** decision:\n  - **Yes** → **“Day < 31 ?”**\n    - **Yes** → **“Day++”**\n    - **No** → process box:\n      - **“Month++”**\n      - **“Day=1”**\n  - **No** → routed right and upward into **“Month = 2 ?”**\n\n- **“Month = 2 ?”** decision:\n  - **Yes** → **“Day < 28 ?”**\n    - **Yes** → **“Day++”**\n    - **No** → **“Day == 28 ?”**\n      - **Yes** → **“Is it a leap year?”**\n        - **Yes** → **“Day++”**\n        - **No** → process box:\n          - **“Month++”**\n          - **“Day=1”**\n      - **No** → routed right, then downward and left to **“Day == 29 ?”**\n        - **Yes** → process box:\n          - **“Month++”**\n          - **“Day=1”**\n\nAdditional visible details:\n\n- Decision nodes are diamond-shaped; actions are rectangular process boxes.\n- Branch labels are **“Yes”** and **“No”**.\n- Arrows indicate the flow direction; the left-side **“No”** path from **“Month has 31 days ?”** loops down into **“Month has 30 days ?”**.\n- The **“No”** path from **“Month has 30 days ?”** routes upward into the February-related logic beginning at **“Month = 2 ?”**.\n- The figure identifier at the bottom right is **“ai15439”**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0010-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0010_00005.png",
+    "caption": "**Figure 5. Leap year flowchart**\n\nVertical decision flowchart:\n\n1. **Decision:** “Year divisible by 400?”\n   - **Yes** → right to process box: **“It is a leap year”**\n   - **No** → downward to next decision\n\n2. **Decision:** “Year divisible by 100?”\n   - **Yes** → right to process box: **“Not a leap year”**\n   - **No** → downward to next decision\n\n3. **Decision:** “Year divisible by 4?”\n   - **Yes** → right to process box: **“It is a leap year”**\n   - **No** → downward to final process box: **“Not a leap year”**\n\nThe diagram uses diamond-shaped decision nodes and rectangular outcome boxes. “Yes” labels are placed on rightward branches; “No” labels are placed on downward branches.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Leap year flowchart",
+    "generated_captions": {
+      "luna": "**Figure 5. Leap year flowchart**\n\nVertical decision flowchart:\n\n1. **Decision:** “Year divisible by 400?”\n   - **Yes** → right to process box: **“It is a leap year”**\n   - **No** → downward to next decision\n\n2. **Decision:** “Year divisible by 100?”\n   - **Yes** → right to process box: **“Not a leap year”**\n   - **No** → downward to next decision\n\n3. **Decision:** “Year divisible by 4?”\n   - **Yes** → right to process box: **“It is a leap year”**\n   - **No** → downward to final process box: **“Not a leap year”**\n\nThe diagram uses diamond-shaped decision nodes and rectangular outcome boxes. “Yes” labels are placed on rightward branches; “No” labels are placed on downward branches."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "Caution:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "In the case of a device in low-power mode or whose external supply is off when the counter reaches 86399, the counter cannot be reset and so the date is not updated. This is why, just after power reset, it is necessary to check the counter value and update the date as many times as the number of days during which the device remained in low-power mode or had its external main supply switched off."
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "3.1.3 Summer time correction"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "This correction is also known as daylight saving and it is used in some countries to save power. The principle is to increment the time of a given country by an hour in summer time so that the sun rises an hour later in the morning and daylight is present longer in the evening. Typically, an hour is added to all clocks near the start of spring and, likewise, an hour is removed in autumn. Exact time and date for summer time correction differs from location to location."
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00073",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "3.2 Clock source selection"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "The external LSE (low-speed external) crystal oscillator can be a crystal oscillator usually with a frequency of 32.768 kHz (32 kHz), which provides a low-power and highly accurate clock source to the RTC peripheral for clock calendar applications. The external LSE can also be bypassed by an external clock. Thus, in countries where the mains power line frequency is significantly stable, a 50 Hz or 60 Hz clock can also be used to provide the RTC clock. Assuming that there is already an isolating circuit and an overcurrent protection in the system, all that is needed is to bypass the LSE crystal and adjust the prescaler load register value so as to generate a time base of 1 second, and hence the second interrupt, if configured."
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00075",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "This application only covers the case of an emulated 50/60 Hz clock source."
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00076",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "The RTC time base of 1 second is derived from the following formula:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00077",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "$$\n\\mathsf { f } _ { \\mathsf { T R C L K } } = \\mathsf { f } _ { \\mathsf { R T C C L K } } / ( \\mathsf { P R L } [ 1 9 : 0 ] + 1 ) , \\mathsf { w h e r e } .\n$$"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00078",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "$\\mathsf { f } _ { \\mathsf { T R C L K } } \\mathsf { i }$ s the derived time base"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00079",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "● f<sub>RTCCLK</sub> is the clock frequency applied on the low-speed oscillator input"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00080",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "50 Hz selection: the prescaler load register value is set to 49 (0x31)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00081",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "60 Hz selection: the prescaler load register value is set to 59 (0x3B)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00082",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "32.768 kHz selection: the prescaler load register value is set to 32767 (0x7FFF)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00083",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "3.3 Calibration"
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00084",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "Real-clock precision is a requirement in most embedded applications. The external crystal oscillator used to provide the time base is subject to frequency variations due to external conditions. It is therefore necessary to compensate for crystal and temperature variations. The calibration routine used in this application is based on RTC calibration as described in application note AN2604."
+  },
+  {
+    "segment_id": "stm32-an2821-p0011-text-00085",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 11,
+    "text": "The medium-density STM32F10xxx RTC comes with a digital calibration circuit that gives the user software control over the calibration process. The digital calibration circuit removes 0 to 127 cycles every $2 ^ { 2 0 }$ clock cycles. The number of times the pulses are blanked depends on the value loaded into the seven least significant bits of the RTC clock calibration register. The calibration circuit can only subtract clock cycles, which means that only higher"
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "frequencies can be compensated whereas lower frequencies cannot. The frequency range that can be calibrated is [32772, 32768]. The workaround consists in setting the prescaler to 32766 (instead of 32767), in which case the frequency range that can be calibrated shifts from [32772, 32768] to [32770, 32766]."
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00087",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "The calibration process, illustrated in Figure 6, is the following:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00088",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "First, the TAMPER-RTC pin functionality is disabled and the clock calibration register ASOS and ASOE bits are cleared. The (RTC clock) /64) frequency is output on the TAMPER-RTC pin by setting the CCO (clock calibration output) bit in the clock calibration register."
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00089",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "There are two modes of calibration: auto-calibration and manual calibration. Manual calibration consists in actually measuring the LSE/64 value with an external calibrated frequency counter, calculating and manually entering the calibration value via the joystick."
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00090",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "● Auto-calibration:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00091",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "The frequency output on the TAMPER-RTC pin is fed to the timer input. The frequency is calculated by using the PWM input mode of the medium-density STM32F10xxx general-purpose timer peripheral. The calibration value to be entered in the calibration register can be inferred on the basis of the deviation from 511.968 Hz (the calibration table giving calibration values for various error values in ppm is given in Appendix A.)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00092",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "● Manual calibration:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00093",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "In this case, the frequency output on the TAMPER-RTC pin has to be measured by using an external precision instrument. The calibration value has to be calculated, and then entered manually using the joystick."
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00094",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "1 When the RTC clock/64 is output on the TAMPER-RTC pin, the tamper detection functionality is not available."
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "text": "2 When the auto-calibration feature is used, the obtained calibration accuracy depends on the accuracy of the on-board HSE clock. This is because the HSE is used as the time base to measure the LSE frequency. As a consequence, if a very accurate oscilloscope or frequency counter is available, it is recommended to implement manual calibration."
+  },
+  {
+    "segment_id": "stm32-an2821-p0012-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0012_00006.png",
+    "caption": "**Figure 6. Calibration process** — vertical flowchart with downward arrows:\n\n1. **Output RTC clock/64 on TAMPER-RTC pin**\n2. **Calculate deviation from 511.968 Hz**\n3. **Calculate error in ppm (deviation/511.968) × 1 million**\n4. **Find nearest calibration value**\n5. **Load the value into calibration register**\n\nIdentifier at lower right: **ai15441**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. Calibration process",
+    "generated_captions": {
+      "luna": "**Figure 6. Calibration process** — vertical flowchart with downward arrows:\n\n1. **Output RTC clock/64 on TAMPER-RTC pin**\n2. **Calculate deviation from 511.968 Hz**\n3. **Calculate error in ppm (deviation/511.968) × 1 million**\n4. **Find nearest calibration value**\n5. **Load the value into calibration register**\n\nIdentifier at lower right: **ai15441**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "3.4 Low-power modes"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "After a system or power reset, the microcontroller is in Run mode. In this mode, the CPU is clocked by HCLK, and the CPU and its peripherals are running. Several low-power modes are available to save power when there is no need for the CPU to be running."
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "The medium-density STM32F10xxx low-power modes have no effect on the internal RTC, whose counter values keep being updated. The RTC alarm can also be used to auto-wake up the microprocessor from the low-power mode."
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "The Stop and Standby low-power modes are described in the following paragraphs."
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "3.4.1 Stop mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "In the Stop mode, the:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "● CPU clock is off"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00103",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "● peripheral clocks, PLL, HSI, HSE are disabled"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00104",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "SRAM and register contents are preserved"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00105",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "● RTC and IWDG are kept running"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00106",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "● voltage regulator can be on or in low-power mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00107",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "Any of the EXTI line source, RTC Alarm, PVD or USB Wakeup can be used to release the microcontroller from the Stop mode. On exiting the Stop mode, the clock configuration returns to its reset state (HSI used as the system clock)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00108",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "Entering the Stop mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00109",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "The sequence used to enter the Stop mode is illustrated in Figure 7 and described below:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00110",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "1. Select the regulator state in Stop mode through the LPDS bit in the PWR\\_CR register:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00111",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "– LPDS = ‘0’, the regulator is ON"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00112",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "– LPDS = ‘1’, the regulator is in low-power mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00113",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "2. Reset the PDDS bit in PWR\\_CR"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00114",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "3. Set the SLEEPDEEP bit in the Cortex-M3 system control register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-text-00115",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "text": "4. Request Wait for interrupt or Wait for event depending on how the Stop mode is entered."
+  },
+  {
+    "segment_id": "stm32-an2821-p0013-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0013_00007.png",
+    "caption": "**Figure 7. Stop mode entry sequence** — vertical flowchart with four sequential steps connected by downward arrows:\n\n1. **Select the regulator state in Stop mode**\n2. **Reset PDDS**\n3. **Set the SLEEPDEEP bit in the Cortex-M3 system control register**\n4. **Request _WFI() or _WFE()**\n\nFigure identifier at bottom right: **ai15442**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Stop mode entry sequence",
+    "generated_captions": {
+      "luna": "**Figure 7. Stop mode entry sequence** — vertical flowchart with four sequential steps connected by downward arrows:\n\n1. **Select the regulator state in Stop mode**\n2. **Reset PDDS**\n3. **Set the SLEEPDEEP bit in the Cortex-M3 system control register**\n4. **Request _WFI() or _WFE()**\n\nFigure identifier at bottom right: **ai15442**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00116",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "After the microcontroller has exited the Stop mode, the basic reset and clock control circuitry has to be reconfigured and access to the backup domain has to be re-enabled."
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00117",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "3.4.2 Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00118",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "In the Standby mode, the:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00119",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "● CPU clock is off"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00120",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "SRAM and register contents are lost except for the backup domain"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00121",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "● RTC and IWDG keep running"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00122",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "● entire 1.8 V domain is off"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00123",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "● Exit through WAKEUP pin rising edge, RTC Alarm, external reset."
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00124",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "The Standby mode is exited on the WAKEUP signal’s rising edge, by external reset or by triggering an RTC Alarm."
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00125",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "Entering the Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00126",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "The sequence used to enter the Standby mode is illustrated in Figure 8 and described below:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00127",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "1. Clear the WAKEUP flag in the PWR\\_CSR register."
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00128",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "2. Enable the WAKEUP pin functionality by setting the EWUP bit in the PWR\\_CSR register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00129",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "3. Set the PDDS bit in PWR\\_CR"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00130",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "4. Set the SLEEPDEEP bit in the cortex system control register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-text-00131",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "text": "5. Request Wait for interrupt"
+  },
+  {
+    "segment_id": "stm32-an2821-p0014-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0014_00008.png",
+    "caption": "Figure 8, “Standby mode entry sequence” — vertical flowchart with downward arrows connecting five steps:\n\n1. **Clear the WAKEUP flag in PWR_CSR**\n2. **Enable the WAKEUP pin**\n3. **Set the PDDS bit**\n4. **Set the SLEEPDEEP bit in the Cortex-M3 system control register**\n5. **Request _WFI()**\n\nAll text is legible. No axes, legend, numeric values, or additional notes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Standby mode entry sequence",
+    "generated_captions": {
+      "luna": "Figure 8, “Standby mode entry sequence” — vertical flowchart with downward arrows connecting five steps:\n\n1. **Clear the WAKEUP flag in PWR_CSR**\n2. **Enable the WAKEUP pin**\n3. **Set the PDDS bit**\n4. **Set the SLEEPDEEP bit in the Cortex-M3 system control register**\n5. **Request _WFI()**\n\nAll text is legible. No axes, legend, numeric values, or additional notes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00132",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "3.5"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00133",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "Tamper detection and time stamping"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00134",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "The medium-density STM32F10xxx features an internal supervisor (in the backup domain) that can be used to detect external tampering."
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00135",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "3.5.1 TAMPER-RTC pin functionality"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00136",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "The TAMPER-RTC pin generates a tamper detection event when the level applied to it changes from $\\scriptstyle { } ^ { 6 } 0 ^ { 3 }$ to $\" 1 \"$ or from ‘1’ to ‘0’ depending on the TPAL bit in the backup control register (BKP\\_CR). A tamper detection event resets all the backup data registers."
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00137",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "Configuring the TAMPER-RTC pin:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00138",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "1. Set the TAMPER-RTC pin level by configuring the TPAL bit in the backup control register"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00139",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "2. Enable the TAMPER-RTC pin interrupt by setting the TPIE bit in the backup control/status register (BKP\\_CSR)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00140",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "3. Enable the TAMPER-RTC pin by setting the TPE bit in the backup control register (BKP\\_CR)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00141",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "3.5.2 Tamper timestamping"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00142",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "The tamper detection feature and the RTC of the medium-density STM32F10xxx can be used to timestamp the tamper events, that is, to store the exact time and date of each tamper event. In this application note, the microprocessor’ s internal Flash memory was emulated as an EEPROM. The last few pages of the Flash memory can be used to store these timestamps. Every time a tamper event is detected, the backup data registers are cleared, which means that after every tamper event the calendar information has to be rewritten to the backup registers."
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00143",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "3.5.3 Battery tamper timestamping"
+  },
+  {
+    "segment_id": "stm32-an2821-p0015-text-00144",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 15,
+    "text": "Events like battery removal or battery installation can also be timestamped and stored into the emulated EEPROM. For this purpose, the $\\mathsf { V } _ { \\mathsf { B A T } }$ pin (which is connected to the external battery) can be connected to a general-purpose I/O. Configured in interrupt mode, this I/O generates an interrupt on both the falling and rising edges of the $\\mathsf { V } _ { \\mathsf { B A T } }$ signal so as to detect battery removal and battery installation events. The exact times and dates of the events can be stored into the memory."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00145",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00146",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "The example firmware consists of a clock/calendar driver that includes all the functions needed to realize a clock and calendar application on the medium-density STM32F10xxx RTC peripheral. Other features like RTC calibration, low-power mode demonstration, timestamping for tamper detection and battery removal/installation and, clock source selection (between external crystal and 50/60 Hz) are also supported by the clock/calendar driver. The source code example is based on the STM32F10xxx standard peripheral library."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00147",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "User include files:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00148",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "clock\\_calendar.h: contains the prototypes of the basic functions used to implement the calendar function on the STM32F10xxx’s internal RTC. Also includes some macros for summer-time correction, system start default time and date."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00149",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "application\\_rtc.h: contains the RCC\\_Configuration, GPIO\\_Configuration and SystickConfig function prototypes."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00150",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "eeprom.h: contains the prototypes of the functions used to emulate EEPROM in the STM32F10xxx’s internal Flash memory, and for the timestamping application."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00151",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "lcd.h: contains the prototypes of the functions used to drive the TFT LCD present on the STM3210B-EVAL board."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00152",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "● fonts.h: includes various LCD font size definitions."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00153",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "● menu.h: contains the prototypes of the functions needed to implement the menu."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00154",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "User source files:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00155",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "clock\\_calendar.c: contains the basic routines for calendar implementation and RTC calibration."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00156",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "application\\_rtc.c: contains the routines for system clock, peripheral clock, GPIO and Systick timer initialization."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00157",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "eeprom.c: contains the functions used to emulate EEPROM in the STM32F10xxx’s internal Flash memory. The 1 Kbyte internal Flash memory page 124 (address 0x0801F000 – 0x0801F3FF) is used to store timestamping information. The page address and size are defined in the eeprom.h header file."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00158",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "● lcd.c: contains the functions used to drive the display on the STM3210B-EVAL board."
+  },
+  {
+    "segment_id": "stm32-an2821-p0016-text-00159",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 16,
+    "text": "menu.c: contains the functions used to implement the menu. Various features can be accessed through the menu options displayed on the LCD screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00160",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "Hardware description"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00161",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "This application can be fully demonstrated on the STM3210B-EVAL board. The main hardware sections used are:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00162",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "TFT LCD"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00163",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "● LED’s (LD1, LD2, LD3, LD4)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00164",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "● Joystick"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00165",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "● Tamper switch"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00166",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "● Wakeup switch"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-text-00167",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "text": "● PA1, PC7, PC8, PC13 pads"
+  },
+  {
+    "segment_id": "stm32-an2821-p0017-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0017_00009.png",
+    "caption": "**Figure 9. STM3210B-EVAL board description**\n\nPhotograph of the STM3210B-EVAL evaluation board with callouts identifying visible functional components and signals:\n\n- **PA1 (timer input)** — callout points to the PA1 timer-input connection on the left side of the board.\n- **Backup battery** — coin-cell backup battery near the upper-right area.\n- **32.768 kHz OSC** — 32.768 kHz oscillator near the upper-right side.\n- **PC13 (RTC clock/64 output)** — PC13 connection/function associated with the RTC clock divided-by-64 output.\n- **PC7-PC8 jumper** — jumper for PC7–PC8 on the right side.\n- **LEDs** — LEDs in the lower-right area.\n- **Joystick** — joystick control near the bottom-right area.\n- **Tamper switch** — tamper switch at the lower-right edge.\n- **Wakeup switch** — wakeup switch near the lower-left area.\n- **Reset switch** — reset switch near the lower-left edge.\n\nThe board image also visibly includes the **ST** logo and central board marking **“STM32F10x-128-EVAL”**. Numerous connectors, headers, an LCD/display, and other board components are visible but are not individually labeled in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. STM3210B-EVAL board description",
+    "generated_captions": {
+      "luna": "**Figure 9. STM3210B-EVAL board description**\n\nPhotograph of the STM3210B-EVAL evaluation board with callouts identifying visible functional components and signals:\n\n- **PA1 (timer input)** — callout points to the PA1 timer-input connection on the left side of the board.\n- **Backup battery** — coin-cell backup battery near the upper-right area.\n- **32.768 kHz OSC** — 32.768 kHz oscillator near the upper-right side.\n- **PC13 (RTC clock/64 output)** — PC13 connection/function associated with the RTC clock divided-by-64 output.\n- **PC7-PC8 jumper** — jumper for PC7–PC8 on the right side.\n- **LEDs** — LEDs in the lower-right area.\n- **Joystick** — joystick control near the bottom-right area.\n- **Tamper switch** — tamper switch at the lower-right edge.\n- **Wakeup switch** — wakeup switch near the lower-left area.\n- **Reset switch** — reset switch near the lower-left edge.\n\nThe board image also visibly includes the **ST** logo and central board marking **“STM32F10x-128-EVAL”**. Numerous connectors, headers, an LCD/display, and other board components are visible but are not individually labeled in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00168",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6 Running the demonstrator"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00169",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.1 Clock/calendar"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00170",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "The home screen displays the clock, date and day on the LCD screen. The MENU provides various options. When the application is run for the first time, some default settings are applied. The current system time and date can be set using various MENU options."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00171",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "Press joystick Sel to select, joystick right/left to move to the next/previous position and joystick up/down to increment/decrement the value. If you want to exit the current menu, do not press any key for eight seconds, the display will automatically return to the home screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00172",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.1.1 Setting the time"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00173",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "To set the system time, go to MENU->Time, and use joystick up/down to increment/decrement the value, joystick right/left to move to the next/previous position and joystick Sel to set the time and return to the home screen. The clock will then start with the newly set time."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00174",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.1.2 Setting the alarm"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00175",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "To set the alarm, go to MENU->Alarm, use joystick left/right, and up/down to enter the alarm time. Then, press Sel. The system will now prompt you to set the alarm date. Enter the alarm date and press Sel. When the Alarm condition is reached, the LD1 LED (see Figure 9: STM3210B-EVAL board description) lights up and ‘ALARM’ appears on the LCD screen. After five seconds, LD1 turns off and the display returns to the home screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00176",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.1.3 Setting the date"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00177",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "To set the system date, go to MENU->Date and enter the current date using the joystick. After entering the date, press the joystick Sel button to set the current date and return to the home screen. The updated date is then displayed on the screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00178",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "If a wrong date is entered, an error message is displayed on the LCD screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00179",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.1.4 Summer time correction"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00180",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "The clock is set ahead by 1 hour at 2 am on the last Sunday of March and it is delayed by 1 hour on the last Sunday of October. Assumedly, the correction for March has already been done and the correction for October has to be done. This is a one-time assumption only, further corrections being automatically handled. The date and time have to be after the current system date and time, that is, for instance if the initial time and date were set to 12:00 hours, 1<sup>st</sup> April, 2008, you can verify the time correction for October 2008 and beyond, but not earlier."
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00181",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.2 Low-power demonstration"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00182",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "6.2.1 Stop mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0018-text-00183",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 18,
+    "text": "To enter the Stop mode, go to MENU->LowPower->STOP and press Sel. The LD4 LED (see Figure 9: STM3210B-EVAL board description) lights up and the MCU enters the Stop"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00184",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "mode. A confirmation message is displayed on the LCD screen. Press the joystick Sel button to exit the Stop mode. LD4 turns off and the display returns to the home screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00185",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "6.2.2 Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00186",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "To enter the Standby mode, go to MENU->LowPower->STANDBY and press Sel. A confirmation message is displayed on the screen. The Standby mode is exited by pressing the Wakeup switch (see Figure 9: STM3210B-EVAL board description)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00187",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "The RTC alarm can also be used to auto-wake up the microcontroller from the Stop or Standby mode. For that purpose, first configure the RTC Alarm and then place the microcontroller in a low-power mode. When the alarm sets off, the microprocessor wakes up from the low-power mode."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00188",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "6.3 Timestamping"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00189",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "6.3.1 Tamper events"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00190",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "To trigger a tamper event, press the B4 tamper switch on the STM3210B-EVAL board (see Figure 9: STM3210B-EVAL board description)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00191",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "6.3.2 Battery removal and installation"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00192",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "The battery removal and installation conditions are simulated on the STM3210B-EVAL board. The “battery in place” condition is simulated by placing a jumper between PC7 and PC8 whereas the “battery removed” condition is simulated by removing this jumper. PC7 and PC8 are available on the STM3210B-EVAL board (see Figure 9: STM3210B-EVAL board description)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00193",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "Viewing tamper events"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00194",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "To view the tamper log, go to MENU->Tamper->VIEW. If there is no tamper event stored, the corresponding message is displayed on the LCD screen. A maximum of 64 events can be stored. Each page shows up to 10 events. Subsequent pages can be displayed by pressing the joystick SEL button. The tamper view screen is exited from the last page by pressing the joystick SEL button once more."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00195",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "Erasing the tamper log"
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00196",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "The user can also erase the tamper log. To do so, go to MENU->Tamper->ERASE. This erases the tamper log."
+  },
+  {
+    "segment_id": "stm32-an2821-p0019-text-00197",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 19,
+    "text": "Since only a page (1 Kbyte) in Flash memory is used to store timestamps, a maximum of 64 timestamps can be stored. Whenever the $6 5 ^ { \\mathrm { { ^ { t h } } } }$ tamper occurs the memory page is erased. The LCD screen cannot display more than 10 events at a time. The difference between timestamps created by pressing the tamper switch and battery tamper timestamps is that the former type of timestamps shows a “seconds” field, whereas the others show “BI” or “BO” (to mean “battery in” and “battery out”, respectively)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00198",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00199",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "The TAMPER-RTC pin functionality is not available:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00200",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "when the user is navigating through the MENU options"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00201",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "when user is viewing the tamper log"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00202",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "during the calibration process"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00203",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "when the microprocessor is in a low-power mode"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00204",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "when the main $V _ { D D }$ supply is off"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00205",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "6.4 Clock calibration"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00206",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "To calibrate the external oscillator in manual mode, do as follows:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00207",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "Go to MENU -> CALIBRATE-> MANUAL. A message appears on the LCD screen: “LSE/64 is available on the PC13/TAMPER-RTC pin. Measure the frequency and press Sel to proceed”."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00208",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "The frequency output on the TAMPER-RTC pin can be measured by using a highprecision frequency counter. The PC13 pad is available on the STM3210B-EVAL board. (Refer to Figure 9: STM3210B-EVAL board description.)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00209",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "Follow the steps of the procedure illustrated in Figure 6: Calibration process to calculate the error in ppm. On the basis of this error, the calibration value can be inferred from the Calibration lookup table in Appendix A."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00210",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "Once this is done, press Sel. You will be prompted to enter the calibration value. To do so, use the joystick up/down and left/right buttons, then press Sel again. If the entered value is within the range (0-121), it is stored into the RTC clock/calibration register and the application returns to the home screen. Otherwise, the value is invalid. This generates an error message and the application returns to the home screen without modifying the value in the RTC clock/calibration register."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00211",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "To calibrate the external oscillator in auto-calibration mode, do as follows:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00212",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "First, connect a wire link from PC13 (RTC clock output on the TAMPER-RTC pin) to PA1 (timer input). Both of these pads are available on the STM3210B-EVAL board. (Refer to Figure 9: STM3210B-EVAL board description.)"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00213",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "Select MENU->CALIBRATE->AUTO: the calibration value is automatically calculated and fed into the calibration register. A confirmation message will appear on the LCD screen."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00214",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "● After the calibration process, the application returns to normal clock operation."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00215",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "For more details, please refer to Appendix B: Additional notes on calibration and clock accuracy on page 25."
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00216",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "6.5 Clock source selection"
+  },
+  {
+    "segment_id": "stm32-an2821-p0020-text-00217",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 20,
+    "text": "By default, on startup the clock runs at the external crystal oscillator frequency of 32.768 kHz. This frequency is provided by the clock source of the STM3210B-EVAL board. An external clock source can also be used to provide the time base for the RTC. Figure 10 shows how to realize the RTC time base circuit."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0021_00010.png",
+    "caption": "**Figure 10. RTC time base connection** (STM32F10xxx application schematic; figure identifier **ai15444**)\n\n- Central rectangular block labeled **STM32F10xxx**.\n- Oscillator connections on the left side of the MCU:\n  - **OSC in**\n  - **OSC out**\n- Left-side time-base source circuitry:\n  - Input labeled **50/60 Hz**\n  - **Resistive divider** connected from the 50/60 Hz input toward ground\n  - A selector symbol labeled **Source switch**\n  - A **32 kHz crystal** connected in the oscillator-source path\n  - The selected source is routed to the STM32F10xxx oscillator connections.\n- Upper-left source-selection hardware:\n  - Two-position jumper arrangement labeled **2 jumpers for source selection, to GPIO**\n  - The jumper wiring connects into the source/oscillator circuitry and provides the stated GPIO connection.\n- Lower-left optional tamper circuitry:\n  - Two-pin jumper symbol connected toward ground\n  - Label: **Jumper for anti-tamper demonstration, optional**\n- Right-side system connections, shown in dashed boxes:\n  - Arrow from the STM32F10xxx toward **display (part of main system)**\n  - Arrow from **switches/joystick, to set the time/date (part of main system)** toward the STM32F10xxx\n- Bottom supply connection:\n  - Upward connection into the STM32F10xxx from a battery symbol\n  - Dashed-box label: **Backup battery (part of main system)**\n- Ground symbols are shown beneath the resistive divider, the optional anti-tamper jumper, and the crystal/source circuitry.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. RTC time base connection",
+    "generated_captions": {
+      "luna": "**Figure 10. RTC time base connection** (STM32F10xxx application schematic; figure identifier **ai15444**)\n\n- Central rectangular block labeled **STM32F10xxx**.\n- Oscillator connections on the left side of the MCU:\n  - **OSC in**\n  - **OSC out**\n- Left-side time-base source circuitry:\n  - Input labeled **50/60 Hz**\n  - **Resistive divider** connected from the 50/60 Hz input toward ground\n  - A selector symbol labeled **Source switch**\n  - A **32 kHz crystal** connected in the oscillator-source path\n  - The selected source is routed to the STM32F10xxx oscillator connections.\n- Upper-left source-selection hardware:\n  - Two-position jumper arrangement labeled **2 jumpers for source selection, to GPIO**\n  - The jumper wiring connects into the source/oscillator circuitry and provides the stated GPIO connection.\n- Lower-left optional tamper circuitry:\n  - Two-pin jumper symbol connected toward ground\n  - Label: **Jumper for anti-tamper demonstration, optional**\n- Right-side system connections, shown in dashed boxes:\n  - Arrow from the STM32F10xxx toward **display (part of main system)**\n  - Arrow from **switches/joystick, to set the time/date (part of main system)** toward the STM32F10xxx\n- Bottom supply connection:\n  - Upward connection into the STM32F10xxx from a battery symbol\n  - Dashed-box label: **Backup battery (part of main system)**\n- Ground symbols are shown beneath the resistive divider, the optional anti-tamper jumper, and the crystal/source circuitry."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00218",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "In this application note, the clock source selection is demonstrated by emulating an external 50/60 Hz sinewave (as can be derived from the utility mains). The external 50/60 Hz can be derived from a function generator and applied to the oscillator input using a connector probe (see Figure 11: Clock source selection)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00219",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "Caution: Make sure that the amplitude of the applied clock signal is less than 3 V peak-to-peak and that the corresponding DC offset is about half the full-scale value."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00220",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "Note: Since the time base selection is a one-time setting, the clock is initialized every time the time base is changed."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00221",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "6.5.1 50 Hz time base selection"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00222",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "To select an external 50 Hz clock source:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00223",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "● Apply the external clock to the oscillator input. The clock will seem to stop running."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00224",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "O Go to MENU->50Hz and press the joystick Sel button. This sets the prescaler accordingly and the clock restarts from 09:24:00."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00225",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "To return to the 32.768 kHz clock source selection:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00226",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "●Go to MENU->32768Hz and press the joystick Sel button"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00227",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "●Remove the external clock source. The clock restarts from 09:24:00."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00228",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "6.5.2 60 Hz time base selection"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00229",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "To select an external 60 Hz source:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00230",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "●Apply the external clock to the oscillator input"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00231",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "Go to MENU->60Hz and press the joystick Sel button. this sets the prescaler accordingly and the clock restarts from 09:24:00."
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00232",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "To return to the 32.768 kHz clock source selection:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00233",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "●Go to MENU->32768Hz and press the joystick Sel button"
+  },
+  {
+    "segment_id": "stm32-an2821-p0021-text-00234",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 21,
+    "text": "Remove the external clock source. The clock restarts from 09:24:00."
+  },
+  {
+    "segment_id": "stm32-an2821-p0022-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an2821",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_figure_p0022_00011.png",
+    "caption": "**Figure 11. Clock source selection**\n\nPhotograph of a development board showing the low-speed clock circuitry and the location for applying an external clock signal.\n\n- A callout arrow points to a circled point on the PCB labeled: **“Inject external clock signal at this point”**.\n- A second callout identifies the nearby black component as: **“32.768 kHz external oscillator”**.\n- A coin-cell battery and holder are visible at the top of the image; the PCB marking beneath it appears to read **“VBAT”**.\n- A metal-can crystal/oscillator component is visible at the lower left, with nearby board markings including **“R1”** and capacitor designators that are partially obscured.\n- At the right side, the visible PCB/header labels include:\n  - **TP2**\n  - **GND**\n  - **CN3**\n  - **GND**\n  - **PE6**\n  - **PE4**\n  - **PC13**\n  - **RESET**\n- The image shows the external 32.768 kHz oscillator connection point in relation to the board’s clock-source circuitry.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. Clock source selection",
+    "generated_captions": {
+      "luna": "**Figure 11. Clock source selection**\n\nPhotograph of a development board showing the low-speed clock circuitry and the location for applying an external clock signal.\n\n- A callout arrow points to a circled point on the PCB labeled: **“Inject external clock signal at this point”**.\n- A second callout identifies the nearby black component as: **“32.768 kHz external oscillator”**.\n- A coin-cell battery and holder are visible at the top of the image; the PCB marking beneath it appears to read **“VBAT”**.\n- A metal-can crystal/oscillator component is visible at the lower left, with nearby board markings including **“R1”** and capacitor designators that are partially obscured.\n- At the right side, the visible PCB/header labels include:\n  - **TP2**\n  - **GND**\n  - **CN3**\n  - **GND**\n  - **PE6**\n  - **PE4**\n  - **PC13**\n  - **RESET**\n- The image shows the external 32.768 kHz oscillator connection point in relation to the board’s clock-source circuitry."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0023-text-00235",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 23,
+    "text": "Appendix A Calibration table"
+  },
+  {
+    "segment_id": "stm32-an2821-p0023-text-00236",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 23,
+    "text": "Table 1 gives a list of calibration values."
+  },
+  {
+    "segment_id": "stm32-an2821-p0023-table-00001",
+    "type": "table",
+    "doc": "stm32-an2821",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_table_p0023_00001.png",
+    "caption": "**Table 1. Calibration lookup table**\n\nThe table has two side-by-side sets of identical columns:\n\n- **Calibration value**\n- **Value in ppm rounded to the nearest ppm**\n- **Value in seconds per month (30 days) rounded to the nearest second**\n\n| Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second |\n|---:|---:|---:|\n| 0 | 0 | 0 |\n| 1 | 1 | 2 |\n| 2 | 2 | 5 |\n| 3 | 3 | 7 |\n| 4 | 4 | 10 |\n| 5 | 5 | 12 |\n| 6 | 6 | 15 |\n| 7 | 7 | 17 |\n| 8 | 8 | 20 |\n| 9 | 9 | 22 |\n| 10 | 10 | 25 |\n| 11 | 10 | 27 |\n| 12 | 11 | 30 |\n| 13 | 12 | 32 |\n| 14 | 13 | 35 |\n| 15 | 14 | 37 |\n| 16 | 15 | 40 |\n| 17 | 16 | 42 |\n| 18 | 17 | 44 |\n| 19 | 18 | 47 |\n| 20 | 19 | 49 |\n| 21 | 19 | 49 |\n| 22 | 21 | 54 |\n| 23 | 22 | 57 |\n| 24 | 23 | 59 |\n| 25 | 24 | 62 |\n| 26 | 25 | 64 |\n| 27 | 26 | 67 |\n| 28 | 27 | 69 |\n| 29 | 28 | 72 |\n\n| Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second |\n|---:|---:|---:|\n| 64 | 61 | 158 |\n| 65 | 62 | 161 |\n| 66 | 63 | 163 |\n| 67 | 64 | 166 |\n| 68 | 65 | 168 |\n| 69 | 66 | 171 |\n| 70 | 67 | 173 |\n| 71 | 68 | 176 |\n| 72 | 69 | 178 |\n| 73 | 70 | 180 |\n| 74 | 71 | 183 |\n| 75 | 72 | 185 |\n| 76 | 72 | 188 |\n| 77 | 73 | 190 |\n| 78 | 74 | 193 |\n| 79 | 75 | 195 |\n| 80 | 76 | 198 |\n| 81 | 77 | 200 |\n| 82 | 78 | 203 |\n| 83 | 79 | 205 |\n| 84 | 80 | 208 |\n| 85 | 81 | 210 |\n| 86 | 82 | 213 |\n| 87 | 83 | 215 |\n| 88 | 84 | 218 |\n| 89 | 85 | 220 |\n| 90 | 86 | 222 |\n| 91 | 87 | 225 |\n| 92 | 88 | 227 |\n| 93 | 89 | 230 |\n\nNo footnotes or additional qualifications are visible in the cropped table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1.Calibration lookup table",
+    "generated_captions": {
+      "luna": "**Table 1. Calibration lookup table**\n\nThe table has two side-by-side sets of identical columns:\n\n- **Calibration value**\n- **Value in ppm rounded to the nearest ppm**\n- **Value in seconds per month (30 days) rounded to the nearest second**\n\n| Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second |\n|---:|---:|---:|\n| 0 | 0 | 0 |\n| 1 | 1 | 2 |\n| 2 | 2 | 5 |\n| 3 | 3 | 7 |\n| 4 | 4 | 10 |\n| 5 | 5 | 12 |\n| 6 | 6 | 15 |\n| 7 | 7 | 17 |\n| 8 | 8 | 20 |\n| 9 | 9 | 22 |\n| 10 | 10 | 25 |\n| 11 | 10 | 27 |\n| 12 | 11 | 30 |\n| 13 | 12 | 32 |\n| 14 | 13 | 35 |\n| 15 | 14 | 37 |\n| 16 | 15 | 40 |\n| 17 | 16 | 42 |\n| 18 | 17 | 44 |\n| 19 | 18 | 47 |\n| 20 | 19 | 49 |\n| 21 | 19 | 49 |\n| 22 | 21 | 54 |\n| 23 | 22 | 57 |\n| 24 | 23 | 59 |\n| 25 | 24 | 62 |\n| 26 | 25 | 64 |\n| 27 | 26 | 67 |\n| 28 | 27 | 69 |\n| 29 | 28 | 72 |\n\n| Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second |\n|---:|---:|---:|\n| 64 | 61 | 158 |\n| 65 | 62 | 161 |\n| 66 | 63 | 163 |\n| 67 | 64 | 166 |\n| 68 | 65 | 168 |\n| 69 | 66 | 171 |\n| 70 | 67 | 173 |\n| 71 | 68 | 176 |\n| 72 | 69 | 178 |\n| 73 | 70 | 180 |\n| 74 | 71 | 183 |\n| 75 | 72 | 185 |\n| 76 | 72 | 188 |\n| 77 | 73 | 190 |\n| 78 | 74 | 193 |\n| 79 | 75 | 195 |\n| 80 | 76 | 198 |\n| 81 | 77 | 200 |\n| 82 | 78 | 203 |\n| 83 | 79 | 205 |\n| 84 | 80 | 208 |\n| 85 | 81 | 210 |\n| 86 | 82 | 213 |\n| 87 | 83 | 215 |\n| 88 | 84 | 218 |\n| 89 | 85 | 220 |\n| 90 | 86 | 222 |\n| 91 | 87 | 225 |\n| 92 | 88 | 227 |\n| 93 | 89 | 230 |\n\nNo footnotes or additional qualifications are visible in the cropped table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0024-table-00002",
+    "type": "table",
+    "doc": "stm32-an2821",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_table_p0024_00002.png",
+    "caption": "Visible table (no separate title or footnotes visible) contains two side-by-side sets of columns.\n\n**Column headings for each set:**\n1. **Calibration value**\n2. **Value in ppm rounded to the nearest ppm**\n3. **Value in seconds per month (30 days) rounded to the nearest second**\n\n| Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second | Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second |\n|---:|---:|---:|---:|---:|---:|\n| 30 | 29 | 74 | 94 | 90 | 232 |\n| 31 | 30 | 77 | 95 | 91 | 235 |\n| 32 | 31 | 79 | 96 | 92 | 237 |\n| 33 | 31 | 82 | 97 | 93 | 240 |\n| 34 | 32 | 84 | 98 | 93 | 242 |\n| 35 | 33 | 87 | 99 | 94 | 245 |\n| 36 | 34 | 89 | 100 | 65 | 247 |\n| 37 | 35 | 91 | 101 | 96 | 250 |\n| 38 | 36 | 94 | 102 | 97 | 252 |\n| 39 | 37 | 96 | 103 | 98 | 255 |\n| 40 | 38 | 99 | 104 | 99 | 257 |\n| 41 | 39 | 101 | 105 | 100 | 260 |\n| 42 | 40 | 104 | 106 | 101 | 262 |\n| 43 | 41 | 106 | 107 | 102 | 264 |\n| 44 | 42 | 109 | 108 | 103 | 267 |\n| 45 | 43 | 111 | 109 | 104 | 269 |\n| 46 | 44 | 114 | 110 | 105 | 272 |\n| 47 | 45 | 116 | 111 | 106 | 274 |\n| 48 | 46 | 119 | 112 | 107 | 277 |\n| 49 | 47 | 121 | 113 | 108 | 279 |\n| 50 | 48 | 124 | 114 | 109 | 282 |\n| 51 | 49 | 126 | 115 | 101 | 284 |\n| 52 | 50 | 129 | 116 | 111 | 287 |\n| 53 | 51 | 131 | 117 | 112 | 28 |\n| 54 | 51 | 133 | 118 | 113 | 292 |\n| 55 | 52 | 136 | 119 | 113 | 294 |\n| 56 | 53 | 138 | 120 | 114 | 297 |\n| 57 | 54 | 141 | 121 | 115 | 299 |\n| 58 | 55 | 143 | 122 | 116 | 302 |\n| 59 | 56 | 146 | 123 | 117 | 304 |\n| 60 | 27 | 148 | 124 | 118 | 307 |\n| 61 | 58 | 151 | 125 | 119 | 309 |\n| 62 | 59 | 153 | 126 | 120 | 311 |\n| 63 | 60 | 156 | 127 | 121 | 314 |\n\nThe entries **65** for calibration value **100**, **101** for calibration value **115**, **28** for calibration value **117**, and **27** for calibration value **60** are transcribed as visibly shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Visible table (no separate title or footnotes visible) contains two side-by-side sets of columns.\n\n**Column headings for each set:**\n1. **Calibration value**\n2. **Value in ppm rounded to the nearest ppm**\n3. **Value in seconds per month (30 days) rounded to the nearest second**\n\n| Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second | Calibration value | Value in ppm rounded to the nearest ppm | Value in seconds per month (30 days) rounded to the nearest second |\n|---:|---:|---:|---:|---:|---:|\n| 30 | 29 | 74 | 94 | 90 | 232 |\n| 31 | 30 | 77 | 95 | 91 | 235 |\n| 32 | 31 | 79 | 96 | 92 | 237 |\n| 33 | 31 | 82 | 97 | 93 | 240 |\n| 34 | 32 | 84 | 98 | 93 | 242 |\n| 35 | 33 | 87 | 99 | 94 | 245 |\n| 36 | 34 | 89 | 100 | 65 | 247 |\n| 37 | 35 | 91 | 101 | 96 | 250 |\n| 38 | 36 | 94 | 102 | 97 | 252 |\n| 39 | 37 | 96 | 103 | 98 | 255 |\n| 40 | 38 | 99 | 104 | 99 | 257 |\n| 41 | 39 | 101 | 105 | 100 | 260 |\n| 42 | 40 | 104 | 106 | 101 | 262 |\n| 43 | 41 | 106 | 107 | 102 | 264 |\n| 44 | 42 | 109 | 108 | 103 | 267 |\n| 45 | 43 | 111 | 109 | 104 | 269 |\n| 46 | 44 | 114 | 110 | 105 | 272 |\n| 47 | 45 | 116 | 111 | 106 | 274 |\n| 48 | 46 | 119 | 112 | 107 | 277 |\n| 49 | 47 | 121 | 113 | 108 | 279 |\n| 50 | 48 | 124 | 114 | 109 | 282 |\n| 51 | 49 | 126 | 115 | 101 | 284 |\n| 52 | 50 | 129 | 116 | 111 | 287 |\n| 53 | 51 | 131 | 117 | 112 | 28 |\n| 54 | 51 | 133 | 118 | 113 | 292 |\n| 55 | 52 | 136 | 119 | 113 | 294 |\n| 56 | 53 | 138 | 120 | 114 | 297 |\n| 57 | 54 | 141 | 121 | 115 | 299 |\n| 58 | 55 | 143 | 122 | 116 | 302 |\n| 59 | 56 | 146 | 123 | 117 | 304 |\n| 60 | 27 | 148 | 124 | 118 | 307 |\n| 61 | 58 | 151 | 125 | 119 | 309 |\n| 62 | 59 | 153 | 126 | 120 | 311 |\n| 63 | 60 | 156 | 127 | 121 | 314 |\n\nThe entries **65** for calibration value **100**, **101** for calibration value **115**, **28** for calibration value **117**, and **27** for calibration value **60** are transcribed as visibly shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00237",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Appendix BAdditional notes on calibration and clock accuracy"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00238",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "The purpose of this appendix is to provide an effective calibration and drift calculation scheme by a mathematical approach."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00239",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "It is easy to verify the actual (observed) result using the theoretical value obtained. The procedure first consists in calculating how much the clock drifts ahead (due to crystal frequency variation) in a month when not calibrated. This is the amount that the clock must “lose” to keep time correctly."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00240",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Next, the procedure consists in calculating how much the clock actually loses as a result of calibration."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00241",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Example of calculation"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00242",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "To implement this method, switch to calibration mode, and measure the frequency output on the TAMPER-RTC pin using a suitable and very accurate frequency counter. Let F1 be the result obtained with this counter. Let us assume that F1 = 512.0193 Hz."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00243",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Let F2 be the corresponding effective LSE frequency."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00244",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "F2 = 64 × F1 = 64 × 512.0193 Hz = 32769.2352 Hz."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00245",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Let us put dF = F0 – F2, where F0 = 32766 in our case, because the RTC prescalor is set to 32766 and not 32768. This means that we get a tick every 32766 oscillator cycles."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00246",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Thus, dF = 32766 – 32769.2352 = -3.2352"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00247",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Let us now calculate the time drift or deviation generated by crystal variations only. It is given by:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00248",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "$$\n\\mathsf { d } \\mathsf { T } = \\frac { \\frac { 1 } { \\mathsf { F } 0 + \\mathsf { d } \\mathsf { F } } } { \\mathsf { F } 0 } - 1 \\mathsf { s }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00249",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "that is:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00250",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "$$\n\\mathsf { d } \\mathsf { T } = \\frac { \\frac { 1 } { 3 2 7 6 2 . 7 6 4 8 } } { 3 2 7 6 6 } - 1 \\mathsf { s }  { 1 \\mathsf { s } } = ( 1 . 0 0 0 0 9 8 7 5 ) - 1 = 0 . 0 0 0 0 9 8 7 5 \\mathsf { s } = 9 8 . 7 5 \\mathsf { s } = 9 . 8 \\mathsf { d } \\mathsf { s }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00251",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "So over 1 second, the positive time drift is of 98.75 μs."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00252",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Thus, over 1 month the drift becomes: 0.00009875 $\\mathbf { s } \\times 6 0 \\times 6 0 \\times 2 4 \\times 3 0 = 2 5 5 . 9 5 \\mathbf { s } .$ Let T1 be this positive time drift."
+  },
+  {
+    "segment_id": "stm32-an2821-p0025-text-00253",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 25,
+    "text": "Therefore, if we want to compensate for this time drift, we must, as a result of the calibration process, lose T1."
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00254",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "Now let us look into the calibration process:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00255",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "$$\n{ \\mathsf { E r r o r ~ i n ~ p p m } } = { \\frac { 5 1 2 . 0 1 9 3 - { \\frac { 3 2 7 6 6 } { 6 4 } } } { \\frac { 3 2 7 6 6 } { 6 4 } } } \\times 1 0 0 0 0 0 0 = 1 0 0 . 2 { \\mathsf { p p m } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00256",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "Referring to the calibration lookup table, the calibration value that corresponds to an error of 100.2 ppm is 105, which amounts to a compensation (subtraction) of 260 seconds. Let T2 be this compensation time."
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00257",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "(STM32 digital calibration subtracts [Calibration value] every $2 ^ { 2 0 }$ oscillator cycles. That is:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00258",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "$$\n{ \\mathrm { n u m b e r ~ o f ~ s e c o n d s ~ l o s t ~ i n ~ 1 ~ m o n t h } } = { \\frac { { \\frac { 3 2 7 6 6 \\times 6 0 \\times 6 0 \\times 2 4 \\times 3 0 } { 2 ^ { 2 0 } } } \\times 1 0 5 } { 3 2 7 6 6 } } \\approx 2 6 0 { \\mathrm { ~ s e c o n d s } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00259",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "This means that the clock will run slower by (T2 – T1), that is 4 seconds at the end of a month. Thus, ideally, an average drift of 4/30 (about 0.133) second a day is achievable."
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00260",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "You can refer to a precise and accurate web clock to synchronize your clock, for instance the US Naval Observatory Master Clock (http://www.usno.navy.mil/)."
+  },
+  {
+    "segment_id": "stm32-an2821-p0026-text-00261",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 26,
+    "text": "Temperature effects and measuring instrument accuracy are not taken into account in the above calculations."
+  },
+  {
+    "segment_id": "stm32-an2821-p0027-text-00262",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 27,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2821-p0027-table-00003",
+    "type": "table",
+    "doc": "stm32-an2821",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-an2821/mineru/images/bbox_fallback_table_p0027_00003.png",
+    "caption": "**Table 2. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 23-Dec-2008 | 1 | Initial release. |\n| 30-Apr-2009 | 2 | References to the STM32F10xxx firmware library updated to STM32F10xxx standard peripheral library. **Systick_Config** updated to **SystickConfig**. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 2. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 23-Dec-2008 | 1 | Initial release. |\n| 30-Apr-2009 | 2 | References to the STM32F10xxx firmware library updated to STM32F10xxx standard peripheral library. **Systick_Config** updated to **SystickConfig**. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00263",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00264",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00265",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "All ST products are sold pursuant to ST's terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00266",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00267",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00268",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST'S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00269",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER'S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00270",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00271",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00272",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00273",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00274",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "© 2009 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00275",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00276",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2821-p0028-text-00277",
+    "type": "text",
+    "doc": "stm32-an2821",
+    "page": 28,
+    "text": "www.st.com"
+  }
+]

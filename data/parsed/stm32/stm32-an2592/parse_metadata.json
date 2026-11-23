@@ -1,0 +1,12 @@
+{
+  "doc": "stm32-an2592",
+  "source_pdf": "data/raw/stm32/stm32-an2592.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/stm32/stm32-an2592/mineru/stm32-an2592_content_list.json",
+  "segment_counts": {
+    "text": 164,
+    "figure": 6,
+    "table": 1
+  }
+}

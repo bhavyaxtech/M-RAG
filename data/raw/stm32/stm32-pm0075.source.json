@@ -1,0 +1,34 @@
+{
+  "doc_id": "stm32-pm0075",
+  "document_id": "PM0075",
+  "title": "STM32F10xxx Flash programming manual",
+  "document_kind": "programming_manual",
+  "applicability": "Flash operations; check density-specific limitations",
+  "manufacturer_url": "https://www.st.com/resource/en/programming_manual/cd00283419.pdf",
+  "download_urls": [
+    "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00283419-stm32f10xxx-flash-memory-microcontrollers-stmicroelectronics.pdf",
+    "https://eliasoenal.com/st%20website/17863.pdf",
+    "https://image.dfrobot.com/image/data/DFR0229/PM0075.pdf",
+    "https://www.st.com/resource/en/programming_manual/cd00283419.pdf"
+  ],
+  "pages": 31,
+  "sha256": "01d15d20fba016790bb2aad0179188b83c430b9a8327be4ce5f036580c7af646",
+  "cover_text": "         \nAugust 2012\nDoc ID 17863 Rev 2\n1/31\nPM0075\nProgramming manual\nSTM32F10xxx Flash memory microcontrollers\nIntroduction\nThis programming manual describes how to program the Flash memory of STM32F101xx, \nSTM32F102xx, STM32F103xx, STM32F105xx and STM32F107xx microcontrollers. For \nconvenience, these will be referred to as STM32F10xxx in the rest of this document unless \notherwise specified.\nThe STM32F10xxx embedded Flash memory can be programmed using in-circuit \nprogramming or in-application programming.\nThe in-circuit programming (ICP) method is used to update the entire contents of the \nFlash memory, using the JTAG, SWD protocol or the boot loader to load the user application \ninto the microcontroller. ICP offers quick and efficient design iterations and eliminates \nunnecessary package handling or socketing of devices. \nIn contrast to the ICP method, in-application programming (IAP) can use any \ncommunication interface supported by the microcontroller (I/Os, USB, CAN, UART, I2C, SPI, \netc.) to download programming data into memory. IAP allows the user to re-program the \nFlash memory while the application is running. Nevertheless, part of the application has to \nhave been previously programmed in the Flash memory using ICP.\nThe Flash interface implements instruction access and data access based on the AHB \nprotocol. It implements a prefetch buffer that speeds up CPU code execution. It also \nimplements the logic necessary to carry out Flash memory operations (Program/Erase). \nProgram/Erase operations can be performed over the whole product voltage range. \nRead/Write protections and option bytes are also implemented.\nTable 1 lists the microcontrollers and evaluation tool concerned by this programming \nmanual.\n         Table 1.\nApplicable products \nType\nApplicable products\nMicrocontrollers\nSTM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx and \nSTM32F107xx microcontrollers\nEvaluation tool\nSTM3210C-EVAL evaluation board\nwww.st.com\n",
+  "references": {
+    "AN2606": [
+      9,
+      18
+    ],
+    "AN2662": [
+      9
+    ],
+    "PM0042": [
+      30
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00283419-stm32f10xxx-flash-memory-microcontrollers-stmicroelectronics.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:12.087155+00:00",
+  "path": "data/raw/stm32/stm32-pm0075.pdf"
+}

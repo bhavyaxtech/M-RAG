@@ -1,0 +1,12 @@
+{
+  "doc": "stm32-an3116",
+  "source_pdf": "data/raw/stm32/stm32-an3116.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/stm32/stm32-an3116/mineru/stm32-an3116_content_list.json",
+  "segment_counts": {
+    "text": 130,
+    "figure": 14,
+    "table": 1
+  }
+}

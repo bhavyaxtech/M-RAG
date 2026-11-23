@@ -1,0 +1,137 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - paragraph [ref=e6]: M-RAG
+        - paragraph [ref=e7]: Document intelligence
+      - navigation "Document sessions" [ref=e8]:
+        - generic [ref=e49]:
+          - heading "Hardware datasheets" [level=2] [ref=e51]
+          - generic [ref=e52]:
+            - button "RP2040 / Raspberry Pi Pico 641 pages" [ref=e53]:
+              - generic [ref=e58]:
+                - generic [ref=e59]: RP2040 / Raspberry Pi Pico
+                - generic [ref=e60]: 641 pages
+            - button "ESP32-WROOM-32E/32UE 52 pages" [ref=e61]:
+              - generic [ref=e66]:
+                - generic [ref=e67]: ESP32-WROOM-32E/32UE
+                - generic [ref=e68]: 52 pages
+            - button "ATmega328P 653 pages" [ref=e69]:
+              - generic [ref=e74]:
+                - generic [ref=e75]: ATmega328P
+                - generic [ref=e76]: 653 pages
+            - button "LM317 43 pages Session · 1 turns" [pressed] [ref=e341]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: LM317
+                - generic [ref=e84]: 43 pages
+                - generic [ref=e317]: Session · 1 turns
+            - button "STM32F103C8 114 pages" [ref=e85]:
+              - generic [ref=e90]:
+                - generic [ref=e91]: STM32F103C8
+                - generic [ref=e92]: 114 pages
+      - generic [ref=e10]:
+        - button "New session" [ref=e319]
+        - paragraph [ref=e11]: Clears only the selected document's conversation.
+    - main [ref=e12]:
+      - generic [ref=e320]:
+        - paragraph [ref=e321]: Hardware datasheets
+        - generic [ref=e322]:
+          - generic [ref=e323]:
+            - heading "LM317" [level=1] [ref=e324]
+            - paragraph [ref=e325]: 43 pages · session locked to this document
+          - generic [ref=e326]: Active
+      - log [ref=e327]:
+        - generic [ref=e342]:
+          - generic [ref=e343]: What is the maximum continuous output current listed for the LM317?
+          - article [ref=e345]:
+            - generic [ref=e346]: M
+            - generic [ref=e347]:
+              - generic [ref=e348]: searched the index · 5 segments retrieved · 4.6s
+              - generic [ref=e350]: From datasheets
+              - generic [ref=e353]:
+                - paragraph [ref=e354]:
+                  - text: The LM317’s maximum continuous output current is
+                  - strong [ref=e355]: 1.5A
+                  - text: .
+                  - link "S1" [ref=e356] [cursor=pointer]:
+                    - /url: "#segment-S1"
+                  - link "S2" [ref=e357] [cursor=pointer]:
+                    - /url: "#segment-S2"
+                - paragraph [ref=e358]:
+                  - text: This rating applies over an output-voltage range of
+                  - strong [ref=e359]: 1.25V to 37V
+                  - text: ; a
+                  - strong [ref=e360]: 3V headroom
+                  - text: ((V_I - V_O)) is recommended to support maximum current and lowest temperature.
+                  - link "S2" [ref=e361] [cursor=pointer]:
+                    - /url: "#segment-S2"
+              - generic [ref=e363]:
+                - button "Why this answer" [ref=e364] [cursor=pointer]
+                - generic [ref=e371]:
+                  - term [ref=e372]: Route
+                  - definition [ref=e373]: datasheet question (confidence 1.00)
+                  - term [ref=e374]: Searched for
+                  - definition [ref=e375]: LM317 maximum continuous output current
+                  - term [ref=e376]: Relevance
+                  - definition [ref=e377]: top match 0.575, above the 0.42 floor
+                  - term [ref=e378]: Used
+                  - definition [ref=e379]: S1 LM317 p.1 text, S2 LM317 p.13 text
+                  - term [ref=e380]: Unused
+                  - definition [ref=e381]: S3, S4, S5, still listed as evidence
+                  - term [ref=e382]: Evidence
+                  - definition [ref=e383]: figures, tables, and text from this document
+                  - term [ref=e384]: Models
+                  - definition [ref=e385]: gpt-5.6-sol · routed by gpt-5.6-luna
+      - generic [ref=e336]:
+        - textbox "Ask a question about LM317" [active] [ref=e337]
+        - generic [ref=e338]:
+          - generic [ref=e339]: Searching LM317 only
+          - button "Send" [ref=e340]
+    - complementary [ref=e21]:
+      - generic [ref=e386]:
+        - generic [ref=e387]:
+          - heading "Evidence" [level=2] [ref=e388]
+          - generic [ref=e389]: 5 found · 2 cited
+        - article [ref=e390]:
+          - generic [ref=e391]:
+            - generic [ref=e392]: S1
+            - generic [ref=e393]:
+              - paragraph [ref=e394]: LM317
+              - paragraph [ref=e395]: Page 1 · text · 0.575
+          - paragraph [ref=e398]: "LM317 3-Pin Adjustable Regulator 1 Features • Output voltage range: – Adjustable: 1.25V to 37V • Output current: 1.5A • Line regulation: 0.01%/V (typ) • Load regulation: 0.1% (typ) • Internal short-circuit current limiting • Thermal overload protection • Output safe-area compensation (new chip) • PSRR: 80dB at 120Hz for $\\mathsf { C } _ { \\mathsf { A D J } } = 1 0 \\mu \\mathsf { F }$ (new chip) • Packages: – 4-pin, SOT-223 (DCY) – 3-pin, TO-263 (KTT) – 3-pin, TO-220 (KCS, KCT), legacy chip 2 Applications • Multifunction printers • AC drive power stage modules • Electricity meters • Servo drive control modules • Merchant network and server PSU \\*Needed if the device is more than 6 inches from filter capacitors. †Optional, improves transient response. ††See Equation 1. $$ V _ { O U T } = \\mathrm { 1 . 2 5 } V \\times \\left( 1 \\ : + \\ : \\frac { R _ { 2 } } { R _ { 1 } } \\right) \\ : + \\ : I _ { A D J } \\times \\ : ( R _ { 2 } )\\tag{1} $$ Typical Application 3 Description The LM317 is an adjustable three-pin, positive-voltage regulator capable of supplying more than 1.5A over an output voltage range of 1.25V to 37V. The device requires only two external resistors to set the output voltage. The device features a typical line regulation of 0.01% and typical load regulation of 0.1%. The LM317 includes current limiting, thermal overload protection, and safe operating area protection. Overload protection remains functional even if the ADJUST pin is disconnected. Typically, no capacitors are needed unless the device is situated more than 6 inches from the input filter capacitors. In that case, an input bypass is needed. Add an optional output capacitor to improve transient response. Bypass the adjustment pin to achieve very high ripple rejection ratios that are difficult to achieve with standard 3-pin regulators. (3) Legacy chip."
+          - button "Open page 1" [ref=e399]
+        - article [ref=e405]:
+          - generic [ref=e406]:
+            - generic [ref=e407]: S2
+            - generic [ref=e408]:
+              - paragraph [ref=e409]: LM317
+              - paragraph [ref=e410]: Page 13 · text · 0.565
+          - paragraph [ref=e413]: "7 Detailed Description 7.1 Overview The LM317 is an adjustable three-pin, positive-voltage regulator capable of supplying up to 1.5A over an output voltage range of 1.25V to 37V. The device requires only two external resistors to set the output voltage. The device features a typical line regulation of 0.01% and typical load regulation of 0.1%. The LM317 includes current limiting, thermal overload protection, and safe operating area protection. Overload protection remains functional even if the ADJUST pin is disconnected. The LM317 is designed to minimize the $\\mathsf { I } _ { \\mathsf { A D J U S T } }$ current and make this current constant with line and load changes. A 100μA current from the ADJUST pin represents an error term. 7.2 Functional Block Diagram 7.3 Feature Description 7.3.1 NPN Darlington Output Drive The NPN Darlington output topology provides naturally low output impedance and an output capacitor is optional. A 3V headroom is recommended $( \\mathsf { V } _ { \\mathsf { I } } - \\mathsf { V } _ { \\mathsf { O } } )$ to support maximum current and lowest temperature. 7.3.2 Overload Block Overcurrent and overtemperature shutdown protects the device against overload or damage from operating in excessive heat. 7.3.3 Programmable Feedback An op amp with a 1.25V offset input at the ADJUST pin provides easy output voltage or current programming (but not both). For current regulation applications, use a single resistor whose resistance value is $1 . 2 5 \\mathsf { V } / \\mathsf { I } _ { 0 }$ and a power rating greater than $( 1 . 2 5 \\mathsf { V } ) ^ { 2 } / \\mathsf { R } .$ . For voltage regulation applications, two resistors set the output voltage."
+          - button "Open page 13" [ref=e414]
+        - article [ref=e420]:
+          - generic [ref=e421]:
+            - generic [ref=e422]: S3
+            - generic [ref=e423]:
+              - paragraph [ref=e424]: LM317
+              - paragraph [ref=e425]: Page 22 · text · 0.528
+          - paragraph [ref=e428]: "8.3.12 High-Current Adjustable Regulator Circuit The PNP (2N2905) and NPN (2N6486) at the top of Figure 8-17 allow higher currents at $\\mathsf { V } _ { \\mathsf { O U T } }$ than the LM317 provides. Meanwhile, the output voltage remains at levels determined by the ADJUST pin resistor divider of the LM317."
+          - button "Open page 22" [ref=e429]
+        - article [ref=e435]:
+          - generic [ref=e436]:
+            - generic [ref=e437]: S4
+            - generic [ref=e438]:
+              - paragraph [ref=e439]: LM317
+              - paragraph [ref=e440]: Page 23 · text · 0.527
+          - paragraph [ref=e443]: "8.4 Power Supply Recommendations The LM317 is designed to operate from an input voltage supply range between 1.25V to 37V greater than the output voltage. If the device is more than six inches from the input filter capacitors, use an input bypass capacitor of any type for stability. Make sure this capacitor is 0.1μF or greater. 8.5 Layout 8.5.1 Layout Guidelines • Bypass the input pin to ground with a bypass capacitor. • The optimum placement is closest to the input pin of the device and the system GND. Take care to minimize the loop area formed by the bypass-capacitor connection, the input pin, and the system GND. • For operation at full rated load, use wide trace lengths to eliminate ${ \\sf I } \\times { \\sf R }$ drop and heat dissipation. 8.5.1.1 Thermal Considerations 8.5.1.1.1 Heat Sink Requirements The LM317 (new chip) regulators have internal thermal shutdown to protect the device from overheating. Under all operating conditions, make sure the device junction temperature does not exceed the rated maximum junction temperature $( \\mathsf { T } _ { \\mathsf { J } } )$ of $1 2 5 ^ { \\circ } \\mathrm { C }$ for the LM317 (new chip). A heat sink is required depending on the maximum device power dissipation and the maximum ambient temperature of the application. To determine if a heat sink is needed, Equation 9 calculates the power dissipated by the regulator, $\\mathsf { P } _ { \\mathsf { D } }$ $$ \\mathsf { P } _ { \\mathsf { D } } = ( ( \\mathsf { V } _ { \\mathsf { I N } } - \\mathsf { V } _ { \\mathsf { O U T } } ) \\times \\mathsf { I } _ { \\mathsf { L } } ) + ( \\mathsf { V } _ { \\mathsf { I N } } \\times \\mathsf { I } _ { \\mathsf { G } } )\\tag{9} $$ Figure 8-18 shows the voltage and currents that are present in the circuit. Equation 10 calculates the next parameter, which is the maximum allowable temperature rise, TR(MAX). $$ \\mathsf { T } _ { \\mathsf { R } ( \\mathrm { M"
+          - button "Open page 23" [ref=e444]
+        - article [ref=e450]:
+          - generic [ref=e451]:
+            - generic [ref=e452]: S5
+            - generic [ref=e453]:
+              - paragraph [ref=e454]: LM317
+              - paragraph [ref=e455]: Page 2 · text · 0.520
+          - paragraph [ref=e458]: The regulator is floating and detects only the input-to-output differential voltage. Thus, supplies of several hundred volts are regulated as long as the maximum input-to-output differential is not exceeded. That is, avoid short-circuiting the output. By connecting a fixed resistor between the adjustment pin and output, the LM317 is also able to be used as a precision current regulator. Supplies with electronic shutdown are achieved by clamping the adjustment terminal to ground, which programs the output to 1.25V where most loads draw little current.
+          - button "Open page 2" [ref=e459]
+      - button "Build provenance" [ref=e30]
+  - button "Open Next.js Dev Tools" [ref=e44] [cursor=pointer]
+  - alert [ref=e48]

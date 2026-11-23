@@ -1,0 +1,20 @@
+{
+  "doc_id": "stm32-an2820",
+  "document_id": "AN2820",
+  "title": "STM32F10xxx timer synchronization",
+  "document_kind": "application_note",
+  "applicability": "Timer synchronization on STM32F10xxx; check timer availability",
+  "manufacturer_url": "http://www.st.com/stonline/products/literature/an/14946.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/14946.pdf"
+  ],
+  "pages": 23,
+  "sha256": "3e0e47c5d4d92e11c6a0ef82d7690f4c59cb015e749a38ee73199679c5fd0574",
+  "cover_text": "         \nApril 2009\nDoc ID 14946 Rev 2\n1/23\nAN2820\nApplication note\nDriving bipolar stepper motors\nusing a medium-density STM32F103xx microcontroller\nIntroduction\nThis application note describes how to achieve compact size, high speed and low cost with \nless resources when driving bipolar stepper motors using the medium-density \nSTM32F103xx family of cortex-M3-based microcontrollers. It presents a simple method to \nimplement the full-step and half-step operating modes to control stepper motors.\nA stepper motor is an electromechanical device that converts electric pulses into discrete \nmechanical step motions. The shaft of a stepper motor rotates in discrete steps when \nelectric command pulses are applied to it in the proper sequence. Stepper motors are a \ngood choice whenever controlled movement is required. They are particularly useful in \napplications where rotation angle, speed, position and synchronism control is needed.\nThe major advantages of stepper motors are that they need no feedback devices, they are \ninexpensive relative to other motion control systems, they show an excellent low-speed \ntorque and they are stable. Many stepper motor applications could benefit from the power, \nfeatures and flexibility of the STM32F10xxx devices. They include robotics controllers, \nturning machine tools, video cameras and other precise shaft-positioning-control \nenvironments.\nMoreover, the high performance of the STM32F10xxx microcontrollers offers designers the \npossibility of driving stepper motors reliably with low computing requirements from the \ncontroller.\nThis application note gives a simple method to control stepper motors following a typical run \nprofile. The user can choose the operating mode (full-step or half-step), the rotation sense \nof the motor (clockwise or counter clockwise) and the control current mode (fast or slow \ndecay).This method uses the medium-density STM32F103xx and the L6208 fully integrated \ntwo-phase stepper motor driver. It is the cheapest and simplest way of obtaining minimum \nCPU load.\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/14946.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:22.043425+00:00",
+  "path": "data/raw/stm32/stm32-an2820.pdf"
+}

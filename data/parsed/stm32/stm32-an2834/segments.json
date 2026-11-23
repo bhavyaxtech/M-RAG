@@ -1,0 +1,2043 @@
+[
+  {
+    "segment_id": "stm32-an2834-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "AN2834 Application note"
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "How to get the best ADC accuracy in STM32F10xxx devices"
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "The STM32F10xxx microcontroller family embeds up to three advanced 12-bit ADCs (depending on the device) with a conversion time down to 1 μs. A self-calibration feature is provided to enhance ADC accuracy versus environmental condition changes."
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "In applications involving analog-to-digital conversion, ADC accuracy has an impact on the overall system quality and efficiency. To improve this accuracy, you need to understand the errors associated with the ADC and the parameters affecting them."
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "The ADC accuracy cannot depend on the ADC performance and features only, it depends on the overall application design around the ADC."
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "The aim of this application note is to help understand ADC errors and how to enhance ADC accuracy. The document is divided into two main parts:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "■in the first, it gives the different types and sources of ADC errors related to the ADC design and to external ADC parameters such as the external hardware design"
+  },
+  {
+    "segment_id": "stm32-an2834-p0001-text-00009",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 1,
+    "text": "■in the second part, it describes the different recommendations and gives hints on how to minimize these errors by focusing on the hardware methods"
+  },
+  {
+    "segment_id": "stm32-an2834-p0002-text-00010",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2834-p0002-text-00011",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 2,
+    "text": "1 Different ADC errors 5   \n1.1 ADC errors related to the ADC itself 5   \n1.1.1 Offset error .5   \n1.1.2 Gain error .6   \n1.1.3 Differential linearity error .7   \n1.1.4 Integral linearity error .8   \n1.1.5 Total unadjusted error ..9   \n1.2 ADC errors related to its environment 10   \n1.2.1 Power supply noise .10   \n1.2.2 Power supply regulation .10   \n1.2.3 Analog input signal noise .10   \n1.2.4 ADC dynamic range badly matching the maximum input signal   \namplitude 11   \n1.2.5 Effect of the analog signal source resistance 11   \n1.2.6 Effect of the source capacitance and parasitic capacitance of the PCB 12   \n1.2.7 Injection current effect 13   \n1.2.8 Temperature influence 13   \n1.2.9 I/O pin crosstalk .13   \n1.2.10 EMl-induced noise .14   \n2 How to get the best ADC accuracy 15   \n2.1 Recommendation to reduce the effects of ADC-related ADC   \nerrors 15   \n2.2 How to minimize ADC errors related to the external   \nenvironment of the ADC 15   \n2.2.1 Power-supply noise minimization 15   \n2.2.2 Power-supply regulation recommendation .17   \n2.2.3 Analog-input signal noise elimination 17   \n2.2.4 Matching the ADC dynamic range to the maximum signal amplitude . . 17   \n2.2.5 Analog source resistance calculation 19   \n2.2.6 Source frequency condition vs. source and parasitic capacitors .20   \n2.2.7 Temperature-effect compensation .21   \n2.2.8 Minimizing Injection current .21   \n2.2.9 Minimizing l/O pin crosstalk .21   \n2.2.10 EMl-induced noise reduction 22   \n2.2.11 PCB layout recommendations . .23   \n2.2.12 Component placement and routing . . ..25   \n3 Conclusion . . . . .. 26   \n4 Revision history . . . ... .. 27"
+  },
+  {
+    "segment_id": "stm32-an2834-p0004-text-00012",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2834-p0004-text-00013",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 4,
+    "text": "Figure 1. Positive offset error representation. 5   \nFigure 2. Negative offset error representation 6   \nFigure 3. Positive gain error representation. 7   \nFigure 4. Negative gain error representation . 7   \nFigure 5. Differential linearity error representation. 8   \nFigure 6. Integral linearity error representation .9   \nFigure 7. Total unadjusted error. .9   \nFigure 8. Input signal amplitude vs. ADC dynamic range 11   \nFigure 9. Analog signal source resistance effect . 12   \nFigure 10. Analog input with $\\mathsf { R } _ { \\mathsf { A l N } } ,$ $\\mathsf { C } _ { \\mathsf { A l N } }$ and Cp 12   \nFigure 11. Effect of injection current 13   \nFigure 12. Crosstalk between l/O pins. 13   \nFigure 13. EMI sources 14   \nFigure 14. Power supply and reference decoupling for 100- and 144-pin packages. . 16   \nFigure 15. Power supply decoupling for 36-, 48- and 64-pin packages. 16   \nFigure 16. Selecting the reference voltage 18   \nFigure 17. Preamplification 19   \nFigure 18. Worst case error: $\\mathsf { V } _ { \\mathsf { A I N } } = \\mathsf { V }$ REF+. .19   \nFigure 19. Recommended values for RAIN and CAIN Vs. source frequency FAIN. .21   \nFigure 20. Crosstalk between l/O pins. 22   \nFigure 21. Shielding technique 22   \nFigure 22. Separating the analog and digital layouts. . 23   \nFigure 23. Separating the analog and digital supplies . 24"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00014",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "Different ADC errors"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "1.1 ADC errors related to the ADC itself"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "Different accuracy error types are specified for the STM32F10xxx ADC. Accuracy errors are normally expressed as multiples of 1 LSB for easy reference. The resolution in terms of voltage depends on the reference voltage. The error in terms of voltage is calculated by multiplying the number of LSBs with the voltage corresponding to 1LSB $( 1 L S B = V _ { R E F + } ^ { } / 2 ^ { 1 2 }$ or $\\mathsf { V } _ { \\mathsf { D D A } } / 2 ^ { \\bar { 1 } 2 } )$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "1.1.1 Offset error"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "It is defined as the deviation between the first actual transition and the first ideal transition. The first transition occurs when the digital output of the ADC changes from 0 to 1. Ideally, when the analog input is between 0.5 LSB and 1.5LSB, the digital output should be 1. Ideally still, the first transition occurs at 0.5 LSB. The offset error is denoted by Eo."
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "Example"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "For the STM32F10xxx ADC, the smallest detectable incremental change in voltage is expressed in terms of LSBs:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "$$\n^ { 1 } \\mathsf { L S B } = \\mathsf { V } _ { \\mathsf { R E F } + } / 4 0 9 6 ( \\mathsf { o r V } _ { \\mathsf { D D A } } / 4 0 9 6 \\mathsf { d e p e n d i n g o n t h e p a c k a g e } ) .\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "$\\mathsf { I f } \\mathsf { V } _ { \\mathsf { R E F } + } = 3 . 3 \\mathsf { V } ,$ ideally, the input of 402.8 μV $( 0 . 5 \\mathsf { L S B } = 0 . 5 \\times 8 0 5 . 6 \\mathsf { \\mu V } )$ should lead to the generation of a digital output of 1. In practice, however, the ADC may still show the reading as 0. If a digital output of 1 is obtained from an analog input of 550 μV, then:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "Offset error = Actual transition – Ideal transition"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "$$\n\\mathsf { E } _ { \\mathrm { O } } = 5 5 0 \\mu \\mathsf { V } - 4 0 2 . 8 \\mu \\mathsf { V } = 1 4 1 . 2 \\mu \\mathsf { V }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { O } } = 1 4 1 . 2 \\mu \\mathsf { V } / 8 0 5 . 6 \\mu \\mathsf { V } = 0 . 1 7 \\mathsf { L S B }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "text": "When an analog input voltage greater than 0.5LSB generates the first transition, the offset error is positive. Figure 1 shows a positive offset error."
+  },
+  {
+    "segment_id": "stm32-an2834-p0005-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0005_00001.png",
+    "caption": "**Figure 1. Positive offset error representation**\n\n- Plot of **Digital output** versus **V_AIN**.\n- Vertical axis: **Digital output**, with an upward arrow. Visible output levels marked **0**, **1**, and **2**.\n- Horizontal axis: **V_AIN**, with a right-pointing arrow. The horizontal-axis origin is marked **0**; a position to the right is labeled **0.5LSB**.\n- Two staircase transfer curves are shown:\n  - **Ideal transfer curve**: black staircase.\n  - **Actual transfer curve**: blue staircase, shifted to the right relative to the ideal curve.\n- Orange annotation at the low-input transition indicates **E_O > 0**. Orange horizontal opposing arrows and two orange vertical dashed guide lines mark the positive offset displacement between the ideal and actual transition locations.\n- Blue and black callout arrows identify the **Actual transfer curve** and **Ideal transfer curve**, respectively.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Positive offset error representation",
+    "generated_captions": {
+      "luna": "**Figure 1. Positive offset error representation**\n\n- Plot of **Digital output** versus **V_AIN**.\n- Vertical axis: **Digital output**, with an upward arrow. Visible output levels marked **0**, **1**, and **2**.\n- Horizontal axis: **V_AIN**, with a right-pointing arrow. The horizontal-axis origin is marked **0**; a position to the right is labeled **0.5LSB**.\n- Two staircase transfer curves are shown:\n  - **Ideal transfer curve**: black staircase.\n  - **Actual transfer curve**: blue staircase, shifted to the right relative to the ideal curve.\n- Orange annotation at the low-input transition indicates **E_O > 0**. Orange horizontal opposing arrows and two orange vertical dashed guide lines mark the positive offset displacement between the ideal and actual transition locations.\n- Blue and black callout arrows identify the **Actual transfer curve** and **Ideal transfer curve**, respectively."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00027",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "If the analog input voltage $\\mathsf { V } _ { \\mathsf { A l N } } = \\mathsf { V } _ { \\mathsf { S S A } }$ and the ADC generates a nonzero digital output, the offset error is negative. This means that a negative voltage generates the first transition."
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0006_00002.png",
+    "caption": "**Figure 2. Negative offset error representation**\n\n- Plot of **Digital output** versus **\\(V_{AIN}\\)**.\n- Vertical axis: **Digital output**, with an upward arrow; visible output levels marked **0**, **1**, and **2**.\n- Horizontal axis: **\\(V_{AIN}\\)**, with a right-pointing arrow.\n- Horizontal-axis reference marking near the origin: **0.5LSB**.\n- Two staircase transfer curves are shown:\n  - **Ideal transfer curve** — black staircase.\n  - **Actual transfer curve** — blue staircase, with a blue arrow/callout identifying it.\n- Orange offset annotation near the first transition: **\\(E_O > 0\\)**. Orange dashed vertical reference lines and opposing horizontal arrows indicate the offset displacement around the initial transition.\n- The plot contains no visible numerical scale beyond the output labels **0**, **1**, **2**, and **0.5LSB**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Negative offset error representation",
+    "generated_captions": {
+      "luna": "**Figure 2. Negative offset error representation**\n\n- Plot of **Digital output** versus **\\(V_{AIN}\\)**.\n- Vertical axis: **Digital output**, with an upward arrow; visible output levels marked **0**, **1**, and **2**.\n- Horizontal axis: **\\(V_{AIN}\\)**, with a right-pointing arrow.\n- Horizontal-axis reference marking near the origin: **0.5LSB**.\n- Two staircase transfer curves are shown:\n  - **Ideal transfer curve** — black staircase.\n  - **Actual transfer curve** — blue staircase, with a blue arrow/callout identifying it.\n- Orange offset annotation near the first transition: **\\(E_O > 0\\)**. Orange dashed vertical reference lines and opposing horizontal arrows indicate the offset displacement around the initial transition.\n- The plot contains no visible numerical scale beyond the output labels **0**, **1**, **2**, and **0.5LSB**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00028",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "1.1.2 Gain error"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00029",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "Gain error is defined as the deviation between the last actual transition and the last ideal transition. Gain error is represented as $\\mathsf { E } _ { \\mathsf { G } }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00030",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "The last actual transition is the transition from FFEh to FFFh. Ideally, there should be a transition from FFEh to FFFh, when the analog input is equal to $\\mathsf { V } _ { \\mathsf { R E F } + } - 0 . 5 \\mathsf { L S B }$ So for $\\mathsf { V } _ { \\mathsf { R E F } + } = 3 . 3 \\mathsf { V } ,$ the last ideal transition should be at 3.299597 V."
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00031",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "If the ADC provides the FFFh reading for $\\mathsf { V } _ { \\mathsf { A I N } } < \\mathsf { V } _ { \\mathsf { R E F } + } - 0 . 5 \\mathsf { L S B }$ , then we have a negative gain error."
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00032",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "Example"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00033",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "Gain error $\\mathsf E _ { \\mathsf E } = \\mathsf E \\mathsf E _ { \\mathsf E } $ actual transition – ideal transition"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00034",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "$\\mathsf { I f } \\mathsf { V } _ { \\mathsf { R E F } + } = 3 . 3 \\mathsf { V }$ and $\\mathsf { V } _ { \\mathsf { A I N } } = 3$ .298435 V generates a transition from FFE to FFF then,"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00035",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { G } } = 3 . 2 9 8 4 3 5 \\vee - 3 . 2 9 9 5 9 7 \\vee\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00036",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { G } } = - 1 1 6 2 \\mu \\mathsf { V }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00037",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { G } } = ( - 1 1 6 2 \\mu \\mathsf { V } / 8 0 5 . 6 \\mu \\mathsf { V } ) \\mathsf { L } \\mathsf { S } \\mathsf { B } = - 1 . 4 4 \\mathsf { L } \\mathsf { S } \\mathsf { B }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0006-text-00038",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 6,
+    "text": "If we do not get a full scale reading (FFFh) for $\\mathsf { V } _ { \\mathsf { A I N } }$ equal to ${ \\mathsf { V } } _ { \\mathsf { R E F + } }$ , the gain error is positive. This means that a voltage greater than $\\mathsf { V } _ { \\mathsf { R E F } + }$ will cause the last transition. Figure 3 shows a positive gain error and Figure 4, a negative gain error."
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0007_00003.png",
+    "caption": "**Figure 3. Positive gain error representation**\n\n- Plot of **Digital output** versus **V_AIN**.\n- Vertical axis: **Digital output**.\n- Horizontal axis: **V_AIN**.\n- Horizontal dashed reference line at digital output code **4095**.\n- Horizontal-axis reference marking: **4094.5** with unit/label **LSB** beneath it.\n- Two staircase transfer curves are shown:\n  - **Ideal transfer curve** (black).\n  - **Actual transfer curve** (blue).\n- An orange horizontal arrow/bracket near the upper staircase step marks the positive gain error, labeled **E_G > 0**.\n- The actual transfer curve is offset relative to the ideal transfer curve, illustrating positive gain error.\n- Additional diagonal axis-break marks are visible on the vertical axis and near the lower-left portions of the staircase curves.\n- Figure identifier at lower right: **ai15477**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Positive gain error representation",
+    "generated_captions": {
+      "luna": "**Figure 3. Positive gain error representation**\n\n- Plot of **Digital output** versus **V_AIN**.\n- Vertical axis: **Digital output**.\n- Horizontal axis: **V_AIN**.\n- Horizontal dashed reference line at digital output code **4095**.\n- Horizontal-axis reference marking: **4094.5** with unit/label **LSB** beneath it.\n- Two staircase transfer curves are shown:\n  - **Ideal transfer curve** (black).\n  - **Actual transfer curve** (blue).\n- An orange horizontal arrow/bracket near the upper staircase step marks the positive gain error, labeled **E_G > 0**.\n- The actual transfer curve is offset relative to the ideal transfer curve, illustrating positive gain error.\n- Additional diagonal axis-break marks are visible on the vertical axis and near the lower-left portions of the staircase curves.\n- Figure identifier at lower right: **ai15477**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0007_00004.png",
+    "caption": "**Figure 4. Negative gain error representation** (caption/context)\n\n- Plot of **Digital output** versus **V_AIN**.\n- **Y-axis:** “Digital output”; upper marked value **4095**.\n- **X-axis:** **V_AIN**.\n- A horizontal dashed reference line extends from the 4095 level.\n- A vertical orange dashed line is positioned at **4094.5 LSB** on the x-axis. The x-axis annotation reads:\n  - **4094.5**\n  - **LSB**\n- **Ideal transfer curve:** black staircase rising toward the 4095 output level; labeled **“Ideal transfer curve”**.\n- **Actual transfer curve:** blue staircase; labeled **“Actual transfer curve”**.\n- Orange annotation above the upper step reads **“E_G < 0”**, with opposing orange arrows indicating the negative gain-error displacement between the actual and ideal endpoints/curves.\n- Both axes include break marks near the lower/left portions of the plotted scale.\n- Figure identifier at lower right: **ai15478**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4.Negative gain error representation",
+    "generated_captions": {
+      "luna": "**Figure 4. Negative gain error representation** (caption/context)\n\n- Plot of **Digital output** versus **V_AIN**.\n- **Y-axis:** “Digital output”; upper marked value **4095**.\n- **X-axis:** **V_AIN**.\n- A horizontal dashed reference line extends from the 4095 level.\n- A vertical orange dashed line is positioned at **4094.5 LSB** on the x-axis. The x-axis annotation reads:\n  - **4094.5**\n  - **LSB**\n- **Ideal transfer curve:** black staircase rising toward the 4095 output level; labeled **“Ideal transfer curve”**.\n- **Actual transfer curve:** blue staircase; labeled **“Actual transfer curve”**.\n- Orange annotation above the upper step reads **“E_G < 0”**, with opposing orange arrows indicating the negative gain-error displacement between the actual and ideal endpoints/curves.\n- Both axes include break marks near the lower/left portions of the plotted scale.\n- Figure identifier at lower right: **ai15478**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00039",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "1.1.3 Differential linearity error"
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00040",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "The differential linearity error (DLE) is defined as the maximum deviation between the actual and ideal steps. Here ideal' is not used for the ideal transfer curve but for the resolution of the ADC. The DLE is denoted by $\\mathsf { E } _ { \\mathsf { D } } .$ It is represented in Figure 5."
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00041",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "$$\nE _ { \\mathsf { D } } = { \\mathsf { A c t u a l ~ s t e p ~ w i d t h } } - 1 \\mathsf { L S B }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00042",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "Ideally, an analog input voltage change of 1LSB should cause a change in the digital code. If an analog input voltage greater than 1LSB is required for a change in digital code, the ADC has a differential linearity error. The DLE therefore corresponds to the maximum additional voltage that is required to change from one digital code to the next."
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00043",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "The DLE is also known as the differential non-linearity (DNL) error."
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00044",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "Example"
+  },
+  {
+    "segment_id": "stm32-an2834-p0007-text-00045",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 7,
+    "text": "A given digital output should correspond to an analog input range. Ideally, the step width should be 1LSB. Let us assume that we get the same digital output over an analog input voltage range of 1.9998 V to 2.0014 V, the step width will be 2.0014 V – 1.9998 V = 1.6 mV. Ep is thus the voltage difference between the higher (2.0014 V) and lower (1.9998 V) analog voltages less the voltage corresponding to 1LSB."
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0008_00005.png",
+    "caption": "**Figure 5. Differential linearity error representation**\n\n- Plot axes:\n  - Vertical axis: **Digital output**\n  - Horizontal axis: **V_AIN**\n- Curves:\n  - Black staircase: **Ideal transfer curve**\n  - Blue staircase: **Actual transfer curve**\n- Marked quantities and annotations:\n  - **1LSB** is shown with horizontal dimension arrows at two locations.\n  - **Actual step width** is shown in blue with a horizontal double-headed arrow between blue dashed vertical guide lines.\n  - **E_D > 0** is shown in orange, with an orange horizontal arrow indicating positive differential linearity error.\n  - **E_D < 0** is shown in orange, with an orange horizontal arrow indicating negative differential linearity error.\n- The ideal and actual transfer curves are offset relative to one another at different code transitions; dashed vertical construction lines and horizontal arrows indicate the actual step width and its deviation from the nominal **1LSB** spacing.\n- Figure identifier at lower right: **ai15479**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Differential linearity error representation",
+    "generated_captions": {
+      "luna": "**Figure 5. Differential linearity error representation**\n\n- Plot axes:\n  - Vertical axis: **Digital output**\n  - Horizontal axis: **V_AIN**\n- Curves:\n  - Black staircase: **Ideal transfer curve**\n  - Blue staircase: **Actual transfer curve**\n- Marked quantities and annotations:\n  - **1LSB** is shown with horizontal dimension arrows at two locations.\n  - **Actual step width** is shown in blue with a horizontal double-headed arrow between blue dashed vertical guide lines.\n  - **E_D > 0** is shown in orange, with an orange horizontal arrow indicating positive differential linearity error.\n  - **E_D < 0** is shown in orange, with an orange horizontal arrow indicating negative differential linearity error.\n- The ideal and actual transfer curves are offset relative to one another at different code transitions; dashed vertical construction lines and horizontal arrows indicate the actual step width and its deviation from the nominal **1LSB** spacing.\n- Figure identifier at lower right: **ai15479**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00046",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "一 $\\mathsf { f } \\mathsf { V } _ { \\mathsf { R E F } + } = 3 . 3 \\mathsf { V } ,$ an analog input of 1.9998 V (9B1h) can provide results varying between 9B0h and 9B2h. Similarly, for an input of 2.0014 V (9B3h), the results may vary between 9B2h and 9B4h."
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00047",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "Thus, the total voltage variation corresponding to the 9B2h step is:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00048",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "9B3h – 9B1h, that is, 2.0014 V – 1.9998V = 1.6 mV (1660 μV)"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00049",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { D } } = 1 6 6 0 \\mu \\mathsf { V } - 8 0 5 . 6 \\mu \\mathsf { V }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00050",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { D } } = 8 5 4 . 4 \\mu \\mathsf { V }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00051",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { D } } = ( 8 5 4 . 4 \\mu \\mathsf { V } / 8 0 5 . 6 \\mu \\mathsf { V } ) \\mathsf { L } \\mathsf { S B }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00052",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "$$\n\\mathsf { E } _ { \\mathsf { D } } = 1 . 0 6 \\mathsf { L S B }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00053",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "Let us assume that no voltage greater than 2.0014 V will result in the 9B2h digital code.   \nWhen the step width is less than 1LSB, $\\mathsf { E } _ { \\mathsf { D } }$ is negative."
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00054",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "1.1.4Integral linearity error"
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00055",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "The integral linearity error is the maximum deviation between any actual transition and the endpoint correlation line. The ILE is denoted by $\\mathsf { E } _ { \\mathsf { L } }$ . It is represented in Figure 6."
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00056",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "The endpoint correlation line can be defined as the line on the A/D transfer curve that connects the first actual transition with the last actual transition. $\\mathsf { E } _ { \\mathsf { L } }$ is the deviation from this line for each transition. The endpoint correlation line thus corresponds to the actual transfer curve and has no relation to the ideal transfer curve."
+  },
+  {
+    "segment_id": "stm32-an2834-p0008-text-00057",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 8,
+    "text": "The ILE is also known as the integral non linearity error (INL). The ILE is the integral of the DLE over the whole range."
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0009_00006.png",
+    "caption": "Figure (source: STM32 AN2834, page 9; identifier: **ai15480**) showing an ADC transfer characteristic:\n\n- **Y-axis:** “Digital output”\n  - Legible values: **0**, **1**, **2**, and **4095**\n  - The axis includes a break marker between the low output codes and the upper value.\n- **X-axis:** **V_AIN**\n  - Marked input-voltage values: **550 µV** and **3.298435 V**\n- **Ideal transfer curve:** black dashed diagonal line.\n- **Actual transfer curve:** blue staircase waveform, identified by a blue arrow and the label **“Actual transfer curve”**.\n- **E_L:** orange annotation above the staircase, with opposing horizontal arrows indicating the error relative to the ideal transfer curve.\n- Dashed projection lines connect the **4095** level and the **3.298435 V** input value; another dashed guide is shown at **550 µV**.\n- The figure title is cropped and not legible in the supplied image.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure (source: STM32 AN2834, page 9; identifier: **ai15480**) showing an ADC transfer characteristic:\n\n- **Y-axis:** “Digital output”\n  - Legible values: **0**, **1**, **2**, and **4095**\n  - The axis includes a break marker between the low output codes and the upper value.\n- **X-axis:** **V_AIN**\n  - Marked input-voltage values: **550 µV** and **3.298435 V**\n- **Ideal transfer curve:** black dashed diagonal line.\n- **Actual transfer curve:** blue staircase waveform, identified by a blue arrow and the label **“Actual transfer curve”**.\n- **E_L:** orange annotation above the staircase, with opposing horizontal arrows indicating the error relative to the ideal transfer curve.\n- Dashed projection lines connect the **4095** level and the **3.298435 V** input value; another dashed guide is shown at **550 µV**.\n- The figure title is cropped and not legible in the supplied image."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00058",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "Figure 6. Integral linearity error representation"
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00059",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "Example"
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00060",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "If the first transition from 0 to 1 occurs at $5 5 0 \\mu \\nu$ and the last transition (FFEh to FFFh) occurs at 3.298435 V (gain error), then the line on the transfer curve connecting the actual digital codes 1h and FFFh will be the endpoint correlation line."
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00061",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "1.1.5 Total unadjusted error"
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00062",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "the total unadjusted error (TUE) is defined as the maximum deviation between the actual and the ideal transfer curves. It is a parameter that specifies the total errors that may occur, causing maximum deviation between the ideal digital output and the actual digital output. It is the maximum deviation recorded between the ideal expected value and the actual value obtained from the ADC for any input voltage. The TUE is denoted by $\\mathsf { E } _ { \\mathsf { T } }$ It is represented in Figure 7."
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00063",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "The TUE is not the sum of $\\mathsf { E } _ { 0 } , \\mathsf { E } _ { \\mathsf { G } } , \\mathsf { E } _ { \\mathsf { L } } , \\mathsf { E } _ { \\mathsf { D } } .$ The offset error affects the digital result at lower voltages whereas the gain error affects the digital output for higher voltages."
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00064",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "Example"
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00065",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "If $\\mathsf { V } _ { \\mathsf { R E F } + } = 3 . 3 \\mathsf { V }$ and $\\mathsf { V } _ { \\mathsf { A I N } } = 2 \\mathsf { V } ,$ the ideal result is 9B2h. But if, on conversion, we get the result 9B4h, the deviation may result from the offset since the DLE and ILE errors occur simultaneously."
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-text-00066",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "text": "$$\n\\mathsf { T U E } = \\mathsf { a b s o l u t e } \\ ( \\mathsf { a c t u a l } \\ v a | \\mathsf { u e } - \\mathsf { i d e a l } \\ \\mathsf { c a s e } \\ \\mathsf { v a l u e } ) = 9 \\mathsf { B 4 h } - 9 \\mathsf { B 2 h } = 2 \\mathsf { I } - 2 \\mathsf { L S B }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0009-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0009_00007.png",
+    "caption": "**Figure 7. Total unadjusted error**\n\n- Graph axes:\n  - Vertical axis: **Digital output**\n  - Horizontal axis: **V<sub>AIN</sub>**\n- Shows two staircase transfer curves:\n  - Black: **Ideal transfer curve**\n  - Blue: **Actual transfer curve**\n- **E<sub>T</sub>** is marked in orange near the upper transition as a horizontal double-headed arrow between the ideal and actual transfer curves, indicating the total unadjusted error.\n- Staircase endpoints include diagonal transition/step markers in black and blue.\n- Figure identifier at lower right: **ai15481**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Total unadjusted error",
+    "generated_captions": {
+      "luna": "**Figure 7. Total unadjusted error**\n\n- Graph axes:\n  - Vertical axis: **Digital output**\n  - Horizontal axis: **V<sub>AIN</sub>**\n- Shows two staircase transfer curves:\n  - Black: **Ideal transfer curve**\n  - Blue: **Actual transfer curve**\n- **E<sub>T</sub>** is marked in orange near the upper transition as a horizontal double-headed arrow between the ideal and actual transfer curves, indicating the total unadjusted error.\n- Staircase endpoints include diagonal transition/step markers in black and blue.\n- Figure identifier at lower right: **ai15481**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00067",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "ADC errors related to its environment"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00068",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "1.2.1 Power supply noise"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00069",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "The analog power supply is used as the reference voltage for conversion. As the ADC output is the ratio between the analog signal voltage and the supply voltage, any noise on the analog reference will cause a change in the converted digital value."
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00070",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "For example, with an analog reference of 3.3 V and a 1 V signal input, the converted result is $( 1 / 3 . 3 ) \\times 4 0 9 5 = 4 0 9 \\mathsf { h }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00071",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "But with a 40 mV peak-to-peak ripple in the power supply, the converted value becomes $( 1 / 3 . 3 4 ) \\times 4 0 9 5 = 4 0 \\Delta h$ (with $V _ { \\mathsf { R E F } } .$ at its peak)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00072",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "Error = 4D9 – 4CA = 15 LSB"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00073",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "The SMPS (switch-mode power supply) normally has internal fast-switching power transistors. This introduces high-frequency noise in the output. The switching noise is in the range of 15 kHz to 1 MHz."
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00074",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "1.2.2Power supply regulation"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00075",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "Power supply regulation is very important for ADC accuracy since the conversion result is the ratio of the analog input voltage to the $\\mathsf { V } _ { \\mathsf { R E F + } }$ value."
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00076",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "If the power supply output decreases when connected to $\\mathsf { V } _ { \\mathsf { D D A } } \\mathsf { o r V } _ { \\mathsf { R E F + } }$ due to the loads on these inputs and to its output impedance, an error will be introduced in the conversion result. $\\mathsf { D i g i t a l } _ { \\mathsf { o u t p u t } } = \\frac { \\mathsf { V } _ { \\mathsf { A l N } } ( 2 ^ { \\mathsf { n } } - 1 ) } { \\mathsf { V } _ { \\mathsf { R E F } + } }$ , where n is the resolution of the ADC (in our case n = 12)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00077",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "If the reference voltage changes, the digital result changes too."
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00078",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "For example:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00079",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "If the supply used is a reference voltage of 3.3 V and $\\mathsf { V } _ { \\mathsf { A I N } } = 1 \\ \\mathsf { V } ,$ the digital output is:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00080",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "$$\n\\mathsf { D i g i t a l } _ { \\mathsf { o u t p u t } } = \\frac { 1 \\times ( 2 ^ { 1 2 } - 1 ) } { 3 . 3 } = 4 \\mathsf { D } 9 \\mathsf { h }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00081",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "If the voltage supply provides a voltage equal to 3.292 V (after its output connection to $\\mathsf { V } _ { \\mathsf { R E F + } } )$ , then:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00082",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "$$\n\\mathsf { D i g i t a l } _ { \\mathsf { o u t p u t } } = \\frac { 1 \\times ( 2 ^ { 1 2 } - 1 ) } { 3 . 2 9 2 } = 4 \\mathsf { D C h }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00083",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "The error introduced by the voltage drop is: $4 \\mathsf { D C } - 4 \\mathsf { D 9 } = 3 \\mathsf { L S B }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00084",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "1.2.3Analog input signal noise"
+  },
+  {
+    "segment_id": "stm32-an2834-p0010-text-00085",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 10,
+    "text": "Small but high-frequency signal variation can result in big conversion errors during sampling time. This noise is generated by electrical devices, for example, motors, engine ignition, power lines, and so on, and affects the source signal (for example a sensor) by adding an unwanted signal. As a consequence, the conversion results of the ADC are not accurate."
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00086",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "1.2.4ADC dynamic range badly matching the maximum input signal amplitude"
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00087",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "It is very important that the ADC dynamic range matches the maximum amplitude of the signal to be converted to have the maximum ADC conversion precision. Let us assume that the signal to be converted varies between 0 V to 2.5 V and that ${ \\mathsf { V } } _ { { \\mathsf { R E F } } + }$ is equal to 3.3 V. The maximum signal value converted by the ADC is 3102 (2.5 V) as shown in Figure 8. In this case, there are 993 unused transitions (4095 – 3102 = 993). This implies a loss in the converted signal accuracy."
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00088",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "See Section 2.2.4: Matching the ADC dynamic range to the maximum signal amplitude on page 17 for details on how to have the ADC dynamic range matching the maximum input signal amplitude."
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0011_00008.png",
+    "caption": "**Figure 8 – Input signal amplitude vs. ADC dynamic range** (caption/context)\n\n- Plot axes:\n  - Vertical axis labeled **V**, with an upward arrow.\n  - Horizontal axis labeled **t**, with a rightward arrow.\n- Upper reference level is marked by a dashed horizontal line:\n  - **VREF+ = 3.3 V**\n  - **(4095h)**\n- Lower reference level is marked by a dashed horizontal line:\n  - **2.5 V**\n  - **(3102h)**\n- The region between the 3.3 V and 2.5 V dashed lines is shaded magenta and labeled:\n  - **unused ADC transition range**\n- A blue sinusoidal input waveform is shown oscillating below the 2.5 V level, with portions reaching the 2.5 V reference line.\n- Figure identifier at lower right: **ai15499**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Input signal amplitude vs. ADC dynamic range",
+    "generated_captions": {
+      "luna": "**Figure 8 – Input signal amplitude vs. ADC dynamic range** (caption/context)\n\n- Plot axes:\n  - Vertical axis labeled **V**, with an upward arrow.\n  - Horizontal axis labeled **t**, with a rightward arrow.\n- Upper reference level is marked by a dashed horizontal line:\n  - **VREF+ = 3.3 V**\n  - **(4095h)**\n- Lower reference level is marked by a dashed horizontal line:\n  - **2.5 V**\n  - **(3102h)**\n- The region between the 3.3 V and 2.5 V dashed lines is shaded magenta and labeled:\n  - **unused ADC transition range**\n- A blue sinusoidal input waveform is shown oscillating below the 2.5 V level, with portions reaching the 2.5 V reference line.\n- Figure identifier at lower right: **ai15499**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00089",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "1.2.5Effect of the analog signal source resistance"
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00090",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "The impedance of the analog signal source, or series resistance $( \\mathsf { R } _ { \\mathsf { A l N } } )$ , between the source and pin causes a voltage drop across it because of the current flowing into the pin. Together $\\mathsf { R } _ { \\mathsf { A D C } }$ and $\\mathsf { C } _ { \\mathsf { A D C } }$ form an RC network. The charging of the capacitor is controlled by $\\mathsf { R } _ { \\mathsf { A D C } } .$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00091",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "With the addition of source resistance (with $\\mathsf { R } _ { \\mathsf { A D C } } )$ , the time required to fully charge the hold capacitor increases. Figure 9 shows the analog signal source resistance effect."
+  },
+  {
+    "segment_id": "stm32-an2834-p0011-text-00092",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 11,
+    "text": "The effective charging of $\\mathsf { C } _ { \\mathsf { A D C } }$ is governed by $\\mathsf { R } _ { \\mathsf { A D C } } + \\mathsf { R } _ { \\mathsf { A I N } } ,$ so the charging time constant becomes $\\mathrm { t } _ { \\mathrm { c } } = ( \\mathsf { R } _ { \\mathrm { A D C } ^ { + } } \\mathsf { R } _ { \\mathrm { A I N } } ) \\times \\mathsf { C } _ { \\mathrm { A D C } } .$ If the sampling time is less than the time required to fully charge the ${ \\mathsf { C } } _ { \\mathsf { A D C } }$ through $\\mathsf { R } _ { \\mathsf { A D C } } + \\mathsf { R } _ { \\mathsf { A I N } } \\left( \\mathsf { t } _ { \\mathsf { s } } < \\mathsf { t } _ { \\mathsf { c } } \\right)$ , the digital value converted by the ADC is less than the actual value."
+  },
+  {
+    "segment_id": "stm32-an2834-p0012-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0012_00009.png",
+    "caption": "**Figure 9. Analog signal source resistance effect** (source document: STM32 AN2834, page 12; identifier visible: **ai15482**).\n\n- **Upper schematic:**\n  - A voltage source labeled **Vₐᵢₙ** is connected to ground.\n  - The source connects through a series resistor labeled **Rₐᵢₙ** to the STM32 input labeled **AINₓ**.\n  - The STM32 block contains a **12-bit ADC**.\n  - Inside the ADC input path, a switch symbol connects through resistor **Rₐᴅᴄ** to capacitor **Cₐᴅᴄ**.\n  - **Cₐᴅᴄ** is connected to **VSSA**/ground.\n  - The outer device block is labeled **STM32**.\n  - The AINₓ input connection is shown at the left boundary of the STM32 block.\n\n- **Lower graph:**\n  - Vertical axis is labeled **V꜀** with an upward arrow.\n  - Horizontal axis is labeled **t** with a rightward arrow.\n  - A green curve rises from the origin and asymptotically approaches a final level.\n  - A blue dashed horizontal line marks **Vₐᵢₙ**.\n  - A blue dashed vertical line marks **t꜀** on the time axis.\n  - An upward annotation arrow on the curve is labeled **V꜀**.\n  - The curve reaches approximately the **Vₐᵢₙ** level at the marked time **t꜀**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. Analog signal source resistance effect",
+    "generated_captions": {
+      "luna": "**Figure 9. Analog signal source resistance effect** (source document: STM32 AN2834, page 12; identifier visible: **ai15482**).\n\n- **Upper schematic:**\n  - A voltage source labeled **Vₐᵢₙ** is connected to ground.\n  - The source connects through a series resistor labeled **Rₐᵢₙ** to the STM32 input labeled **AINₓ**.\n  - The STM32 block contains a **12-bit ADC**.\n  - Inside the ADC input path, a switch symbol connects through resistor **Rₐᴅᴄ** to capacitor **Cₐᴅᴄ**.\n  - **Cₐᴅᴄ** is connected to **VSSA**/ground.\n  - The outer device block is labeled **STM32**.\n  - The AINₓ input connection is shown at the left boundary of the STM32 block.\n\n- **Lower graph:**\n  - Vertical axis is labeled **V꜀** with an upward arrow.\n  - Horizontal axis is labeled **t** with a rightward arrow.\n  - A green curve rises from the origin and asymptotically approaches a final level.\n  - A blue dashed horizontal line marks **Vₐᵢₙ**.\n  - A blue dashed vertical line marks **t꜀** on the time axis.\n  - An upward annotation arrow on the curve is labeled **V꜀**.\n  - The curve reaches approximately the **Vₐᵢₙ** level at the marked time **t꜀**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0012-text-00093",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 12,
+    "text": "1.2.6 Effect of the source capacitance and parasitic capacitance of the PCB"
+  },
+  {
+    "segment_id": "stm32-an2834-p0012-text-00094",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 12,
+    "text": "When converting analog signals, it is necessary to account for the capacitance at the source and the parasitic capacitance seen on the analog input pin (refer to Figure 10). The source resistance and capacitance form an RC network and the ADC conversion results may not be accurate unless the external capacitor $( \\mathsf { C } _ { \\mathsf { A I N } } + \\mathsf { C } _ { \\mathsf { p } } )$ is fully charged to the level of the input voltage. The greater value of $( \\mathsf { C } _ { \\mathsf { A l N } } + \\mathsf { C } _ { \\mathsf { p } } )$ , the more limited the source frequency."
+  },
+  {
+    "segment_id": "stm32-an2834-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 12,
+    "text": "The external capacitance at the source and the parasitic capacitance are denoted by $\\mathsf { C } _ { \\mathsf { A l N } }$ and $\\complement _ { \\mathfrak { p } } ,$ respectively."
+  },
+  {
+    "segment_id": "stm32-an2834-p0012-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0012_00010.png",
+    "caption": "**Figure 10: Analog input with \\(R_{AIN}\\), \\(C_{AIN}\\), and \\(C_P\\)** (title is partially cropped at the top).\n\n- A dashed box labeled **“Source”** contains:\n  - A voltage source labeled **\\(V_{AIN}\\)**, with its lower terminal connected to a ground symbol.\n  - A series resistor labeled **\\(R_{AIN}\\)**.\n  - A capacitor labeled **\\(C_{AIN}\\)** connected from the signal node after \\(R_{AIN}\\) to ground.\n- The signal line continues from the source network to an **STM32** block.\n- At the STM32 input, the signal is labeled **\\(AIN_x\\)** and enters through a small square terminal marker on the left side of the STM32 rectangle.\n- A capacitor labeled **\\(C_P\\)** is connected from the \\(AIN_x\\) signal line to ground, outside the dashed **Source** box.\n- The STM32 block is an unfilled rectangle labeled **“STM32”** near its upper-left interior.\n- Ground symbols are shown beneath the \\(V_{AIN}\\) source, \\(C_{AIN}\\), and \\(C_P\\).\n- Figure identifier at lower right: **ai15483**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. Analog input with $\\underline { { \\mathsf { R } _ { \\mathsf { A I N } } , \\mathsf { C } _ { \\mathsf { A I N } } } }$ and $\\int \\limits _ { 0 } ^ { C _ { p } }$",
+    "generated_captions": {
+      "luna": "**Figure 10: Analog input with \\(R_{AIN}\\), \\(C_{AIN}\\), and \\(C_P\\)** (title is partially cropped at the top).\n\n- A dashed box labeled **“Source”** contains:\n  - A voltage source labeled **\\(V_{AIN}\\)**, with its lower terminal connected to a ground symbol.\n  - A series resistor labeled **\\(R_{AIN}\\)**.\n  - A capacitor labeled **\\(C_{AIN}\\)** connected from the signal node after \\(R_{AIN}\\) to ground.\n- The signal line continues from the source network to an **STM32** block.\n- At the STM32 input, the signal is labeled **\\(AIN_x\\)** and enters through a small square terminal marker on the left side of the STM32 rectangle.\n- A capacitor labeled **\\(C_P\\)** is connected from the \\(AIN_x\\) signal line to ground, outside the dashed **Source** box.\n- The STM32 block is an unfilled rectangle labeled **“STM32”** near its upper-left interior.\n- Ground symbols are shown beneath the \\(V_{AIN}\\) source, \\(C_{AIN}\\), and \\(C_P\\).\n- Figure identifier at lower right: **ai15483**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "1.2.7 Injection current effect"
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "A negative injection current on any analog pin (or a closely positioned digital input pin) may introduce leakage current into the ADC input. The worst case is the adjacent analog channel. A negative injection current is introduced when $\\mathsf { V } _ { \\mathsf { A I N } } < \\mathsf { V } _ { \\mathsf { S S } }$ , causing current to flow out from the l/O pin. This is illustrated in Figure 11."
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0013_00011.png",
+    "caption": "- **Figure purpose:** Diagram illustrating the effect of injection current when an analog input voltage is below the supply voltage.\n- **IC/package block:** Large rectangular block labeled **STM32**.\n- **Upper analog-input path:**\n  - A source node labeled **V_AIN0** is shown at left, with a ground symbol beneath it.\n  - The source connects through resistor **R_AIN0** to the STM32 pin labeled **AIN0**.\n  - A square pin marker is shown at the **AIN0** connection.\n  - A curved arrow near this path is labeled **leakage current**.\n- **Lower analog-input/injection path:**\n  - A second square pin marker on the STM32 boundary is labeled **AIN1**.\n  - The external input line is labeled **V_AIN < V_SS**.\n  - A curved arrow is labeled **Injection current** and points toward the AIN1-side path.\n  - The AIN1 node is connected internally to a diode/clamp symbol leading downward to a lower node.\n  - The lower node connects to a ground symbol and is labeled **V_SSA**.\n- **Other visible text/identifier:** **ai15484** at the lower-right corner.\n- The crop does not show a separate printed figure title or caption.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. Effect of injection current",
+    "generated_captions": {
+      "luna": "- **Figure purpose:** Diagram illustrating the effect of injection current when an analog input voltage is below the supply voltage.\n- **IC/package block:** Large rectangular block labeled **STM32**.\n- **Upper analog-input path:**\n  - A source node labeled **V_AIN0** is shown at left, with a ground symbol beneath it.\n  - The source connects through resistor **R_AIN0** to the STM32 pin labeled **AIN0**.\n  - A square pin marker is shown at the **AIN0** connection.\n  - A curved arrow near this path is labeled **leakage current**.\n- **Lower analog-input/injection path:**\n  - A second square pin marker on the STM32 boundary is labeled **AIN1**.\n  - The external input line is labeled **V_AIN < V_SS**.\n  - A curved arrow is labeled **Injection current** and points toward the AIN1-side path.\n  - The AIN1 node is connected internally to a diode/clamp symbol leading downward to a lower node.\n  - The lower node connects to a ground symbol and is labeled **V_SSA**.\n- **Other visible text/identifier:** **ai15484** at the lower-right corner.\n- The crop does not show a separate printed figure title or caption."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "1.2.8Temperature influence"
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "The temperature has a major influence on ADC accuracy. Mainly it leads to two major errors: offset error and gain error. Those errors can be compensated in the microcontroller firmware (refer to Section 2.2.7 for the temperature-compensation methods)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "1.2.9 I/O pin crosstalk"
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "Switching the l/Os may induce some noise in the analog input of the ADC due to capacitive coupling between l/Os. Crosstalk may be introduced by PCB tracks that run close to each other or that cross each other."
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "text": "Internally switching digital signals and l/Os introduces high-frequency noise. Switching highsink l/Os may induce some voltage dips in the power supply caused by current surges. A digital track that crosses an analog input track on the PCB may affect the analog signal (see Figure 12)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0013-figure-00012",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0013_00012.png",
+    "caption": "Figure 12, “Crosstalk between I/O pins” (context caption):\n\n- **Case 1:** “Digital and analog signal tracks that pass close to each other.”\n  - Left: sinusoidal signal source symbol with a ground connection.\n  - The upper horizontal track is labeled **“Analog in”** and connects to the upper input pin of a block labeled **“STM32”**.\n  - A second, lower horizontal track is labeled **“Digital I/O”** and connects to a lower STM32 pin.\n  - The analog and digital tracks run close and parallel to each other. Two arrows point toward the adjacent tracks, indicating coupling/crosstalk.\n\n- **Case 2:** “Digital and analog signal tracks that cross each other on a different PCB side.”\n  - Left: sinusoidal signal source symbol with a ground connection.\n  - The upper horizontal track is labeled **“Analog in”** and connects to the upper pin of the **“STM32”** block.\n  - The lower track is labeled **“Digital I/O”** and connects to the lower STM32 pin; it routes leftward and then upward, crossing the analog-track path at a different PCB level/side.\n  - Two arrows are shown near the crossing region, indicating coupling/crosstalk.\n\nOther visible details:\n- Each STM32 drawing is a rectangular IC outline with two square connection markers on its left edge.\n- Case labels: **“Case 1”** and **“Case 2”**.\n- Figure identifier at lower right: **“ai15485”**.\n- No axes, units, or numerical values are shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 12. Crosstalk between I/O pins\nCase 1: Digital and analog signal tracks that pass close to each other.\nCase 2: Digital and analog signal tracks that cross each other on a different PCB side.",
+    "generated_captions": {
+      "luna": "Figure 12, “Crosstalk between I/O pins” (context caption):\n\n- **Case 1:** “Digital and analog signal tracks that pass close to each other.”\n  - Left: sinusoidal signal source symbol with a ground connection.\n  - The upper horizontal track is labeled **“Analog in”** and connects to the upper input pin of a block labeled **“STM32”**.\n  - A second, lower horizontal track is labeled **“Digital I/O”** and connects to a lower STM32 pin.\n  - The analog and digital tracks run close and parallel to each other. Two arrows point toward the adjacent tracks, indicating coupling/crosstalk.\n\n- **Case 2:** “Digital and analog signal tracks that cross each other on a different PCB side.”\n  - Left: sinusoidal signal source symbol with a ground connection.\n  - The upper horizontal track is labeled **“Analog in”** and connects to the upper pin of the **“STM32”** block.\n  - The lower track is labeled **“Digital I/O”** and connects to the lower STM32 pin; it routes leftward and then upward, crossing the analog-track path at a different PCB level/side.\n  - Two arrows are shown near the crossing region, indicating coupling/crosstalk.\n\nOther visible details:\n- Each STM32 drawing is a rectangular IC outline with two square connection markers on its left edge.\n- Case labels: **“Case 1”** and **“Case 2”**.\n- Figure identifier at lower right: **“ai15485”**.\n- No axes, units, or numerical values are shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0014-text-00103",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 14,
+    "text": "1.2.10EMl-induced noise"
+  },
+  {
+    "segment_id": "stm32-an2834-p0014-text-00104",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 14,
+    "text": "Electromagnetic emissions from neighboring circuits may introduce high-frequency noise in an analog signal because the PCB tracks may act like an antenna (See Figure 13.)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0014-figure-00013",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0014_00013.png",
+    "caption": "**Figure 13. EMI sources** (source identifier: **ai15486**)\n\nThe diagram illustrates noise sources affecting an STM32 ADC input:\n\n- At left is an AC/noise source symbol (circle containing a sinusoidal waveform), connected to ground.\n- A horizontal signal line runs from the source toward an **STM32** block on the right.\n- The signal line enters the STM32 through a small square connection point and connects to an internal block labeled **ADC**.\n- Noise sources shown around the signal path:\n  - **Electro-magnetic noise** — positioned above the line, with arrows pointing toward the signal path.\n  - **I/O coupled noise** — positioned above the line near the STM32, with arrows pointing toward the signal path.\n  - **Noise induced from PCB tracks** — positioned below the line, with arrows pointing upward toward the signal path.\n  - **Internal noise** — positioned below the line near the STM32, with arrows pointing upward toward the signal path.\n- The right-side rectangular device block is labeled **STM32**; the smaller internal rectangle is labeled **ADC**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 13. EMI sources",
+    "generated_captions": {
+      "luna": "**Figure 13. EMI sources** (source identifier: **ai15486**)\n\nThe diagram illustrates noise sources affecting an STM32 ADC input:\n\n- At left is an AC/noise source symbol (circle containing a sinusoidal waveform), connected to ground.\n- A horizontal signal line runs from the source toward an **STM32** block on the right.\n- The signal line enters the STM32 through a small square connection point and connects to an internal block labeled **ADC**.\n- Noise sources shown around the signal path:\n  - **Electro-magnetic noise** — positioned above the line, with arrows pointing toward the signal path.\n  - **I/O coupled noise** — positioned above the line near the STM32, with arrows pointing toward the signal path.\n  - **Noise induced from PCB tracks** — positioned below the line, with arrows pointing upward toward the signal path.\n  - **Internal noise** — positioned below the line near the STM32, with arrows pointing upward toward the signal path.\n- The right-side rectangular device block is labeled **STM32**; the smaller internal rectangle is labeled **ADC**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00105",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "2 How to get the best ADC accuracy"
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00106",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "2.1 Recommendation to reduce the effects of ADC-related ADC errors"
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00107",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "The TUE is not the sum of all the errors $\\mathsf { E } _ { 0 } , \\mathsf { E } _ { \\mathsf { G } } , \\mathsf { E } _ { \\mathsf { L } } , \\mathsf { E } _ { \\mathsf { D } } .$ It is the maximum deviation that can occur between the ideal and actual digital values. It can result from one or more errors occurring simultaneously."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00108",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "As the ILE is the integral of the DLE, it can be considered as the indicator of the maximum error. Do not add the DLE and ILE together to calculate the maximum error that may occur at any digital step."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00109",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "The ILE and DLE are dependent on the ADC design. It is difficult to calibrate them. They can be minimized by doing multiple conversions and then averaging."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00110",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "Offset and gain errors can be easily compensated using the STM32F10xxx ADC selfcalibration feature."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00111",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "The maximum error values specified in the datasheet are the worst error values measured in laboratory test environment over the full voltage range."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00112",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "2.2 How to minimize ADC errors related to the external environment of the ADC"
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00113",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "2.2.1Power-supply noise minimization"
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00114",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "Power supply side"
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00115",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "Linear regulators have a better output in terms of noise. The mains must be stepped down, rectified and filtered, then fed to linear regulators. It is highly recommended to connect the filter capacitors to the rectifier output. Please refer to the datasheet of the used linear regulator."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00116",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "If you are using a switching power supply, it is recommended to have a linear regulator to supply the analog stage."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00117",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "It is recommended to connect capacitors with good high-frequency characteristics between the power and ground lines. That is, a 0.1 μF and a 1 to 10 μF capacitor should be placed close to the power source."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00118",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "The capacitors allow the AC signals to pass through them. The small-value capacitors filter high-frequency noise and the high-value capacitors filter low-frequency noise. Ceramic capacitors are generally available in small values (1 pF to $0 . 1 \\mu \\mathsf { F } )$ and with small voltage ratings (16 V to 50 V). It is recommended to place them close to the main supply $( \\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } } )$ and analog supply $( \\mathsf { V } _ { \\mathsf { D D A } }$ and $\\mathsf { V } _ { \\mathsf { S S A } } )$ pins. They filter the noise induced in the PCB tracks. Small capacitors can react fast to current surges and discharge quickly for fastcurrent requirements."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00119",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "Tantalum capacitors can also be used along with ceramic capacitors. To filter low-frequency noise, you can use high-value capacitors (10 μF to 100 μF), which are generally electrolytic. It is recommended to put them near the power source."
+  },
+  {
+    "segment_id": "stm32-an2834-p0015-text-00120",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 15,
+    "text": "To filter high-frequency noise, you can use a ferrite inductance in series with the power supply. This solution leads to very low (negligible) DC loss unless the current is high because the series resistance of the wire is very low. At high frequencies, however, the impedance is high."
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-text-00121",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "text": "STM32F10xxx side"
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-text-00122",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "text": "In most STM32F10xxx microcontrollers the $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ pins are placed close to each other. So are the $V _ { \\mathsf { R E F } } .$ and $\\mathsf { V } _ { \\mathsf { S S A } }$ pins. A capacitor can therefore be connected very close to the microcontroller with very short leads. For multiple $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ pins, use separate decoupling capacitors."
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-text-00123",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "text": "The $\\mathsf { V } _ { \\mathsf { D D A } }$ pin must be connected to two external decoupling capacitors (10 nF Ceramic + 1 μF Tantalum or Ceramic). See Figure 14 and Figure 15 for decoupling examples."
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-text-00124",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "text": "For STM32F10xxx devices delivered in 100/144-pin packages, it is possible to improve the accuracy on low-voltage inputs by connecting a separate external ADC reference voltage input on ${ \\mathsf { V } } _ { \\mathsf { R E F + } }$ (refer to Section 2.2.4). The voltage on $\\mathsf { V } _ { \\mathsf { R E F } + }$ may range from 2.4 V to VDDA. If a separate, external reference voltage is applied on ${ \\mathsf { V } } _ { \\mathsf { R E F + } }$ two 10 nF and 1 μF capacitors must be connected on this pin. In all cases, ${ \\dot { \\mathsf { V } } } _ { \\mathsf { R E F } }$ must be kept between 2.4 V and VDDA."
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-figure-00014",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0016_00014.png",
+    "caption": "Figure showing power-supply and reference decoupling for 100- and 144-pin packages.\n\nVisible schematic details:\n\n- Package outline at right with four labeled connections, top to bottom:\n  - **V_DDA**\n  - **V_REF+**\n  - **V_REF−**\n  - **V_SSA**\n- **V_DDA** is connected to **V_SSA** through a capacitor labeled **“1 µF / 10 nF”**.\n- **V_REF+** is connected to **V_REF−/V_SSA-side return** through a capacitor labeled **“1 µF / 10 nF”**.\n- The **V_REF−** connection is shown tied to **V_SSA**.\n- Ground symbols are shown at the lower ends of the decoupling connections.\n- Explicit note below the schematic: **“V_REF+ not connected to V_DDA”**.\n- Pin connection markers are shown as small square pads on the package outline; connection nodes are marked by filled black dots.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 14. Power supply and reference decoupling for 100- and 144-pin packages",
+    "generated_captions": {
+      "luna": "Figure showing power-supply and reference decoupling for 100- and 144-pin packages.\n\nVisible schematic details:\n\n- Package outline at right with four labeled connections, top to bottom:\n  - **V_DDA**\n  - **V_REF+**\n  - **V_REF−**\n  - **V_SSA**\n- **V_DDA** is connected to **V_SSA** through a capacitor labeled **“1 µF / 10 nF”**.\n- **V_REF+** is connected to **V_REF−/V_SSA-side return** through a capacitor labeled **“1 µF / 10 nF”**.\n- The **V_REF−** connection is shown tied to **V_SSA**.\n- Ground symbols are shown at the lower ends of the decoupling connections.\n- Explicit note below the schematic: **“V_REF+ not connected to V_DDA”**.\n- Pin connection markers are shown as small square pads on the package outline; connection nodes are marked by filled black dots."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-figure-00015",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0016_00015.png",
+    "caption": "**Figure 15. Power supply decoupling for 36-, 48- and 64-pin packages**\n\n- Schematic showing decoupling between the supply rails:\n  - Upper rail connected to **VDDA** and **VREF+**.\n  - Lower rail connected to **VSSA** and **VREF−**.\n- A capacitor network labeled **“1 µF // 10 nF”** is connected between the upper and lower rails.\n- The lower rail is connected to a ground symbol.\n- Package/pin labels shown on the right:\n  - **VDDA**\n  - **VREF+**\n  - **VREF−**\n  - **VSSA**\n- Explicit note beneath the diagram: **“VREF+ connected to VDDA”**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 15. Power supply decoupling for 36-, 48- and 64-pin packages",
+    "generated_captions": {
+      "luna": "**Figure 15. Power supply decoupling for 36-, 48- and 64-pin packages**\n\n- Schematic showing decoupling between the supply rails:\n  - Upper rail connected to **VDDA** and **VREF+**.\n  - Lower rail connected to **VSSA** and **VREF−**.\n- A capacitor network labeled **“1 µF // 10 nF”** is connected between the upper and lower rails.\n- The lower rail is connected to a ground symbol.\n- Package/pin labels shown on the right:\n  - **VDDA**\n  - **VREF+**\n  - **VREF−**\n  - **VSSA**\n- Explicit note beneath the diagram: **“VREF+ connected to VDDA”**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0016-figure-00016",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0016_00016.png",
+    "caption": "Figure showing decoupling between the analog supply and analog ground:\n\n- A rectangular device/package outline is shown on the right.\n- Upper connection/pin: **VDDA**.\n- Lower connection/pin: **VSSA**.\n- An external capacitor is connected between **VDDA** and **VSSA**:\n  - Capacitor label: **1 μF // 10 nF**\n  - The capacitor is drawn vertically between two nodes.\n- The upper capacitor node connects horizontally to **VDDA**.\n- The lower capacitor node connects horizontally to **VSSA** and downward to a **ground** symbol.\n- The drawing shows black connection dots at the upper and lower capacitor nodes.\n- No figure number or additional qualification is visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing decoupling between the analog supply and analog ground:\n\n- A rectangular device/package outline is shown on the right.\n- Upper connection/pin: **VDDA**.\n- Lower connection/pin: **VSSA**.\n- An external capacitor is connected between **VDDA** and **VSSA**:\n  - Capacitor label: **1 μF // 10 nF**\n  - The capacitor is drawn vertically between two nodes.\n- The upper capacitor node connects horizontally to **VDDA**.\n- The lower capacitor node connects horizontally to **VSSA** and downward to a **ground** symbol.\n- The drawing shows black connection dots at the upper and lower capacitor nodes.\n- No figure number or additional qualification is visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00125",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00126",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "2.2.2Power-supply regulation recommendation"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00127",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "The power supply should have good line and load regulation since the ADC uses ${ \\mathsf { V } } _ { \\mathsf { R E F } } .$ or $\\mathsf { V } _ { \\mathsf { D D A } }$ as the analog reference and the digital value is the ratio of the analog input signal to this voltage reference. $\\mathsf { V } _ { \\mathsf { R E F } + }$ must thus remain stable at different loads."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00128",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Whenever the load is increased by switching on a part of the circuit, the increase in current must not cause the voltage to decrease. If the voltage remains stable over a wide current range, the power supply has good load regulation."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00129",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "For example: for the LD1086D2M33 voltage regulator, the line regulation is 0.035% typical when $V _ {  { \\mathbb { N } } }$ varies from 2.8 V to 16.5 V (when $\\mathsf { I } _ { | \\mathsf { o a d } } = 1 0 \\mathsf { m A } )$ , and the load regulation is 0.2% when $\\boldsymbol { \\mathrm { I } } _ { \\mathrm { l o a d } }$ varies from 0 to 1.5 A (please refer to the LD1086 series datasheet for details)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00130",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "The lower the line regulation value, the better the regulation. Similarly, the lower the load regulation value, the better the regulation and the stability of the voltage output."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00131",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "It is also possible to use a reference voltage for ${ \\mathsf { V } } _ { { \\mathsf { R E F } } + } ,$ for instance the LM236, which is a voltage reference diode of 2.5 V (refer to LM236 datasheet for more details)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00132",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "2.2.3Analog-input signal noise elimination"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00133",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Averaging method"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00134",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Averaging is a simple technique where you sample an analog input several times and take the average of the results by software. This technique is helpful to eliminate the effect of noise on the analog input in case of an analog voltage that does not change often."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00135",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "The average has to be made on several readings that all correspond to the same analog input voltage. Make sure that the analog input remains at the same voltage during the time period when the conversions are done, otherwise you will add up digital values corresponding to different analog inputs, and you will introduce errors."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00136",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Adding an external filter"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00137",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Adding an external RC filter eliminates the high frequency. An expensive filter is not needed to deal with a signal that has frequency components above the frequency range of interest. In this case, a relatively simple lowpass filter with a cutoff frequency $\\mathsf { f } _ { \\mathsf { C } }$ just above the frequency range of interest will suffice to limit noise and aliasing. A sampling rate consistent with the highest frequency of interest will suffice, typically 2 to 5 times fç."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00138",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "The R and C that form the external filter should have values that match the conditions described in Section 2.2.5 and Section 2.2.6"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00139",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "2.2.4Matching the ADC dynamic range to the maximum signal amplitude"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00140",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "This method improves accuracy by a proper selection of the reference voltage or by using a preamplifier stage to obtain the maximum possible resolution using the full ADC output range."
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00141",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "Selecting a reference voltage (method for devices delivered in 100-/144-pin packages only)"
+  },
+  {
+    "segment_id": "stm32-an2834-p0017-text-00142",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 17,
+    "text": "The reference voltage is selected in the expected range of the signal to be measured. If the measured signal has an offset, then the reference voltage should also have a similar offset. If the measured signal has a defined maximum amplitude, then the reference voltage should"
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00143",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "also have a similar maximum value. By matching this reference voltage to the measurement signal range, we obtain the maximum possible resolution using the full ADC output range."
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00144",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "In STM32F10xxx devices delivered in 100- and 144-pin packages, the ADC reference voltage is connected to the external $V _ { \\mathsf { R E F } } .$ and $V _ { \\mathsf { R E F } }$ . pins that should be tied to ground. This makes it possible to match the reference voltage and the measured signal range."
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00145",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "For example, if the measured signal varies between 0 V and 2.5 V, it is recommended to choose $\\mathsf { V } _ { \\mathsf { R E F } + } = 2 . 5 \\mathsf { V } ,$ possibly using a reference voltage like LM235 (see LM235 datasheet for more details). Figure 16 illustrates these conditions."
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00146",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "The voltage on $V _ { R E F + }$ may range between 2.4 V and $V _ { D D A }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-figure-00017",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0018_00017.png",
+    "caption": "**Figure 16. Selecting the reference voltage** — comparison of ADC input range and digital-output scaling when changing \\(V_{\\mathrm{REF+}}\\).\n\n- **Left diagram:**\n  - Vertical axis labeled **V**, with upward arrow.\n  - Horizontal axis labeled **t**, with rightward arrow.\n  - Upper dashed reference line labeled:\n    - **\\(V_{\\mathrm{REF+}} = 3.3\\ \\mathrm{V}\\)**\n    - **(4095h)**\n  - Lower dashed line labeled:\n    - **2.5 V**\n    - **(3102h)**\n  - Region between the 3.3 V and 2.5 V dashed lines is shaded and labeled **“unused ADC transition range”**.\n  - A blue, varying waveform is shown below the 2.5 V level.\n  - Scaling equation beneath the plot:\n    - **\\(\\mathrm{Digital}_{\\mathrm{output}} = \\dfrac{4095}{3.3} \\times V_{\\mathrm{in}}\\)**\n\n- **Center annotation:**\n  - **\\(V_{\\mathrm{REF+}} = 2.5\\ \\mathrm{V}\\)**\n  - **(4095h)**\n  - Text: **“Change the \\(V_{\\mathrm{REF+}}\\) value from 3.3 V to 2.5 V”**\n  - Right-pointing arrow indicating the change to the second diagram.\n\n- **Right diagram:**\n  - Vertical axis labeled **V**, with upward arrow.\n  - Horizontal axis labeled **t**, with rightward arrow.\n  - Blue varying waveform occupies the ADC range up to the reference level.\n  - Scaling equation beneath the plot:\n    - **\\(\\mathrm{Digital}_{\\mathrm{output}} = \\dfrac{4095}{2.5} \\times V_{\\mathrm{in}}\\)**\n\n- Figure identifier at bottom right: **ai15600**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 16. Selecting the reference voltage",
+    "generated_captions": {
+      "luna": "**Figure 16. Selecting the reference voltage** — comparison of ADC input range and digital-output scaling when changing \\(V_{\\mathrm{REF+}}\\).\n\n- **Left diagram:**\n  - Vertical axis labeled **V**, with upward arrow.\n  - Horizontal axis labeled **t**, with rightward arrow.\n  - Upper dashed reference line labeled:\n    - **\\(V_{\\mathrm{REF+}} = 3.3\\ \\mathrm{V}\\)**\n    - **(4095h)**\n  - Lower dashed line labeled:\n    - **2.5 V**\n    - **(3102h)**\n  - Region between the 3.3 V and 2.5 V dashed lines is shaded and labeled **“unused ADC transition range”**.\n  - A blue, varying waveform is shown below the 2.5 V level.\n  - Scaling equation beneath the plot:\n    - **\\(\\mathrm{Digital}_{\\mathrm{output}} = \\dfrac{4095}{3.3} \\times V_{\\mathrm{in}}\\)**\n\n- **Center annotation:**\n  - **\\(V_{\\mathrm{REF+}} = 2.5\\ \\mathrm{V}\\)**\n  - **(4095h)**\n  - Text: **“Change the \\(V_{\\mathrm{REF+}}\\) value from 3.3 V to 2.5 V”**\n  - Right-pointing arrow indicating the change to the second diagram.\n\n- **Right diagram:**\n  - Vertical axis labeled **V**, with upward arrow.\n  - Horizontal axis labeled **t**, with rightward arrow.\n  - Blue varying waveform occupies the ADC range up to the reference level.\n  - Scaling equation beneath the plot:\n    - **\\(\\mathrm{Digital}_{\\mathrm{output}} = \\dfrac{4095}{2.5} \\times V_{\\mathrm{in}}\\)**\n\n- Figure identifier at bottom right: **ai15600**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00147",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "Using a preamplifier"
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00148",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "If the measured signal is too small (in comparison with the ADC range) then it is good to use an external preamplifier. This method can be implemented with STM32F10xxx devices delivered in all packages, and more specifically so in packages that do not have the $\\mathsf { V } _ { \\mathsf { R E F } + }$ input."
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00149",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "For example, if the measured signal varies between 0 V to 1 V and $\\mathsf { V } _ { \\mathsf { D D A } }$ is 3 V, the signal can be amplified so that its peak-to-peak amplitude is similar to the $\\mathsf { V } _ { \\mathsf { D D A } }$ value. The gain will then be equal to 3. Figure 17 illustrates this example."
+  },
+  {
+    "segment_id": "stm32-an2834-p0018-text-00150",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 18,
+    "text": "This amplifier can adapt the input signal range to the ADC range. It can also insert offsets between the input signal and the ADC input. Care must be taken in the preamplifier design not to generate additional errors (for example additional offset, amplifier gain stability, linearity, frequency response, etc.)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-figure-00018",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0019_00018.png",
+    "caption": "**Figure 17. Preamplification**\n\nDiagram illustrating a gain of 3 applied before ADC conversion.\n\n- **Left graph — “Before amplification”**\n  - Vertical axis: **V**\n  - Horizontal axis: **t**\n  - Dashed upper reference: **V_DDA = 3 V (4095h)**\n  - Dashed lower reference: **1 V (1365h)**\n  - Shaded region between 1 V and 3 V labeled: **unused ADC transition range**\n  - A sinusoidal input waveform is shown below the 1 V level.\n  - Formula below graph:  \n    **Digital_Output = 4095/3 × V_in**\n\n- **Center amplifier symbol**\n  - Triangle with label: **G = 3**\n  - Signal arrow points from the before-amplification graph toward the after-amplification graph.\n\n- **Right graph — “After amplification”**\n  - Vertical axis: **V**\n  - Horizontal axis: **t**\n  - Text at upper left: **Input signal max value is 3 V (4095h)**\n  - Dashed upper reference line at the 3 V maximum.\n  - Amplified sinusoidal waveform occupies a larger portion of the ADC input range.\n  - Formula below graph:  \n    **Digital_Output = (4095 × G)/3 × V_in**\n\n- Figure identifier at lower right: **ai15601**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 17. Preamplification",
+    "generated_captions": {
+      "luna": "**Figure 17. Preamplification**\n\nDiagram illustrating a gain of 3 applied before ADC conversion.\n\n- **Left graph — “Before amplification”**\n  - Vertical axis: **V**\n  - Horizontal axis: **t**\n  - Dashed upper reference: **V_DDA = 3 V (4095h)**\n  - Dashed lower reference: **1 V (1365h)**\n  - Shaded region between 1 V and 3 V labeled: **unused ADC transition range**\n  - A sinusoidal input waveform is shown below the 1 V level.\n  - Formula below graph:  \n    **Digital_Output = 4095/3 × V_in**\n\n- **Center amplifier symbol**\n  - Triangle with label: **G = 3**\n  - Signal arrow points from the before-amplification graph toward the after-amplification graph.\n\n- **Right graph — “After amplification”**\n  - Vertical axis: **V**\n  - Horizontal axis: **t**\n  - Text at upper left: **Input signal max value is 3 V (4095h)**\n  - Dashed upper reference line at the 3 V maximum.\n  - Amplified sinusoidal waveform occupies a larger portion of the ADC input range.\n  - Formula below graph:  \n    **Digital_Output = (4095 × G)/3 × V_in**\n\n- Figure identifier at lower right: **ai15601**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00151",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "2.2.5Analog source resistance calculation"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00152",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "Let us assume that the maximum error allowed is equal to 1/4 LSB. We will calculate the maximum source resistance allowed."
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00153",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "$\\mathsf { V } _ { \\mathsf { c } }$ is the voltage across the internal $\\mathsf { C } _ { \\mathsf { A D C } }$ capacitor (refer to Figure 9)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00154",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "Then we have: Error $\\mathrm { ~  ~ \\Gamma ~ } = \\mathrm { ~  ~ V ~ } _ { \\sf A I N } - \\mathrm { ~  ~ V ~ } _ { \\sf c } = \\frac { 1 } { 4 } { \\sf L S B }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00155",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "Figure 18. Worst case error: $\\mathsf { V } _ { \\mathsf { A I N } } = \\mathsf { V } _ { \\mathsf { R E F } + }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-figure-00019",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0019_00019.png",
+    "caption": "Figure showing settling behavior versus time:\n\n- **Vertical axis:** \\(V_C\\)\n- **Horizontal axis:** \\(t\\)\n- **Origin label:** \\(0\\ \\mathrm{V}\\)\n- **Sampling-time marker:** vertical dashed line at \\(t_s\\)\n\nTwo dashed horizontal reference levels are shown:\n\n- Upper level: \\(V_{AIN} = V_{REF+}\\)\n- Lower level: \\(V_{AIN} < V_{REF+}\\)\n\nTwo red transient curves rise from \\(0\\ \\mathrm{V}\\) and approach their respective dashed reference levels. At the sampling time \\(t_s\\), green vertical double-arrow markers indicate the remaining settling error:\n\n- Upper case, labeled **Error(\\(V_{AIN} = V_{REF+}\\))**\n- Lower case, labeled **Error(\\(V_{AIN} < V_{REF+}\\))**\n\nThe figure’s conclusion, printed below the graph, is:\n\n\\[\n\\mathrm{Error}(V_{AIN}=V_{REF+}) >\n\\mathrm{Error}(V_{AIN}<V_{REF+})\n\\]\n\nAxes include arrowheads indicating increasing \\(V_C\\) upward and increasing \\(t\\) to the right.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing settling behavior versus time:\n\n- **Vertical axis:** \\(V_C\\)\n- **Horizontal axis:** \\(t\\)\n- **Origin label:** \\(0\\ \\mathrm{V}\\)\n- **Sampling-time marker:** vertical dashed line at \\(t_s\\)\n\nTwo dashed horizontal reference levels are shown:\n\n- Upper level: \\(V_{AIN} = V_{REF+}\\)\n- Lower level: \\(V_{AIN} < V_{REF+}\\)\n\nTwo red transient curves rise from \\(0\\ \\mathrm{V}\\) and approach their respective dashed reference levels. At the sampling time \\(t_s\\), green vertical double-arrow markers indicate the remaining settling error:\n\n- Upper case, labeled **Error(\\(V_{AIN} = V_{REF+}\\))**\n- Lower case, labeled **Error(\\(V_{AIN} < V_{REF+}\\))**\n\nThe figure’s conclusion, printed below the graph, is:\n\n\\[\n\\mathrm{Error}(V_{AIN}=V_{REF+}) >\n\\mathrm{Error}(V_{AIN}<V_{REF+})\n\\]\n\nAxes include arrowheads indicating increasing \\(V_C\\) upward and increasing \\(t\\) to the right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00156",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "Let $\\mathfrak { t } _ { \\mathsf { s } }$ be the sampling time."
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00157",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "$\\mathfrak { t } _ { \\mathtt { S } } = \\mathsf { T } _ { \\mathtt { S } } / \\mathfrak { f } _ { \\mathsf { A D C } }$ , where $\\mathsf { T } _ { \\mathsf { s } }$ is the sampling time evaluated by cycles (1)"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00158",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "For a given $\\mathbf { t } _ { \\mathsf { S } } ,$ the error corresponding to $\\mathsf { V } _ { \\mathsf { A I N } } = \\mathsf { V } _ { \\mathsf { R E F } + }$ is greater than the error corresponding to $\\mathsf { V } _ { \\mathsf { A I N } } < \\mathsf { V } _ { \\mathsf { R E F } } .$ because the $\\mathsf { C } _ { \\mathsf { A D C } }$ capacitor takes more time to charge from 0 V to $\\mathsf { V } _ { \\mathsf { A I N } }$ when $\\mathsf { V } _ { \\mathsf { A I N } } = \\mathsf { V } _ { \\mathsf { R E F } } .$ than it takes when $\\mathsf { V } _ { \\mathsf { A I N } } < \\mathsf { V } _ { \\mathsf { R E F } + }$ (refer to Figure 18). So $\\mathsf { V } _ { \\mathsf { A I N } }$ $= V _ { \\mathsf { R E F } } .$ is the worst case to be taken into account in the demonstration of the maximum source resistance."
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00159",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "Error $= \\mathsf { V } _ { \\mathsf { R E F } _ { + } } - \\mathsf { V } _ { \\mathsf { R E F } _ { + } } \\left( 1 - \\mathsf { e } ^ { - \\frac { \\mathsf { t } _ { s } } { \\mathsf { R } _ { \\mathsf { m a x } } \\mathsf { C } _ { \\mathsf { A D C } } } } \\right) = \\frac { 1 } { 4 } \\times \\frac { \\mathsf { V } _ { \\mathsf { R E F } _ { + } } } { 2 ^ { \\mathsf { N } } }$ , where:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00160",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "$\\mathsf { R } _ { \\mathsf { m a x } } = ( \\mathsf { R } _ { \\mathsf { A I N } } + \\mathsf { R } _ { \\mathsf { A D C } } ) \\mathsf { m a x }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00161",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "N is the ADC resolution (in our case $N = 1 2 )$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0019-text-00162",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 19,
+    "text": "(2)"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00163",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "$$\n\\mathsf { T h i s ~ g i v e s : \\mathsf { e } ^ { - \\frac { t _ { s } } { R _ { \\mathsf { m a x } } C _ { \\mathsf { A D C } } } } = \\frac { 1 } { 2 ^ { N + 2 } } \\cdot \\mathsf { T h u s : } R _ { \\mathsf { m a x } } = \\frac { t _ { s } } { \\mathsf { C } _ { \\mathsf { A D C } } \\times \\mathsf { I n } ( 2 ^ { N + 2 } ) } }\\tag{3}\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00164",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "By combining equations (1), (2) and (3), we obtain:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00165",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "$$\n{ \\mathsf { R } } _ { \\mathsf { A I N I a x } } = \\frac { \\mathsf { I } _ { \\mathsf { s } } } { \\mathsf { f } _ { \\mathsf { A D C } } \\times \\mathsf { C } _ { \\mathsf { A D C } } \\times \\mathsf { I n } ( 2 ^ { \\mathsf { N } + 2 } ) } - { \\mathsf { R } } _ { \\mathsf { A D C m a x } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00166",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "So for $\\mathsf T _ { s } = 7 . 5 , \\mathsf t _ { A D C } = 1 4 \\mathsf M \\mathsf H z , \\mathsf C _ { A D C } = 1 2$ pF and $\\mathsf { R } _ { \\mathsf { A D C } } \\mathsf { m a x } = 1$ kΩ the maximum source resistance allowed for an error equal to 1/4 LSB is:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00167",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "$$\n{ \\sf R } _ { \\sf A I N m a x } = \\frac { 7 . 5 } { 1 4 \\times 1 0 ^ { 6 } \\times 1 2 \\times 1 0 ^ { - 1 2 } \\times 1 1 ( 2 ^ { 1 2 + 2 } ) } - 1 { \\sf k } \\Omega\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00168",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "That is:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00169",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "$$\n\\mathsf { R } _ { \\mathsf { A I N m a x } } = 3 . 6 ~ \\mathsf { k } \\Omega\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00170",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "The use of a follower amplifier can reduce the resistance of the source effect because of its high input impedance and its very low output impedance. It isolates $R _ { A I N }$ from $R _ { A D C } .$ However, the amplifier introduces an offset error that should be taken into account."
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00171",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "2.2.6Source frequency condition vs. source and parasitic capacitors"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00172",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "The external capacitance will not allow the analog input voltage to be exactly the same as $\\mathsf { V } _ { \\mathsf { A I N } }$ if the capacitor is not fully charged by the analog source. If the analog input signal changes, then the analog signal frequency $( \\mathsf { F } _ { \\mathsf { A l N } } )$ should be such that the time period of this analog signal is at least: $1 0 \\times \\mathsf { R } _ { \\mathsf { A I N } } \\times ( \\mathsf { C } _ { \\mathsf { A I N } } + \\mathsf { \\bar { C } } _ { \\mathsf { p } } )$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00173",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "$\\mathsf { T } _ { \\mathsf { A I N } } = \\mathsf { a n a l o g }$ signal time period $= 1 / \\mathsf { F } _ { \\mathsf { A I N } }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00174",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "We have: $\\mathsf { T } _ { \\mathsf { A I N } } \\geq 1 0 \\times \\mathsf { R } _ { \\mathsf { A I N } } \\times ( \\mathsf { C } _ { \\mathsf { A I N } } + \\mathsf { C } _ { \\mathsf { P } } )$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00175",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "Therefore: $\\mathsf { F } _ { \\mathsf { A I N } } \\le \\frac { 1 } { 1 0 \\times \\mathsf { R } _ { \\mathsf { A I N } } \\times ( \\mathsf { C } _ { \\mathsf { A I N } } + \\mathsf { C } _ { \\mathsf { P } } ) }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00176",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "For example:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00177",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "For $\\mathsf { R } _ { \\mathsf { A I N } } = 2 5 \\mathsf { k } \\Omega , \\mathsf { C } _ { \\mathsf { A I N } } = 7 \\mathsf { p F } , \\mathsf { C } _ { \\mathsf { p } } = 3$ pF, this gives:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00178",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "$$\n= _ { \\mathsf { A I N I a x } } = { \\frac { 1 } { 1 0 \\times 2 5 \\times 1 0 ^ { 3 } \\times ( 7 + 3 ) \\times 1 0 ^ { - 1 2 } } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00179",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "Thus, the maximum frequency of the source will be: $\\mathsf { F } _ { \\mathsf { A I N m a x } } = 4 0 0 ~ \\mathsf { k H z }$"
+  },
+  {
+    "segment_id": "stm32-an2834-p0020-text-00180",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 20,
+    "text": "So for the above defined source characteristics (capacitance and resistance), the frequency of the source must not exceed 400 kHz, otherwise the ADC conversion result will be not accurate."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-figure-00020",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0021_00020.png",
+    "caption": "Figure: graph of recommended maximum input resistance \\(R_{\\mathrm{AIN}}\\) versus source frequency \\(F_{\\mathrm{AIN}}\\), with curves for three \\(C_{\\mathrm{AIN}}\\) values.\n\n- **Y-axis:** “Max. \\(R_{\\mathrm{AIN}}\\) (kΩ)”\n  - Logarithmic scale.\n  - Labeled major values: **0.1, 1, 10, 100, 1000**.\n- **X-axis:** “\\(F_{\\mathrm{AIN}}\\)(kHz)”\n  - Logarithmic scale.\n  - Labeled major values: **0.01, 0.1, 1, 10**.\n  - Minor logarithmic tick marks are shown between the labeled decades.\n- **Legend:**\n  - Circle markers/line: “\\(C_{\\mathrm{AIN}}\\) 10 nF”\n  - Square markers/line: “\\(C_{\\mathrm{AIN}}\\) 22 nF”\n  - Triangle markers/line: “\\(C_{\\mathrm{AIN}}\\) 47 nF”\n\nPlotted curve points, read from the graph:\n\n- **\\(C_{\\mathrm{AIN}} = 10\\ \\mathrm{nF}\\)**, circles:\n  - \\(F_{\\mathrm{AIN}}=0.01\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx1000\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=0.1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx100\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx10\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=10\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx1\\ \\mathrm{kΩ}\\)\n\n- **\\(C_{\\mathrm{AIN}} = 22\\ \\mathrm{nF}\\)**, squares:\n  - \\(F_{\\mathrm{AIN}}=0.01\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx450\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=0.1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx45\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx4\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=10\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx0.45\\ \\mathrm{kΩ}\\)\n\n- **\\(C_{\\mathrm{AIN}} = 47\\ \\mathrm{nF}\\)**, triangles:\n  - \\(F_{\\mathrm{AIN}}=0.01\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx200\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=0.1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx20\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx2\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=10\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx0.2\\ \\mathrm{kΩ}\\)\n\nThe curves are straight descending lines on the log-log plot; higher \\(C_{\\mathrm{AIN}}\\) corresponds to a lower recommended maximum \\(R_{\\mathrm{AIN}}\\). No separate figure title is visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 19. Recommended values for $\\underline { { \\mathsf { R } } } _ { \\mathsf { A I N } }$ and $\\underline { { \\pmb { \\complement } } } _ { \\sf A I N }$ vs. source frequency $F _ { \\mathsf { A I N } }$",
+    "generated_captions": {
+      "luna": "Figure: graph of recommended maximum input resistance \\(R_{\\mathrm{AIN}}\\) versus source frequency \\(F_{\\mathrm{AIN}}\\), with curves for three \\(C_{\\mathrm{AIN}}\\) values.\n\n- **Y-axis:** “Max. \\(R_{\\mathrm{AIN}}\\) (kΩ)”\n  - Logarithmic scale.\n  - Labeled major values: **0.1, 1, 10, 100, 1000**.\n- **X-axis:** “\\(F_{\\mathrm{AIN}}\\)(kHz)”\n  - Logarithmic scale.\n  - Labeled major values: **0.01, 0.1, 1, 10**.\n  - Minor logarithmic tick marks are shown between the labeled decades.\n- **Legend:**\n  - Circle markers/line: “\\(C_{\\mathrm{AIN}}\\) 10 nF”\n  - Square markers/line: “\\(C_{\\mathrm{AIN}}\\) 22 nF”\n  - Triangle markers/line: “\\(C_{\\mathrm{AIN}}\\) 47 nF”\n\nPlotted curve points, read from the graph:\n\n- **\\(C_{\\mathrm{AIN}} = 10\\ \\mathrm{nF}\\)**, circles:\n  - \\(F_{\\mathrm{AIN}}=0.01\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx1000\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=0.1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx100\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx10\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=10\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx1\\ \\mathrm{kΩ}\\)\n\n- **\\(C_{\\mathrm{AIN}} = 22\\ \\mathrm{nF}\\)**, squares:\n  - \\(F_{\\mathrm{AIN}}=0.01\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx450\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=0.1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx45\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx4\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=10\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx0.45\\ \\mathrm{kΩ}\\)\n\n- **\\(C_{\\mathrm{AIN}} = 47\\ \\mathrm{nF}\\)**, triangles:\n  - \\(F_{\\mathrm{AIN}}=0.01\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx200\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=0.1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx20\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=1\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx2\\ \\mathrm{kΩ}\\)\n  - \\(F_{\\mathrm{AIN}}=10\\ \\mathrm{kHz}\\), \\(R_{\\mathrm{AIN}}\\approx0.2\\ \\mathrm{kΩ}\\)\n\nThe curves are straight descending lines on the log-log plot; higher \\(C_{\\mathrm{AIN}}\\) corresponds to a lower recommended maximum \\(R_{\\mathrm{AIN}}\\). No separate figure title is visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00181",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "2.2.7 Temperature-effect compensation"
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00182",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "One method would be to fully characterize the offset and gain drift and provide a lookup table in memory to correct measurement according to temperature change. This calibration involves additional cost and takes time."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00183",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "The second method consists in recalibrating the ADC when the temperature change reaches given values, by using the internal temperature sensor and the ADC watchdog."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00184",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "2.2.8 Minimizing Injection current"
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00185",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "Check the application to verify whether any digital or analog input voltage can be less than $\\mathsf { V } _ { \\mathsf { S S } }$ or $\\mathsf { V } _ { \\mathsf { S S A } }$ . If it is the case, a negative injection current will flow from the pins. The effect on the accuracy will be greater if a digital input is close to the analog input being converted."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00186",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "Negative current injection on any of the standard (non-robust) analog input pins should be avoided as this would significantly reduce the accuracy of the conversion being performed on another analog input."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00187",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "It is recommended to connect a Schottky diode between $\\mathsf { V } _ { \\mathsf { S S A } }$ and the I/O pin that can give birth to the negative injection current."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00188",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "The ADC accuracy will not be affected by positive injection currents within the limits specified for $\\mathsf { I } _ { \\mathsf { I N J } ( \\mathsf { P } \\mathsf { I N } ) }$ and ΣI<sub>INJ(PIN)</sub> (refer to the appropriate STM32F10xxx datasheet, I/O port characteristics section)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00189",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "2.2.9 Minimizing I/O pin crosstalk"
+  },
+  {
+    "segment_id": "stm32-an2834-p0021-text-00190",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 21,
+    "text": "The noise produced by crosstalk can be reduced by shielding the analog signal by placing ground tracks across it. Figure 20 shows the recommended grounding between signals."
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-figure-00021",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0022_00021.png",
+    "caption": "**Figure 20. Crosstalk between I/O pins** — schematic-style illustration.\n\n- A rectangular block labeled **“STM32”** is shown on the right.\n- Two square connection markers are located on the left edge of the STM32 block:\n  - Upper marker: connected to a line labeled **“Analog in”**.\n  - Lower marker: connected to a line labeled **“Digital I/O”**.\n- The **Analog in** connection is driven from the left by a circular sine-wave source symbol. A ground symbol is shown beneath the source.\n- A thick horizontal black conductor runs across the area between the analog and digital connections. It has a downward connection to a ground symbol near its left-center.\n- The **Digital I/O** line is drawn horizontally to the left from the lower STM32 connection and passes below the thick grounded conductor.\n- Identifier printed at the lower right: **ai15490**.\n- No axes, units, numerical values, or additional electrical specifications are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 20. Crosstalk between I/O pins",
+    "generated_captions": {
+      "luna": "**Figure 20. Crosstalk between I/O pins** — schematic-style illustration.\n\n- A rectangular block labeled **“STM32”** is shown on the right.\n- Two square connection markers are located on the left edge of the STM32 block:\n  - Upper marker: connected to a line labeled **“Analog in”**.\n  - Lower marker: connected to a line labeled **“Digital I/O”**.\n- The **Analog in** connection is driven from the left by a circular sine-wave source symbol. A ground symbol is shown beneath the source.\n- A thick horizontal black conductor runs across the area between the analog and digital connections. It has a downward connection to a ground symbol near its left-center.\n- The **Digital I/O** line is drawn horizontally to the left from the lower STM32 connection and passes below the thick grounded conductor.\n- Identifier printed at the lower right: **ai15490**.\n- No axes, units, numerical values, or additional electrical specifications are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00191",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "2.2.10 EMI-induced noise reduction"
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00192",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "You can reduce EMI noise using proper shielding and layout techniques. The possible sources of emission must be physically separated from the receptors. They can be separated electrically by proper grounding and shielding."
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00193",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "Shielding technique"
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00194",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "Placing ground tracks alongside sensitive analog signals provides shielding on the PCB. The other side of the two-layer PCB should also have a ground plane. This prevents interference and I/O crosstalk affecting the signal. See Figure 21."
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00195",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "Signals coming from distant locations (like sensors, etc.) should be connected to the PCB using shielded cable. Care should be taken to minimize the length of the paths of these types of signal on the PCB."
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00196",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "The shield should not be used to carry the ground reference from the sensor or analog source to the microcontroller. A separate wire should be used as ground. The shield should be grounded at only one place near the receiver such as the analog ground of the microcontroller. Grounding the shield at both ends (source and receiver) might lead to the creation of ground loops, with the result of current flowing through the shield. In this case, the shield acts like an antenna and the purpose of the shielding is lost."
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-text-00197",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "text": "The shielding concept also applies to grounding the chassis of the application if it is metallic. And it also helps remove EMI and EMC interference. In this case the mains earth ground is used to shield the chassis. Similarly DC ground can be used for shielding in case of the earth ground not being available."
+  },
+  {
+    "segment_id": "stm32-an2834-p0022-figure-00022",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0022_00022.png",
+    "caption": "**Figure 21. Shielding technique** — comparison of shield grounding for a sensor-to-ADC connection.\n\n- **Left configuration: “Not recommended”**\n  - A **Sensor** is connected to an **ADC** through a **Shielded cable**.\n  - The cable shield is grounded at both the sensor end and the ADC/receiver end, with ground symbols shown at both ends.\n  - The two-end grounding forms a loop labeled **“Ground loop”**.\n  - Caption: **“Do not ground the shield at both ends”**.\n\n- **Right configuration: “Recommended”**\n  - A **Sensor** is connected to an **ADC** through a **Shielded cable**.\n  - The cable shield is not grounded at the sensor end.\n  - The shield is grounded only at the ADC/receiver end, shown by the ground symbol beneath the receiving end of the cable.\n  - Caption: **“Ground the shield at the receiver end only”**.\n\n- Visible labels: **Not recommended**, **Recommended**, **Shielded cable**, **Sensor**, **ADC**, **Ground loop**.\n- Figure identifier at lower right: **a15491**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 21. Shielding technique",
+    "generated_captions": {
+      "luna": "**Figure 21. Shielding technique** — comparison of shield grounding for a sensor-to-ADC connection.\n\n- **Left configuration: “Not recommended”**\n  - A **Sensor** is connected to an **ADC** through a **Shielded cable**.\n  - The cable shield is grounded at both the sensor end and the ADC/receiver end, with ground symbols shown at both ends.\n  - The two-end grounding forms a loop labeled **“Ground loop”**.\n  - Caption: **“Do not ground the shield at both ends”**.\n\n- **Right configuration: “Recommended”**\n  - A **Sensor** is connected to an **ADC** through a **Shielded cable**.\n  - The cable shield is not grounded at the sensor end.\n  - The shield is grounded only at the ADC/receiver end, shown by the ground symbol beneath the receiving end of the cable.\n  - Caption: **“Ground the shield at the receiver end only”**.\n\n- Visible labels: **Not recommended**, **Recommended**, **Shielded cable**, **Sensor**, **ADC**, **Ground loop**.\n- Figure identifier at lower right: **a15491**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00198",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "2.2.11 PCB layout recommendations"
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00199",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "Separating the analog and digital layouts"
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00200",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "It is recommended to separate the analog and digital circuitry on the PCB (see Figure 22). This also avoids tracks crossing each other. The tracks carrying digital signals may introduce high-frequency noise in analog signals because of coupling."
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00201",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "The digital signals produce high-frequency noise because of fast switching."
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00202",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "Coupling of a capacitive nature is formed due to the metal connections (tracks) separated by the dielectric provided by the PCB base (glass, ceramic or plastic)."
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00203",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "It is recommended to use different planes for analog and digital grounds. If there is a lot of analog circuitry then an analog ground plane is recommended. The analog ground must be placed below the analog circuitry."
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-figure-00023",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0023_00023.png",
+    "caption": "Figure 22, “Separating the analog and digital layouts” (caption/context).\n\nThe perspective layout diagram shows a circuit board divided into digital and analog sections:\n\n- **Digital circuitry** — labeled **“(Noise generator)”**\n- **Analog circuitry** — labeled **“(Affected by noise)”**\n- A central device labeled **“STM32”**, positioned across/near the boundary between the digital and analog sections.\n- A raised component above the STM32 labeled **“Power supply”**, with an arrow pointing to it.\n- Lower-left board region labeled **“Digital ground plane”**, with an arrow pointing to the digital ground area.\n- Lower-right board region labeled **“Analog ground plane”**, with an arrow pointing to the analog ground area.\n\nThe diagram depicts physical separation of the digital and analog circuitry and their respective ground planes. The identifier **“ai15492”** appears at the lower right.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 22. Separating the analog and digital layouts",
+    "generated_captions": {
+      "luna": "Figure 22, “Separating the analog and digital layouts” (caption/context).\n\nThe perspective layout diagram shows a circuit board divided into digital and analog sections:\n\n- **Digital circuitry** — labeled **“(Noise generator)”**\n- **Analog circuitry** — labeled **“(Affected by noise)”**\n- A central device labeled **“STM32”**, positioned across/near the boundary between the digital and analog sections.\n- A raised component above the STM32 labeled **“Power supply”**, with an arrow pointing to it.\n- Lower-left board region labeled **“Digital ground plane”**, with an arrow pointing to the digital ground area.\n- Lower-right board region labeled **“Analog ground plane”**, with an arrow pointing to the analog ground area.\n\nThe diagram depicts physical separation of the digital and analog circuitry and their respective ground planes. The identifier **“ai15492”** appears at the lower right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00204",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "Separating the analog- and digital-circuit power supplies"
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00205",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "It is desirable to have separate analog and digital power supplies in cases where there is a lot of analog and digital circuits external to the microcontroller (see Figure 23). Depending on the STM32F10xxx package, different analog and digital power supply and ground pins are available. The $\\mathsf { V } _ { \\mathsf { D D A } } / \\mathsf { V } _ { \\mathsf { R E F } } .$ and V $\\mathsf { V } _ { \\mathsf { D D } }$ pins can be powered from separate power supplies."
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00206",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "If you use a switching-type power supply for the digital circuitry, you should use a separate linear supply for the analog circuit."
+  },
+  {
+    "segment_id": "stm32-an2834-p0023-text-00207",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 23,
+    "text": "Also, if you expect a lot of noise on the DC power supply due to I/O switching etc., it is preferable to use a separate supply for the analog circuit."
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-figure-00024",
+    "type": "figure",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_figure_p0024_00024.png",
+    "caption": "**Figure 23. Separating the analog and digital supplies** (STM32 AN2834, p. 24)\n\nBlock/wiring diagram showing separate supply paths for an STM32:\n\n- **Linear regulator** block at upper left.\n- **SMPS** block at upper right, with three labeled terminals:\n  - **Vout1**\n  - **GND**\n  - **Vout2**\n- **STM32** block at right-center. Visible supply/reference pins:\n  - **VSS**\n  - **VDD**\n  - **V_DDA**\n  - **V_REF+**\n  - **V_REF−**\n  - **V_SSA**\n- **Analog Circuit** block at lower left, shown with a triangular amplifier/buffer symbol.\n- **Star Network** callout points to the central star connection node.\n\nConnections and paths shown:\n\n- The **Linear regulator** output is shown in green and connects to **SMPS Vout1**.\n- A blue supply path from the linear-regulator side runs down to the **Analog Circuit** and horizontally to the STM32 analog supply/reference side, connecting at **V_DDA** and branching toward **V_REF+**.\n- A yellow path from **SMPS Vout2** runs down to the STM32 **VDD** connection.\n- Black ground/return wiring forms the labeled **Star Network**:\n  - One branch connects to **SMPS GND** / **VSS**.\n  - Another branch runs to the STM32 lower supply connection **V_SSA**.\n  - The analog-circuit return is also connected into this star-ground wiring.\n- The figure includes the small identifier **ai15493** at the lower-right corner.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 23. Separating the analog and digital supplies",
+    "generated_captions": {
+      "luna": "**Figure 23. Separating the analog and digital supplies** (STM32 AN2834, p. 24)\n\nBlock/wiring diagram showing separate supply paths for an STM32:\n\n- **Linear regulator** block at upper left.\n- **SMPS** block at upper right, with three labeled terminals:\n  - **Vout1**\n  - **GND**\n  - **Vout2**\n- **STM32** block at right-center. Visible supply/reference pins:\n  - **VSS**\n  - **VDD**\n  - **V_DDA**\n  - **V_REF+**\n  - **V_REF−**\n  - **V_SSA**\n- **Analog Circuit** block at lower left, shown with a triangular amplifier/buffer symbol.\n- **Star Network** callout points to the central star connection node.\n\nConnections and paths shown:\n\n- The **Linear regulator** output is shown in green and connects to **SMPS Vout1**.\n- A blue supply path from the linear-regulator side runs down to the **Analog Circuit** and horizontally to the STM32 analog supply/reference side, connecting at **V_DDA** and branching toward **V_REF+**.\n- A yellow path from **SMPS Vout2** runs down to the STM32 **VDD** connection.\n- Black ground/return wiring forms the labeled **Star Network**:\n  - One branch connects to **SMPS GND** / **VSS**.\n  - Another branch runs to the STM32 lower supply connection **V_SSA**.\n  - The analog-circuit return is also connected into this star-ground wiring.\n- The figure includes the small identifier **ai15493** at the lower-right corner."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00208",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "It is also recommended to connect the analog and digital grounds in a star network. This means that you must connect the analog and digital grounds at only one point. This prevents the introduction of noise in the analog power supply circuit due to digital signal switching. This also prevents current surges from affecting the analog circuit."
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00209",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "Using separate PCB layers for the supply and ground"
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00210",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "● Two-layer PCBs"
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00211",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "For two-layer PCBs, it is recommended to provide a maximum ground plane area. The power supply $( \\mathsf { V } _ { \\mathsf { D D } } , \\mathsf { V } _ { \\mathsf { D D A } } )$ should run through thick tracks. The two layers can have their ground shorted together via multiple connections in the overlap region if the two layers feature the same ground signals. The unused PCB area can be used as the ground plane."
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00212",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "The other convention is to connect the unused PCB area on one layer to the positive supply $( \\mathsf { V } _ { \\mathsf { D D } } )$ and the unused area on the other layer, to ground. The advantage is a reduced inductance for power and ground signals. The maximum ground area provided for ground on the PCB results in a good shielding effect and reduces the electromagnetic induction susceptibility of the circuit."
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00213",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "● Multilayer PCBs"
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00214",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "Wherever possible, try to use multilayer PCBs and use separate layers on the PCB for power and ground. The $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ pins of the various ICs can be directly connected to the power planes, thus reducing the length of track needed to connect the supply and ground. Long tracks have a high inductive effect. The analog ground can be connected at one point to this ground plane. If so, it should be close to the power supply."
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00215",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "A full ground plane provides good shielding and reduces the electromagnetic induction susceptibility of the circuit."
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00216",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "● Single-layer PCBs"
+  },
+  {
+    "segment_id": "stm32-an2834-p0024-text-00217",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 24,
+    "text": "Single-layer PCBs are used to save cost. They can be used only in simple applications when the number of connections is very limited. It is recommended to fill the unused area with ground. Jumpers can be used to connect different parts of the PCB."
+  },
+  {
+    "segment_id": "stm32-an2834-p0025-text-00218",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 25,
+    "text": "2.2.12 Component placement and routing"
+  },
+  {
+    "segment_id": "stm32-an2834-p0025-text-00219",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 25,
+    "text": "Place the components and route the signal traces on the PCB so as to shield the analog inputs."
+  },
+  {
+    "segment_id": "stm32-an2834-p0025-text-00220",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 25,
+    "text": "Components like resistors and capacitors must be connected with very short leads. You can use surface-mounted device (SMD) resistors and capacitors. You can place SMD capacitors close to the microcontroller for decoupling purposes."
+  },
+  {
+    "segment_id": "stm32-an2834-p0025-text-00221",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 25,
+    "text": "Use wide tracks for power, otherwise the series resistance of the tracks would cause a voltage drop. Indeed, narrow power tracks have a non-negligible finite resistance, so that high load currents through them would cause a voltage drop across them."
+  },
+  {
+    "segment_id": "stm32-an2834-p0025-text-00222",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 25,
+    "text": "Quartz crystals must be surrounded by ground tracks/plane. The other side of the two-layer PCB below the crystal should preferably be covered by the ground plane. Most crystals have a metallic body that should be grounded. You should also place the crystal close to the microcontroller. You can use a surface-mounted crystal."
+  },
+  {
+    "segment_id": "stm32-an2834-p0026-text-00223",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 26,
+    "text": "Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2834-p0026-text-00224",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 26,
+    "text": "This application notes describes the main methods and application design rules to minimize STM32F10xxx ADC errors and obtain the best ADC accuracy."
+  },
+  {
+    "segment_id": "stm32-an2834-p0026-text-00225",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 26,
+    "text": "The impedance and capacitance of the source to be converted as well as the PCB design are very important for the ADC application design, and so these parameters have to be taken into account."
+  },
+  {
+    "segment_id": "stm32-an2834-p0026-text-00226",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 26,
+    "text": "Some methods depend on the application requirements and are a tradeoff between speed, accuracy and design topology."
+  },
+  {
+    "segment_id": "stm32-an2834-p0027-text-00227",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 27,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2834-p0027-table-00001",
+    "type": "table",
+    "doc": "stm32-an2834",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-an2834/mineru/images/bbox_fallback_table_p0027_00001.png",
+    "caption": "**Table 1. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 14-Nov-2008 | 1 | Initial release. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 1. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 14-Nov-2008 | 1 | Initial release. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00228",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00229",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00230",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00231",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00232",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00233",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00234",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00235",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00236",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00237",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00238",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00239",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "© 2008 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00240",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00241",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2834-p0028-text-00242",
+    "type": "text",
+    "doc": "stm32-an2834",
+    "page": 28,
+    "text": "www.st.com"
+  }
+]

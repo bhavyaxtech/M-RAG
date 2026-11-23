@@ -1,0 +1,53 @@
+{
+  "doc_id": "stm32-an2606",
+  "document_id": "AN2606",
+  "title": "STM32 system-memory boot mode",
+  "document_kind": "application_note",
+  "applicability": "Cross-series note: use only the STM32F10xxx sections",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00167594.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/13801.pdf",
+    "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1052/CD00167594.pdf",
+    "https://www.st.com/resource/en/application_note/cd00167594.pdf"
+  ],
+  "pages": 27,
+  "sha256": "8ce85e8f73e0afda4d8a04a7eb8952eff2e725bd085d8e4603a7081bc1f975fe",
+  "cover_text": "October 2010\nDoc ID 13801 Rev 9\n1/27\nAN2606\nApplication note\nSTM32\u2122 microcontroller\nsystem memory boot mode\nIntroduction\nThe bootloader is stored in the internal boot ROM memory (system memory) of STM32 \ndevices. It is programmed by ST during production. Its main task is to download the \napplication program to the internal Flash memory through one of the available serial \nperipherals (USART, CAN, USB, etc.). A communication protocol is defined for each serial \ninterface, with a compatible command set and sequences.\nThe main features of the bootloader are the following:\n\u25cf\nIt uses an embedded serial interface to download the code with a predefined \ncommunication protocol\n\u25cf\nIt transfers and updates the Flash memory code, the data, and the vector table sections\nThis application note presents the general concept of the bootloader. It describes the \nsupported peripherals and hardware requirements to be considered when using the \nbootloader of any STM32 device currently in production. However the specifications of the \nlow-level communication protocol for each supported serial peripheral are documented in \nseparate documents:\n\u25cf\nFor specifications of the USART protocol used in the bootloader please refer to \nAN3155\n\u25cf\nFor the specification of CAN protocol used in the bootloader please refer to AN3154\n\u25cf\nFor the specification of DFU (USB Device) protocol used in the bootloader please refer \nto AN3156\nRelated documents (available from www.st.com)\n\u25cf\nSTM32 datasheets:\n\u2013\nlow, medium and high-densitySTM32F101xx and STM32F103xx datasheets\n\u2013\nlow, medium and high-density STM32F100xx and STM32F102xx datasheets\n\u2013\nSTM32F105xx/107xx connectivity line datasheet\n\u2013\nXL-density STM32F101xx and STM32F103xx datasheets\n\u25cf\nSTM32 reference manuals:\n\u2013\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx \nreference manual (RM0008)\n\u2013\nlow, medium and high-density STM32F100xx value line reference manual \n(RM0041)\n\u25cf\nSTM32 Flash programming manuals\n\u2013\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx Flash \nprogramming manual (PM0042)\n\u2013\nlow, medium and high-density STM32F100xx value line Flash programming \nmanual (PM0063)\n\u2013\nXL-density STM32F101xx and STM32F103xx programming manual (PM0068)\nwww.st.com\n",
+  "references": {
+    "PM0068": [
+      1
+    ],
+    "PM0063": [
+      1
+    ],
+    "AN3155": [
+      1
+    ],
+    "RM0041": [
+      1
+    ],
+    "PM0042": [
+      1
+    ],
+    "AN3156": [
+      1
+    ],
+    "AN3154": [
+      1
+    ],
+    "RM0008": [
+      1
+    ],
+    "AN2586": [
+      9
+    ],
+    "AN2662": [
+      26
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/13801.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:16.992543+00:00",
+  "path": "data/raw/stm32/stm32-an2606.pdf"
+}

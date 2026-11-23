@@ -1,0 +1,11 @@
+{
+  "waiting_for": [
+    4024,
+    21696
+  ],
+  "stage": "building",
+  "checked_at": "2026-09-08T22:35:38.4273957+05:30",
+  "detail": "Collection build failed (exit 1); see full_build.log",
+  "wrapper_pid": 8540,
+  "status": "failed"
+}

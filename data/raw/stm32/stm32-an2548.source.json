@@ -1,0 +1,22 @@
+{
+  "doc_id": "stm32-an2548",
+  "document_id": "AN2548",
+  "title": "Using STM32F0/F1/F3/Gx/Lx DMA controller",
+  "document_kind": "application_note",
+  "applicability": "Cross-series note; select STM32F1 configuration",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00160362.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/13529.pdf",
+    "https://web.eece.maine.edu/~zhu/book/ST%20AN2548.pdf",
+    "https://www.st.com/resource/en/application_note/cd00160362.pdf"
+  ],
+  "pages": 14,
+  "sha256": "14394f082b5ccec345538934fe4cc51480f8c19cd834b752eb6025032672c37a",
+  "cover_text": "         \nApril 2009\nDoc ID 13529 Rev 3\n1/14\nAN2548\nApplication note\nUsing the STM32F101xx and STM32F103xx DMA controller\n1 \nIntroduction\nThis application note describes how to use the STM32F101xx and STM32F103xx direct \nmemory access (DMA) controller. The STM32F101xx and STM32F103xx DMA controller, \nthe Cortex\u2122-M3 core, the advanced microcontroller bus architecture (AMBA) bus and the \nmemory system contribute to provide a high data bandwidth and to develop very-low latency \nresponse time software.\nThis application note also describes how to take full advantage of these features and ensure \ncorrect response times for different peripherals and subsystems.\nThe STM32F101xx and STM32F103xx will be referred to as STM32F10xxx, and the DMA \ncontroller as DMA throughout the document.\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/13529.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:19.356956+00:00",
+  "path": "data/raw/stm32/stm32-an2548.pdf"
+}

@@ -1,0 +1,13 @@
+# Extra dependencies for EMBED_PROVIDER=local: runs the BAAI/bge-m3 embedding
+# model on this machine (GPU if one is set up, otherwise CPU). Install on top of
+# requirements-demo.txt. run.bat does this automatically when .env selects it.
+#
+# Plain PyPI torch on Windows is the CPU build. That is enough: at serve time
+# only the short user question is embedded.
+#
+# sentence-transformers stays on 5.x: 6.x needs transformers>=5, and mineru in
+# requirements.txt needs transformers<5.
+
+torch==2.13.0
+sentence-transformers==5.7.0
+transformers==4.57.6

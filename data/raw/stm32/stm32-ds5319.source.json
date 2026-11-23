@@ -1,0 +1,42 @@
+{
+  "doc_id": "stm32-ds5319",
+  "document_id": "DS5319",
+  "title": "STM32F103x8/xB datasheet",
+  "document_kind": "datasheet",
+  "applicability": "STM32F103x8/xB medium-density electrical and package limits",
+  "manufacturer_url": "https://www.st.com/resource/en/datasheet/stm32f103c8.pdf",
+  "download_urls": [
+    "https://www.st.com/resource/en/datasheet/stm32f103c8.pdf"
+  ],
+  "existing_path": "data/raw/hardware/stm32f103c8.pdf",
+  "pages": 114,
+  "sha256": "69f1cfc54c9183d0fc1c1a3b0e091f8a8534509a26927e5fba180cab70f952a7",
+  "cover_text": "This is information on a product in full production. \nJuly 2025\nDS5319 Rev 20\n1/114\nSTM32F103x8 \n STM32F103xB\nMedium-density performance line Arm\u00ae-based 32-bit MCU with \n64 or 128 KB Flash, USB, CAN, 7 timers, 2 ADCs, 9 com. interfaces\nDatasheet - production data\nFeatures\nIncludes ST state-of-the-art patented \ntechnology\n\u2022\nArm\u00ae 32-bit Cortex\u00ae-M3 CPU core \n\u2013\n72 MHz maximum frequency, 1.25 \nDMIPS/MHz (Dhrystone 2.1) performance \nat 0 wait state memory access\n\u2013\nSingle-cycle multiplication and hardware \ndivision\n\u2022\nMemories\n\u2013\n64 or 128 Kbytes of Flash memory\n\u2013\n20 Kbytes of SRAM\n\u2022\nClock, reset and supply management\n\u2013\n2.0 to 3.6 V application supply and I/Os \n\u2013\nPOR, PDR, and programmable voltage \ndetector (PVD)\n\u2013\n4 to 16 MHz crystal oscillator \n\u2013\nInternal 8 MHz factory-trimmed RC\n\u2013\nInternal 40 kHz RC\n\u2013\nPLL for CPU clock\n\u2013\n32 kHz oscillator for RTC with calibration\n\u2022\nLow-power\n\u2013\nSleep, Stop and Standby modes\n\u2013\nVBAT supply for RTC and backup registers\n\u2022\n2x 12-bit, 1 \u00b5s A/D converters (up to 16 \nchannels)\n\u2013\nConversion range: 0 to 3.6 V\n\u2013\nDual-sample and hold capability\n\u2013\nTemperature sensor\n\u2022\nDMA\n\u2013\n7-channel DMA controller \n\u2013\nPeripherals supported: timers, ADC, SPIs, \nI2Cs and USARTs\n\u2022\nUp to 80 fast I/O ports\n\u2013\n26/37/51/80 I/Os, all mappable on 16 \nexternal interrupt vectors and almost all \n5 V-tolerant\n\u2022\nDebug mode: \n\u2013\nSerial wire debug (SWD) and JTAG \ninterfaces\n\u2022\nSeven timers\n\u2013\nThree 16-bit timers, each with up to \n4 IC/OC/PWM or pulse counter and \nquadrature (incremental) encoder input\n\u2013\n16-bit, motor control PWM timer with  \ndead-time generation and emergency stop\n\u2013\nTwo watchdog timers (independent and \nwindow)\n\u2013\nSysTick timer 24-bit downcounter\n\u2022\nUp to nine communication interfaces\n\u2013\nUp to two I2C interfaces (SMBus/PMBus\u00ae)\n\u2013\nUp to three USARTs (ISO 7816 interface, \nLIN, IrDA capability, modem control)\n\u2013\nUp to two SPIs (18 Mbit/s)\n\u2013\nCAN interface (2.0B Active)\n\u2013\nUSB 2.0 full-speed interface\n\u2022\nCRC calculation unit, 96-bit unique ID\n\u2022\nPackages are ECOPACK\u00ae\n          \n          \nTable 1. Device summary\nReference\nPart number\nSTM32F103x8\nSTM32F103C8, STM32F103R8 \nSTM32F103V8, STM32F103T8\nSTM32F103xB STM32F103RB STM32F103VB, \nSTM32F103CB, STM32F103TB\nBGA100 10 \u00d7 10 mm\nUFBGA100 7 \u00d7 7 mm\nBGA64 5 \u00d7 5 mm\nVFQFPN36 6 \u00d7 6 mm\nLQFP100 14 \u00d7 14 mm\nLQFP64 10 \u00d7 10 mm\nLQFP48 7 \u00d7 7 mm\nUFQFPN48 7 \u00d7 7 mm\nwww.st.com\n",
+  "references": {
+    "ES096": [
+      9
+    ],
+    "AN2606": [
+      15
+    ],
+    "AN2867": [
+      53
+    ],
+    "AN2868": [
+      54
+    ],
+    "AN1709": [
+      57,
+      58,
+      59
+    ],
+    "AN1015": [
+      58
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "data/raw/hardware/stm32f103c8.pdf",
+  "source_kind": "existing_repository_file",
+  "retrieved_at": "2026-09-08T13:51:54.511992+00:00",
+  "path": "data/raw/stm32/stm32-ds5319.pdf"
+}

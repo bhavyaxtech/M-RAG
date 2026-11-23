@@ -1,0 +1,57 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated pipeline artifacts.
+#
+# The demo bundle IS committed so a fresh clone runs without re-parsing: source
+# PDFs, FAISS indexes, metadata, segments, bboxes and the cropped visual images.
+# Only the heavy, re-derivable artifacts are ignored.
+index/embedding_cache.jsonl
+index/stm32/embedding_cache.jsonl
+index/local/embedding_cache.jsonl
+index/stm32/local/embedding_cache.jsonl
+data/page_cache/
+
+# MinerU debug output. Nothing at runtime reads any of these; segments.json and
+# bboxes.json are the normalized forms the pipeline actually uses.
+data/parsed/hardware/**/*_layout.pdf
+data/parsed/hardware/**/*_span.pdf
+data/parsed/hardware/**/*_origin.pdf
+data/parsed/hardware/**/*_middle.json
+data/parsed/hardware/**/*_model.json
+data/parsed/hardware/**/*_content_list.json
+data/parsed/hardware/**/*_content_list_v2.json
+data/parsed/hardware/**/*.md
+
+# New collection: keep normalized segments/crops, not duplicated MinerU PDFs.
+data/parsed/stm32/**/*_layout.pdf
+data/parsed/stm32/**/*_span.pdf
+data/parsed/stm32/**/*_origin.pdf
+data/parsed/stm32/**/*_middle.json
+data/parsed/stm32/**/*_model.json
+data/parsed/stm32/**/*_content_list.json
+data/parsed/stm32/**/*_content_list_v2.json
+data/parsed/stm32/**/*.md
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Node / Next.js (web/)
+node_modules/
+.next/
+web/out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+.env*.local
+
+# Playwright / capture artifacts
+web/test-results/
+web/playwright-report/

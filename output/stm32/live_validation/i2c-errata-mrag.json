@@ -1,0 +1,1437 @@
+{
+  "case": {
+    "id": "i2c-errata",
+    "question": "For STM32F103C8, which device/silicon qualifications should be checked before relying on the I2C examples in AN2824? Distinguish examples from applicable errata.",
+    "candidate_source_documents": [
+      "AN2824",
+      "ES096"
+    ],
+    "ground_truth_answer": null,
+    "requires_visual": null,
+    "status": "candidate_requires_source_review_not_scored",
+    "mode": "mrag"
+  },
+  "request": {
+    "message": "For STM32F103C8, which device/silicon qualifications should be checked before relying on the I2C examples in AN2824? Distinguish examples from applicable errata.",
+    "mode": "mrag",
+    "doc": "stm32-ds5319",
+    "scope": "collection",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:49:43.572947+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103C8 device and silicon qualifications for AN2824 I2C examples; applicable ES096 errata versus example limitations",
+      "page": null,
+      "confidence": 0.99,
+      "reason": "Asks about listed I2C application notes and applicable STM32F103 errata.",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.6147190928459167,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-an2824-p0001-text-chunk-000",
+          "doc": "stm32-an2824",
+          "doc_title": "AN2824 (rev 4) — STM32F10xxx I2C optimized examples",
+          "page": 1,
+          "type": "text",
+          "score": 0.5347613096237183,
+          "text": "STM32F10xxx I²C optimized examples\n\nIntroduction\n\nThe aim of this application note is to provide l²C firmware optimized examples based on polling, interrupts and DMA, covering the four l²C communication modes available in the STM32F10xxx, that is, slave transmitter, slave receiver, master transmitter and master receiver and to provide recommendations on the correct use of the l²C peripheral\n\nThis application note applies to STM32F101xx and STM32F103xx medium, high and XL density microcontrollers, STM32F105/107xx connectivity line and STM32F100xx value line devices. Throughout this document, these devices are referred to collectively as STM32F10xxx.\n\nThe application note is organized in three parts. The first part describes the l2C master programming examples using Polling, DMA and Interrupts. The second part describes the I2C slave programming examples using DMA and Interrupts. The third part is an overview of the content of the firmware accompanying this application note. .",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2824/1",
+          "bbox": null
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-es096-p0002-text-chunk-000",
+          "doc": "stm32-es096",
+          "doc_title": "ES096 (rev 15) — STM32F101/102/103 medium-density errata",
+          "page": 2,
+          "type": "text",
+          "score": 0.6147190928459167,
+          "text": "Summary of device errata\n\nThe following table gives a quick reference to the STM32F101x8/B, STM32F102x8/B and STM32F103x8/B\n\nmedium-density device limitations and their status:\n\nA = limitation present, workaround available\n\nN = limitation present, no workaround available\n\nP = limitation present, partial workaround available\n\n“-” = limitation absent\n\nApplicability of a workaround may depend on specific conditions of target application. Adoption of a workaround may cause restrictions to target application. Workaround for a limitation is deemed partial if it only reduces the rate of occurrence and/or consequences of the limitation, or if it is fully effective for only a subset of instances on the device or in only a subset of operating modes, of the function concerned.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-es096/2",
+          "bbox": null
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-es096-p0001-text-chunk-000",
+          "doc": "stm32-es096",
+          "doc_title": "ES096 (rev 15) — STM32F101/102/103 medium-density errata",
+          "page": 1,
+          "type": "text",
+          "score": 0.6101112365722656,
+          "text": "STM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-density device errata\n\nApplicability\n\nThis document applies to the part numbers of STM32F101x8/B, STM32F102x8/B and STM32F103x8/B mediumdensity devices and the device variants as stated in this page.\n\nIt gives a summary and a description of the device errata, with respect to the device datasheet and reference manual RM0008.\n\nDeviation of the real device behavior from the intended device behavior is considered to be a device limitation. Deviation of the description in the reference manual or the datasheet from the intended device behavior is considered to be a documentation erratum. The term “errata” applies both to limitations and documentation errata.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-es096/1",
+          "bbox": null
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-an2824-p0015-table-00002",
+          "doc": "stm32-an2824",
+          "doc_title": "AN2824 (rev 4) — STM32F10xxx I2C optimized examples",
+          "page": 15,
+          "type": "table",
+          "score": 0.501973032951355,
+          "text": "**Table 2. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 18-Sep-2008 | 1 | Initial release. |\n| 04-Mar-2009 | 2 | Added *Section 1.3* recommendations for I²C use.<br>Content added to *Section 2.1: I²C firmware configuration for different communication modes (polling, DMA and interrupts).*<br>Added *Section 3* example using DMA. |\n| 03-Nov-2009 | 3 | This application note applies to the whole STM32F10xxx family.<br>Subfolder descriptions modified in *Section 2.3: I²C firmware description* and *Section 3.4: Firmware details.* |\n| 22-June-2010 | 4 | Application note document and firmware completely rewritten. |",
+          "image_url": "/api/image/stm32-an2824-p0015-table-00002",
+          "page_url": "/api/page/stm32-an2824/15",
+          "bbox": [
+            0.205,
+            0.169,
+            0.887,
+            0.346
+          ]
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-es096-p0026-table-00007",
+          "doc": "stm32-es096",
+          "doc_title": "ES096 (rev 15) — STM32F101/102/103 medium-density errata",
+          "page": 26,
+          "type": "table",
+          "score": 0.5677579641342163,
+          "text": "## Table 5. Document revision history\n\n| Date | Version | Changes |\n|---|---:|---|\n| 28-Mar-2008 | 1 | Initial release. |\n| 07-Apr-2008 | 2 | Section 2.2: Flash memory read after WFI/WFE instruction on page 13 added. Workaround specified in Section 2.9.1: USART1_RTS and CAN_TX |\n| 23-May-2008 | 3 | The errata sheet also applies to Revision Y devices. Section 2.1: PD0 and PD1 use an output mode, Section 2.2: ADC auto-injection channel and Section 2.3: ADC combined injected simultaneous+interleaved removed from errata sheet. Section 2.3: Debug registers cannot be read by user software on page 13 added. Small text changes |\n| 18-Jul-2008 | 4 | Section 2.10: PVD and USB wakeup events added. |\n| 01-Oct-2008 | 5 | This errata sheet also applies to STM32F102x medium-density devices. Though medium-density devices with 32 Kbyte of Flash were removed, the errata sheet still applies to devices whose commercial code does not contain an “A”. Section 2.11: Compatibility issue with latest compiler releases added. Figure 2: LFBGA100 top package view added. Figure 4: LQFP64 top package view and Figure 5: LQFP48 top package view corrected |\n| 11-Feb-2009 | 6 | Section 1: Arm® 32-bit Cortex®-M3 limitations specified (Table 3: Cortex®-M3 core limitations and impact on microcontroller behavior added limitations described).<br><br>Added limitations:<br>• Boundary scan TAP: wrong pattern sent out after the “capture IR” state<br>• Flash memory BSY bit delay versus STRT bit setting<br>• I2C peripheral<br>• Timers<br>• LSI clock stabilization time Table 4: Summary of silicon limitations on page 11 added. |\n| 11-Jan-2010 | 7 | Added limitations:<br>• Section 2.9.9: USARTx_TX pin usage<br>• Section 2.14.4: Wrong behavior of I2C peripheral in master mode after a misplaced Stop<br>• Section 2.14.5: Mismatch on the “Setup time for a repeated Start condition” timing parameter<br>• Section 2.14.6: Data valid time (tVD;DAT) violated without the OVR flag being set<br>• Section 2.15.1: CRC still sensitive to communication clock when SPI is in slave mode even with NSS high<br>• Section 2.20: USB packet buffer memory: over/underrun or COUNTn_RX[9:0] field reporting incorrect number if APB1 frequency is below 13 MHz<br><br>Date code added to Figure 2 to Figure 6. |\n| 21-Jun-2010 | 8 | Added Section 2.4: Debugging Stop mode and system tick timer Added Section 2.5: Debugging Stop mode with WFE entry Added Section 2.14.2: Wrong data read into data register Updated Section 2.14.4: Wrong behavior of I2C peripheral in master mode after a misplaced Stop Added Section 2.16: USART peripheral Updated Section 2.14.6: Data valid time (tVD;DAT) violated without the OVR flag being set |\n| 22-Feb-2011 | 9 | Updated workarounds in Section 2.14.1: Some software events must be managed before the current byte is being transferred and Section 2.14.2: Wrong data read into data register Added section Section 2.16.6: nRTS signal abnormally driven low after a protocol violation |\n| 17-Jun-2011 | 10 | Added reference to revision code 1 in Table 1 Added Section 1.1.5: Interrupted loads to SP can cause erroneous behavior Section 1.1.6: SVC and BusFault/MemManage may occur out of order Added VFQFPN48 package to Figure 6 |",
+          "image_url": "/api/image/stm32-es096-p0026-table-00007",
+          "page_url": "/api/page/stm32-es096/26",
+          "bbox": [
+            0.163,
+            0.171,
+            0.927,
+            0.919
+          ]
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-an2824-p0002-text-chunk-000",
+          "doc": "stm32-an2824",
+          "doc_title": "AN2824 (rev 4) — STM32F10xxx I2C optimized examples",
+          "page": 2,
+          "type": "text",
+          "score": 0.48749297857284546,
+          "text": "Contents\n\n1 I2C master programming examples (DMA, interrupts, polling) . . . . . . 5   \n1.1 Overview 5   \n1.2 Description of the examples . . 5   \n1.2.1 Polling .5   \n1.2.2 DMA .9   \n1.2.3 Interrupt mode 11   \n2 I2C slave programming examples (DMA, interrupt) . . . . . . . . . .12   \n2.1 Overview 12   \n2.2 Description of the examples . . 12   \n2.2.1 Interrupt .12   \n2.2.2 DMA. 12   \n3 Firmware overview .14   \n4 Revision history . . .15",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2824/2",
+          "bbox": null
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-rm0008-p0752-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 752,
+          "type": "text",
+          "score": 0.5441683530807495,
+          "text": "Inter-integrated circuit (I2C) interface\n\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes.\n\nMedium-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes.\n\nHigh-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes.\n\nXL-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 768 Kbytes and 1 Mbyte.\n\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\n\nThis section applies to the whole STM32F10xxx family, unless otherwise specified.\n\n26.1 I²C introduction\n\nI²C (inter-integrated circuit) bus Interface serves as an interface between te microcontroller and the serial $1 ^ { 2 } C$ bus. It provides multimaster capability, and controls all ${ \\mathsf { I } } ^ { 2 } { \\mathsf { C } }$ bus-specific sequencing, protocol, arbitration and timing. It supports the standard mode (Sm, up to 100 kHz) and Fm mode (Fm, up to 400 kHz).\n\nIt may be used for a variety of purposes, including CRC generation and verification, SMBus (system management bus) and PMBus (power management bus).\n\nDepending on specific device implementation DMA capability can be available for reduced CPU overload.\n\n26.2 I²C main features\n\n• Parallel-bus/l²C protocol converter\n\n•Multimaster capability: the same interface can act as Master or Slave\n\n• I²C Master features:\n\n– Clock generation\n\n– Start and Stop generation\n\n• I²C Slave features:\n\n– Programmable I²C Address detection\n\n– Dual Addressing Capability to acknowledge 2 slave addresses\n\n\\- Stop bit detection\n\n•Generation and detection of 7-bit/10-bit addressing and General Call\n\n•Supports different communication speeds:\n\n– Standard Speed (up to 100 kHz)\n\n– Fast Speed (up to 400 kHz)\n\n• Analog noise filter\n\n• Status flags:\n\n– Transmitter/Receiver mode flag",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/752",
+          "bbox": null
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-an1709-p0009-text-chunk-000",
+          "doc": "stm32-an1709",
+          "doc_title": "AN1709 (rev not extracted) — EMC design guide for STM8 STM32 and legacy MCUs",
+          "page": 9,
+          "type": "text",
+          "score": 0.5338985919952393,
+          "text": "Class B could be caused by:\n\n– a parasitic reset correctly managed by the firmware (preferable case).\n\n– deprogramming of a peripheral register or memory recovered by the application.\n\n– a blocked status, recovered by a Watchdog or other firmware implementation.\n\nClass C could be caused by:\n\n– deprogramming of a peripheral register or memory not recovered by the application.\n\n– a blocked application status requiring an external user action.\n\nTable 5 shows ST target and acceptance limits.\n\nSpecial care during system design should be taken to avoid susceptibility issues.\n\nTable 6 shows how F\\_ESD / FTB test results are presented in ST datasheets.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an1709/9",
+          "bbox": null
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "read",
+      "status": "active"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "stage",
+      "stage": "read",
+      "status": "done"
+    },
+    {
+      "type": "token",
+      "text": "Before"
+    },
+    {
+      "type": "token",
+      "text": " relying"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " check"
+    },
+    {
+      "type": "token",
+      "text": ":\n\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Device"
+    },
+    {
+      "type": "token",
+      "text": " qualification"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " belongs"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " medium"
+    },
+    {
+      "type": "token",
+      "text": "-density"
+    },
+    {
+      "type": "token",
+      "text": " group"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " within"
+    },
+    {
+      "type": "token",
+      "text": " both"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " intended"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " scope"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "/B"
+    },
+    {
+      "type": "token",
+      "text": " scope"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " Medium"
+    },
+    {
+      "type": "token",
+      "text": " density"
+    },
+    {
+      "type": "token",
+      "text": " means"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "64"
+    },
+    {
+      "type": "token",
+      "text": "–"
+    },
+    {
+      "type": "token",
+      "text": "128"
+    },
+    {
+      "type": "token",
+      "text": " K"
+    },
+    {
+      "type": "token",
+      "text": "bytes"
+    },
+    {
+      "type": "token",
+      "text": " of"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " x"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "64"
+    },
+    {
+      "type": "token",
+      "text": "-K"
+    },
+    {
+      "type": "token",
+      "text": "byte"
+    },
+    {
+      "type": "token",
+      "text": " member"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Sil"
+    },
+    {
+      "type": "token",
+      "text": "icon"
+    },
+    {
+      "type": "token",
+      "text": " qualification"
+    },
+    {
+      "type": "token",
+      "text": ":**"
+    },
+    {
+      "type": "token",
+      "text": " Determine"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " actual"
+    },
+    {
+      "type": "token",
+      "text": " silicon"
+    },
+    {
+      "type": "token",
+      "text": " revision"
+    },
+    {
+      "type": "token",
+      "text": "/re"
+    },
+    {
+      "type": "token",
+      "text": "vision"
+    },
+    {
+      "type": "token",
+      "text": " code"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " MCU"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " use"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " corresponding"
+    },
+    {
+      "type": "token",
+      "text": " column"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": " rev"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "15"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " For"
+    },
+    {
+      "type": "token",
+      "text": " every"
+    },
+    {
+      "type": "token",
+      "text": " relevant"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": " issue"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " note"
+    },
+    {
+      "type": "token",
+      "text": " whether"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " absent"
+    },
+    {
+      "type": "token",
+      "text": " (`"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": "`)"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " present"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " full"
+    },
+    {
+      "type": "token",
+      "text": " (`"
+    },
+    {
+      "type": "token",
+      "text": "A"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": "),"
+    },
+    {
+      "type": "token",
+      "text": " partial"
+    },
+    {
+      "type": "token",
+      "text": " (`"
+    },
+    {
+      "type": "token",
+      "text": "P"
+    },
+    {
+      "type": "token",
+      "text": "`"
+    },
+    {
+      "type": "token",
+      "text": "),"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " no"
+    },
+    {
+      "type": "token",
+      "text": " (`"
+    },
+    {
+      "type": "token",
+      "text": "N"
+    },
+    {
+      "type": "token",
+      "text": "`)"
+    },
+    {
+      "type": "token",
+      "text": " workaround"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " applicability"
+    },
+    {
+      "type": "token",
+      "text": " can"
+    },
+    {
+      "type": "token",
+      "text": " also"
+    },
+    {
+      "type": "token",
+      "text": " depend"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " operating"
+    },
+    {
+      "type": "token",
+      "text": " conditions"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "282"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": " provides"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "program"
+    },
+    {
+      "type": "token",
+      "text": "ming"
+    },
+    {
+      "type": "token",
+      "text": " examples"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " proof"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " silicon"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " free"
+    },
+    {
+      "type": "token",
+      "text": " of"
+    },
+    {
+      "type": "token",
+      "text": " limitations"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " It"
+    },
+    {
+      "type": "token",
+      "text": " covers"
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " polling"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " interrupt"
+    },
+    {
+      "type": "token",
+      "text": " examples"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " plus"
+    },
+    {
+      "type": "token",
+      "text": " slave"
+    },
+    {
+      "type": "token",
+      "text": " DMA"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " interrupt"
+    },
+    {
+      "type": "token",
+      "text": " examples"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " Separ"
+    },
+    {
+      "type": "token",
+      "text": "ately"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " ES"
+    },
+    {
+      "type": "token",
+      "text": "096"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " checked"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": " limitations"
+    },
+    {
+      "type": "token",
+      "text": " relevant"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " chosen"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": "—for"
+    },
+    {
+      "type": "token",
+      "text": " example"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " event"
+    },
+    {
+      "type": "token",
+      "text": " handling"
+    },
+    {
+      "type": "token",
+      "text": " before"
+    },
+    {
+      "type": "token",
+      "text": " byte"
+    },
+    {
+      "type": "token",
+      "text": " transfer"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " incorrect"
+    },
+    {
+      "type": "token",
+      "text": " data"
+    },
+    {
+      "type": "token",
+      "text": " reads"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " master"
+    },
+    {
+      "type": "token",
+      "text": " behavior"
+    },
+    {
+      "type": "token",
+      "text": " after"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " misplaced"
+    },
+    {
+      "type": "token",
+      "text": " Stop"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " repeated"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": "Start"
+    },
+    {
+      "type": "token",
+      "text": " setup"
+    },
+    {
+      "type": "token",
+      "text": " timing"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " data"
+    },
+    {
+      "type": "token",
+      "text": "-valid"
+    },
+    {
+      "type": "token",
+      "text": " timing"
+    },
+    {
+      "type": "token",
+      "text": " without"
+    },
+    {
+      "type": "token",
+      "text": " O"
+    },
+    {
+      "type": "token",
+      "text": "VR"
+    },
+    {
+      "type": "token",
+      "text": " indication"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " retrieved"
+    },
+    {
+      "type": "token",
+      "text": " excerpts"
+    },
+    {
+      "type": "token",
+      "text": " do"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " show"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " rev"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": "15"
+    },
+    {
+      "type": "token",
+      "text": " silicon"
+    },
+    {
+      "type": "token",
+      "text": "-re"
+    },
+    {
+      "type": "token",
+      "text": "vision"
+    },
+    {
+      "type": "token",
+      "text": " matrix"
+    },
+    {
+      "type": "token",
+      "text": " itself"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " I"
+    },
+    {
+      "type": "token",
+      "text": " cannot"
+    },
+    {
+      "type": "token",
+      "text": " verify"
+    },
+    {
+      "type": "token",
+      "text": " which"
+    },
+    {
+      "type": "token",
+      "text": " of"
+    },
+    {
+      "type": "token",
+      "text": " those"
+    },
+    {
+      "type": "token",
+      "text": " limitations"
+    },
+    {
+      "type": "token",
+      "text": " applies"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " particular"
+    },
+    {
+      "type": "token",
+      "text": " chip"
+    },
+    {
+      "type": "token",
+      "text": " revision"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " supplied"
+    },
+    {
+      "type": "token",
+      "text": " evidence"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "done",
+      "answer": "Before relying on AN2824, check:\n\n- **Device qualification:** STM32F103C8 belongs to the STM32F103x8 medium-density group, so it is within both AN2824’s intended device scope and ES096’s STM32F103x8/B scope. Medium density means 64–128 Kbytes of Flash; the x8 device is the 64-Kbyte member. [S1][S3][S7]\n- **Silicon qualification:** Determine the actual silicon revision/revision code on the MCU and use the corresponding column in **ES096 rev 15**. For every relevant I2C issue, note whether it is absent (`-`) or present with a full (`A`), partial (`P`), or no (`N`) workaround; applicability can also depend on the operating conditions. [S2]\n\nAN2824 provides **programming examples**, not proof that the silicon is free of limitations. It covers master polling, DMA and interrupt examples, plus slave DMA and interrupt examples. [S6] Separately, ES096 must be checked for I2C limitations relevant to the chosen mode—for example, event handling before byte transfer, incorrect data reads, master behavior after a misplaced Stop, repeated-Start setup timing, and data-valid timing without OVR indication. [S5] The retrieved excerpts do not show the rev-15 silicon-revision matrix itself, so I cannot verify which of those limitations applies to a particular chip revision from the supplied evidence.",
+      "cited": [
+        "S1",
+        "S3",
+        "S7",
+        "S2",
+        "S6",
+        "S5"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 2604,
+        "retrieve": 421,
+        "first_token": 20660,
+        "total": 21160
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 21.16
+}

@@ -1,0 +1,16 @@
+{
+  "embedding_model": "text-embedding-3-large",
+  "embedding_deployment": "text-embedding-3-large",
+  "caption_deployments": {
+    "luna": "gpt-5.6-luna",
+    "terra": "gpt-5.6-terra"
+  },
+  "caption_models_in_index": [
+    "luna"
+  ],
+  "generation_deployment": "gpt-5.6-sol",
+  "vector_store": "faiss.IndexFlatIP",
+  "embeddings_normalized": true,
+  "mrag_vector_count": 47,
+  "text_only_vector_count": 31
+}

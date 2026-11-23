@@ -1,0 +1,93 @@
+{
+  "study": "ATmega version-aware grounding pilot",
+  "verified_on": "2026-09-08",
+  "status": "collected_not_indexed_not_evaluated",
+  "page_numbering": "One-based physical PDF pages; printed labels agree for listed evidence pages.",
+  "documents": [
+    {
+      "file": "datasheet-rev-a.pdf",
+      "source_url": "https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf",
+      "resolved_url": "https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf",
+      "pages": 662,
+      "sha256": "bf1c2e470f8ec7d4db340984f57556342557fed3eb9c457dd174b08db5993af6",
+      "path": "data/raw/atmega_revision_study/datasheet-rev-a.pdf",
+      "document_id": "DS40002061",
+      "document_revision": "A",
+      "document_kind": "datasheet",
+      "revision_date": "2018-10",
+      "evidence_pages": [
+        1,
+        323,
+        657
+      ],
+      "downloaded_on": "2026-09-08",
+      "source_type": "manufacturer",
+      "device_family": "ATmega48A/PA/88A/PA/168A/PA/328/P"
+    },
+    {
+      "file": "errata.pdf",
+      "source_url": "https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/Errata/ATmega48APA88APA168APA328P-SiliConErrataClarif-DS80000855.pdf",
+      "resolved_url": "https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/Errata/ATmega48APA88APA168APA328P-SiliConErrataClarif-DS80000855.pdf",
+      "pages": 19,
+      "sha256": "daa69b498a801da32825d513d63e1fbafa0e903b2e2f4231708ac6e2e01396a1",
+      "path": "data/raw/atmega_revision_study/errata.pdf",
+      "document_id": "DS80000855",
+      "document_revision": "C",
+      "document_kind": "errata_and_clarifications",
+      "revision_date": "2024-04",
+      "evidence_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        15
+      ],
+      "downloaded_on": "2026-09-08",
+      "source_type": "manufacturer",
+      "device_family": "ATmega48A/PA/88A/PA/168A/PA/328/P"
+    },
+    {
+      "path": "data/raw/hardware/atmega328p.pdf",
+      "document_id": "DS40002061",
+      "document_revision": "B",
+      "document_kind": "datasheet",
+      "revision_date": null,
+      "revision_date_evidence": {
+        "contents_page_11": "2020-08",
+        "revision_history_page_646": "2020-09"
+      },
+      "pages": 653,
+      "sha256": "b9b9d83cda56a95d999ea8d54fe5a540748ae9020e5e7ae19b913d384ba9320e",
+      "source_type": "existing_repository_file",
+      "source_url": null,
+      "evidence_pages": [
+        1,
+        11,
+        39,
+        323,
+        645,
+        646
+      ],
+      "device_family": "ATmega48A/PA/88A/PA/168A/PA/328/P"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "DS40002061B",
+      "to": "DS40002061A",
+      "type": "later_document_revision"
+    },
+    {
+      "from": "DS80000855C",
+      "to": "DS40002061",
+      "type": "silicon_errata_and_datasheet_clarifications",
+      "evidence_page": 1
+    }
+  ],
+  "notes": [
+    "Do not conflate document revision, silicon revision, and device variant.",
+    "No claim that these are all available revisions or the latest releases.",
+    "Do not automatically apply ATmega328P-specific clock clarifications to every member of the family."
+  ]
+}

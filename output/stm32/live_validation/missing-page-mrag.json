@@ -1,0 +1,229 @@
+{
+  "case": {
+    "id": "missing-page",
+    "question": "Explain the diagram on page 9999.",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "mode": "mrag"
+  },
+  "request": {
+    "message": "Explain the diagram on page 9999.",
+    "mode": "mrag",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:50:28.215238+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103x8/xB datasheet diagram on page 9999",
+      "page": 9999,
+      "confidence": 1.0,
+      "reason": "Asks about a diagram in the active STM32F103x8/xB datasheet.",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": 9999,
+      "top_score": 0.6283227205276489,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-ds5319-p0011-figure-00003",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 11,
+          "type": "figure",
+          "score": 0.6283227205276489,
+          "text": "**Figure 1. STM32F103xx performance line block diagram**\n\nThe figure is a functional block diagram of the STM32F103xx performance line MCU. It shows the Cortex-M3 core, debug/trace interfaces, buses and memory, clock and power circuitry, GPIO/alternate-function connections, timers, communication peripherals, ADCs, and backup/standby domains.\n\n### CPU, debug, trace, and bus interconnect\n\n- **Cortex-M3 CPU**\n  - **Fmax: 72MHz**\n  - **NVIC**\n- **TPIU**\n- **SWJ/TAG** (label appears as SWJ/TAG)\n- **Trace/trig**\n- **Trace Controller**\n- External debug/trace signals at the left:\n  - **TRACECLK**\n  - **TRACED[0:3]**\n  - **as ASYNC** (wording is small but appears to read “as ASYNC”)\n  - **NJTRST**\n  - **JTDI**\n  - **JTCK/SWCLK**\n  - **JTMS/SWDIO**\n  - **as AF**\n- Interconnect buses:\n  - **pbus**\n  - **Ibus**\n  - **Dbus**\n  - **System**\n- **BusMatrix**\n- **flash interface**\n- **GP DMA**\n  - **7 channels**\n- Vertical bus labels:\n  - **AHB: Fmax=48/72 MHz**\n  - **APB2: Fmax=48/72 MHz**\n  - **APB1: Fmax=24/36 MHz**\n\n### Memory\n\n- **Flash 128 KB**\n  - **64 bit**\n- **SRAM**\n  - **20 KB**\n- **SRAM 512B**\n\n### Power and reset\n\n- **POWER**\n  - **VOLT. REG.**\n  - **3.3V TO 1.8V**\n  - **@VDD**\n- Supply connections:\n  - **VDD = 2 to 3.6V**\n  - **VSS**\n  - **VDDA**\n  - **VSSA**\n  - **VBAT**\n- **SUPPLY**\n  - **POR/PDR**\n  - **PVD**\n- Supply block outputs:\n  - **Rst**\n  - **Int**\n- Reset/power pins shown at left:\n  - **NRST**\n  - **VDDA**\n  - **VSSA**\n\n### Clock generation and watchdog\n\n- **PLL & CLOCK MANAGT** (abbreviated text as shown)\n- **XTAL OSC**\n  - **4-16 MHz**\n  - Outputs: **OSC_IN**, **OSC_OUT**\n- Internal RC oscillators:\n  - **RC 8 MHz**\n  - **RC 40 kHz**\n  - Both marked **@VDDA**\n- **IWDG**\n  - **Standby interface**\n- Low-speed oscillator:\n  - **XTAL 32 kHz**\n- Backup/RTC section:\n  - **RTC**\n  - **AWU**\n  - **Backup reg**\n  - **Backup interface**\n  - Marked **@VBAT**\n- External low-speed pins:\n  - **OSC32_IN**\n  - **OSC32_OUT**\n  - **TAMPER-RTC**\n\n### GPIO, external interrupt, and wakeup\n\n- **EXTI**\n  - **WAKEUP**\n- A label at the GPIO/EXTI side reads **80AF**\n- GPIO ports and pin groups:\n  - **GPIOA**, connected to **PA[15:0]**\n  - **GPIOB**, connected to **PB[15:0]**\n  - **GPIOC**, connected to **PC[15:0]**\n  - **GPIOD**, connected to **PD[15:0]**\n  - **GPIOE**, connected to **PE[15:0]**\n\n### Timers and communication peripherals\n\n- **TIM1**\n  - **4 Channels**\n  - **3 compl. Channels**\n  - **ETR and BKIN**\n- **SPI1**\n  - **MOSI, MISO, SCK, NSS as AF**\n- **USART1**\n  - **RX, TX, CTS, RTS, SmartCard as AF**\n- **TIM2**\n  - **4 Channels**\n- **TIM3**\n  - **4 Channels**\n- **TIM4**\n  - **4 Channels**\n- **USART2**\n  - **RX, TX, CTS, RTS, CK, SmartCard as AF**\n- **USART3**\n  - **RX, TX, CTS, RTS, CK, SmartCard as AF**\n- **SPI2**\n  - **MOSI, MISO, SCK, NSS as AF**\n- **I2C1**\n  - **SCL, SDA, SMBA as AF**\n- **I2C2**\n  - **SCL, SDA as AF**\n- **bxCAN**\n  - Outputs shown:\n    - **USBDP/CAN_TX**\n    - **USBDM/CAN_RX**\n- **USB 2.0 FS**\n\n### Analog peripherals\n\n- Analog input/connection labels:\n  - **16AF**\n  - **VREF+**\n  - **VREF−**\n- **12bit ADC1**\n  - **IF**\n- **12bit ADC2**\n  - **IF**\n- **Temp sensor**\n- ADC section marked **@VDDA**\n\n### Backup and standby domain\n\nThe right-hand shaded domain contains the power/clock and backup-related blocks, including:\n\n- **POWER**\n- **PLL & CLOCK MANAGT**\n- **IWDG**\n- **Standby interface**\n- **XTAL 32 kHz**\n- **RTC**\n- **AWU**\n- **Backup reg**\n- **Backup interface**\n- **VBAT**\n- **@VBAT**\n- **TAMPER-RTC** connection.",
+          "image_url": "/api/image/stm32-ds5319-p0011-figure-00003",
+          "page_url": "/api/page/stm32-ds5319/11",
+          "bbox": [
+            0.206,
+            0.123,
+            0.885,
+            0.656
+          ]
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-ds5319-p0021-figure-00005",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 21,
+          "type": "figure",
+          "score": 0.6191888451576233,
+          "text": "Figure: STM32F103xx performance line LFBGA100 ballout. The diagram shows a 10-column × 11-row ball grid, with columns numbered 1–10 across the top and rows A–K down the left. A solid black orientation marker is at the upper-left inside the package outline. Balls are shown as dashed circles. Identifier at bottom right: **AI14601c**.\n\nBall assignments by row and column:\n\n- **Row A:**  \n  A1 **PC14-OSC32_IN**; A2 **PC13-TAMPER-RTC**; A3 **PE2**; A4 **PB9**; A5 **PB7**; A6 **PB4**; A7 **PB3**; A8 **PA15**; A9 **PA14**; A10 **PA13**.\n- **Row B:**  \n  B1 **PC15-OSC32_OUT**; B2 **VBAT**; B3 **PE3**; B4 **PB8**; B5 **PB6**; B6 **PD5**; B7 **PD2**; B8 **PC11**; B9 **PC10**; B10 **PA12**.\n- **Row C:**  \n  C1 **OSC_IN**; C2 **VSS_5**; C3 **PE4**; C4 **PE1**; C5 **PB5**; C6 **PD6**; C7 **PD3**; C8 **PC12**; C9 **PA9**; C10 **PA11**.\n- **Row D:**  \n  D1 **OSC_OUT**; D2 **VDD_5**; D3 **PE5**; D4 **PE0**; D5 **BOOT0**; D6 **PD7**; D7 **PD4**; D8 **PD0**; D9 **PA8**; D10 **PA10**.\n- **Row E:**  \n  E1 **NRST**; E2 **PC2**; E3 **PE6**; E4 **VSS_4**; E5 **VSS_3**; E6 **VSS_2**; E7 **VSS_1**; E8 **PD1**; E9 **PC9**; E10 **PC7**.\n- **Row F:**  \n  F1 **PC0**; F2 **PC1**; F3 **PC3**; F4 **VDD_4**; F5 **VDD_3**; F6 **VDD_2**; F7 **VDD_1**; F8 **NC**; F9 **PC8**; F10 **PC6**.\n- **Row G:**  \n  G1 **VSSA**; G2 **PA0-WKUP**; G3 **PA4**; G4 **PC4**; G5 **PB2**; G6 **PE10**; G7 **PE14**; G8 **PB15**; G9 **PD11**; G10 **PD15**.\n- **Row H:**  \n  H1 **VREF-**; H2 **PA1**; H3 **PA5**; H4 **PC5**; H5 **PE7**; H6 **PE11**; H7 **PE15**; H8 **PB14**; H9 **PD10**; H10 **PD14**.\n- **Row J:**  \n  J1 **VREF+**; J2 **PA2**; J3 **PA6**; J4 **PB0**; J5 **PE8**; J6 **PE12**; J7 **PB10**; J8 **PB13**; J9 **PD9**; J10 **PD13**.\n- **Row K:**  \n  K1 **VDDA**; K2 **PA3**; K3 **PA7**; K4 **PB1**; K5 **PE9**; K6 **PE13**; K7 **PB11**; K8 **PB12**; K9 **PD8**; K10 **PD12**.",
+          "image_url": "/api/image/stm32-ds5319-p0021-figure-00005",
+          "page_url": "/api/page/stm32-ds5319/21",
+          "bbox": [
+            0.11,
+            0.168,
+            0.885,
+            0.741
+          ]
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-ds5319-p0026-figure-00010",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 26,
+          "type": "figure",
+          "score": 0.6176843643188477,
+          "text": "Figure 9, “STM32F103xx performance line UFQFPN48 pinout” (visible package marking: **QFPN48**). Top-view pinout diagram with pins numbered counterclockwise/clockwise around the package:\n\n**Left side, top to bottom:**\n1. **VBAT**\n2. **PC13-TAMPER-RTC**\n3. **PC14-OSC32_IN**\n4. **PC15-OSC32_OUT**\n5. **PD0-OSC_IN**\n6. **PD1-OSC_OUT**\n7. **NRST**\n8. **VSSA**\n9. **VDDA**\n10. **PA0-WKUP**\n11. **PA1**\n12. **PA2**\n\n**Bottom side, left to right:**\n13. **PA3**\n14. **PA4**\n15. **PA5**\n16. **PA6**\n17. **PA7**\n18. **PB0**\n19. **PB1**\n20. **PB2**\n21. **PB10**\n22. **PB11**\n23. **VSS_1**\n24. **VDD_1**\n\n**Right side, bottom to top:**\n25. **PB12**\n26. **PB13**\n27. **PB14**\n28. **PB15**\n29. **PA8**\n30. **PA9**\n31. **PA10**\n32. **PA11**\n33. **PA12**\n34. **PA13**\n35. **VSS_2**\n36. **VDD_2**\n\n**Top side, right to left:**\n37. **PA14**\n38. **PA15**\n39. **PB3**\n40. **PB4**\n41. **PB5**\n42. **PB6**\n43. **PB7**\n44. **BOOT0**\n45. **PB8**\n46. **PB9**\n47. **VSS_3**\n48. **VDD_3**\n\nThe diagram shows the package outline and the pin numbering around all four sides. No additional electrical values, axes, legend, or footnotes are visible.",
+          "image_url": "/api/image/stm32-ds5319-p0026-figure-00010",
+          "page_url": "/api/page/stm32-ds5319/26",
+          "bbox": [
+            0.307,
+            0.428,
+            0.741,
+            0.684
+          ]
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-ds5319-p0025-figure-00008",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 25,
+          "type": "figure",
+          "score": 0.6154150366783142,
+          "text": "Figure 7. **STM32F103xx performance line TFBGA64 ballout**. The diagram shows an 8 × 8 ball grid with columns numbered **1–8** across the top and rows labeled **A–H** down the left. A solid black orientation marker is at the upper-left corner, adjacent to ball **A1**. Reference code at lower right: **AI15494**.\n\nBall assignments, by row and column:\n\n- **Row A**\n  - A1: **PC14 / OSC32_IN**\n  - A2: **PC13 / TAMPER-RTC**\n  - A3: **PB9**\n  - A4: **PB4**\n  - A5: **PB3**\n  - A6: **PA15**\n  - A7: **PA14**\n  - A8: **PA13**\n\n- **Row B**\n  - B1: **PC15 / OSC32_OUT**\n  - B2: **VBAT**\n  - B3: **PB8**\n  - B4: **BOOT0**\n  - B5: **PD2**\n  - B6: **PC11**\n  - B7: **PC10**\n  - B8: **PA12**\n\n- **Row C**\n  - C1: **OSC_IN**\n  - C2: **VSS_4**\n  - C3: **PB7**\n  - C4: **PB5**\n  - C5: **PC12**\n  - C6: **PA10**\n  - C7: **PA9**\n  - C8: **PA11**\n\n- **Row D**\n  - D1: **OSC_OUT**\n  - D2: **VDD_4**\n  - D3: **PB6**\n  - D4: **VSS_3**\n  - D5: **VSS_2**\n  - D6: **VSS_1**\n  - D7: **PA8**\n  - D8: **PC9**\n\n- **Row E**\n  - E1: **NRST**\n  - E2: **PC1**\n  - E3: **PC0**\n  - E4: **VDD_3**\n  - E5: **VDD_2**\n  - E6: **VDD_1**\n  - E7: **PC7**\n  - E8: **PC8**\n\n- **Row F**\n  - F1: **VSSA**\n  - F2: **PC2**\n  - F3: **PA2**\n  - F4: **PA5**\n  - F5: **PB0**\n  - F6: **PC6**\n  - F7: **PB15**\n  - F8: **PB14**\n\n- **Row G**\n  - G1: **VREF+**\n  - G2: **PA0-WKUP**\n  - G3: **PA3**\n  - G4: **PA6**\n  - G5: **PB1**\n  - G6: **PB2**\n  - G7: **PB10**\n  - G8: **PB13**\n\n- **Row H**\n  - H1: **VDDA**\n  - H2: **PA1**\n  - H3: **PA4**\n  - H4: **PA7**\n  - H5: **PC4**\n  - H6: **PC5**\n  - H7: **PB11**\n  - H8: **PB12**",
+          "image_url": "/api/image/stm32-ds5319-p0025-figure-00008",
+          "page_url": "/api/page/stm32-ds5319/25",
+          "bbox": [
+            0.205,
+            0.121,
+            0.887,
+            0.616
+          ]
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-ds5319-p0024-figure-00007",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 24,
+          "type": "figure",
+          "score": 0.6147602200508118,
+          "text": "Figure: STM32F103xx performance line LQFP64 pinout. Package view labeled **LQFP64**; pin numbering proceeds down the left side from 1 to 16, across the bottom from 17 to 32, up the right side from 33 to 48, and across the top from 49 to 64.\n\n**Left side pins (1–16):**\n1. **VBAT**\n2. **PC13-TAMPER-RTC**\n3. **PC 14-OSC 32_IN**\n4. **PC 15-OSC 32_OUT**\n5. **PD 0-OSC_IN**\n6. **PD 1-OSC_OUT**\n7. **NRST**\n8. **PC0**\n9. **PC1**\n10. **PC2**\n11. **PC3**\n12. **VSSA**\n13. **VDDA**\n14. **PA 0-WKUP**\n15. **PA 1**\n16. **PA 2**\n\n**Bottom side pins (17–32), left to right:**\n17. **VSS_4**\n18. **VDD_4**\n19. **PA 3**\n20. **PA 4**\n21. **PA 5**\n22. **PA 6**\n23. **PA 7**\n24. **PC4**\n25. **PC5**\n26. **PB 0**\n27. **PB 1**\n28. **PB 2**\n29. **PB 10**\n30. **PB 11**\n31. **VSS_1**\n32. **VDD_1**\n\n**Right side pins (33–48), bottom to top:**\n33. **PB 12**\n34. **PB 13**\n35. **PB 14**\n36. **PB 15**\n37. **PC6**\n38. **PC7**\n39. **PC8**\n40. **PC9**\n41. **PA 8**\n42. **PA 9**\n43. **PA 10**\n44. **PA 11**\n45. **PA 12**\n46. **PA 13**\n47. **VSS_2**\n48. **VDD_2**\n\n**Top side pins (49–64), right to left:**\n49. **PA 14**\n50. **PA 15**\n51. **PC10**\n52. **PC11**\n53. **PC12**\n54. **PD2**\n55. **PB 3**\n56. **PB 4**\n57. **PB 5**\n58. **PB 6**\n59. **PB 7**\n60. **BOOT0**\n61. **PB 8**\n62. **PB 9**\n63. **VSS_3**\n64. **VDD_3**\n\nThe figure identifier **ai14392** appears at the lower right.",
+          "image_url": "/api/image/stm32-ds5319-p0024-figure-00007",
+          "page_url": "/api/page/stm32-ds5319/24",
+          "bbox": [
+            0.213,
+            0.121,
+            0.878,
+            0.416
+          ]
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-ds5319-p0023-figure-00006",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 23,
+          "type": "figure",
+          "score": 0.607608437538147,
+          "text": "**Figure 5. STM32F103xx performance line UFBGA100 pinout**  \nPackage top-view style grid with column markers **1–12** across the top and row markers **A–M** down the left. The center contains crosshair/orientation markings. Not all row/column positions contain pads.\n\n### Pin/pad map by grid coordinate\n\n| Row | Column assignments |\n|---|---|\n| **A** | A1 **PE3**; A2 **PE1**; A3 **PB8**; A4 **BOOT0**; A5 **PD7**; A6 **PD5**; A7 **PB4**; A8 **PB3**; A9 **PA15**; A10 **PA14**; A11 **PA13**; A12 **PA12** |\n| **B** | B1 **PE4**; B2 **PE2**; B3 **PB9**; B4 **PB7**; B5 **PB6**; B6 **PD6**; B7 **PD4**; B8 **PD3**; B9 **PD1**; B10 **PC12**; B11 **PC10**; B12 **PA11** |\n| **C** | C1 **PC13**, with **RTC_TAMPER**; C2 **PE5**; C3 **PE0**; C4 **VDD_3**; C5 **PB5**; C8 **PD2**; C9 **PD0**; C10 **PC11**; C11 **NC**; C12 **PA10** |\n| **D** | D1 **PC14**, with **OSC32_IN**; D2 **PE6**; D3 **VSS_3**; D10 **PA9**; D11 **PA8**; D12 **PC9** |\n| **E** | E1 **PC15**, with **OSC32_OUT**; E2 **VBAT**; E3 **VSS_4**; E10 **PC8**; E11 **PC7**; E12 **PC6** |\n| **F** | F1 **OSC_IN**; F2 **VSS_5**; F11 **VSS_2**; F12 **VSS_1** |\n| **G** | G1 **OSC_OUT**; G2 **VDD_5**; G11 **VDD_2**; G12 **VDD_1** |\n| **H** | H1 **PC0**; H2 **NRST**; H3 **VDD_4**; H10 **PD15**; H11 **PD14**; H12 **PD13** |\n| **J** | J1 **VSSA**; J2 **PC1**; J3 **PC2**; J10 **PD12**; J11 **PD11**; J12 **PD10** |\n| **K** | K1 **VREF−**; K2 **PC3**; K3 **PA2**; K4 **PA5**; K5 **PC4**; K8 **PD9**; K9 **PD8**; K10 **PB15**; K11 **PB14**; K12 **PB13** |\n| **L** | L1 **VREF+**; L2 **PA0**, with **WAKEUP1**; L3 **PA3**; L4 **PA6**; L5 **PC5**; L6 **PB2**; L7 **PE8**; L8 **PE10**; L9 **PE11**; L10 **PB10**; L11 **PB11**; L12 **PB12** |\n| **M** | M1 **VDDA**; M2 **PA1**; M3 **PA4**; M4 **PA7**; M5 **PB0**; M6 **PB1**; M7 **PE7**; M8 **PE9**; M9 **PE11**; M10 **PE13**; M11 **PE14**; M12 **PE15** |\n\n### Other visible figure details\n\n- Rows shown are **A–H**, **J–M**; row **I** is not shown.\n- Blank grid areas in the central package region have no visible pads.\n- Supply and reference labels include **VDD_1** through **VDD_5**, **VSS_1** through **VSS_5**, **VDDA**, **VSSA**, **VBAT**, **VREF+**, and **VREF−**.\n- Visible special-function labels: **BOOT0**, **NRST**, **RTC_TAMPER**, **WAKEUP1**, **OSC_IN**, **OSC_OUT**, **OSC32_IN**, and **OSC32_OUT**.\n- One pad is explicitly marked **NC** at **C11**.\n- Figure identifier at lower right: **MS30481V1**.",
+          "image_url": "/api/image/stm32-ds5319-p0023-figure-00006",
+          "page_url": "/api/page/stm32-ds5319/23",
+          "bbox": [
+            0.109,
+            0.127,
+            0.885,
+            0.665
+          ]
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-ds5319-p0022-table-00005",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 22,
+          "type": "table",
+          "score": 0.606611967086792,
+          "text": "Visible figure: STM32F103xx performance line LQFP100 pinout. Package designation: **LQFP100**. Pin numbering/orientation shown: pin 1 at the upper-left side, increasing downward to 25; pins 26–50 run left-to-right along the bottom; pins 51–75 run bottom-to-top along the right side; pins 76–100 run right-to-left along the top.\n\n### Left side, pins 1–25\n1. **PE2**  \n2. **PE3**  \n3. **PE4**  \n4. **PE5**  \n5. **PE6**  \n6. **VBAT**  \n7. **PC13-TAMPER-RTC**  \n8. **PC14-OSC32_IN**  \n9. **PC15-OSC32_OUT**  \n10. **VSS_5**  \n11. **VDD_5**  \n12. **OSC_IN**  \n13. **OSC_OUT**  \n14. **NRST**  \n15. **PC0**  \n16. **PC1**  \n17. **PC2**  \n18. **PC3**  \n19. **VSSA**  \n20. **VREF-**  \n21. **VREF+**  \n22. **VDDA**  \n23. **PA0-WKUP**  \n24. **PA1**  \n25. **PA2**\n\n### Bottom side, pins 26–50\n26. **PA3**  \n27. **VSS_4**  \n28. **VDD_4**  \n29. **PA4**  \n30. **PA5**  \n31. **PA6**  \n32. **PA7**  \n33. **PC4**  \n34. **PC5**  \n35. **PB0**  \n36. **PB1**  \n37. **PB2**  \n38. **PE7**  \n39. **PE8**  \n40. **PE9**  \n41. **PE10**  \n42. **PE11**  \n43. **PE12**  \n44. **PE13**  \n45. **PE14**  \n46. **PE15**  \n47. **PB10**  \n48. **PB11**  \n49. **VSS_1**  \n50. **VDD_1**\n\n### Right side, pins 51–75\n51. **PB12**  \n52. **PB13**  \n53. **PB14**  \n54. **PB15**  \n55. **PD8**  \n56. **PD9**  \n57. **PD10**  \n58. **PD11**  \n59. **PD12**  \n60. **PD13**  \n61. **PD14**  \n62. **PD15**  \n63. **PC6**  \n64. **PC7**  \n65. **PC8**  \n66. **PC9**  \n67. **PA8**  \n68. **PA9**  \n69. **PA10**  \n70. **PA11**  \n71. **PA12**  \n72. **PA13**  \n73. **NC**  \n74. **VSS_2**  \n75. **VDD_2**\n\n### Top side, pins 76–100\n76. **PA14**  \n77. **PA15**  \n78. **PC10**  \n79. **PC11**  \n80. **PC12**  \n81. **PD0**  \n82. **PD1**  \n83. **PD2**  \n84. **PD3**  \n85. **PD4**  \n86. **PD5**  \n87. **PD6**  \n88. **PD7**  \n89. **PB3**  \n90. **PB4**  \n91. **PB5**  \n92. **PB6**  \n93. **PB7**  \n94. **BOOT0**  \n95. **PB8**  \n96. **PB9**  \n97. **PE0**  \n98. **PE1**  \n99. **VSS_3**  \n100. **VDD_3**\n\nFigure identifier visible at lower right: **ai14391**.",
+          "image_url": "/api/image/stm32-ds5319-p0022-table-00005",
+          "page_url": "/api/page/stm32-ds5319/22",
+          "bbox": [
+            0.206,
+            0.121,
+            0.885,
+            0.535
+          ]
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-ds5319-p0029-table-00007",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 29,
+          "type": "table",
+          "score": 0.5994886159896851,
+          "text": "**Pin assignment table (STM32F103C8, page 29; table title/section not visible in crop)**\n\n**Column headings:**\n\n- **Pins:** LFBGA100, UFBGA100, LQFP48/UQFP48, TFBGA64, LQFP64, LQFP100, VFQFPN36\n- **Pin name**\n- **Type(1)**\n- **I/O Level(2)**\n- **Main function(3) (after reset)**\n- **Alternate functions(4):** Default, Remap\n\n| LFBGA100 | UFBGA100 | LQFP48/UQFP48 | TFBGA64 | LQFP64 | LQFP100 | VFQFPN36 | Pin name | Type(1) | I/O Level(2) | Main function(3) (after reset) | Alternate function — Default | Alternate function — Remap |\n|---|---|---:|---|---:|---:|---:|---|---|---|---|---|---|\n| G2 | L2 | 10 | G2 | 14 | 23 | 7 | PA0-WKUP | I/O | - | PA0 | WKUP/USART2_CTS(9)/ADC12_IN0/TIM2_CH1_ETR(9) | - |\n| H2 | M2 | 11 | H2 | 15 | 24 | 8 | PA1 | I/O | - | PA1 | USART2_RTS(9)/ADC12_IN1/TIM2_CH2(9) | - |\n| J2 | K3 | 12 | F3 | 16 | 25 | 9 | PA2 | I/O | - | PA2 | USART2_TX(9)/ADC12_IN2/TIM2_CH3(9) | - |\n| K2 | L3 | 13 | G3 | 17 | 26 | 10 | PA3 | I/O | - | PA3 | USART2_RX(9)/ADC12_IN3/TIM2_CH4(9) | - |\n| E4 | E3 | - | C2 | 18 | 27 | - | VSS_4 | S | - | VSS_4 | - | - |\n| F4 | H3 | - | D2 | 19 | 28 | - | VDD_4 | S | - | VDD_4 | - | - |\n| G3 | M3 | 14 | H3 | 20 | 29 | 11 | PA4 | I/O | - | PA4 | SPI1_NSS(9)/USART2_CK(9)/ADC12_IN4 | - |\n| H3 | K4 | 15 | F4 | 21 | 30 | 12 | PA5 | I/O | - | PA5 | SPI1_SCK(9)/ADC12_IN5 | - |\n| J3 | L4 | 16 | G4 | 22 | 31 | 13 | PA6 | I/O | - | PA6 | SPI1_MISO(9)/ADC12_IN6/TIM3_CH1(9) | TIM1_BKIN |\n| K3 | M4 | 17 | H4 | 23 | 32 | 14 | PA7 | I/O | - | PA7 | SPI1_MOSI(9)/ADC12_IN7/TIM3_CH2(9) | TIM1_CH1N |\n| G4 | K5 | - | H5 | 24 | 33 | - | PC4 | I/O | - | PC4 | ADC12_IN14 | - |\n| H4 | L5 | - | H6 | 25 | 34 | - | PC5 | I/O | - | PC5 | ADC12_IN15 | - |\n| J4 | M5 | 18 | F5 | 26 | 35 | 15 | PB0 | I/O | - | PB0 | ADC12_IN8/TIM3_CH3(9) | TIM1_CH2N |\n| K4 | M6 | 19 | G5 | 27 | 36 | 16 | PB1 | I/O | - | PB1 | ADC12_IN9/TIM3_CH4(9) | TIM1_CH3N |\n\nFootnote markers **(1), (2), (3), (4), and (9)** are present in the table, but their explanatory footnotes are not visible in the provided crop.",
+          "image_url": "/api/image/stm32-ds5319-p0029-table-00007",
+          "page_url": "/api/page/stm32-ds5319/29",
+          "bbox": [
+            0.109,
+            0.121,
+            0.889,
+            0.845
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "I couldn't find readable evidence for page 9999 of the DS5319 (rev 20) — STM32F103x8/xB datasheet datasheet in the current index. This does not mean the page is blank. Try the topic or section name so I can look for relevant sources elsewhere in this document."
+    },
+    {
+      "type": "done",
+      "answer": "I couldn't find readable evidence for page 9999 of the DS5319 (rev 20) — STM32F103x8/xB datasheet datasheet in the current index. This does not mean the page is blank. Try the topic or section name so I can look for relevant sources elsewhere in this document.",
+      "cited": [],
+      "provenance": "uncovered",
+      "timings_ms": {
+        "route": 2846,
+        "retrieve": 817,
+        "first_token": 3674,
+        "total": 3674
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 3.67
+}

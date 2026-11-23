@@ -1,0 +1,27 @@
+{
+  "doc_id": "stm32-an3155",
+  "document_id": "AN3155",
+  "title": "USART protocol used in STM32 bootloader",
+  "document_kind": "application_note",
+  "applicability": "Pair protocol with device support in AN2606",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00264342.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/17066.pdf",
+    "https://www.st.com/resource/en/application_note/cd00264342.pdf"
+  ],
+  "pages": 37,
+  "sha256": "706dfb22319a4771c0dce04f1251496d8a0499d542fb8731eaeabbe74544ed48",
+  "cover_text": "April 2010\nDoc ID 17066 Rev 2\n1/37\nAN3155\nApplication note\nUSART protocol used\nin the STM32\u2122 bootloader\nIntroduction\nThis application note describes the USART protocol used in the STM32 microcontroller \nbootloader. It details each supported command. For more information about the USART \nhardware resources and requirements for your device bootloader, please refer to the \n\u201cSTM32 system memory boot mode\u201d application note (AN2606).\nRelated documents\nAvailable from www.st.com:\nAN2606 \u201cSTM32 system memory boot mode\u201d\nwww.st.com\n",
+  "references": {
+    "AN2606": [
+      1,
+      5,
+      8
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/17066.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:18.662401+00:00",
+  "path": "data/raw/stm32/stm32-an3155.pdf"
+}

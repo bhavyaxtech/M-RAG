@@ -1,0 +1,4493 @@
+[
+  {
+    "segment_id": "stm32-es096-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 1,
+    "text": "STM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-density device errata"
+  },
+  {
+    "segment_id": "stm32-es096-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 1,
+    "text": "Applicability"
+  },
+  {
+    "segment_id": "stm32-es096-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 1,
+    "text": "This document applies to the part numbers of STM32F101x8/B, STM32F102x8/B and STM32F103x8/B mediumdensity devices and the device variants as stated in this page."
+  },
+  {
+    "segment_id": "stm32-es096-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 1,
+    "text": "It gives a summary and a description of the device errata, with respect to the device datasheet and reference manual RM0008."
+  },
+  {
+    "segment_id": "stm32-es096-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 1,
+    "text": "Deviation of the real device behavior from the intended device behavior is considered to be a device limitation. Deviation of the description in the reference manual or the datasheet from the intended device behavior is considered to be a documentation erratum. The term “errata” applies both to limitations and documentation errata."
+  },
+  {
+    "segment_id": "stm32-es096-p0001-table-00001",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 1,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0001_00001.png",
+    "caption": "**Table 1. Device summary**\n\n| Reference | Part numbers |\n|---|---|\n| **STM32F101x8/B(1)** | STM32F101C8, STM32F101R8, STM32F101V8, STM32F101T8, STM32F101CB, STM32F101RB, STM32F101VB |\n| **STM32F102x8/B(1)** | STM32F102C8, STM32F102R8, STM32F102CB, STM32F102RB |\n| **STM32F103x8/B(1)** | STM32F103C8, STM32F103R8, STM32F103V8, STM32F103T8,STM32F103CB, STM32F103RB, STM32F103VB |\n\nThe superscript footnote marker **(1)** is present for each reference, but the associated footnote text is not visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Device summary",
+    "generated_captions": {
+      "luna": "**Table 1. Device summary**\n\n| Reference | Part numbers |\n|---|---|\n| **STM32F101x8/B(1)** | STM32F101C8, STM32F101R8, STM32F101V8, STM32F101T8, STM32F101CB, STM32F101RB, STM32F101VB |\n| **STM32F102x8/B(1)** | STM32F102C8, STM32F102R8, STM32F102CB, STM32F102RB |\n| **STM32F103x8/B(1)** | STM32F103C8, STM32F103R8, STM32F103V8, STM32F103T8,STM32F103CB, STM32F103RB, STM32F103VB |\n\nThe superscript footnote marker **(1)** is present for each reference, but the associated footnote text is not visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0001-table-00002",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 1,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0001_00002.png",
+    "caption": "**Table 2. Device variants**\n\n| Reference | Device marking(1) | REV_ID(2) |\n|---|---|---|\n| STM32F101x8/B | A | 0x0000 |\n|  | B | 0x2000 |\n|  | Z | 0x2001 |\n|  | Y, X, 1, 2, 3 | 0x2003 |\n| STM32F102x8/B | A | 0x0000 |\n|  | Y, X, 1, 2, 3 | 0x2003 |\n| STM32F103x8/B | A | 0x0000 |\n|  | B | 0x2000 |\n|  | Z | 0x2001 |\n|  | Y, X, 1, 2, 3 | 0x2003 |\n\nThe table header groups **Device marking(1)** and **REV_ID(2)** under **Silicon revision codes**. Footnote text for markers **(1)** and **(2)** is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Device variants",
+    "generated_captions": {
+      "luna": "**Table 2. Device variants**\n\n| Reference | Device marking(1) | REV_ID(2) |\n|---|---|---|\n| STM32F101x8/B | A | 0x0000 |\n|  | B | 0x2000 |\n|  | Z | 0x2001 |\n|  | Y, X, 1, 2, 3 | 0x2003 |\n| STM32F102x8/B | A | 0x0000 |\n|  | Y, X, 1, 2, 3 | 0x2003 |\n| STM32F103x8/B | A | 0x0000 |\n|  | B | 0x2000 |\n|  | Z | 0x2001 |\n|  | Y, X, 1, 2, 3 | 0x2003 |\n\nThe table header groups **Device marking(1)** and **REV_ID(2)** under **Silicon revision codes**. Footnote text for markers **(1)** and **(2)** is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "Summary of device errata"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00007",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "The following table gives a quick reference to the STM32F101x8/B, STM32F102x8/B and STM32F103x8/B"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00008",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "medium-density device limitations and their status:"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00009",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "A = limitation present, workaround available"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00010",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "N = limitation present, no workaround available"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00011",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "P = limitation present, partial workaround available"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00012",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "“-” = limitation absent"
+  },
+  {
+    "segment_id": "stm32-es096-p0002-text-00013",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 2,
+    "text": "Applicability of a workaround may depend on specific conditions of target application. Adoption of a workaround may cause restrictions to target application. Workaround for a limitation is deemed partial if it only reduces the rate of occurrence and/or consequences of the limitation, or if it is fully effective for only a subset of instances on the device or in only a subset of operating modes, of the function concerned."
+  },
+  {
+    "segment_id": "stm32-es096-p0002-table-00003",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 2,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0002_00003.png",
+    "caption": "**Table 3. Summary of device limitations**\n\nColumns: **Function | Section | Limitation | Status**  \nStatus columns: **Rev. A, Rev. B, Rev. N, Rev. 1, Rev. Y, Rev. 2, Rev. 3, Rev. X**\n\n### Core\n\n| Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|\n| 2.1.1 | Cortex-M3 LDRD with base in list may result in incorrect base register when interrupted or faulted | A | A | A | A | A | A | A | A |\n| 2.1.2 | Cortex-M3 event register is not set by interrupts and debug | A | A | A | A | A | A | A | A |\n| 2.1.3 | Interrupted loads to SP can cause erroneous behavior | A | A | A | A | A | A | A | A |\n| 2.1.4 | SVC and BusFault/MemManage may occur out of order | A | A | A | A | A | A | A | A |\n| 2.1.5 | Arm Cortex-M3 BKPT in debug monitor mode can cause DfSR mismatch | A | A | A | A | A | A | A | A |\n| 2.1.6 | Arm Cortex-M3 may freeze for SLEEPONEXIT single instruction ISR | A | A | A | A | A | A | A | A |\n\n### System\n\n| Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|\n| 2.2.1 | Flash memory read after WFI/WFE instruction | A | A | A | A | A | A | A | A |\n| 2.2.2 | Debug registers cannot be read by user software | N | N | N | N | N | N | N | N |\n| 2.2.3 | Debugging Stop mode and SysTick timer | A | A | A | A | A | A | A | A |\n| 2.2.4 | Debugging Stop mode with WFE entry | A | A | A | A | A | A | A | A |\n| 2.2.5 | Wakeup sequence from Standby mode when using more than one wakeup source | A | A | A | A | A | A | A | A |\n| 2.2.6 | LSE startup in harsh environments | A | A | A | A | A | A | A | A |\n| 2.2.7 | RDP protection | N | N | N | N | N | N | N | N |\n| 2.2.8 | PVD and USB wakeup events | A | A | A | A | A | A | A | A |\n| 2.2.9 | Compatibility issue with latest compiler releases | P | P | P | - | - | - | - | - |\n| 2.2.10 | Boundary scan TAP: wrong pattern sent out after the “capture IR” state | A | A | A | A | A | A | A | A |\n| 2.2.11 | Flash memory BSY bit delay versus STRT bit setting | A | A | A | A | A | A | A | A |\n| 2.2.12 | LSI clock stabilization time | A | A | A | A | A | A | A | A |\n\n### GPIO\n\n| Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|\n| 2.3.1 | USART1_RTS and CAN_TX | A | A | A | A | A | A | A | A |\n| 2.3.2 | SPI1 in slave mode and USART2 in synchronous mode | N | N | N | N | N | N | N | N |\n| 2.3.3 | SPI1 in master mode and USART2 in synchronous mode | A | A | A | A | A | A | A | A |\n\nThe visible crop ends after GPIO section **2.3.3**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Summary of device limitations",
+    "generated_captions": {
+      "luna": "**Table 3. Summary of device limitations**\n\nColumns: **Function | Section | Limitation | Status**  \nStatus columns: **Rev. A, Rev. B, Rev. N, Rev. 1, Rev. Y, Rev. 2, Rev. 3, Rev. X**\n\n### Core\n\n| Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|\n| 2.1.1 | Cortex-M3 LDRD with base in list may result in incorrect base register when interrupted or faulted | A | A | A | A | A | A | A | A |\n| 2.1.2 | Cortex-M3 event register is not set by interrupts and debug | A | A | A | A | A | A | A | A |\n| 2.1.3 | Interrupted loads to SP can cause erroneous behavior | A | A | A | A | A | A | A | A |\n| 2.1.4 | SVC and BusFault/MemManage may occur out of order | A | A | A | A | A | A | A | A |\n| 2.1.5 | Arm Cortex-M3 BKPT in debug monitor mode can cause DfSR mismatch | A | A | A | A | A | A | A | A |\n| 2.1.6 | Arm Cortex-M3 may freeze for SLEEPONEXIT single instruction ISR | A | A | A | A | A | A | A | A |\n\n### System\n\n| Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|\n| 2.2.1 | Flash memory read after WFI/WFE instruction | A | A | A | A | A | A | A | A |\n| 2.2.2 | Debug registers cannot be read by user software | N | N | N | N | N | N | N | N |\n| 2.2.3 | Debugging Stop mode and SysTick timer | A | A | A | A | A | A | A | A |\n| 2.2.4 | Debugging Stop mode with WFE entry | A | A | A | A | A | A | A | A |\n| 2.2.5 | Wakeup sequence from Standby mode when using more than one wakeup source | A | A | A | A | A | A | A | A |\n| 2.2.6 | LSE startup in harsh environments | A | A | A | A | A | A | A | A |\n| 2.2.7 | RDP protection | N | N | N | N | N | N | N | N |\n| 2.2.8 | PVD and USB wakeup events | A | A | A | A | A | A | A | A |\n| 2.2.9 | Compatibility issue with latest compiler releases | P | P | P | - | - | - | - | - |\n| 2.2.10 | Boundary scan TAP: wrong pattern sent out after the “capture IR” state | A | A | A | A | A | A | A | A |\n| 2.2.11 | Flash memory BSY bit delay versus STRT bit setting | A | A | A | A | A | A | A | A |\n| 2.2.12 | LSI clock stabilization time | A | A | A | A | A | A | A | A |\n\n### GPIO\n\n| Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|\n| 2.3.1 | USART1_RTS and CAN_TX | A | A | A | A | A | A | A | A |\n| 2.3.2 | SPI1 in slave mode and USART2 in synchronous mode | N | N | N | N | N | N | N | N |\n| 2.3.3 | SPI1 in master mode and USART2 in synchronous mode | A | A | A | A | A | A | A | A |\n\nThe visible crop ends after GPIO section **2.3.3**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0003-table-00004",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 3,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0003_00004.png",
+    "caption": "**Table (page 3, source: STM32-ES096)**\n\n**Columns:** Function | Section | Limitation | Status  \n**Status revision columns:** Rev. A, Rev. B, Rev. N, Rev. 1, Rev. Y, Rev. 2, Rev. 3, Rev. X\n\nThe status entries for each row are listed in the revision order above.\n\n### GPIO\n- **2.3.4** — *SPI2 in slave mode and USART3 in synchronous mode* — **N, N, N, N, N, N, N, N**\n- **2.3.5** — *SPI2 in master mode and USART3 in synchronous mode* — **A, A, A, A, A, A, A, A**\n- **2.3.6** — *I2C2 with SPI2 and USART3* — **A, A, A, A, A, A, A, A**\n- **2.3.7** — *I2C1 with SPI1 remapped and used in master mode* — **A, A, A, A, A, A, A, A**\n- **2.3.8** — *I2C1 and TIM3_CH2 remapped* — **A, A, A, A, A, A, A, A**\n- **2.3.9** — *USARTx_TX pin usage* — **A, A, A, A, A, A, A, A**\n\n### DMA\n- **2.4.1** — *DMA disable failure and error flag omission upon simultaneous transfer error and global flag clear* — **A, A, A, A, A, A, A, A**\n\n### ADC\n- **2.5.1** — *Voltage glitch on ADC input 0* — **N, N, N, N, N, N, N, N**\n\n### TIM\n- **2.6.1** — *PWM re-enabled in automatic output enable mode despite of system break* — **P, P, P, P, P, P, P, P**\n- **2.6.3** — *Consecutive compare event missed in specific conditions* — **N, N, N, N, N, N, N, N**\n- **2.6.4** — *Output compare clear not working with external counter reset* — **P, P, P, P, P, P, P, P**\n- **2.6.5** — *Missing capture flag* — **A, A, A, A, A, A, A, A**\n- **2.6.6** — *Overcapture detected too early* — **N, N, N, N, N, N, N, N**\n- **2.6.7** — *General-purpose timer regulation for 100% PWM* — **N, N, N, N, N, N, N, N**\n\n### IWDG\n- **2.7.3** — *RVU and PVU flags are not cleared in Stop mode* — **A, A, A, A, A, A, A, A**\n\nThe following rows have no legible Function label in the crop:\n- **2.7.1** — *RVU flag not cleared at low APB clock frequency* — **A, A, A, A, A, A, A, A**\n- **2.7.2** — *PVU flag not cleared at low APB clock frequency* — **A, A, A, A, A, A, A, A**\n\n### I2C\n- **2.8.1** — *Some software events must be managed before the current byte is being transferred* — **A, A, A, A, A, A, A, A**\n- **2.8.2** — *Wrong data read into data register* — **A, A, A, A, A, A, A, A**\n- **2.8.3** — *SMBus standard not fully supported* — **A, A, A, A, A, A, A, A**\n- **2.8.4** — *Wrong behavior of I2C peripheral in master mode after a misplaced Stop condition* — **A, A, A, A, A, A, A, A**\n- **2.8.5** — *Mismatch on the “Setup time for a repeated Start condition” timing parameter* — **A, A, A, A, A, A, A, A**\n- **2.8.6** — *Data valid time (tVD;DAT) violated without the OVR flag being set* — **A, A, A, A, A, A, A, A**\n- **2.8.7** — *I2C analog filter may provide wrong value, locking BUSY flag and preventing master mode entry* — **A, A, A, A, A, A, A, A**\n\n### USART\n- **2.9.1** — *Parity Error flag (PE) is set again after having been cleared by software* — **A, A, A, A, A, A, A, A**\n- **2.9.2** — *Idle frame is not detected if receiver clock speed is deviated* — **N, N, N, N, N, N, N, N**\n- **2.9.3** — *In full-duplex mode, the Parity Error (PE) flag can be cleared by writing the data register* — **A, A, A, A, A, A, A, A**\n- **2.9.4** — *Parity Error (PE) flag is not set when receiving in Mute mode using address mark detection* — **N, N, N, N, N, N, N, N**\n- **2.9.5** — *Break frame is transmitted regardless of nCTS input line status* — **N, N, N, N, N, N, N, N**\n\nNo status-key definitions or footnotes are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "**Table (page 3, source: STM32-ES096)**\n\n**Columns:** Function | Section | Limitation | Status  \n**Status revision columns:** Rev. A, Rev. B, Rev. N, Rev. 1, Rev. Y, Rev. 2, Rev. 3, Rev. X\n\nThe status entries for each row are listed in the revision order above.\n\n### GPIO\n- **2.3.4** — *SPI2 in slave mode and USART3 in synchronous mode* — **N, N, N, N, N, N, N, N**\n- **2.3.5** — *SPI2 in master mode and USART3 in synchronous mode* — **A, A, A, A, A, A, A, A**\n- **2.3.6** — *I2C2 with SPI2 and USART3* — **A, A, A, A, A, A, A, A**\n- **2.3.7** — *I2C1 with SPI1 remapped and used in master mode* — **A, A, A, A, A, A, A, A**\n- **2.3.8** — *I2C1 and TIM3_CH2 remapped* — **A, A, A, A, A, A, A, A**\n- **2.3.9** — *USARTx_TX pin usage* — **A, A, A, A, A, A, A, A**\n\n### DMA\n- **2.4.1** — *DMA disable failure and error flag omission upon simultaneous transfer error and global flag clear* — **A, A, A, A, A, A, A, A**\n\n### ADC\n- **2.5.1** — *Voltage glitch on ADC input 0* — **N, N, N, N, N, N, N, N**\n\n### TIM\n- **2.6.1** — *PWM re-enabled in automatic output enable mode despite of system break* — **P, P, P, P, P, P, P, P**\n- **2.6.3** — *Consecutive compare event missed in specific conditions* — **N, N, N, N, N, N, N, N**\n- **2.6.4** — *Output compare clear not working with external counter reset* — **P, P, P, P, P, P, P, P**\n- **2.6.5** — *Missing capture flag* — **A, A, A, A, A, A, A, A**\n- **2.6.6** — *Overcapture detected too early* — **N, N, N, N, N, N, N, N**\n- **2.6.7** — *General-purpose timer regulation for 100% PWM* — **N, N, N, N, N, N, N, N**\n\n### IWDG\n- **2.7.3** — *RVU and PVU flags are not cleared in Stop mode* — **A, A, A, A, A, A, A, A**\n\nThe following rows have no legible Function label in the crop:\n- **2.7.1** — *RVU flag not cleared at low APB clock frequency* — **A, A, A, A, A, A, A, A**\n- **2.7.2** — *PVU flag not cleared at low APB clock frequency* — **A, A, A, A, A, A, A, A**\n\n### I2C\n- **2.8.1** — *Some software events must be managed before the current byte is being transferred* — **A, A, A, A, A, A, A, A**\n- **2.8.2** — *Wrong data read into data register* — **A, A, A, A, A, A, A, A**\n- **2.8.3** — *SMBus standard not fully supported* — **A, A, A, A, A, A, A, A**\n- **2.8.4** — *Wrong behavior of I2C peripheral in master mode after a misplaced Stop condition* — **A, A, A, A, A, A, A, A**\n- **2.8.5** — *Mismatch on the “Setup time for a repeated Start condition” timing parameter* — **A, A, A, A, A, A, A, A**\n- **2.8.6** — *Data valid time (tVD;DAT) violated without the OVR flag being set* — **A, A, A, A, A, A, A, A**\n- **2.8.7** — *I2C analog filter may provide wrong value, locking BUSY flag and preventing master mode entry* — **A, A, A, A, A, A, A, A**\n\n### USART\n- **2.9.1** — *Parity Error flag (PE) is set again after having been cleared by software* — **A, A, A, A, A, A, A, A**\n- **2.9.2** — *Idle frame is not detected if receiver clock speed is deviated* — **N, N, N, N, N, N, N, N**\n- **2.9.3** — *In full-duplex mode, the Parity Error (PE) flag can be cleared by writing the data register* — **A, A, A, A, A, A, A, A**\n- **2.9.4** — *Parity Error (PE) flag is not set when receiving in Mute mode using address mark detection* — **N, N, N, N, N, N, N, N**\n- **2.9.5** — *Break frame is transmitted regardless of nCTS input line status* — **N, N, N, N, N, N, N, N**\n\nNo status-key definitions or footnotes are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0004-table-00005",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 4,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0004_00005.png",
+    "caption": "### Table: limitations and revision status\n\n**Column headings:**\n- **Function**\n- **Section**\n- **Limitation**\n- **Status:** Rev. A, Rev. B, Rev. N, Rev. 1, Rev. Y, Rev. 2, Rev. 3, Rev. X\n\n| Function | Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|---|\n| USART | 2.9.6 | nRTS signal abnormally driven low after a protocol violation | A | A | A | A | A | A | A | A |\n| SPI | 2.10.1 | CRC still sensitive to communication clock when SPI is in slave mode even with NSS high | A | A | A | A | A | A | A | A |\n| SPI | 2.10.2 | SPI CRC may be corrupted when a peripheral connected to the same DMA channel of the SPI is under DMA transaction close to the end of transfer or end of transfer -1 | A | A | A | A | A | A | A | A |\n| bxCAN | 2.11.1 | bxCAN time-triggered communication mode not supported | N | N | N | N | N | N | N | N |\n| USB | 2.12.1 | False wakeup detection for last K-state not terminated by EOP or reset before suspend | A | A | A | A | A | A | A | A |\n| USB | 2.12.2 | ESOF interrupt timing desynchronized after resume signaling | A | A | A | A | A | A | A | A |\n| USB | 2.12.3 | Incorrect CRC16 in the memory buffer | N | N | N | N | N | N | N | N |\n| USB | 2.12.4 | USB packet buffer memory: over/underrun or COUNTn_RX[9:0] field reporting incorrect number if APB1 frequency is below 13 MHz | A | A | A | A | A | A | A | A |\n\nThe visible crop does not show a separate table title or footnotes.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "### Table: limitations and revision status\n\n**Column headings:**\n- **Function**\n- **Section**\n- **Limitation**\n- **Status:** Rev. A, Rev. B, Rev. N, Rev. 1, Rev. Y, Rev. 2, Rev. 3, Rev. X\n\n| Function | Section | Limitation | Rev. A | Rev. B | Rev. N | Rev. 1 | Rev. Y | Rev. 2 | Rev. 3 | Rev. X |\n|---|---|---|---|---|---|---|---|---|---|---|\n| USART | 2.9.6 | nRTS signal abnormally driven low after a protocol violation | A | A | A | A | A | A | A | A |\n| SPI | 2.10.1 | CRC still sensitive to communication clock when SPI is in slave mode even with NSS high | A | A | A | A | A | A | A | A |\n| SPI | 2.10.2 | SPI CRC may be corrupted when a peripheral connected to the same DMA channel of the SPI is under DMA transaction close to the end of transfer or end of transfer -1 | A | A | A | A | A | A | A | A |\n| bxCAN | 2.11.1 | bxCAN time-triggered communication mode not supported | N | N | N | N | N | N | N | N |\n| USB | 2.12.1 | False wakeup detection for last K-state not terminated by EOP or reset before suspend | A | A | A | A | A | A | A | A |\n| USB | 2.12.2 | ESOF interrupt timing desynchronized after resume signaling | A | A | A | A | A | A | A | A |\n| USB | 2.12.3 | Incorrect CRC16 in the memory buffer | N | N | N | N | N | N | N | N |\n| USB | 2.12.4 | USB packet buffer memory: over/underrun or COUNTn_RX[9:0] field reporting incorrect number if APB1 frequency is below 13 MHz | A | A | A | A | A | A | A | A |\n\nThe visible crop does not show a separate table title or footnotes."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0004-table-00006",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 4,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0004_00006.png",
+    "caption": "**Table 4. Summary of device documentation errata**\n\n| Function | Section | Documentation erratum |\n|---|---|---|\n| DMA | 2.4.2 | Byte and half-word accesses not supported |\n| TIM | 2.6.2 | TRGO and TRGO2 trigger output failure |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. Summary of device documentation errata",
+    "generated_captions": {
+      "luna": "**Table 4. Summary of device documentation errata**\n\n| Function | Section | Documentation erratum |\n|---|---|---|\n| DMA | 2.4.2 | Byte and half-word accesses not supported |\n| TIM | 2.6.2 | TRGO and TRGO2 trigger output failure |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00014",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Description of device errata"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "The following sections describe limitations of the applicable devices with $\\mathsf { A r m } ^ { \\mathbb { B } }$ core and provide workarounds if available. They are grouped by device functions."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Note: Arm is a registered trademark of Arm Limited (or its subsidiaries) in the US and/or elsewhere."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "arm"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "2.1 Core"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Reference manual and errata notice for the $\\mathsf { A r m } ^ { \\odot }$ Cortex<sup>®</sup>-M3 core revision r1p1-01rel0 is available from http:// infocenter.arm.com."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "2.1.1 Cortex<sup>®</sup>-M3 LDRD with base in list may result in incorrect base register when interrupted or faulted"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "This limitation is registered under $\\mathsf { A r m } ^ { \\odot }$ ID number 602117 and classified into “Category ${ \\boldsymbol { 2 } } ^ { \\mathfrak { n } }$"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "The Cortex<sup>®</sup>-M3 core has a limitation when executing an LDRD instruction from the system-bus area, with the base register in a list of the form LDRD Ra, Rb, [Ra, #imm]. The execution may not complete after loading the first destination register due to an interrupt before the second loading completes or due to the second loading getting a bus fault."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "1. This limitation does not impact the code execution when executing from the embedded flash memory, which is the standard use of the microcontroller."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "2. Use the latest compiler releases. As of today, they no longer generate this particular sequence. Moreover, a scanning tool is provided to detect this sequence on previous releases (refer to your preferred compiler provider)."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "2.1.2 Cortex<sup>®</sup>-M3 event register is not set by interrupts and debug"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00028",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00029",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "This limitation is registered under $\\mathsf { A r m } ^ { \\mathbb { B } }$ ID number 563915 and classified into “Category ${ \\boldsymbol { 2 \" } } .$"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00030",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "When interrupts related to a WFE occur before the WFE is executed, the event register used for WFE wakeup events is not set and the event is missed. Therefore, when the WFE is executed, the core does not wake up from WFE if no other event or interrupt occur"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00031",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00032",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Use external events instead of interrupts to wake up the core from WFE by configuring an external or internal EXTI line in event mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00033",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "2.1.3 Interrupted loads to SP can cause erroneous behavior"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00034",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00035",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "This limitation is registered under $\\mathsf { A r m } ^ { \\odot }$ ID number 752419 and classified into “Category 2”."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00036",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "If an interrupt occurs during the data-phase of a single word load to the stack-pointer (SP/R13), erroneous behavior can occur. In all cases, returning from the interrupt results in the load instruction being executed an additional time. For all instructions performing an update to the base register, the base register is erroneously updated on each execution, resulting in the stack-pointer being loaded from an incorrect memory location."
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00037",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "1. LDR SP,[Rn],#imm"
+  },
+  {
+    "segment_id": "stm32-es096-p0005-text-00038",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 5,
+    "text": "2. LDR SP,[Rn,#imm]!"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00039",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "3. LDR SP,[Rn,#imm]"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00040",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "4. LDR SP,[Rn]"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00041",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "5. LDR SP,[Rn,Rm]"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00042",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00043",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "As of today, there is no compiler generating these particular instructions. This limitation can only occur with hand-written assembly code."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00044",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Both issues may be worked around by replacing the direct load to the stack-pointer, with an intermediate load to a general-purpose register followed by a move to the stack-pointer."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00045",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Example: the following instruction \"LDR SP, [R0]\" can be replaced by"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00046",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "“LDR R2,[R0]"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00047",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "MOV SP,R2 \""
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00048",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "2.1.4"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00049",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "SVC and BusFault/MemManage may occur out of order"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00050",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00051",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "This limitation is registered under Arm<sup>®</sup> ID number 740455 and classified into “Category 2”."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00052",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "If an SVC exception is generated by executing the SVC instruction while the following instruction fetch is faulted, then the MemManage or BusFault handler may be entered even though the faulted instruction which followed the SVC should not have been executed."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00053",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00054",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "A workaround is only required if the SVC handler does not return to the return address that has been stacked for the SVC exception and the instruction access after the SVC faults. If this is the case then padding can be inserted between the SVC and the faulting area of code, for example, by inserting NOP instructions."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00055",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "2.1.5"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00056",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Arm<sup>®</sup> Cortex<sup>®</sup>-M3 BKPT in debug monitor mode can cause DFSR mismatch"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00057",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00058",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "This limitation is registered under Arm<sup>®</sup> ID number 463763 and classified into “Category 3”."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00059",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "A BKPT may be executed in debug monitor mode. This causes the debug monitor handler to be run. However, the bit 1 in the Debug fault status register (DFSR) at address 0xE000 ED30 is not set to indicate that it was originated by a BKPT instruction. This only occurs if an interrupt other than the debug monitor is already being processed just before the BKPT is executed."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00060",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00061",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "If the DFSR register does not have any bit set when the debug monitor is entered, this means that we must be in this “corner case” and so, that a BKPT instruction was executed in debug monitor mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00062",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "2.1.6"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00063",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Arm<sup>®</sup> Cortex<sup>®</sup>-M3 may freeze for SLEEPONEXIT single instruction ISR"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00064",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00065",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "This limitation is registered under Arm<sup>®</sup> ID number 463764 and classified into “Category 3”."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00066",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "If the Cortex<sup>®</sup>-M3 SLEEPONEXIT functionality is used and the concerned interrupt service routine (ISR) contains only a single instruction, the core becomes frozen. This freezing may occur if only one interrupt is active and it is preempted by an interrupt whose handler only contains a single instruction."
+  },
+  {
+    "segment_id": "stm32-es096-p0006-text-00067",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 6,
+    "text": "However, any new interrupt that causes a preemption would cause the core to become unfrozen and behave correctly again."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00068",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00069",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "This scenario does not happen in real application systems since all enabled ISRs should at least contain one instruction. Therefore, if an empty ISR is used, then insert an NOP or any other instruction before the exit instruction (BX or BLX)."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00070",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "2.2"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00071",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "System"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00072",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "2.2.1"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00073",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Flash memory read after WFI/WFE instruction"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00074",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00075",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "If a WFI/WFE instruction is executed during a flash memory access and the Sleep duration is very short (less than 2 clock cycles), the instruction fetch from the flash memory may be corrupted on the next wakeup event."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00076",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "This issue occurs when the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00077",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Flash prefetch on"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00078",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Flash memory timing set to 2 wait states"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00079",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "FLITF clock stopped in Sleep mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00080",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00081",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "When using the flash memory with two wait states and prefetch on, the FLITF clock must not be stopped during the Sleep mode – the FLITFEN bit in the RCC\\_AHBENR register must be set (keep the reset value)."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00082",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "2.2.2"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00083",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Debug registers cannot be read by user software"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00084",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00085",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "The DBGMCU\\_IDCODE and DBGMCU\\_CR debug registers are accessible only in debug mode (not accessible by the user software). When these registers are read in user mode, the returned value is 0x00."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00086",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00087",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00088",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "2.2.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00089",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Debugging Stop mode and SysTick timer"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00090",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00091",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "If the SysTick timer interrupt is enabled during the Stop mode debug (DBG\\_STOP bit set in the DBGMCU\\_CR register), it wakes up the system from Stop mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00092",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00093",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "To debug the Stop mode, disable the system tick timer interrupt."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00094",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "2.2.4"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00095",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Debugging Stop mode with WFE entry"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00096",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00097",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "When the Stop debug mode is enabled (DBG\\_STOP bit set in the DBGMCU\\_CR register ) this allows software debugging during Stop mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0007-text-00098",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 7,
+    "text": "However, if the application software uses the WFE instruction to enter Stop mode, after wakeup some instructions could be missed if the WFE is followed by sequential instructions. This affects only Stop debug mode with WFE entry."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00099",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Example 1 :"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00100",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00101",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "To debug Stop mode with WFE entry, the WFE instruction must be inside a dedicated function with 1 instruction (NOP) between the execution of the WFE and the Bx LR."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00102",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "\\_asm void \\_WFE(void)  \nWFE  \nNOP  \nBX lr }"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00103",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Wakeup sequence from Standby mode when using more than one wakeup source"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00104",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00105",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "The various wakeup sources are logically OR-ed in front of the rising-edge detector which generates the wakeup flag (WUF). The WUF flag needs to be cleared prior to the Standby mode entry, otherwise the MCU wakes up immediately."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00106",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "If one of the configured wakeup sources is kept high during the clearing of WUF flag (by setting the CWUF bit), it may mask further wakeup events on the input of the edge detector. As a consequence, the MCU could not be able to wake up from Standby mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00107",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00108",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "To avoid this problem, the following sequence should be applied before entering Standby mode:"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00109",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "1. Disable all used wakeup sources."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00110",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "2. Clear all related wakeup flags."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00111",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "3. Re-enable all used wakeup sources."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00112",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "4. Enter Standby mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00113",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Be aware that, when applying this workaround, if one of the wakeup sources is still kept high, the MCU enters the Standby mode, but then it wakes up immediately generating the power reset."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00114",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "LSE startup in harsh environments"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00115",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00116",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "The LSE (low-speed external) oscillator system has been designed to minimize the overall power consumption of the microcontroller. It is extremely important to take specific care in the design of the PCB to ensure this low power oscillator starts in harsh conditions. In some PCB designs without coating, an induced low leakage may prevent the LSE to startup, regardless of the 32.768 KHz crystal used. This phenomenon is amplified in humid environments that create frost on the OSC32\\_IN/OSC32\\_OUT tracks. This unwanted behavior may happen only at the first back-up domain power-on of the device."
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00117",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0008-text-00118",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 8,
+    "text": "It is recommended to mount an additional parallel feedback resistor (from 16 MΩ to 22 MΩ) on board to help the oscillation startup in all cases (see Figure 1). For more details on compatible crystals and hardware techniques on PCB, refer to application note Oscillator design guide for STM8AF/AL/S, STM32 MCUs and MPUs (AN2867)."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-figure-00001",
+    "type": "figure",
+    "doc": "stm32-es096",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_figure_p0009_00001.png",
+    "caption": "Figure: LSE startup using an additional resistor (context caption).\n\n- Left side: ground symbol connected to a vertical node.\n- Two load capacitors are shown from the left node to the oscillator-node pair:\n  - Upper capacitor labeled **C_L1**\n  - Lower capacitor labeled **C_L2**\n- The upper and lower oscillator nodes are connected by a central rectangular component.\n- An additional component is shown in parallel between the upper and lower oscillator nodes. It is highlighted in green and enclosed by an oval; its value or reference designator is not legible/visible.\n- On the right is a block/device labeled **STM32F1**, with two connection pins shown as rectangular terminals, one upper and one lower.\n- The upper oscillator node connects to the upper STM32F1 terminal; the lower oscillator node connects to the lower STM32F1 terminal.\n- Image identifier at lower left: **MS32554V1**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. LSE startup using an additional resistor\nMS32554V1",
+    "generated_captions": {
+      "luna": "Figure: LSE startup using an additional resistor (context caption).\n\n- Left side: ground symbol connected to a vertical node.\n- Two load capacitors are shown from the left node to the oscillator-node pair:\n  - Upper capacitor labeled **C_L1**\n  - Lower capacitor labeled **C_L2**\n- The upper and lower oscillator nodes are connected by a central rectangular component.\n- An additional component is shown in parallel between the upper and lower oscillator nodes. It is highlighted in green and enclosed by an oval; its value or reference designator is not legible/visible.\n- On the right is a block/device labeled **STM32F1**, with two connection pins shown as rectangular terminals, one upper and one lower.\n- The upper oscillator node connects to the upper STM32F1 terminal; the lower oscillator node connects to the lower STM32F1 terminal.\n- Image identifier at lower left: **MS32554V1**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00119",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "2.2.7 RDP protection"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00120",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00121",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "When the RDP protection is set, the debugger can still access the CPU program counter register and the NVIC registers as well. Remapping the table vector location at different address in the code memory map and triggering the interrupts may allow to retrieve a part of the flash memory code in CPU registers."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00122",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00123",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00124",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "PVD and USB wakeup events"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00125",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00126",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "PVD and USB Wakeup signals, which are internally linked to EXTI line16 and EXTI line18, respectively, cannot be used as event sources for the Cortex<sup>®</sup>-M3 core. As a consequence, these signals cannot be used to exit the Sleep or the Stop mode (exit WFE)."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00127",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00128",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Use interrupt sources and the WFI instruction if the application must be woken up from the Sleep or the Stop mode by PVD or USB Wakeup signals."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00129",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Compatibility issue with latest compiler releases"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00130",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00131",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Compilers with improved optimizations for the STM32F10xxx have been recently released on the market. Revisions Z and B of the medium-density STM32F10xxx devices (STM32F10xx8/B) do not support some of the sequences associated with the high-level optimizations done in these compilers. Revision Y and 1 are not affected by this limitation."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00132",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00133",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "This behavior is fully deterministic, and should be detected during firmware development or the validation phase. Consequently, systems already developed, validated and delivered to the field with previous silicon revisions are not affected."
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00134",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "For code update of revision Z and B devices already in the field, do not use these new compilers. To date, compilers known to generate these sequences are:"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00135",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "IAR EWARM rev 5.20 and later"
+  },
+  {
+    "segment_id": "stm32-es096-p0009-text-00136",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 9,
+    "text": "GNU rev 4.2.3 and later"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00137",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "For new developments associated with these compilers, revision Y or 1 of the STM32F10xx8/B must be used."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00138",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "2.2.10"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00139",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Boundary scan TAP: wrong pattern sent out after the \"capture IR” state"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00140",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00141",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "After the “capture IR” state of the boundary scan TAP, the two least significant bits in the instruction register should be loaded with 01 for them to be shifted out whenever a next instruction is shifted in. However, the boundary scan TAP shifts out the latest value loaded into the instruction register, which could be 00, 01, 10 or 11."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00142",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00143",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "The data shifted out, after the capture IR state, in the boundary scan flow should therefore be ignored and the software should check not only the two least significant bits (XXX01) but all register bits (XXXXX)."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00144",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "2.2.11"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00145",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Flash memory BSY bit delay versus STRT bit setting"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00146",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00147",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "When the STRT bit in the flash memory control register is set (to launch an erase operation), the BSY bit in the flash memory status register goes high one cycle later."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00148",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Therefore, if the FLASH\\_SR register is read immediately after the FLASH\\_CR register is written (STRT bit set), the BSY bit is read as 0."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00149",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00150",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Read the BSY bit at least one cycle after setting the STRT bit."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00151",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "2.2.12 LSI clock stabilization time"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00152",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00153",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "When the LSIRDY flag is set, the clock may still be out of the specified frequency range (f parameter, see LSI oscillator characteristics in the product datasheet)."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00154",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00155",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "To have a fully stabilized clock in the specified range, a software temporization of 100 µs should be added."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00156",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "2.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00157",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "GPIO"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00158",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "2.3.1"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00159",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "USART1\\_RTS and CAN\\_TX"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00160",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00161",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00162",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "USART1 is clocked"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00163",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "CAN is not clocked"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00164",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "I/O port pin PA12 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00165",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "even if CAN\\_TX is not used, this signal is set by default to 1 if I/O port pin PA12 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00166",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "In this case USART1\\_RTS cannot be used."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00167",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00168",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "When USART1\\_RTS is used, the CAN must be remapped to either another IO configuration when the CAN is used, or to the unused configuration (CAN\\_REMAP[1:0] set to “01”) when the CAN is not used."
+  },
+  {
+    "segment_id": "stm32-es096-p0010-text-00169",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 10,
+    "text": "SPI1 in slave mode and USART2 in synchronous mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00170",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00171",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00172",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI1 and USART2 are clocked"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00173",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "I/O port pin PA4 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00174",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "USART2 cannot be used in synchronous mode (USART2\\_CK signal) if SPI1 is used in slave mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00175",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00176",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00177",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "2.3.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00178",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI1 in master mode and USART2 in synchronous mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00179",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00180",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00181",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI1 and USART2 are clocked"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00182",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "I/O port pin PA4 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00183",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "USART2 cannot be used in synchronous mode (USART2\\_CK signal) if SPI1 is used in master mode and SP1\\_NSS is configured in software mode. In this case USART2\\_CK is not output on the pin."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00184",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00185",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "In order to output USART2\\_CK, the SSOE bit in the SPI1\\_CR2 register must be set to configure the pin in output mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00186",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "2.3.4"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00187",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI2 in slave mode and USART3 in synchronous mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00188",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00189",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00190",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI2 and USART3 are clocked"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00191",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "I/O port pin PB12 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00192",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "USART3 cannot be used in synchronous mode (USART3\\_CK signal) if SPI2 is used in slave mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00193",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00194",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00195",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "2.3.5"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00196",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI2 in master mode and USART3 in synchronous mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00197",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00198",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00199",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "SPI2 and USART3 are clocked"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00200",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "I/O port pin PB12 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00201",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "USART3 cannot be used in synchronous mode (USART3\\_CK signal) if SPI2 is used in master mode and SP2\\_NSS is configured in software mode. In this case USART3\\_CK is not output on the pin."
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00202",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00203",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "In order to output USART3\\_CK, the SSOE bit in the SPI2\\_CR2 register must be set to configure the pin in output mode,"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00204",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "2.3.6"
+  },
+  {
+    "segment_id": "stm32-es096-p0011-text-00205",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 11,
+    "text": "I2C2 with SPI2 and USART3"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00206",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00207",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "When the conditions below are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00208",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I2C2 and SPI2 are clocked together or I2C2 and USART3 are clocked together"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00209",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I/O port pin PB12 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00210",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "the following issues occur:"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00211",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Conflict between the I2C2 SMBA signal (even if this function is not used) and SPI2\\_NSS in output mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00212",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Conflict between the I2C2 SMBA signal (even if this function is not used) and USART3\\_CK."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00213",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "In these cases the I/O port pin PB12 is set to 1 by default if the I/O alternate function output is selected and I2C2 is clocked."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00214",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00215",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I2C2 SMBA can be used as an output if SPI2 is configured in master mode with NSS in software mode. I2C2 SMBA can be used in input mode if SPI2 is configured in master or slave mode with NSS managed by software."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00216",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "SPI2 cannot be used in any other configuration when I2C2 is being used."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00217",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "USART3 must not be used in synchronous mode when I2C2 is being used."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00218",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "2.3.7"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00219",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I2C1 with SPI1 remapped and used in master mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00220",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00221",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00222",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I2C1 and SPI1 are clocked."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00223",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "SPI1 is remapped."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00224",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I/O port pin PB5 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00225",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "there is a conflict between the SPI1 MOSI and the I2C1 SMBA signals (even if SMBA is not used)."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00226",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00227",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Do not use SPI1 remapped in master mode and I2C1 together."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00228",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "When using SPI1 remapped, the I2C1 clock must be disabled."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00229",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "2.3.8"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00230",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I2C1 and TIM3\\_CH2 remapped"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00231",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00232",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00233",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I2C1 and TIM3 are clocked."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00234",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "I/O port pin PB5 is configured as an alternate function output"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00235",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "there is a conflict between the TIM3\\_CH2 signal and the I2C1 SMBA signal (even if SMBA is not used)."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00236",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "In these cases the I/O port pin PB5 is set to 1 by default if the I/O alternate function output is selected and I2C1 is clocked. TIM3\\_CH2 cannot be used in output mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00237",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00238",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "To avoid this conflict, TIM3\\_CH2 can only be used in input mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00239",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "2.3.9"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00240",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "USARTx\\_TX pin usage"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00241",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0012-text-00242",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 12,
+    "text": "In USART receive-mode-only communication (TE = 0 in the USARTx\\_CR1 register), even when the USARTx\\_TX pin is not being used, the corresponding I/O port pin cannot be used to output another alternate function (in this mode the USARTx\\_TX output is set to 1 and thus no other alternate function output can be used)."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00243",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "This limitation applies to all USARTx\\_TX pins that share another alternate function output."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00244",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00245",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Do not use the corresponding I/O port of the USARTx\\_TX pin in alternate function output mode. Only the input mode can be used (TE bit in the USARTx\\_CR1 has to be cleared)."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00246",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "2.3.10 0"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00247",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Wrong behavior of USART1\\_TX when TIM1\\_CH2 PWM is enabled with output"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00248",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00249",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "When the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00250",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "USART1 and TIMER1 are clocked,"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00251",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "PA9 I/O port is configured as an alternate function output, and"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00252",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "TIM1\\_CH2 PWM is enabled without output,"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00253",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "USART1 Tx (PA9) starts sending strange characters."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00254",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00255",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "When USART1 Tx (PA9) is used, remap TIM1\\_CH2 to another I/O configuration through the TIM1\\_REMAP bits of the AFIO\\_MAPR register."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00256",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "2.4"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00257",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "DMA"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00258",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "2.4.1 DMA disable failure and error flag omission upon simultaneous transfer error and global flag clear"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00259",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00260",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Upon a data transfer error in a DMA channel x, both the specific TEIFx and the global GIFx flags are raised and the channel x is normally automatically disabled. However, if in the same clock cycle the software clears the GIFx flag (by setting the CGIFx bit of the DMA\\_IFCR register), the automatic channel disable fails and the TEIFx flag is not raised."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00261",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "This issue does not occur with ST's HAL software that does not use and clear the GIFx flag when the channel is active."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00262",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00263",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Do not clear GIFx flags when the channel is active. Instead, use HTIFx, TCIFx, and TEIFx specific event flags and their corresponding clear bits."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00264",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "2.4.2 Byte and half-word accesses not supported"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00265",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00266",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Some reference manual revisions may wrongly state that the DMA registers are byte- and half-word-accessible. Instead, the DMA registers must always be accessed through aligned 32-bit words. Byte or half-word write accesses cause an erroneous behavior."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00267",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "ST's low-level driver and HAL software only use aligned 32-bit accesses to the DMA registers."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00268",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "This is a description inaccuracy issue rather than a product limitation."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00269",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00270",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "No application workaround is required."
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00271",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "2.5 ADC"
+  },
+  {
+    "segment_id": "stm32-es096-p0013-text-00272",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 13,
+    "text": "2.5.1 Voltage glitch on ADC input 0"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00273",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00274",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "A low-amplitude voltage glitch may be generated (on ADC input 0) on the PA0 pin, when the ADC is converting with injection trigger. It is generated by internal coupling and synchronized to the beginning and the end of the injection sequence, whatever the channel(s) to be converted."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00275",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "The glitch amplitude is less than 150 mV with a typical duration of 10 ns (measured with the I/O configured as high-impedance input and left unconnected). If PA0 is used as a digital output, this has no influence on the signal. If PA0 is used has a digital input, it is not detected as a spurious transition, providing that PA0 is driven with an impedance lower than 5 kΩ. This glitch does not have any influence on the remaining port A pin or on the ADC conversion injection results, in single ADC configuration."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00276",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "When using the ADC in dual mode with injection trigger, and in order to avoid any side effect, it is advised to distribute the analog channels so that Channel 0 is configured as an injected channel."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00277",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00278",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00279",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "2.6"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00280",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "TIM"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00281",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "2.6.1 PWM re-enabled in automatic output enable mode despite of system break"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00282",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00283",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "In automatic output enable mode (AOE bit set in TIMx\\_BDTR register), the break input can be used to do a cycle-by-cycle PWM control for a current mode regulation. A break signal (typically a comparator with a current threshold ) disables the PWM output(s) and the PWM is re-armed on the next counter period."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00284",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "However, a system break (typically coming from the CSS Clock security System) is supposed to stop definitively the PWM to avoid abnormal operation (for example with PWM frequency deviation)."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00285",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "In the current implementation, the timer system break input is not latched. As a consequence, a system break indeed disables the PWM output(s) when it occurs, but PWM output(s) is (are) re-armed on the following counter period."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00286",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00287",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Preferably, implement control loops with the output clear enable function (OCxCE bit in the TIMx\\_CCMR1/CCMR2 register), leaving the use of break circuitry solely for internal and/or external fault protection (AOE bit reset)."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00288",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "2.6.2"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00289",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "TRGO and TRGO2 trigger output failure"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00290",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00291",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Some reference manual revisions may omit the following information."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00292",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "The timers can be linked using ITRx inputs and TRGOx outputs. Additionally, the TRGOx outputs can be used as triggers for other peripherals (for example ADC). Since this circuitry is based on pulse generation, care must be taken when initializing master and slave peripherals or when using different master/slave clock frequencies:"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00293",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "If the master timer generates a trigger output pulse on TRGOx prior to have the destination peripheral clock enabled, the triggering system may fail."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00294",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "If the frequency of the destination peripheral is modified on-the-fly (clock prescaler modification), the triggering system may fail."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00295",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "As a conclusion, the clock of the slave timer or slave peripheral must be enabled prior to receiving events from the master timer, and must not be changed on-the-fly while triggers are being received from the master timer. This is a documentation issue rather than a product limitation."
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00296",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0014-text-00297",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 14,
+    "text": "No application workaround is required or applicable as long as the application handles the clock as indicated."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00298",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "2.6.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00299",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Consecutive compare event missed in specific conditions"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00300",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00301",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Every match of the counter (CNT) value with the compare register (CCR) value is expected to trigger a compare event. However, if such matches occur in two consecutive counter clock cycles (as consequence of the CCR value change between the two cycles), the second compare event is missed for the following CCR value changes:"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00302",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "in edge-aligned mode, from ARR to 0:"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00303",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "一 first compare event: CNT = CCR = ARR"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00304",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "– second (missed) compare event: CNT = CCR = 0"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00305",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "in center-aligned mode while up-counting, from ARR-1 to ARR (possibly a new ARR value if the period is also changed) at the crest (that is, when TIMx\\_RCR = 0):"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00306",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "first compare event: CNT = CCR = (ARR-1)"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00307",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "– second (missed) compare event: CNT = CCR = ARR"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00308",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "in center-aligned mode while down-counting, from 1 to 0 at the valley (that is, when TIMx\\_RCR = 0):"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00309",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "– first compare event: CNT = CCR = 1"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00310",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "second (missed) compare event: CNT = CCR = 0"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00311",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "This typically corresponds to an abrupt change of compare value aiming at creating a timer clock single-cycle wide pulse in toggle mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00312",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "As a consequence:"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00313",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "In toggle mode, the output only toggles once per counter period (squared waveform), whereas it is expected to toggle twice within two consecutive counter cycles (and so exhibit a short pulse per counter period)."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00314",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "In center mode, the compare interrupt flag does note rise and the interrupt is not generated."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00315",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00316",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "The timer output operates as expected in modes other than the toggle mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00317",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00318",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00319",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "2.6.4 Output compare clear not working with external counter reset"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00320",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00321",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "The output compare clear event (ocref\\_clr) is not correctly generated when the timer is configured in the following slave modes: Reset mode, Combined reset + trigger mode, and Combined gated + reset mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00322",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "The PWM output remains inactive during one extra PWM cycle if the following sequence occurs:"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00323",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "1. The output is cleared by the ocref\\_clr event."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00324",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "2. The timer reset occurs before the programmed compare event."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00325",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00326",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Apply one of the following measures:"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00327",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Use BKIN (or BKIN2 if available) input for clearing the output, selecting the Automatic output enable mode (AOE = 1)."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00328",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Mask the timer reset during the PWM ON time to prevent it from occurring before the compare event (for example with a spare timer compare channel open-drain output connected with the reset signal, pulling the timer reset line down)."
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00329",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "2.6.5"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00330",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Missing capture flag"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00331",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0015-text-00332",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 15,
+    "text": "In capture mode, when a capture occurs while the CCRx register is being read, the capture flag (CCxIF) may be cleared without the overcapture flag (CCxOF) being set. The new data are actually captured in the capture register."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00333",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00334",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "An external interrupt can be enabled on the capture I/O just before reading the capture register (in the capture interrupt), and disabled just after reading the captured data. Possibly, a missed capture is detected by the EXT peripheral."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00335",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "2.6.6"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00336",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Overcapture detected too early"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00337",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00338",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "In capture mode, the overcapture flag (CCxOF) can be set even though no data have been lost. This issue occurs when the following conditions are met:"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00339",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "The capture occurs while the capture register is being read, an overcapture is detected even though the previously captured data are correctly read and the new data are correctly stored into the capture register."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00340",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "The system is at the limit of an overcapture but no data are lost."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00341",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00342",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00343",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "2.6.7"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00344",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "General-purpose timer regulation for 100% PWM"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00345",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00346",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "When the OCREF\\_CLR functionality is activated, the OCxREF signal becomes de-asserted (and consequently OCx is deasserted / OCxN is asserted) when a high level is applied on the OCREF\\_CLR signal. The PWM then restarts (output re-enabled) at the next counter overflow."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00347",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "But if the PWM is configured at 100% (CCxR > ARR), then it does not restart and OCxREF remains de-asserted."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00348",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00349",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00350",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "2.7"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00351",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "IWDG"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00352",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "2.7.1"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00353",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "RVU flag not cleared at low APB clock frequency"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00354",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00355",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Successful write to the IWDG\\_RLR register raises the RVU flag and prevents further write accesses to the register until the RVU flag is automatically cleared by hardware. However, at APB clock frequency lower than twice the IWDG clock frequency, the hardware never clears that flag, and writing to the IWDG\\_RLR register is no longer possible."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00356",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00357",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Set the APB clock frequency higher than twice the IWDG clock frequency."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00358",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "2.7.2"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00359",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "PVU flag not cleared at low APB clock frequency"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00360",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00361",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Successful write to the IWDG\\_PR register raises the PVU flag and prevents further write accesses to the register until the PVU flag is automatically cleared by hardware. However, at APB clock frequency lower than twice the IWDG clock frequency, the hardware never clears that flag, and writing to the IWDG\\_PR register is no longer possible."
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00362",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0016-text-00363",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 16,
+    "text": "Set the APB clock frequency higher than twice the IWDG clock frequency."
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00364",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "2.7.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00365",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "RVU and PVU flags are not cleared in Stop mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00366",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00367",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "The RVU and PVU flags in the IWDG\\_SR register are set by hardware after a write access to the IWDG\\_RLR or the IWDG\\_PR registers, respectively. If MCU enters Stop mode immediately after the write access, the RVU and PVU flags are not cleared by hardware. Consequently the next time the application attempts to write to the IWDG\\_RLR or the IWDG\\_PR registers, it waits in an infinite loop for the RVU and PVU flags to be cleared and the IWDG generates a reset after the programmed time-out period."
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00368",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00369",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "The application has to wait until the RVU and PVU flags in the IWDG\\_SR register are cleared before entering Stop mode."
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00370",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "2.8"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00371",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "I2C"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00372",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "2.8.1"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00373",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Some software events must be managed before the current byte is being transferred"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00374",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00375",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "When the EV7, EV7\\_1, EV6\\_1, EV6\\_3, EV2, EV8, and EV3 events are not managed before"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00376",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "the current byte is being transferred, problems may be encountered such as receiving an extra byte, reading the same data twice or missing data."
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00377",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00378",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "When it is not possible to manage the EV7, EV7\\_1, EV6\\_1, EV6\\_3, EV2, EV8, and EV3 events before the current byte transfer and before the acknowledge pulse when changing the ACK control bit, it is recommended to:"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00379",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Workaround 1"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00380",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Use the I2C with DMA in general, except when the Master is receiving a single byte."
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00381",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Workaround 2"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00382",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Use I2C interrupts and boost their priorities to the highest one in the application to make them uninterruptible"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00383",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Workaround 3 (only for EV6\\_1 and EV6\\_3 events used in method 2)"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00384",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "EV6\\_1 event (used in master receiver 2 bytes):"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00385",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Stretch SCL line between ADDR bit is cleared and ACK is cleared:"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00386",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "1. ADDR=1"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00387",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "2. Configure SCL I/O as GPIO open-drain output low"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00388",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "3. Clear ADDR by reading SR1 register followed by reading SR3"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00389",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "4. Program ACK=0"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00390",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "5. Configure SCL I/O as Alternate Function open drain"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00391",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "EV6\\_3 event (used in master receiver 1 byte):"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00392",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Stretch SCL line between ADDR bit is cleared and STOP bit programming:"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00393",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "1. ADDR=1"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00394",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "2. Program ACK=0"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00395",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "3. Configure SCL I/O as GPIO open-drain output low"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00396",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "4. Clear ADDR by reading SR1 register followed by reading SR3"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00397",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "5. Program STOP=1"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00398",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "6. Configure SCL I/O as Alternate Function open drain"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00399",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "2.8.2"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00400",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Wrong data read into data register"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00401",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0017-text-00402",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 17,
+    "text": "In Master Receiver mode, when closing the communication using method 2, the content of the last read data can be corrupted. The following two sequences are concerned by the limitation:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00403",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Sequence 1: Transfer sequence for master receiver when N = 2:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00404",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "1. BTF = (Data N-1 in DR and Data N in shift register)"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00405",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "2. Program STOP = 1,"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00406",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "3. Read DR twice (Read Data N-1 and Data N) just after programming the STOP."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00407",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Sequence 2: Transfer sequence for master receiver when N > 2:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00408",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "1. BTF = 1 (Data N-2 in DR and Data N-1 in shift register)"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00409",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "2. Program ACK = 0,"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00410",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "3. Read DataN-2 in DR."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00411",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "4. Program STOP = 1,"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00412",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "5. Read DataN-1."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00413",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "If the user software is not able to read the data N-1 before the STOP condition is generated on the bus, the content of the shift register (data N) is corrupted (data N is shifted 1-bit to the left)."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00414",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00415",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Workaround 1"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00416",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Stretch the SCL line by configuring SCL I/O as a general purpose I/O, open-drain output low level, before the SET STOP in sequence 1 and before the READ Data N-2 in séquence 2. Then configure back the SCL I/O as alternate function open-drain after the READ Data N-1. The sequences become:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00417",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Sequence 1:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00418",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "1. BTF = 1 (Data N-1 in DR and Data N in shift register)"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00419",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "2. Configure SCL I/O as GPIO open-drain output low"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00420",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "3. Program STOP = 1"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00421",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "4. Read Data N-1"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00422",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "5. Configure SCL I/O as Alternate Function open drain"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00423",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "6. Read Data N"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00424",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Sequence 2:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00425",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "1. BTF = (Data N-2 in DR and Data N-1 in shift register)"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00426",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "2. Program ACK = 0"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00427",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "3. Configure SCL I/O as GPIO open-drain output low"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00428",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "4. Read Data N-2 in DR."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00429",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "5. Program STOP = ,"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00430",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "6. Read Data N-1."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00431",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "7. Configure SCL I/O as Alternate Function open drain"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00432",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Workaround 2"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00433",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Mask all active interrupts between the SET STOP and the READ data N-1 for sequence 1; and between the READ data N-2, the SET STOP and the READ data N-1 for Sequence 2."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00434",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Workaround 3"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00435",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Manage I2C RxNE events with DMA or interrupts with the highest priority level, so that the condition BTF = 1 never occurs."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00436",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "2.8.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00437",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "SMBus standard not fully supported"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00438",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00439",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "The I2C peripheral is not fully compliant with the SMBus v2.0 standard since It does not support the capability to NACK an invalid byte/command."
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00440",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00441",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "A higher-level mechanism should be used to verify that a write operation is being performed correctly at the target device, such as:"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00442",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "1. Using the SMBAL pin if supported by the host"
+  },
+  {
+    "segment_id": "stm32-es096-p0018-text-00443",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 18,
+    "text": "2. the alert response address (ARA) protocol"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00444",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "3. the Host notify protocol"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00445",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "2.8.4"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00446",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Wrong behavior of I2C peripheral in master mode after a misplaced Stop"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00447",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00448",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "If a misplaced Stop is generated on the bus, the peripheral cannot enter master mode properly:"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00449",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "If a void message is received (START condition immediately followed by a STOP): the BERR (bus error) flag is not set, and the I2C peripheral is not able to send a start condition on the bus after the write to the START bit in the I2C\\_CR2 register."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00450",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "In the other cases of a misplaced STOP, the BERR flag is set. If the START bit is already set in I2C\\_CR2, the START condition is not correctly generated on the bus and can create bus errors."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00451",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00452",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "In the I2C standard, it is allowed to send a Stop only at the end of the full byte (8 bits + acknowledge), so this scenario is not allowed. Other derived protocols like CBUS allow it, but they are not supported by the I2C peripheral."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00453",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "In case of a noisy environment in which unwanted bus errors can occur, it is recommended to implement a timeout to ensure that after the START control bit is set, the SB (start bit) flag is set. In case the timeout has elapsed, the peripheral must be reset by setting the SWRST bit in the I2C\\_CR2 control register. It should also be reset in the same way if a BERR is detected while the START bit is set in I2C\\_CR2."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00454",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "2.8.5"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00455",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Mismatch on the “Setup time for a repeated Start condition” timing parameter"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00456",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00457",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "In case of a repeated Start, the “Setup time for a repeated Start condition” (named Tsu;sta in the I2C specification) can be slightly violated when the I2C operates in Master Standard mode at a frequency between 88 kHz and 100 kHz."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00458",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "The issue can occur only in the following configuration:"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00459",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "in Master mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00460",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "in Standard mode at a frequency between 88 kHz and 100 kHz (no issue in Fast-mode)"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00461",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "SCL rise time:"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00462",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "If the slave does not stretch the clock and the SCL rise time is more than 300 ns (if the SCL rise time is less than 300 ns the issue cannot occur)"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00463",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "If the slave stretches the clock"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00464",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "The setup time can be violated independently of the APB peripheral frequency."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00465",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00466",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Reduce the frequency down to 88 kHz or use the I²C Fast-mode if supported by the slave."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00467",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "2.8.6"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00468",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Data valid time $( t _ { \\mathsf { V D } ; \\mathsf { D A T } } )$ violated without the OVR flag being set"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00469",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00470",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "The data valid time $( \\mathrm { t } _ { \\mathsf { V D } } ; \\mathsf { D A T } , \\mathsf { t } _ { \\mathsf { V D } } ; \\mathsf { A C K } )$ described by the I²C standard can be violated (as well as the maximum data hold time of the current data $( \\mathrm { t } _ { \\mathsf { H D } } ; \\mathsf { D A T } ) )$ under the conditions described below. Moreover, if the data register is written too late and close to the SCL rising edge, an error can be generated on the bus (SDA toggles while SCL is high). These violations cannot be detected because the OVR flag is not set (no transmit buffer underrun is detected)."
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00471",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "This issue can occur only under the following conditions:"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00472",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "In Slave transmit mode"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00473",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "With clock stretching disabled $( { \\mathsf { N O S T R E T C H } } { = } 1 )$"
+  },
+  {
+    "segment_id": "stm32-es096-p0019-text-00474",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 19,
+    "text": "If the software is late in writing the DR data register, but not late enough to set the OVR flag (the data register is written before the SCL rising edge)."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00475",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00476",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "If the master device allows it, use the clock stretching mechanism by programming the bit NOSTRETCH=0 in the I2C\\_CR1 register."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00477",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "If the master device does not allow it, ensure that the software writes to the data register fast enough after TXE or ADDR events. For instance, use an interrupt on the TXE or ADDR flag and boost its priority to the higher level, or use DMA. Use this \"NOSTRETCH\" mode with a slow I2C bus speed."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00478",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00479",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "The first data byte to transmit must be written in the data register after the ADDR flag is cleared, and before the next SCL rising edge, so that the time window for writing the first data byte in the data register is less than t<sub>LOW</sub>."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00480",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "If this is not possible, a workaround can be used:"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00481",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "1. Clear the ADDR flag."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00482",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "2. Wait for the OVR flag to be set."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00483",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "3. Clear OVR and write the first data byte."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00484",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "4. Then the time window for writing the next data byte is the time to transfer one byte. In this case, the master must discard the first received data byte."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00485",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "2.8.7"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00486",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "I2C analog filter may provide wrong value, locking BUSY flag and preventing master mode entry"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00487",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00488",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "The I2C analog filters embedded in the I2C I/Os may be tied to low level, whereas SCL and SDA lines are kept at high level. This can occur after an MCU power-on reset, or during ESD stress. Consequently, the I2C BUSY flag is set, and the I2C cannot enter master mode (START condition cannot be sent). The I2C BUSY flag cannot be cleared by the SWRST control bit, nor by a peripheral or a system reset. BUSY bit is cleared under reset, but it is set high again as soon as the reset is released, because the analog filter output is still at low level. This issue occurs randomly."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00489",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00490",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "Under the same conditions, the I2C analog filters may also provide a high level, whereas SCL and SDA lines are kept to low level. This should not create issues as the filters output is correct after next SCL and SDA transition."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00491",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00492",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "The SCL and SDA analog filter output is updated after a transition occurs on the SCL and SDA line respectively. The SCL and SDA transition can be forced by software configuring the I2C I/Os in output mode. Then, once the analog filters are unlocked and output the SCL and SDA lines level, the BUSY flag can be reset with a software reset, and the I2C can enter master mode. Therefore, the following sequence must be applied:"
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00493",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "1. Disable the I2C peripheral by clearing the PE bit in I2Cx\\_CR1 register."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00494",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "2. Configure the SCL and SDA I/Os as General Purpose Output Open-Drain, High level (Write 1 to GPIOx\\_ODR)."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00495",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "3. Check SCL and SDA High level in GPIOx\\_IDR."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00496",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "4. Configure the SDA I/O as General Purpose Output Open-Drain, Low level (Write 0 to GPIOx\\_ODR)."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00497",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "5. Check SDA Low level in GPIOx\\_IDR."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00498",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "6. Configure the SCL I/O as General Purpose Output Open-Drain, Low level (Write 0 to GPIOx\\_ODR)."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00499",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "7. Check SCL Low level in GPIOx\\_IDR."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00500",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "8. Configure the SCL I/O as General Purpose Output Open-Drain, High level (Write 1 to GPIOx\\_ODR)."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00501",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "9. Check SCL High level in GPIOx\\_IDR."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00502",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "10. Configure the SDA I/O as General Purpose Output Open-Drain , High level (Write 1 to GPIOx\\_ODR)."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00503",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "11. Check SDA High level in GPIOx\\_IDR."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00504",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "12. Configure the SCL and SDA I/Os as Alternate function Open-Drain."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00505",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "13. Set SWRST bit in I2Cx\\_CR1 register."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00506",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "14. Clear SWRST bit in I2Cx\\_CR1 register."
+  },
+  {
+    "segment_id": "stm32-es096-p0020-text-00507",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 20,
+    "text": "15. Enable the I2C peripheral by setting the PE bit in I2Cx\\_CR1 register."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00508",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "2.9 USART"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00509",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "2.9.1 Parity Error flag (PE) is set again after having been cleared by software"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00510",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00511",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "The parity error flag (PE) is set at the end of the last data bit. It should be cleared by software by making a read access to the status register followed by reading the data in the data register."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00512",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Once the PE flag is set by hardware, if it is cleared by software before the middle of the stop bit, it is set again.   \nConsequently, the software may jump several times to the same interrupt routine for the same parity error."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00513",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00514",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Before clearing the Parity Error flag, the software must wait for the RXNE flag to be set."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00515",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "2.9.2 Idle frame is not detected if receiver clock speed is deviated"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00516",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00517",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "If the USART receives an idle frame followed by a character, and the clock of the transmitter device is faster than the USART receiver clock, the USART receive signal falls too early when receiving the character start bit, with the result that the idle frame is not detected (IDLE flag is not set)."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00518",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00519",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00520",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "2.9.3 In full-duplex mode, the Parity Error (PE) flag can be cleared by writing the data register"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00521",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00522",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "In full-duplex mode, when the Parity Error flag is set by the receiver at the end of a reception, it may be cleared while transmitting by reading the USART\\_SR register to check the TXE or TC flags and writing data in the data register."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00523",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Consequently, the software receiver can read the PE flag as 0 even if a parity error occurred."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00524",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00525",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "The Parity Error flag should be checked after the end of reception and before transmission."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00526",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "2.9.4 Parity Error (PE) flag is not set when receiving in Mute mode using address mark detection"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00527",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00528",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "The USART receiver is in Mute mode and is configured to exit the Mute mode using the address mark detection. When the USART receiver recognizes a valid address with a parity error, it exits the Mute mode without setting the Parity Error flag."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00529",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00530",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00531",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "2.9.5 Break frame is transmitted regardless of nCTS input line status"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00532",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0021-text-00533",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 21,
+    "text": "When CTS hardware flow control is enabled (CTSE = 1) and the Send Break bit (SBK) is set, the transmitter sends a break frame at the end of current transmission regardless of nCTS input line status. Consequently, if an external receiver device is not ready to accept a frame, the transmitted break frame is lost."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00534",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00535",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00536",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "2. 9.6"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00537",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "nRTS signal abnormally driven low after a protocol violation"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00538",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00539",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "When RTS hardware flow control is enabled, the nRTS signal goes high when a data is received. If this data was not read and a new data is sent to the USART (protocol violation), the nRTS signal goes back to low level at the end of this new data."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00540",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Consequently, the sender gets the wrong information that the USART is ready to receive further data."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00541",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "On USART side, an overrun is detected which indicates that some data has been lost."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00542",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00543",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Workaround 1:"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00544",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "After data reception and before reading the data in the data register, the software takes control of the nRTS pin using the GPIO registers and keeps it high as long as needed. If the application knows the USART is not ready and that further data received reception from the other device may be discarded, it keeps the nRTS pin at high level. It then releases the nRTS pin when the USART is ready to continue reception."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00545",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Workaround 2: Ensure that the received data is always read in a time window less than the duration of the 2nd data reception. One solution would be to handle all data reception by DMA."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00546",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "These workarounds are needed only if the other UART device has violated the protocol. In most systems (no limitation on the other device), the USART works fine and no workaround is needed."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00547",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "2.10"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00548",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "SPI"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00549",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "2.10.1 CRC still sensitive to communication clock when SPI is in slave mode even with NSS high"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00550",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00551",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "When the SPI is configured in slave mode with the CRC feature enabled, the CRC is calculated even if the NSS pin deselects the SPI (high level applied on the NSS pin)."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00552",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00553",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "The CRC has to be cleared on both Master and Slave sides between the slave deselection (high level on NSS) and the slave selection (low level on NSS), in order to resynchronize the Master and Slave for their respective CRC calculation."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00554",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "To procedure to clear the CRC is the following:"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00555",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "1. disable the SPI (SPE = 0)"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00556",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "2. clear the CRCEN bit"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00557",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "3. set the CRCEN bit"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00558",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "4. enable the SPI (SPE = 1)"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00559",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "2.10.2"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00560",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "SPI CRC may be corrupted when a peripheral connected to the same DMA channel of the SPI is under DMA transaction close to the end of transfer or end of transfer -1"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00561",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00562",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "In the following conditions, the CRC may be frozen before the CRCNEXT bit is written, resulting in a CRC error:"
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00563",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "SPI is slave or master."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00564",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "Full duplex or simplex mode is used."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00565",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "CRC feature is enabled."
+  },
+  {
+    "segment_id": "stm32-es096-p0022-text-00566",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 22,
+    "text": "SPI is configured to manage data transfers by software (interrupt or polling)."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00567",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "A peripheral, mapped on the same DMA channel as the SPI, is executing DMA transfers."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00568",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00569",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "If the application allows it, you can use the DMA for SPI transfers."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00570",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "2.11 bxCAN"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00571",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "2.11.1 bxCAN time-triggered communication mode not supported"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00572",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00573",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "The time-triggered communication mode described in the reference manual is not supported. As a result, timestamp values are not available. The TTCM bit of the CAN\\_MCR register must be kept cleared (time-triggered communication mode disabled)."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00574",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00575",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "None."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00576",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "2.12 USB"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00577",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "2.12.1 False wakeup detection for last K-state not terminated by EOP or reset before suspend"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00578",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00579",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "If a USB K-state is detected outside of a suspend state, the device generates RESUME RECEIVED signal and keeps it pending until:"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00580",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "an EOP is detected on the USB, or"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00581",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "a USB reset is detected on the USB, or"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00582",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "a software reset is generated by setting the FRES bit."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00583",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "It may happen that none of the above events occurs before the USB peripheral sets the suspend interrupt (after 3 ms idling), and the software decides to enter Suspend mode (by setting the FSUSP bit). The USB peripheral then immediately generates a wakeup interrupt (WKUP = 1) because it still detects the pending RESUME RECEIVED signal. This has a negative impact to the device power consumption."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00584",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "A workaround is available for applications requiring to minimize the power consumption."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00585",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00586",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Apply software reset prior to setting the FSUSP bit. This clears any spurious RESUME RECEIVED condition."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00587",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "2.12.2 ESOF interrupt timing desynchronized after resume signaling"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00588",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00589",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Upon signaling resume, the device is expected to allow full 3 ms of time to the host or hub for sending the initial SOF (start of frame) packet, without triggering SUSP interrupt. However, the device only allows two full milliseconds and unduly triggers SUSP interrupt if it receives the initial packet within the third millisecond."
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00590",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0023-text-00591",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 23,
+    "text": "When the device initiates resume (remote wakeup), mask the SUSP interrupt by setting the SUSPM bit for 3 ms, then unmask it by clearing SUSPM."
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00592",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "2.12.3"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00593",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Incorrect CRC16 in the memory buffer"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00594",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00595",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Memory buffer locations are written starting from the address contained in the ADDRn\\_RX for a number of bytes corresponding to the received data packet length, CRC16 inclusive (that is, data payload length plus two bytes), or up to the last allocated memory location defined by BL\\_SIZE and NUM\\_BLOCK, whichever comes first. In the former case, the CRC16 checksum is written wrongly, with its least significant byte going to both memory buffer byte locations expected to receive the least and the most significant bytes of the checksum."
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00596",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Although the checksum written in the memory buffer is wrong, the underlying CRC checking mechanism in the USB peripheral is fully functional."
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00597",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00598",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Ignore the CRC16 data in the memory buffer."
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00599",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "2.12.4"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00600",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "USB packet buffer memory: over/underrun or COUNTn\\_RX[9:0] field reporting incorrect number if APB1 frequency is below 13 MHz"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00601",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Description"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00602",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "The USB peripheral’s packet buffer memory is expected to operate at a minimum APB1 frequency of 8 MHz. It may however happen that, when OUT transactions are sent by the Host with a data payload size exactly equal to the maximum packet size already programmed in the COUNTn\\_RX packet buffer memory (via the BLSIZE and NUM\\_BLOCK[4:0] fields), the packet and all bytes from the Host are correctly received and stored into the packet buffer memory, but, the COUNTn\\_RX[9:0] field indicates an incorrect number (one byte less)."
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00603",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "Workaround"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00604",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "This limitation concerns applications that check the exact number of bytes received in the packet buffer memory. In order to avoid that these applications interpret a Host error and so, stall the OUT endpoint even if no data reception error actually occurred, it is recommended to:"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00605",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "1. increase the APB1 frequency to a minimum of 13 MHz, or"
+  },
+  {
+    "segment_id": "stm32-es096-p0024-text-00606",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 24,
+    "text": "2. increase the APB1 frequency to a minimum of 10 MHz. Then program USB\\_COUNTn\\_RX (via the BLSIZE and NUM\\_BLOCK[4:0] fields) to have more than the number of bytes in the maximum packet size allocated for reception in the packet buffer memory"
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00607",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "Important security notice"
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00608",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "The STMicroelectronics group of companies (ST) places a high value on product security, which is why the ST product(s) identified in this documentation may be certified by various security certification bodies and/or may implement our own security measures as set forth herein. However, no level of security certification and/or built-in security measures can guarantee that ST products are resistant to all forms of attacks. As such, it is the responsibility of each of ST's customers to determine if the level of security provided in an ST product meets the customer needs both in relation to the ST product alone, as well as when combined with other components and/or software for the customer end product or application. In particular, take note that:"
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00609",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "ST products may have been certified by one or more security certification bodies, such as Platform Security Architecture (www.psacertified.org) and/or Security Evaluation standard for IoT Platforms (www.trustcb.com). For details concerning whether the ST product(s) referenced herein have received security certification along with the level and current status of such certification, either visit the relevant certification standards website or go to the relevant product page on www.st.com for the most up to date information. As the status and/or level of security certification for an ST product can change from time to time, customers should re-check security certification status/level as needed. If an ST product is not shown to be certified under a particular security standard, customers should not assume it is certified."
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00610",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "Certification bodies have the right to evaluate, grant and revoke security certification in relation to ST products. These certification bodies are therefore independently responsible for granting or revoking security certification for an ST product, and ST does not take any responsibility for mistakes, evaluations, assessments, testing, or other activity carried out by the certification body with respect to any ST product."
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00611",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "Industry-based cryptographic algorithms (such as AES, DES, or MD5) and other open standard technologies which may be used in conjunction with an ST product are based on standards which were not developed by ST. ST does not take responsibility for any flaws in such cryptographic algorithms or open technologies or for any methods which have been or may be developed to bypass, decrypt or crack such algorithms or technologies."
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00612",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "While robust security testing may be done, no level of certification can absolutely guarantee protections against all attacks, including, for example, against advanced attacks which have not been tested for, against new or unidentified forms of attack, or against any form of attack when using an ST product outside of its specification or intended use, or in conjunction with other components or software which are used by customer to create their end product or application. ST is not responsible for resistance against such attacks. As such, regardless of the incorporated security features and/or any information or support that may be provided by ST, each customer is solely responsible for determining if the level of attacks tested for meets their needs, both in relation to the ST product alone and when incorporated into a customer end product or application."
+  },
+  {
+    "segment_id": "stm32-es096-p0025-text-00613",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 25,
+    "text": "All security features of ST products (inclusive of any hardware, software, documentation, and the like), including but not limited to any enhanced security features added by ST, are provided on an \"AS IS\" BASIS. AS SUCH, TO THE EXTENT PERMITTED BY APPLICABLE LAW, ST DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, unless the applicable written and signed contract terms specifically provide otherwise."
+  },
+  {
+    "segment_id": "stm32-es096-p0026-text-00614",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 26,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-es096-p0026-table-00007",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0026_00007.png",
+    "caption": "## Table 5. Document revision history\n\n| Date | Version | Changes |\n|---|---:|---|\n| 28-Mar-2008 | 1 | Initial release. |\n| 07-Apr-2008 | 2 | Section 2.2: Flash memory read after WFI/WFE instruction on page 13 added. Workaround specified in Section 2.9.1: USART1_RTS and CAN_TX |\n| 23-May-2008 | 3 | The errata sheet also applies to Revision Y devices. Section 2.1: PD0 and PD1 use an output mode, Section 2.2: ADC auto-injection channel and Section 2.3: ADC combined injected simultaneous+interleaved removed from errata sheet. Section 2.3: Debug registers cannot be read by user software on page 13 added. Small text changes |\n| 18-Jul-2008 | 4 | Section 2.10: PVD and USB wakeup events added. |\n| 01-Oct-2008 | 5 | This errata sheet also applies to STM32F102x medium-density devices. Though medium-density devices with 32 Kbyte of Flash were removed, the errata sheet still applies to devices whose commercial code does not contain an “A”. Section 2.11: Compatibility issue with latest compiler releases added. Figure 2: LFBGA100 top package view added. Figure 4: LQFP64 top package view and Figure 5: LQFP48 top package view corrected |\n| 11-Feb-2009 | 6 | Section 1: Arm® 32-bit Cortex®-M3 limitations specified (Table 3: Cortex®-M3 core limitations and impact on microcontroller behavior added limitations described).<br><br>Added limitations:<br>• Boundary scan TAP: wrong pattern sent out after the “capture IR” state<br>• Flash memory BSY bit delay versus STRT bit setting<br>• I2C peripheral<br>• Timers<br>• LSI clock stabilization time Table 4: Summary of silicon limitations on page 11 added. |\n| 11-Jan-2010 | 7 | Added limitations:<br>• Section 2.9.9: USARTx_TX pin usage<br>• Section 2.14.4: Wrong behavior of I2C peripheral in master mode after a misplaced Stop<br>• Section 2.14.5: Mismatch on the “Setup time for a repeated Start condition” timing parameter<br>• Section 2.14.6: Data valid time (tVD;DAT) violated without the OVR flag being set<br>• Section 2.15.1: CRC still sensitive to communication clock when SPI is in slave mode even with NSS high<br>• Section 2.20: USB packet buffer memory: over/underrun or COUNTn_RX[9:0] field reporting incorrect number if APB1 frequency is below 13 MHz<br><br>Date code added to Figure 2 to Figure 6. |\n| 21-Jun-2010 | 8 | Added Section 2.4: Debugging Stop mode and system tick timer Added Section 2.5: Debugging Stop mode with WFE entry Added Section 2.14.2: Wrong data read into data register Updated Section 2.14.4: Wrong behavior of I2C peripheral in master mode after a misplaced Stop Added Section 2.16: USART peripheral Updated Section 2.14.6: Data valid time (tVD;DAT) violated without the OVR flag being set |\n| 22-Feb-2011 | 9 | Updated workarounds in Section 2.14.1: Some software events must be managed before the current byte is being transferred and Section 2.14.2: Wrong data read into data register Added section Section 2.16.6: nRTS signal abnormally driven low after a protocol violation |\n| 17-Jun-2011 | 10 | Added reference to revision code 1 in Table 1 Added Section 1.1.5: Interrupted loads to SP can cause erroneous behavior Section 1.1.6: SVC and BusFault/MemManage may occur out of order Added VFQFPN48 package to Figure 6 |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. Document revision history",
+    "generated_captions": {
+      "luna": "## Table 5. Document revision history\n\n| Date | Version | Changes |\n|---|---:|---|\n| 28-Mar-2008 | 1 | Initial release. |\n| 07-Apr-2008 | 2 | Section 2.2: Flash memory read after WFI/WFE instruction on page 13 added. Workaround specified in Section 2.9.1: USART1_RTS and CAN_TX |\n| 23-May-2008 | 3 | The errata sheet also applies to Revision Y devices. Section 2.1: PD0 and PD1 use an output mode, Section 2.2: ADC auto-injection channel and Section 2.3: ADC combined injected simultaneous+interleaved removed from errata sheet. Section 2.3: Debug registers cannot be read by user software on page 13 added. Small text changes |\n| 18-Jul-2008 | 4 | Section 2.10: PVD and USB wakeup events added. |\n| 01-Oct-2008 | 5 | This errata sheet also applies to STM32F102x medium-density devices. Though medium-density devices with 32 Kbyte of Flash were removed, the errata sheet still applies to devices whose commercial code does not contain an “A”. Section 2.11: Compatibility issue with latest compiler releases added. Figure 2: LFBGA100 top package view added. Figure 4: LQFP64 top package view and Figure 5: LQFP48 top package view corrected |\n| 11-Feb-2009 | 6 | Section 1: Arm® 32-bit Cortex®-M3 limitations specified (Table 3: Cortex®-M3 core limitations and impact on microcontroller behavior added limitations described).<br><br>Added limitations:<br>• Boundary scan TAP: wrong pattern sent out after the “capture IR” state<br>• Flash memory BSY bit delay versus STRT bit setting<br>• I2C peripheral<br>• Timers<br>• LSI clock stabilization time Table 4: Summary of silicon limitations on page 11 added. |\n| 11-Jan-2010 | 7 | Added limitations:<br>• Section 2.9.9: USARTx_TX pin usage<br>• Section 2.14.4: Wrong behavior of I2C peripheral in master mode after a misplaced Stop<br>• Section 2.14.5: Mismatch on the “Setup time for a repeated Start condition” timing parameter<br>• Section 2.14.6: Data valid time (tVD;DAT) violated without the OVR flag being set<br>• Section 2.15.1: CRC still sensitive to communication clock when SPI is in slave mode even with NSS high<br>• Section 2.20: USB packet buffer memory: over/underrun or COUNTn_RX[9:0] field reporting incorrect number if APB1 frequency is below 13 MHz<br><br>Date code added to Figure 2 to Figure 6. |\n| 21-Jun-2010 | 8 | Added Section 2.4: Debugging Stop mode and system tick timer Added Section 2.5: Debugging Stop mode with WFE entry Added Section 2.14.2: Wrong data read into data register Updated Section 2.14.4: Wrong behavior of I2C peripheral in master mode after a misplaced Stop Added Section 2.16: USART peripheral Updated Section 2.14.6: Data valid time (tVD;DAT) violated without the OVR flag being set |\n| 22-Feb-2011 | 9 | Updated workarounds in Section 2.14.1: Some software events must be managed before the current byte is being transferred and Section 2.14.2: Wrong data read into data register Added section Section 2.16.6: nRTS signal abnormally driven low after a protocol violation |\n| 17-Jun-2011 | 10 | Added reference to revision code 1 in Table 1 Added Section 1.1.5: Interrupted loads to SP can cause erroneous behavior Section 1.1.6: SVC and BusFault/MemManage may occur out of order Added VFQFPN48 package to Figure 6 |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0027-table-00008",
+    "type": "table",
+    "doc": "stm32-es096",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-es096/mineru/images/bbox_fallback_table_p0027_00008.png",
+    "caption": "| Date | Version | Changes |\n|---|---:|---|\n| 15-Nov-2011 | 11 | Added reference to revision code 1 in Section 2.11: Compatibility issue with latest compiler releases Added Section 2.18: IWDG peripheral Updated Section 2.16.6: nRTS signal abnormally driven low after a protocol violation |\n| 07-Oct-2013 | 12 | **Added:**<br>• Section 2.6: Wakeup sequence from Standby mode when using more than one wakeup source<br>• Section 2.7: LSE start-up in harsh environments<br>• Section 2.14.7: I2C analog filter may provide wrong value, locking BUSY flag and preventing master mode entry<br>• Section 2.15.2: SPI CRC may be corrupted when a peripheral connected to the same DMA channel of the SPI is under DMA transaction close to the end of transfer or end of transfer -1<br><br>**Updated:**<br>• Section : Silicon identification<br>• Table 1: Device identification: “Revision code marked on device” column.<br>• Table 4: Summary of silicon limitations. |\n| 26-Nov-2015 | 13 | **Updated:**<br>• Silicon identification<br>• Table 1: Device identification |\n| 08-Apr-2020 | 14 | Updated Section 1: Arm® 32-bit Cortex®-M3 limitations. Added Section 2.8: RDP protection. Updated Table 4: Summary of silicon limitations. Updated Figure 4: LQFP64 top package view. Minor text edits across the whole document |\n| 30-Mar-2022 | 15 | Document restructured.<br><br>Added **Wrong behavior of USART1_TX when TIM1_CH2 PWM is enabled with output (2.3.10)** erratum.<br><br>Added the following DMA errata: **DMA disable failure and error flag omission upon simultaneous transfer error and global flag clear (2.4.1)** and **Byte and half-word accesses not supported (2.4.2)**.<br><br>Added the following TIM errata: **PWM re-enabled in automatic output enable mode despite of system break (2.6.1)**, **Consecutive compare event missed in specific conditions (2.6.3)** and **Output compare clear not working with external counter reset (2.6.4)**.<br><br>Added **WDGLS errata RVU flag not cleared at low APB clock frequency (2.7.1)** and **RVU flag not cleared at low APB clock frequency (2.7.1)**.<br><br>Added **bxCAN time-triggered communication mode not supported (2.11.1)**.<br><br>Added the following USB errata: **False wakeup detection for last K-state not terminated by EOF or reset before suspend (2.12.1)**, **ESOF interrupt timing desynchronized after resume signaling (2.12.2)** and **Incorrect CRC16 in the memory buffer (2.12.3)**. |",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "| Date | Version | Changes |\n|---|---:|---|\n| 15-Nov-2011 | 11 | Added reference to revision code 1 in Section 2.11: Compatibility issue with latest compiler releases Added Section 2.18: IWDG peripheral Updated Section 2.16.6: nRTS signal abnormally driven low after a protocol violation |\n| 07-Oct-2013 | 12 | **Added:**<br>• Section 2.6: Wakeup sequence from Standby mode when using more than one wakeup source<br>• Section 2.7: LSE start-up in harsh environments<br>• Section 2.14.7: I2C analog filter may provide wrong value, locking BUSY flag and preventing master mode entry<br>• Section 2.15.2: SPI CRC may be corrupted when a peripheral connected to the same DMA channel of the SPI is under DMA transaction close to the end of transfer or end of transfer -1<br><br>**Updated:**<br>• Section : Silicon identification<br>• Table 1: Device identification: “Revision code marked on device” column.<br>• Table 4: Summary of silicon limitations. |\n| 26-Nov-2015 | 13 | **Updated:**<br>• Silicon identification<br>• Table 1: Device identification |\n| 08-Apr-2020 | 14 | Updated Section 1: Arm® 32-bit Cortex®-M3 limitations. Added Section 2.8: RDP protection. Updated Table 4: Summary of silicon limitations. Updated Figure 4: LQFP64 top package view. Minor text edits across the whole document |\n| 30-Mar-2022 | 15 | Document restructured.<br><br>Added **Wrong behavior of USART1_TX when TIM1_CH2 PWM is enabled with output (2.3.10)** erratum.<br><br>Added the following DMA errata: **DMA disable failure and error flag omission upon simultaneous transfer error and global flag clear (2.4.1)** and **Byte and half-word accesses not supported (2.4.2)**.<br><br>Added the following TIM errata: **PWM re-enabled in automatic output enable mode despite of system break (2.6.1)**, **Consecutive compare event missed in specific conditions (2.6.3)** and **Output compare clear not working with external counter reset (2.6.4)**.<br><br>Added **WDGLS errata RVU flag not cleared at low APB clock frequency (2.7.1)** and **RVU flag not cleared at low APB clock frequency (2.7.1)**.<br><br>Added **bxCAN time-triggered communication mode not supported (2.11.1)**.<br><br>Added the following USB errata: **False wakeup detection for last K-state not terminated by EOF or reset before suspend (2.12.1)**, **ESOF interrupt timing desynchronized after resume signaling (2.12.2)** and **Incorrect CRC16 in the memory buffer (2.12.3)**. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-es096-p0028-text-00615",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 28,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-es096-p0028-text-00616",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 28,
+    "text": "Summary of device errata.   \nDescription of device errata. 5   \n2.1 Core 5   \n2.1.1 Cortex<sup>®</sup>-M3 LDRD with base in list may result in incorrect base register when interrupted or   \nfaulted .   \n2.1.2 Cortex<sup>®</sup>-M3 event register is not set by interrupts and debug 5   \n2.1.3 Interrupted loads to SP can cause erroneous behavior. 5   \n2.1.4 SVC and BusFault/MemManage may occur out of order. . 6   \n2.1.5 Arm<sup>®</sup> Cortex<sup>®</sup>-M3 BKPT in debug monitor mode can cause DFSR mismatch 6   \n2.1.6 Arm<sup>®</sup> Cortex<sup>®</sup>-M3 may freeze for SLEEPONEXIT single instruction ISR 6   \n2.2 System 7   \n2.2.1 Flash memory read after WFI/WFE instruction   \n2.2.2 Debug registers cannot be read by user software   \n2.2.3 Debugging Stop mode and SysTick timer   \n2.2.4 Debugging Stop mode with WFE entry   \n2.2.5 Wakeup sequence from Standby mode when using more than one wakeup source   \n2.2.6 LSE startup in harsh environments 8   \n2.2.7 RDP protection 9   \n2.2.8 PVD and USB wakeup events. 9   \n2.2.9 Compatibility issue with latest compiler releases. . 9   \n2.2.10 Boundary scan TAP: wrong pattern sent out after the \"capture IR” state 10   \n2.2.11 Flash memory BSY bit delay versus STRT bit setting 10   \n2.2.12 LSI clock stabilization time 10   \n2.3 GPIO. . 10   \n2.3.1 USART1\\_RTS and CAN\\_TX. 10   \n2.3.2 SPI1 in slave mode and USART2 in synchronous mode. 10   \n2.3.3 SPI1 in master mode and USART2 in synchronous mode 11   \n2.3.4 SPI2 in slave mode and USART3 in synchronous mode. 11   \n2.3.5 SPI2 in master mode and USART3 in synchronous mode 11   \n2.3.6 I2C2 with SPI2 and USART3 11   \n2.3.7 I2C1 with SPI1 remapped and used in master mode. 12   \n2.3.8 I2C1 and TIM3\\_CH2 remapped 12   \n2.3.9 USARTx\\_TX pin usage . 12   \n2.3.10 Wrong behavior of USART1\\_TX when TIM1\\_CH2 PWM is enabled with output . 13   \n2.4 DMA . 13   \n2.4.1 DMA disable failure and error flag omission upon simultaneous transfer error and global   \nflag clear . 13   \n2.4.2 Byte and half-word accesses not supported . 13   \n2.5 ADC . 13   \n2.5.1 Voltage glitch on ADC input 0 . 13   \n2.6 TIM . 14   \n2.6.1 PWM re-enabled in automatic output enable mode despite of system break. 14   \n2.6.2 TRGO and TRGO2 trigger output failure 14   \n2.6.3 Consecutive compare event missed in specific conditions 15   \n2.6.4 Output compare clear not working with external counter reset 15   \n2.6.5 Missing capture flag . 15   \n2.6.6 Overcapture detected too early . 16   \n2.6.7 General-purpose timer regulation for 100% PWM . . 16   \n2.7 IWDG . 16   \n2.7.1 RVU flag not cleared at low APB clock frequency . . 16   \n2.7.2 PVU flag not cleared at low APB clock frequency . 16   \n2.7.3 RVU and PVU flags are not cleared in Stop mode . 17   \n2.8 I2C . 17   \n2.8.1 Some software events must be managed before the current byte is being transferred . . . 17   \n2.8.2 Wrong data read into data register 17   \n2.8.3 SMBus standard not fully supported . 18   \n2.8.4 Wrong behavior of I2C peripheral in master mode after a misplaced Stop 19   \n2.8.5 Mismatch on the “Setup time for a repeated Start condition” timing parameter 19   \n2.8.6 Data valid time (t<sub>VD;DAT</sub>) violated without the OVR flag being set 19   \n2.8.7 I2C analog filter may provide wrong value, locking BUSY flag and preventing master mode   \nentry . 20   \n2.9 USART . 21   \n2.9.1 Parity Error flag (PE) is set again after having been cleared by software . 21   \n2.9.2 Idle frame is not detected if receiver clock speed is deviated . 21   \n2.9.3 In full-duplex mode, the Parity Error (PE) flag can be cleared by writing the data register. 21   \n2.9.4 Parity Error (PE) flag is not set when receiving in Mute mode using address mark detection   \n. 21   \n2.9.5 Break frame is transmitted regardless of nCTS input line status . 21   \n2.9.6 nRTS signal abnormally driven low after a protocol violation. . 22   \n2.10 SPI . 22   \n2.10.1 CRC still sensitive to communication clock when SPI is in slave mode even with NSS high .   \n22   \n2.10.2 SPI CRC may be corrupted when a peripheral connected to the same DMA channel of the   \nSPI is under DMA transaction close to the end of transfer or end of transfer -1. 22   \n2.11 bxCAN . 23   \n2.11.1 bxCAN time-triggered communication mode not supported. . 23   \n2.12 USB. . . 23   \n2.12.1 False wakeup detection for last K-state not terminated by EOP or reset before suspend . 23   \n2.12.2 ESOF interrupt timing desynchronized after resume signaling . 23   \n2.12.3 Incorrect CRC16 in the memory buffer . 24   \n2.12.4 USB packet buffer memory: over/underrun or COUNTn\\_RX[9:0] field reporting incorrect   \nnumber if APB1 frequency is below 13 MHz . . 24   \nImportant security notice . . .25   \nRevision history .26"
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00617",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "IMPORTANT NOTICE – READ CAREFULLY"
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00618",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, enhancements, modifications, and improvements to ST products and/or to this document at any time without notice. Purchasers should obtain the latest relevant information on ST products before placing orders. ST products are sold pursuant to ST’s terms and conditions of sale in place at the time of order acknowledgment."
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00619",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "Purchasers are solely responsible for the choice, selection, and use of ST products and ST assumes no liability for application assistance or the design of purchasers’ products."
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00620",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "No license, express or implied, to any intellectual property right is granted by ST herein."
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00621",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "Resale of ST products with provisions different from the information set forth herein shall void any warranty granted by ST for such product."
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00622",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "ST and the ST logo are trademarks of ST. For additional information about ST trademarks, refer to www.st.com/trademarks. All other product or service names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00623",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "Information in this document supersedes and replaces information previously supplied in any prior versions of this document."
+  },
+  {
+    "segment_id": "stm32-es096-p0031-text-00624",
+    "type": "text",
+    "doc": "stm32-es096",
+    "page": 31,
+    "text": "© 2022 STMicroelectronics – All rights reserved"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "file": "datasheet-rev-a.pdf",
+    "source_url": "https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf",
+    "resolved_url": "https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf",
+    "pages": 662,
+    "sha256": "bf1c2e470f8ec7d4db340984f57556342557fed3eb9c457dd174b08db5993af6"
+  },
+  {
+    "file": "errata.pdf",
+    "source_url": "https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/Errata/ATmega48APA88APA168APA328P-SiliConErrataClarif-DS80000855.pdf",
+    "resolved_url": "https://ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/Errata/ATmega48APA88APA168APA328P-SiliConErrataClarif-DS80000855.pdf",
+    "pages": 19,
+    "sha256": "daa69b498a801da32825d513d63e1fbafa0e903b2e2f4231708ac6e2e01396a1"
+  }
+]

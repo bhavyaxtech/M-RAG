@@ -1,0 +1,12 @@
+{
+  "doc": "stm32-es096",
+  "source_pdf": "data/raw/stm32/stm32-es096.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/stm32/stm32-es096/mineru/stm32-es096_content_list.json",
+  "segment_counts": {
+    "text": 624,
+    "figure": 1,
+    "table": 8
+  }
+}

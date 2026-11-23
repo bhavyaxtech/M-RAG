@@ -1,0 +1,20 @@
+* text=auto
+
+# Binary artifacts. Never line-ending convert these: a mangled FAISS index or
+# crop image is a silent failure, not a loud one.
+*.faiss  binary
+*.jpg    binary
+*.jpeg   binary
+*.png    binary
+*.pdf    binary
+*.ico    binary
+*.woff   binary
+*.woff2  binary
+
+# Pipeline data kept byte-identical across platforms.
+*.jsonl  -text
+*.json   -text
+
+# run.bat must arrive with CRLF or cmd.exe mis-parses its labels. This matters
+# most for the "Download ZIP" path, which ignores core.autocrlf but honours this.
+*.bat    text eol=crlf

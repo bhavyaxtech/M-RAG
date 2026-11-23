@@ -1,0 +1,261 @@
+{
+  "corpus_id": "stm32",
+  "title": "STM32F103 connected technical library",
+  "documents": [
+    {
+      "doc_id": "stm32-ds5319",
+      "document_id": "DS5319",
+      "title": "STM32F103x8/xB datasheet",
+      "document_kind": "datasheet",
+      "applicability": "STM32F103x8/xB medium-density electrical and package limits",
+      "manufacturer_url": "https://www.st.com/resource/en/datasheet/stm32f103c8.pdf",
+      "download_urls": [
+        "https://www.st.com/resource/en/datasheet/stm32f103c8.pdf"
+      ],
+      "existing_path": "data/raw/hardware/stm32f103c8.pdf"
+    },
+    {
+      "doc_id": "stm32-rm0008",
+      "document_id": "RM0008",
+      "title": "STM32F1 reference manual",
+      "document_kind": "reference_manual",
+      "applicability": "Check density and peripheral availability; F1 variants differ",
+      "manufacturer_url": "https://www.st.com/resource/en/reference_manual/cd00171190.pdf",
+      "download_urls": [
+        "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00171190-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+        "https://eliasoenal.com/st%20website/13902.pdf",
+        "https://raw.githubusercontent.com/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/reference-manual.pdf",
+        "https://www.st.com/resource/en/reference_manual/cd00171190.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-es096",
+      "document_id": "ES096",
+      "title": "STM32F101/102/103 medium-density errata",
+      "document_kind": "errata_sheet",
+      "applicability": "Check device and silicon revision for each issue",
+      "manufacturer_url": "https://www.st.com/resource/en/errata_sheet/es096-stm32f101x8b-stm32f102x8b-and-stm32f103x8b-mediumdensity-device-limitations-stmicroelectronics.pdf",
+      "download_urls": [
+        "https://media.githubusercontent.com/media/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+        "https://raw.githubusercontent.com/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+        "https://www.st.com/resource/en/errata_sheet/es096-stm32f101x8b-stm32f102x8b-and-stm32f103x8b-mediumdensity-device-limitations-stmicroelectronics.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-pm0056",
+      "document_id": "PM0056",
+      "title": "Cortex-M3 programming manual",
+      "document_kind": "programming_manual",
+      "applicability": "Cortex-M3 core instructions and exception model",
+      "manufacturer_url": "https://www.st.com/resource/en/programming_manual/cd00228163.pdf",
+      "download_urls": [
+        "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00228163-stm32f10xxx20xxx21xxxl1xxxx-cortexm3-programming-manual-stmicroelectronics.pdf",
+        "https://eliasoenal.com/st%20website/15491.pdf",
+        "https://wiki.csie.ncku.edu.tw/embedded/arm/pm0056.pdf",
+        "https://www.st.com/resource/en/programming_manual/cd00228163.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-pm0075",
+      "document_id": "PM0075",
+      "title": "STM32F10xxx Flash programming manual",
+      "document_kind": "programming_manual",
+      "applicability": "Flash operations; check density-specific limitations",
+      "manufacturer_url": "https://www.st.com/resource/en/programming_manual/cd00283419.pdf",
+      "download_urls": [
+        "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00283419-stm32f10xxx-flash-memory-microcontrollers-stmicroelectronics.pdf",
+        "https://eliasoenal.com/st%20website/17863.pdf",
+        "https://image.dfrobot.com/image/data/DFR0229/PM0075.pdf",
+        "https://www.st.com/resource/en/programming_manual/cd00283419.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2586",
+      "document_id": "AN2586",
+      "title": "STM32F10xxx hardware development",
+      "document_kind": "application_note",
+      "applicability": "Board-level design for STM32F10xxx",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00164185.pdf",
+      "download_urls": [
+        "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00164185-getting-started-with-stm32f10xxx-hardware-development-stmicroelectronics.pdf",
+        "https://eliasoenal.com/st%20website/13675.pdf",
+        "https://www.mouser.com/pdfDocs/STMicroelectronicsSTM32F10xxxhardwaredevelopmentapplicationnote.pdf",
+        "https://www.st.com/resource/en/application_note/cd00164185.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2594",
+      "document_id": "AN2594",
+      "title": "STM32F10xxx EEPROM emulation",
+      "document_kind": "application_note",
+      "applicability": "Flash-based EEPROM emulation and endurance",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00165693.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13718.pdf",
+        "https://www.cs.utexas.edu/~valvano/EE345M/ApplicationNotes/AN2594_EEPROM.pdf",
+        "https://www.st.com/resource/en/application_note/cd00165693.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2606",
+      "document_id": "AN2606",
+      "title": "STM32 system-memory boot mode",
+      "document_kind": "application_note",
+      "applicability": "Cross-series note: use only the STM32F10xxx sections",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00167594.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13801.pdf",
+        "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1052/CD00167594.pdf",
+        "https://www.st.com/resource/en/application_note/cd00167594.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an3155",
+      "document_id": "AN3155",
+      "title": "USART protocol used in STM32 bootloader",
+      "document_kind": "application_note",
+      "applicability": "Pair protocol with device support in AN2606",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00264342.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/17066.pdf",
+        "https://www.st.com/resource/en/application_note/cd00264342.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2834",
+      "document_id": "AN2834",
+      "title": "Improving STM32 ADC accuracy",
+      "document_kind": "application_note",
+      "applicability": "Cross-series techniques; check device ADC specifications",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00211314.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/15067.pdf",
+        "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1049/CD00211314.pdf",
+        "https://www.st.com/resource/en/application_note/cd00211314.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an3116",
+      "document_id": "AN3116",
+      "title": "STM32F10xxx ADC modes and applications",
+      "document_kind": "application_note",
+      "applicability": "ADC modes vary by density and device",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00258017.pdf",
+      "download_urls": [
+        "https://sites.ecse.rpi.edu/courses/static/ECSE-4790/_downloads/13a0f873aa3b4acb44116670b5d7434e/AN3116-stm32_ADC_modes.pdf",
+        "https://eliasoenal.com/st%20website/16840.pdf",
+        "https://www.st.com/resource/en/application_note/cd00258017.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2548",
+      "document_id": "AN2548",
+      "title": "Using STM32F0/F1/F3/Gx/Lx DMA controller",
+      "document_kind": "application_note",
+      "applicability": "Cross-series note; select STM32F1 configuration",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00160362.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13529.pdf",
+        "https://web.eece.maine.edu/~zhu/book/ST%20AN2548.pdf",
+        "https://www.st.com/resource/en/application_note/cd00160362.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2824",
+      "document_id": "AN2824",
+      "title": "STM32F10xxx I2C optimized examples",
+      "document_kind": "application_note",
+      "applicability": "Check ES096 for applicable silicon limitations",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00209826.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/15021.pdf",
+        "https://www.st.com/resource/en/application_note/cd00209826.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2820",
+      "document_id": "AN2820",
+      "title": "Driving bipolar stepper motors with STM32F103",
+      "document_kind": "application_note",
+      "applicability": "Medium-density STM32F103 timer-driven stepper-motor application",
+      "manufacturer_url": "http://www.st.com/stonline/products/literature/an/14946.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/14946.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2629",
+      "document_id": "AN2629",
+      "title": "STM32F10xxx low-power modes",
+      "document_kind": "application_note",
+      "applicability": "STM32F10xxx low-power modes; distinguish connectivity-line variants",
+      "manufacturer_url": "http://www.st.com/stonline/products/literature/an/13922.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13922.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2557",
+      "document_id": "AN2557",
+      "title": "STM32F10xxx in-application programming over USART",
+      "document_kind": "application_note",
+      "applicability": "Application example, not a replacement for boot ROM specification",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00161640.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13588.pdf",
+        "https://www.mouser.com/pdfDocs/STM32F10x-IAP.pdf",
+        "https://www.st.com/resource/en/application_note/cd00161640.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2821",
+      "document_id": "AN2821",
+      "title": "STM32F10xxx RTC clock/calendar implementation",
+      "document_kind": "application_note",
+      "applicability": "Clock/calendar implementation using STM32F10xxx RTC",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00210041.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/14949.pdf",
+        "https://www.keil.com/dd/docs/datashts/st/stm32f10xxx/an2821.pdf",
+        "https://www.st.com/resource/en/application_note/cd00210041.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2867",
+      "document_id": "AN2867",
+      "title": "Oscillator design guide for STM32 MCUs",
+      "document_kind": "application_note",
+      "applicability": "Cross-series guidance; use device electrical limits",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00221665.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/15287.pdf",
+        "https://www.mouser.com/pdfDocs/STM32-Oscillator-Design-Guide.pdf",
+        "https://www.st.com/resource/en/application_note/cd00221665.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an1709",
+      "document_id": "AN1709",
+      "title": "EMC design guide for STM8 STM32 and legacy MCUs",
+      "document_kind": "application_note",
+      "applicability": "General design guidance, not a device-specific specification",
+      "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00004479.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/9914.pdf",
+        "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/678/CD00004479.pdf",
+        "https://www.st.com/resource/en/application_note/cd00004479.pdf"
+      ]
+    },
+    {
+      "doc_id": "stm32-an2592",
+      "document_id": "AN2592",
+      "title": "32-bit timer resolution using STM32F101/F103 timer linking",
+      "document_kind": "application_note",
+      "applicability": "Timer chaining on STM32F101/103; check exact timer instances",
+      "manufacturer_url": "http://www.st.com/stonline/products/literature/an/13711.pdf",
+      "download_urls": [
+        "https://eliasoenal.com/st%20website/13711.pdf"
+      ]
+    }
+  ]
+}

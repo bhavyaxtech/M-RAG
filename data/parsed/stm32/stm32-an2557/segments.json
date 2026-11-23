@@ -1,0 +1,842 @@
+[
+  {
+    "segment_id": "stm32-an2557-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2557-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 1,
+    "text": "An important requirement for most Flash-memory-based systems is the ability to update firmware when installed in the end product. This ability is referred to as in-application programming (IAP). The purpose of this application note is to provide general guidelines for creating an IAP application. The STM32100B-EVAL, STM32100E-EVAL, STM3210B-EVAL, STM3210E-EVAL and STM3210C-EVAL boards were used to validate the IAP driver."
+  },
+  {
+    "segment_id": "stm32-an2557-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 1,
+    "text": "The STM32F10x microcontroller can run user-specific firmware to perform IAP of the microcontroller-embedded Flash memory. This feature allows the use of any type of communication protocol for the reprogramming process (such as CAN, USART, USB). USART is the example used in this application note."
+  },
+  {
+    "segment_id": "stm32-an2557-p0002-text-00004",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2557-p0002-text-00005",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 2,
+    "text": "1 IAP overview 5   \n1.1 Principle 5   \n1.2 IAP driver description . 5   \n2 Running the IAP driver . .8   \n2.1 HyperTerminal configuration 8   \n2.2 Executing the IAP driver 9   \n3 IAP driver menu .10   \n3.1 Download image to the internal Flash memory 10   \n3.2 Upload image from the internal Flash memory . . . . . . . . 11   \n3.3 Execute the new program 11   \n3.4 Disabling the write protection 11   \n4 STM32F10x IAP implementation summary . .12   \n5 User program conditions .14   \n6 Revision history. .15"
+  },
+  {
+    "segment_id": "stm32-an2557-p0003-text-00006",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2557-p0003-text-00007",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 3,
+    "text": "Table 1. STM32F10xxx IAP implementation . . . . . . . . . . . . . . ..12   \nTable 2. Revision history . . .15"
+  },
+  {
+    "segment_id": "stm32-an2557-p0004-text-00008",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2557-p0004-text-00009",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 4,
+    "text": "Figure 1. Flowchart of the IAP driver . 7   \nFigure 2. COM port properties . .8   \nFigure 3. IAP Driver menu when the STM32F10x Flash memory is not protected. 10   \nFigure 4. IAP driver menu when the STM32F10x Flash memory is write-protected . 11   \nFigure 5. Flash memory usage. .14"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00010",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "IAP overview"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00011",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Low-density devices are STM32F101xx, STM32F102xx, and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00012",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Medium-density devices are STM32F101xx, STM32F102xx, and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00013",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "High-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes. High-density devices are implemented in the STMicroelectronics STM3210E-EVAL evaluation board."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00014",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Connectivity line devices are STM32F105xx and STM32F107xx microcontrollers. Connectivity line devices are implemented in the STMicroelectronics STM32100C-EVAL evaluation board."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Low-density value line devices are STM32F100x4 and STM32F100x6 microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Medium-density value line devices are STM32F100x8 and STM32F100xB"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes. Medium-density value line devices are implemented in the STMicroelectronics STM32100B-EVAL evaluation board."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "XL-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 768 Kbytes and 1 Mbyte."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "High-density value line devices are STM32F100xC, STM32F100xD and STM32F100xE microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes. High-density value line devices are implemented in the STMicroelectronics STM32100E-EVAL evaluation board."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "1.1 Principle"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "You should program the IAP driver to the Flash memory base address via the JTAG/SWD interface using the development toolchain of your choice or the factory-embedded boot loader in the System memory area."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "'The IAP driver uses the USART to:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Download a binary file from the HyperTerminal to the STM32F10x's internal Flash memory."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "Upload the STM32F10x's internal flash memory content (starting from the defined user application address) into a binary file."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "● Execute the user program."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "1.2 IAP driver description"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "The lAP driver contains the following set of source files:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00028",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "main.c: where the USART initialization is set. A main menu is then executed from the common.c file."
+  },
+  {
+    "segment_id": "stm32-an2557-p0005-text-00029",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 5,
+    "text": "common.c: contains display functions and the main menu routine. The main menu gives the options of loading a new binary file, uploading a new binary file, executing the binary file already loaded and disabling the write protection of the pages where the user loads his binary file (if they are write-protected)."
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00030",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "ymodem.c and download.c: they are used to receive the data from the HyperTerminal application (using the YMODEM protocol(a), and then to load them into the STM32F10x's internal RAM. In the event of a failure when receiving the data, the “Failed to receive the file” error message is displayed. If the data is received successfully, it is programmed into the internal Flash memory from the appropriate address. A comparison between internal RAM contents and internal Flash memory contents is performed to check the data integrity. If there is any data discrepancy, the “Verification failed” error message is displayed. Other error messages are also displayed when the image file size is greater than the allowed memory space and when the user aborts the task."
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00031",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "upload.c: it is used to transmit the STM32F10xxx internal Flash memory content started from the user application address using the ymodem protocol."
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00032",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "●STM32F10x Standard Peripherals Library."
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00033",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "To select the STMicroelectronics evaluation board STM32100B-EVAL (Medium density value line devices), STM3210C-EVAL (Connectivity line devices), STM3210E-EVAL (High density devices), STM32100E-EVAL (High-density value line devices) or STM3210B-EVAL (Medium-density devices) used to run the IAP, uncomment the corresponding line in stm32\\_eval.h file (under Utilities\\STM32\\_EVAL)"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00034",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "//#define USE\\_STM32100B\\_EVAL"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00035",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "//#define USE\\_STM3210B\\_EVAL"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00036",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "//#define USE\\_STM3210E\\_EVAL"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00037",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "//#define USE\\_STM3210C\\_EVAL"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00038",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "//#define USE\\_STM32100E\\_EVAL"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00039",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "The user can choose to either go to the user application or execute the lAP for reprogramming purposes by pressing a push-button connected to a pin."
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00040",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "●Not pressing the push-button at reset switches to the user application"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00041",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "●Pressing the push-button at reset displays the lAP main menu"
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00042",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "Refer to Table 1.: STM32F10xxx IAP implementation for more details about the STM32100B-EVAL, STM3210B-EVAL, STM3210E-EVAL, STM3210C-EVAL and STM32100E-EVAL board push-button used to enter the IAP mode."
+  },
+  {
+    "segment_id": "stm32-an2557-p0006-text-00043",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 6,
+    "text": "The lAP flowchart is represented in Figure 1."
+  },
+  {
+    "segment_id": "stm32-an2557-p0007-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2557",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_figure_p0007_00001.png",
+    "caption": "Figure 1 is a flowchart of the IAP driver.\n\nVisible flowchart text and logic:\n\n- **Start**\n  - Leads to decision: **“Push-button is pressed?”**\n    - **No**: routed to **Switch to user program**\n      - **Switch to user program**\n      - **User application software**\n    - **Yes**:\n      - **Initialize the STM32F10xxx USART**\n      - **Display the IAP main menu**\n      - Decision: **“Download or upload or switch or disable write-protection?”**\n\n- From the IAP main-menu decision:\n  - **Download**\n    - **Receive a binary file**\n    - Decision: **“Success”**\n      - **No**: **Display the error message “Failed to receive the file”**\n      - **Yes**: **Program the Flash**\n        - Decision: **“All data programmed successfully?”**\n          - **No**: **Display the error message “Verification failed”**\n          - **Yes**: **Display the name and size of received file**\n    - The download result/error paths are routed back toward the IAP main-menu flow.\n  - **Upload**\n    - **Transmit image of the device internal Flash**\n    - Decision: **“Success”**\n      - **No**: **Display the error message “Error has occured”**\n      - **Yes**: routed back toward the IAP main-menu flow.\n  - **Flash protection**\n    - **Disable the write protection**\n    - **System reset generation**\n    - Routed through the reset loop back to **Start**.\n  - **Switch to user program**\n    - **Switch to user program**\n    - **User application software**\n\nOther visible labels and markers:\n\n- Decision branches are labeled **Yes** and **No**.\n- The flowchart uses rectangular process/output boxes and diamond-shaped decision boxes.\n- The figure includes a routed return path along the left and bottom edges for returning from IAP operations to the menu flow.\n- The spelling shown in the figure is exactly **“Error has occured”**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Flowchart of the IAP driver",
+    "generated_captions": {
+      "luna": "Figure 1 is a flowchart of the IAP driver.\n\nVisible flowchart text and logic:\n\n- **Start**\n  - Leads to decision: **“Push-button is pressed?”**\n    - **No**: routed to **Switch to user program**\n      - **Switch to user program**\n      - **User application software**\n    - **Yes**:\n      - **Initialize the STM32F10xxx USART**\n      - **Display the IAP main menu**\n      - Decision: **“Download or upload or switch or disable write-protection?”**\n\n- From the IAP main-menu decision:\n  - **Download**\n    - **Receive a binary file**\n    - Decision: **“Success”**\n      - **No**: **Display the error message “Failed to receive the file”**\n      - **Yes**: **Program the Flash**\n        - Decision: **“All data programmed successfully?”**\n          - **No**: **Display the error message “Verification failed”**\n          - **Yes**: **Display the name and size of received file**\n    - The download result/error paths are routed back toward the IAP main-menu flow.\n  - **Upload**\n    - **Transmit image of the device internal Flash**\n    - Decision: **“Success”**\n      - **No**: **Display the error message “Error has occured”**\n      - **Yes**: routed back toward the IAP main-menu flow.\n  - **Flash protection**\n    - **Disable the write protection**\n    - **System reset generation**\n    - Routed through the reset loop back to **Start**.\n  - **Switch to user program**\n    - **Switch to user program**\n    - **User application software**\n\nOther visible labels and markers:\n\n- Decision branches are labeled **Yes** and **No**.\n- The flowchart uses rectangular process/output boxes and diamond-shaped decision boxes.\n- The figure includes a routed return path along the left and bottom edges for returning from IAP operations to the menu flow.\n- The spelling shown in the figure is exactly **“Error has occured”**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00044",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "Running the IAP driver"
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00045",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "The IAP driver is programmed in Flash memory:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00046",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "From page 0 to page 11 on Low-density devices, Medium-density devices, Low-density value line devices, and Medium-density value line devices."
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00047",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "From page 0 to page 5 on High-density, Connectivity line, XL density devices and Highdensity value line device."
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00048",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "The user application occupies the remaining memory space."
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00049",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "2.1HyperTerminal configuration"
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00050",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "To use the IAP, the user must have a PC running HyperTerminal or other Terminal program that supports ymodem protocol as shown in Figure 2. In this document the HyperTerminal is used. The following figure shows the HyperTerminal configuration."
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_figure_p0008_00002.png",
+    "caption": "Figure 2. COM port properties — screenshot of the **COM1 Properties** dialog, **Port Settings** tab.\n\nVisible settings:\n- **Bits per second:** 115200\n- **Data bits:** 8\n- **Parity:** None\n- **Stop bits:** 1\n- **Flow control:** None\n\nVisible controls and labels:\n- **Restore Defaults**\n- **OK**\n- **Cancel**\n- **Apply** (grayed out/disabled)\n- Window help button (**?**) and close button (**X**) in the title bar.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. COM port properties",
+    "generated_captions": {
+      "luna": "Figure 2. COM port properties — screenshot of the **COM1 Properties** dialog, **Port Settings** tab.\n\nVisible settings:\n- **Bits per second:** 115200\n- **Data bits:** 8\n- **Parity:** None\n- **Stop bits:** 1\n- **Flow control:** None\n\nVisible controls and labels:\n- **Restore Defaults**\n- **OK**\n- **Cancel**\n- **Apply** (grayed out/disabled)\n- Window help button (**?**) and close button (**X**) in the title bar."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0008-text-00051",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 8,
+    "text": "Care must be taken when selecting the system clock frequency. To guarantee successful communication via the USART, the system clock frequency in the end application must be such that a baud rate equal to 115200 bps can be generated."
+  },
+  {
+    "segment_id": "stm32-an2557-p0009-text-00052",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 9,
+    "text": "2.2 Executing the IAP driver"
+  },
+  {
+    "segment_id": "stm32-an2557-p0009-text-00053",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 9,
+    "text": "As an example in this application note, pressing the pin connected to the push-button allows the IAP driver to run."
+  },
+  {
+    "segment_id": "stm32-an2557-p0009-text-00054",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 9,
+    "text": "By pressing the push-button at reset, the user can run the lAP driver to reprogram the STM32F10x's internal Flash memory. It is not mandatory to use the push-button; the user can apply a signal to this pin with respect to its active level. Refer to Table 1.: STM32F10xxx IAP implementation."
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00055",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "IAP driver menu"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00056",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "Running the IAP displays the following menu in the HyperTerminal window."
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_figure_p0010_00003.png",
+    "caption": "**Figure 3 – IAP Driver menu when the STM32F10x Flash memory is not protected**\n\nThe figure is a Windows HyperTerminal screenshot. Window title: **“STM32_IAP - HyperTerminal”**. The terminal displays:\n\n```text\n================================================================\n=             (C) COPYRIGHT 2010 STMicroelectronics            =\n=                                                               =\n=      In-Application Programming Application  (Version X.Y.Z)  =\n=                                                               =\n=                         By MCU Application Team               =\n================================================================\n\n==================== Main Menu ================================\n\nDownload Image To the STM32F10x Internal Flash ------- 1\n\nUpload Image From the STM32F10x Internal Flash ------- 2\n\nExecute The New Program ------------------------------ 3\n\n================================================================\n```\n\nVisible menu options and selections:\n\n1. **Download Image To the STM32F10x Internal Flash**\n2. **Upload Image From the STM32F10x Internal Flash**\n3. **Execute The New Program**\n\nHyperTerminal menu bar labels: **File**, **Edit**, **View**, **Call**, **Transfer**, **Help**.\n\nStatus bar shows: **Connected 0:00:20**, **Auto detect**, **115200 8-N-1**. Other visible terminal indicators include **SCROLL**, **CAPS**, **NJM**, **Capture**, **Print echo**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. IAP Driver menu when the STM32F10x Flash memory is not protected",
+    "generated_captions": {
+      "luna": "**Figure 3 – IAP Driver menu when the STM32F10x Flash memory is not protected**\n\nThe figure is a Windows HyperTerminal screenshot. Window title: **“STM32_IAP - HyperTerminal”**. The terminal displays:\n\n```text\n================================================================\n=             (C) COPYRIGHT 2010 STMicroelectronics            =\n=                                                               =\n=      In-Application Programming Application  (Version X.Y.Z)  =\n=                                                               =\n=                         By MCU Application Team               =\n================================================================\n\n==================== Main Menu ================================\n\nDownload Image To the STM32F10x Internal Flash ------- 1\n\nUpload Image From the STM32F10x Internal Flash ------- 2\n\nExecute The New Program ------------------------------ 3\n\n================================================================\n```\n\nVisible menu options and selections:\n\n1. **Download Image To the STM32F10x Internal Flash**\n2. **Upload Image From the STM32F10x Internal Flash**\n3. **Execute The New Program**\n\nHyperTerminal menu bar labels: **File**, **Edit**, **View**, **Call**, **Transfer**, **Help**.\n\nStatus bar shows: **Connected 0:00:20**, **Auto detect**, **115200 8-N-1**. Other visible terminal indicators include **SCROLL**, **CAPS**, **NJM**, **Capture**, **Print echo**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00057",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "3.1 Download image to the internal Flash memory"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00058",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "To download a binary file via HyperTerminal to the STM32F10x's internal Flash memory, do as follows:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00059",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "1. Press 1 on the keyboard to select the Download Image To the STM32F10x Internal Flash menu"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00060",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "2. Select Send File in the Transfer menu"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00061",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "3. In the Filename field, type the name and the path of the binary file you want to download"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00062",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "4. From the protocol list, select the Ymodem protocol"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00063",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "5. Click on the Send button"
+  },
+  {
+    "segment_id": "stm32-an2557-p0010-text-00064",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 10,
+    "text": "As a result, the IAP driver loads the binary file into the STM32F10x's internal Flash memory from the defined base address and displays the binary file name and size in the HyperTerminal window."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00065",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "3.2 Upload image from the internal Flash memory"
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00066",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "To upload a copy of the internal Flash memory started from the user application address, do as follows:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00067",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "1. Press 2 on the keyboard to select Upload image from the STM32F10x internal Flash menu."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00068",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "2. Select Receive File in the Transfer menu."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "3. Choose the directory of the binary file you want to create."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "4. From the protocol list, select the Ymodem protocol."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "5. Click on the Receive button."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "3.3 Execute the new program"
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00073",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "Once the new program has been loaded, press 3 on the keyboard to select the Execute The New Program menu and execute the code."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "3.4 Disabling the write protection"
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00075",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "When the IAP starts, it checks the Flash memory pages where the user program is to be loaded to see if any are write-protected. If it is the case, the menu shown in Figure 4 appears."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_figure_p0011_00004.png",
+    "caption": "Figure 4 shows a Windows HyperTerminal session displaying the STM32F10x In-Application Programming (IAP) driver menu when the internal Flash memory is write-protected.\n\nVisible interface text:\n\n- Window title: `STM32_IAP - HyperTerminal`\n- Menu bar: `File`, `Edit`, `View`, `Call`, `Transfer`, `Help`\n- Application header:\n  - `(C) COPYRIGHT 2010 STMicroelectronics`\n  - `In-Application Programming Application (Version 1.0.0)` [the version text is low-resolution but appears to read `1.0.0`]\n  - `By MCD Application Team`\n- Menu heading: `Main Menu`\n- Menu options:\n  1. `Download Image To the STM32F10x Internal Flash ------ 1`\n  2. `Upload Image from the STM32F10x Internal Flash ------ 2`\n  3. `Execute The New Program ---------------------------- 3`\n  4. `Disable the write protection ------------------------ 4`\n\nThe terminal status bar shows:\n\n- `Connected 0:00:20`\n- `Auto detect`\n- `115200 8-N-1`\n- `SCROLL`\n- `CAPS`\n- `NUM`\n- `Capture`\n- `Print echo`\n\nThe figure depicts the four available IAP actions, including the option to disable Flash write protection.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. IAP driver menu when the STM32F10x Flash memory is write-protected",
+    "generated_captions": {
+      "luna": "Figure 4 shows a Windows HyperTerminal session displaying the STM32F10x In-Application Programming (IAP) driver menu when the internal Flash memory is write-protected.\n\nVisible interface text:\n\n- Window title: `STM32_IAP - HyperTerminal`\n- Menu bar: `File`, `Edit`, `View`, `Call`, `Transfer`, `Help`\n- Application header:\n  - `(C) COPYRIGHT 2010 STMicroelectronics`\n  - `In-Application Programming Application (Version 1.0.0)` [the version text is low-resolution but appears to read `1.0.0`]\n  - `By MCD Application Team`\n- Menu heading: `Main Menu`\n- Menu options:\n  1. `Download Image To the STM32F10x Internal Flash ------ 1`\n  2. `Upload Image from the STM32F10x Internal Flash ------ 2`\n  3. `Execute The New Program ---------------------------- 3`\n  4. `Disable the write protection ------------------------ 4`\n\nThe terminal status bar shows:\n\n- `Connected 0:00:20`\n- `Auto detect`\n- `115200 8-N-1`\n- `SCROLL`\n- `CAPS`\n- `NUM`\n- `Capture`\n- `Print echo`\n\nThe figure depicts the four available IAP actions, including the option to disable Flash write protection."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00076",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "Prior to downloading the new program, the write protection must be disabled. To do so, press 4 (Disable the write protection) on the keyboard. The write protection is disabled and a system reset is generated to reload the new option byte values. After resuming from reset, the menu shown in Figure 3 is displayed if the key push-button is pressed."
+  },
+  {
+    "segment_id": "stm32-an2557-p0011-text-00077",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 11,
+    "text": "In this application, the read protection is not supported, so the user has to verify that the Flash memory is not read-protected."
+  },
+  {
+    "segment_id": "stm32-an2557-p0012-text-00078",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 12,
+    "text": "4 STM32F10x IAP implementation summary"
+  },
+  {
+    "segment_id": "stm32-an2557-p0012-text-00079",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 12,
+    "text": "Table 1 provides a summary of the STM32F10x IAP implementation."
+  },
+  {
+    "segment_id": "stm32-an2557-p0012-table-00001",
+    "type": "table",
+    "doc": "stm32-an2557",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_table_p0012_00001.png",
+    "caption": "**Table 1. STM32F10xxx IAP implementation**\n\nThe table has six columns: a device/family column; three **Firmware** columns; and two **Hardware** columns.\n\n**Firmware column descriptions:**\n1. “The IAP program is located at 0x8000000. The Flash routines (program/erase) are executed from the Flash memory. The size of this program is about 12 Kbytes and programmed on:”\n2. “The user application (image to be loaded with the IAP) will be programmed starting from address 0x8003000(1). The maximum size of the image to be loaded is:”\n3. “The image is uploaded with the IAP from the STM32F10xxx internal Flash. The maximum size of the image to be uploaded is:”\n\n**Hardware column descriptions:**\n- “Push-button (active level: low)”\n- “USART used”\n\n| Device | IAP program placement | Maximum image size / user application | Maximum image uploaded from internal Flash | Push-button | USART used |\n|---|---|---|---|---|---|\n| **Medium-density devices (STM3210B-EVAL)** | page 0 to page 11 | 116 Kbytes (page 12 - page 127) | 116 Kbytes (page 12 - page 127) | Key pushbutton connected to pin PB.09 | USART1 |\n| **High-density devices (STM3210E-EVAL)** | page 0 to page 5 | 500 Kbytes (page 6 - page 255) | 500 Kbytes (page 6 - page 255) | Key pushbutton connected to pin PG.08 | USART1 |\n| **Connectivity line devices (STM3210C-EVAL)** | page 0 to page 5 | 244 Kbytes (page 6 - page 127) | 244 Kbytes (page 6 - page 127) | Key pushbutton connected to pin PB.09 | USART2 (Tx/Rx pins remapped) |\n| **Medium-density value line devices (STM32100B-EVAL)** | page 0 to page 11 | 116 Kbytes (page 12 - page 127) | 116 Kbytes (page 12 - page 127) | Key pushbutton connected to pin PB.09 | USART1 |\n| **XL-density devices (STM3210E-EVAL)** | page 0 to page 5 | 1012 Kbytes (page 6 - page 512) | 1012 Kbytes (page 6 - page 512) | Key pushbutton connected to pin PG.08 | USART1 |\n| **High-density value line devices (STM32100E-EVAL)** | page 0 to page 5 | 500 Kbytes (page 6 - page 255) | 500 Kbytes (page 6 - page 255) | Key pushbutton connected to pin PG.08 | USART1 |\n\nThe user-application address includes footnote marker **(1)** after `0x8003000`; the footnote text is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. STM32F10xxx IAP implementation",
+    "generated_captions": {
+      "luna": "**Table 1. STM32F10xxx IAP implementation**\n\nThe table has six columns: a device/family column; three **Firmware** columns; and two **Hardware** columns.\n\n**Firmware column descriptions:**\n1. “The IAP program is located at 0x8000000. The Flash routines (program/erase) are executed from the Flash memory. The size of this program is about 12 Kbytes and programmed on:”\n2. “The user application (image to be loaded with the IAP) will be programmed starting from address 0x8003000(1). The maximum size of the image to be loaded is:”\n3. “The image is uploaded with the IAP from the STM32F10xxx internal Flash. The maximum size of the image to be uploaded is:”\n\n**Hardware column descriptions:**\n- “Push-button (active level: low)”\n- “USART used”\n\n| Device | IAP program placement | Maximum image size / user application | Maximum image uploaded from internal Flash | Push-button | USART used |\n|---|---|---|---|---|---|\n| **Medium-density devices (STM3210B-EVAL)** | page 0 to page 11 | 116 Kbytes (page 12 - page 127) | 116 Kbytes (page 12 - page 127) | Key pushbutton connected to pin PB.09 | USART1 |\n| **High-density devices (STM3210E-EVAL)** | page 0 to page 5 | 500 Kbytes (page 6 - page 255) | 500 Kbytes (page 6 - page 255) | Key pushbutton connected to pin PG.08 | USART1 |\n| **Connectivity line devices (STM3210C-EVAL)** | page 0 to page 5 | 244 Kbytes (page 6 - page 127) | 244 Kbytes (page 6 - page 127) | Key pushbutton connected to pin PB.09 | USART2 (Tx/Rx pins remapped) |\n| **Medium-density value line devices (STM32100B-EVAL)** | page 0 to page 11 | 116 Kbytes (page 12 - page 127) | 116 Kbytes (page 12 - page 127) | Key pushbutton connected to pin PB.09 | USART1 |\n| **XL-density devices (STM3210E-EVAL)** | page 0 to page 5 | 1012 Kbytes (page 6 - page 512) | 1012 Kbytes (page 6 - page 512) | Key pushbutton connected to pin PG.08 | USART1 |\n| **High-density value line devices (STM32100E-EVAL)** | page 0 to page 5 | 500 Kbytes (page 6 - page 255) | 500 Kbytes (page 6 - page 255) | Key pushbutton connected to pin PG.08 | USART1 |\n\nThe user-application address includes footnote marker **(1)** after `0x8003000`; the footnote text is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0013-text-00080",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 13,
+    "text": "The STM32F10xxx IAP package comes with:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0013-text-00081",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 13,
+    "text": "Source files and pre-configured projects for the IAP program (under Project\\IAP directory)"
+  },
+  {
+    "segment_id": "stm32-an2557-p0013-text-00082",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 13,
+    "text": "Source files and pre-configured projects that build the application to be loaded into Flash memory using the IAP (under Project\\IAP\\binary\\_template directory)."
+  },
+  {
+    "segment_id": "stm32-an2557-p0013-text-00083",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 13,
+    "text": "The readme.txt files provided within this package describes step by step how to execute this IAP application."
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00084",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "0x0807 FFFF for High-density and High-density value line devices."
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00085",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "User program conditions"
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00086",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "The user application to be loaded into the Flash memory using IAP should be built with these configuration settings:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00087",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "1. Set the program load address at 0x08003000, using your toolchain linker file"
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00088",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "2. Relocate the vector table at address 0x08003000, using the"
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00089",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "\"NVIC\\_SetVectorTable\"function or the VECT\\_TAB\\_OFFSET definition inside the \"system\\_stm32f10x.c\""
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-text-00090",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "text": "An example application program to be loaded with the IAP application is provided with preconfigured projects."
+  },
+  {
+    "segment_id": "stm32-an2557-p0014-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2557",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_figure_p0014_00005.png",
+    "caption": "**Figure 5. Flash memory usage**\n\nThe figure shows a vertical rectangular **Flash memory** layout. At the upper left is **“Top Flash memory address(1)”**. The memory regions and labels shown are:\n\n- **User code** — occupies the large upper region.\n- **Vector table** — located near the boundary between user code and IAP code.\n- **IAP code** — occupies the middle/lower region.\n- **Vector table** — located at the bottom of the flash-memory layout.\n\nVisible address labels on the left side:\n\n- **0x800 3000**\n- **0x800 2FFF**\n- **0x800 0000**\n\nThe diagram includes horizontal dashed markers above each **Vector table** region and solid horizontal boundaries within the memory rectangle. The bottom-left and bottom-right corners of the rectangle correspond visually to the lowest displayed address region, with **0x800 0000** alongside the lower boundary.\n\nBottom-right identifier: **AI14403b**.\n\nThe footnote text associated with **“Top Flash memory address(1)”** is not visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Flash memory usage",
+    "generated_captions": {
+      "luna": "**Figure 5. Flash memory usage**\n\nThe figure shows a vertical rectangular **Flash memory** layout. At the upper left is **“Top Flash memory address(1)”**. The memory regions and labels shown are:\n\n- **User code** — occupies the large upper region.\n- **Vector table** — located near the boundary between user code and IAP code.\n- **IAP code** — occupies the middle/lower region.\n- **Vector table** — located at the bottom of the flash-memory layout.\n\nVisible address labels on the left side:\n\n- **0x800 3000**\n- **0x800 2FFF**\n- **0x800 0000**\n\nThe diagram includes horizontal dashed markers above each **Vector table** region and solid horizontal boundaries within the memory rectangle. The bottom-left and bottom-right corners of the rectangle correspond visually to the lowest displayed address region, with **0x800 0000** alongside the lower boundary.\n\nBottom-right identifier: **AI14403b**.\n\nThe footnote text associated with **“Top Flash memory address(1)”** is not visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0015-text-00091",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 15,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2557-p0015-table-00002",
+    "type": "table",
+    "doc": "stm32-an2557",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2557/mineru/images/bbox_fallback_table_p0015_00002.png",
+    "caption": "## Table 2. Revision history\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 05-Jun-2007 | 1 | Initial release. |\n| 05-Oct-2007 | 2 | The IAP driver can also be programmed from the SWD interface (see **Section 1.1: Principle**).<br><br>Modified:<br>– **Figure 3: IAP Driver menu when the STM32F10x Flash memory is not protected**<br>– **Figure 4: IAP driver menu when the STM32F10x Flash memory is write-protected**<br>– **Figure 6: IAP driver directory structure.**<br><br>Flash routines modified in **Table 1.: STM32F10xxx IAP implementation.** **Section 5: User program conditions** updated.<br>**Section 7: How to use the IAP driver** modified, RIDE project added. |\n| 30-May-2008 | 3 | Application note updated to apply to High-density devices (implemented on the STM3210E-EVAL evaluation board).<br><br>Small text changes.<br>**Figure 1: Flowchart of the IAP driver on page 7** corrected. |\n| 13-Jun-2008 | 4 | **Figure 6: IAP driver directory structure** modified. |\n| 31-Jul-2009 | 5 | Updated for connectivity line devices. |\n| 28-May-2010 | 6 | **Introduction:** added STM32100B-EVAL evaluation board.<br>**Section 1: IAP overview:** added low-density value line and medium-density value line devices; updated list of devices for medium density devices and connectivity line devices; added XL-density line devices.<br>**Section 1.2: IAP driver description:** updated section for addition of STM32100B-EVAL evaluation board.<br>**Section 2: Running the IAP driver:** added Low-density devices, Low-density value line devices, Medium-density value line devices and XL-density line devices.<br>Replaced **Figure 3: IAP Driver menu when the STM32F10x Flash memory is not protected** and **Figure 4: IAP driver menu when the STM32F10x Flash memory is write-protected**.<br>**Section 3.4: Disabling the write protection:** small text change.<br>**Section 4: STM32F10x IAP implementation summary:** in **Table 1** added Medium-density value line and XL-density devices; updated High-density devices and Connectivity line devices. Made small text change in general text.<br>**Figure 5: Flash memory usage:** updated **Note 1**. |\n| 12-Oct-2010 | 7 | Updated for high-density value line devices. |\n| 26-Oct-2010 | 8 | Modified **Section 2.1: HyperTerminal configuration on page 8**.<br>Updated **Figure 3 on page 10**.<br>Changed `ApplicationAddress` from `0x08002000` to `0x08003000` in **Table 1: STM32F10xxx IAP implementation on page 12** and **Figure 5: Flash memory usage on page 14**. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Revision history",
+    "generated_captions": {
+      "luna": "## Table 2. Revision history\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 05-Jun-2007 | 1 | Initial release. |\n| 05-Oct-2007 | 2 | The IAP driver can also be programmed from the SWD interface (see **Section 1.1: Principle**).<br><br>Modified:<br>– **Figure 3: IAP Driver menu when the STM32F10x Flash memory is not protected**<br>– **Figure 4: IAP driver menu when the STM32F10x Flash memory is write-protected**<br>– **Figure 6: IAP driver directory structure.**<br><br>Flash routines modified in **Table 1.: STM32F10xxx IAP implementation.** **Section 5: User program conditions** updated.<br>**Section 7: How to use the IAP driver** modified, RIDE project added. |\n| 30-May-2008 | 3 | Application note updated to apply to High-density devices (implemented on the STM3210E-EVAL evaluation board).<br><br>Small text changes.<br>**Figure 1: Flowchart of the IAP driver on page 7** corrected. |\n| 13-Jun-2008 | 4 | **Figure 6: IAP driver directory structure** modified. |\n| 31-Jul-2009 | 5 | Updated for connectivity line devices. |\n| 28-May-2010 | 6 | **Introduction:** added STM32100B-EVAL evaluation board.<br>**Section 1: IAP overview:** added low-density value line and medium-density value line devices; updated list of devices for medium density devices and connectivity line devices; added XL-density line devices.<br>**Section 1.2: IAP driver description:** updated section for addition of STM32100B-EVAL evaluation board.<br>**Section 2: Running the IAP driver:** added Low-density devices, Low-density value line devices, Medium-density value line devices and XL-density line devices.<br>Replaced **Figure 3: IAP Driver menu when the STM32F10x Flash memory is not protected** and **Figure 4: IAP driver menu when the STM32F10x Flash memory is write-protected**.<br>**Section 3.4: Disabling the write protection:** small text change.<br>**Section 4: STM32F10x IAP implementation summary:** in **Table 1** added Medium-density value line and XL-density devices; updated High-density devices and Connectivity line devices. Made small text change in general text.<br>**Figure 5: Flash memory usage:** updated **Note 1**. |\n| 12-Oct-2010 | 7 | Updated for high-density value line devices. |\n| 26-Oct-2010 | 8 | Modified **Section 2.1: HyperTerminal configuration on page 8**.<br>Updated **Figure 3 on page 10**.<br>Changed `ApplicationAddress` from `0x08002000` to `0x08003000` in **Table 1: STM32F10xxx IAP implementation on page 12** and **Figure 5: Flash memory usage on page 14**. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00092",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00093",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00094",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00095",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00096",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00097",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00098",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00099",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00100",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00101",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00102",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00103",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "© 2010 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00104",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00105",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2557-p0016-text-00106",
+    "type": "text",
+    "doc": "stm32-an2557",
+    "page": 16,
+    "text": "www.st.com"
+  }
+]

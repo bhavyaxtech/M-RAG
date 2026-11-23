@@ -1,0 +1,22 @@
+{
+  "doc_id": "stm32-an2594",
+  "document_id": "AN2594",
+  "title": "STM32F10xxx EEPROM emulation",
+  "document_kind": "application_note",
+  "applicability": "Flash-based EEPROM emulation and endurance",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00165693.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/13718.pdf",
+    "https://www.cs.utexas.edu/~valvano/EE345M/ApplicationNotes/AN2594_EEPROM.pdf",
+    "https://www.st.com/resource/en/application_note/cd00165693.pdf"
+  ],
+  "pages": 16,
+  "sha256": "b3e9aa831e3c2372ef029d3033ad87b75074b2981e2f3b5291c2198aec44a2f8",
+  "cover_text": "August 2009\nDoc ID 13718 Rev 3\n1/10\nAN2594\nApplication note\nEEPROM emulation\nin STM32F10x microcontrollers\nIntroduction\nMany applications require EEPROM (electrically erasable programmable read-only \nmemory) for non-volatile data storage. For low-cost purposes, the STM32F10x devices do \nnot use EEPROM. Instead, they implement EEPROM emulation using the embedded Flash \nmemory.\nThis application note explains the differences between external EEPROM and embedded \nFlash memory, and it describes a software method for emulating EEPROM using the on-\nchip Flash memory of the STM32F10x devices.\nThis document also focuses on some embedded aspects in emulated EEPROM data \nstorage, that the reader is assumed to know.\nGlossary\nLow-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers \nwhere the Flash memory density ranges between 16 and 32 Kbytes.\nMedium-density devices are STM32F10x and STM32F103xx microcontrollers where the \nFlash memory density ranges between 32 and 128 Kbytes.\nHigh-density devices are STM32F10x and STM32F103xx microcontrollers where the Flash \nmemory density ranges between 256 and 512 Kbytes.\nConnectivity line devices are STM32F105xx and STM32F107xx microcontrollers.\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/13718.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:14.936737+00:00",
+  "path": "data/raw/stm32/stm32-an2594.pdf"
+}

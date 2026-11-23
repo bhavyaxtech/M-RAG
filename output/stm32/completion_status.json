@@ -1,0 +1,8 @@
+{
+  "checked_at": "2026-09-08T23:47:45.8361584+05:30",
+  "stage": "complete",
+  "wrapper_pid": 10416,
+  "waiting_for": null,
+  "detail": "Full collection indexed; structural smoke and HTTP asset checks passed. Answers remain ungraded.",
+  "status": "complete"
+}

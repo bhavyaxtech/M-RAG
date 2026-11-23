@@ -1,0 +1,126 @@
+{
+  "corpora": [
+    {
+      "corpus_id": "hardware",
+      "title": "Hardware datasheets",
+      "blurb": "Manufacturer datasheets for five hardware and electronics components.",
+      "evaluated": true,
+      "index_dir": "index",
+      "parsed_dir": "data/parsed/hardware",
+      "raw_dir": "data/raw/hardware",
+      "documents": [
+        {
+          "doc_id": "rp2040",
+          "title": "RP2040 / Raspberry Pi Pico"
+        },
+        {
+          "doc_id": "esp32-wroom-32e-32ue",
+          "title": "ESP32-WROOM-32E/32UE"
+        },
+        {
+          "doc_id": "atmega328p",
+          "title": "ATmega328P"
+        },
+        {
+          "doc_id": "lm317",
+          "title": "LM317"
+        },
+        {
+          "doc_id": "stm32f103c8",
+          "title": "STM32F103C8"
+        }
+      ]
+    },
+    {
+      "corpus_id": "stm32",
+      "title": "STM32F103 connected technical library",
+      "blurb": "Manuals, datasheet, errata, and application notes. Cross-document pilot; not yet evaluated.",
+      "evaluated": false,
+      "index_dir": "index/stm32",
+      "parsed_dir": "data/parsed/stm32",
+      "raw_dir": "data/raw/stm32",
+      "documents": [
+        {
+          "doc_id": "stm32-ds5319",
+          "title": "DS5319 (rev 20) \u2014 STM32F103x8/xB datasheet"
+        },
+        {
+          "doc_id": "stm32-rm0008",
+          "title": "RM0008 (rev 20) \u2014 STM32F1 reference manual"
+        },
+        {
+          "doc_id": "stm32-es096",
+          "title": "ES096 (rev 15) \u2014 STM32F101/102/103 medium-density errata"
+        },
+        {
+          "doc_id": "stm32-pm0056",
+          "title": "PM0056 (rev 6) \u2014 Cortex-M3 programming manual"
+        },
+        {
+          "doc_id": "stm32-pm0075",
+          "title": "PM0075 (rev 2) \u2014 STM32F10xxx Flash programming manual"
+        },
+        {
+          "doc_id": "stm32-an2586",
+          "title": "AN2586 (rev 7) \u2014 STM32F10xxx hardware development"
+        },
+        {
+          "doc_id": "stm32-an2594",
+          "title": "AN2594 (rev 3) \u2014 STM32F10xxx EEPROM emulation"
+        },
+        {
+          "doc_id": "stm32-an2606",
+          "title": "AN2606 (rev 9) \u2014 STM32 system-memory boot mode"
+        },
+        {
+          "doc_id": "stm32-an3155",
+          "title": "AN3155 (rev 2) \u2014 USART protocol used in STM32 bootloader"
+        },
+        {
+          "doc_id": "stm32-an2834",
+          "title": "AN2834 (rev 1) \u2014 Improving STM32 ADC accuracy"
+        },
+        {
+          "doc_id": "stm32-an3116",
+          "title": "AN3116 (rev 1) \u2014 STM32F10xxx ADC modes and applications"
+        },
+        {
+          "doc_id": "stm32-an2548",
+          "title": "AN2548 (rev 3) \u2014 Using STM32F0/F1/F3/Gx/Lx DMA controller"
+        },
+        {
+          "doc_id": "stm32-an2824",
+          "title": "AN2824 (rev 4) \u2014 STM32F10xxx I2C optimized examples"
+        },
+        {
+          "doc_id": "stm32-an2820",
+          "title": "AN2820 (rev 2) \u2014 Driving bipolar stepper motors with STM32F103"
+        },
+        {
+          "doc_id": "stm32-an2629",
+          "title": "AN2629 (rev 2) \u2014 STM32F10xxx low-power modes"
+        },
+        {
+          "doc_id": "stm32-an2557",
+          "title": "AN2557 (rev 8) \u2014 STM32F10xxx in-application programming over USART"
+        },
+        {
+          "doc_id": "stm32-an2821",
+          "title": "AN2821 (rev 2) \u2014 STM32F10xxx RTC clock/calendar implementation"
+        },
+        {
+          "doc_id": "stm32-an2867",
+          "title": "AN2867 (rev 3) \u2014 Oscillator design guide for STM32 MCUs"
+        },
+        {
+          "doc_id": "stm32-an1709",
+          "title": "AN1709 (rev not extracted) \u2014 EMC design guide for STM8 STM32 and legacy MCUs"
+        },
+        {
+          "doc_id": "stm32-an2592",
+          "title": "AN2592 (rev 1) \u2014 32-bit timer resolution using STM32F101/F103 timer linking"
+        }
+      ]
+    }
+  ]
+}

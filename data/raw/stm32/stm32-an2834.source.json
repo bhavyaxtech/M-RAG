@@ -1,0 +1,22 @@
+{
+  "doc_id": "stm32-an2834",
+  "document_id": "AN2834",
+  "title": "Improving STM32 ADC accuracy",
+  "document_kind": "application_note",
+  "applicability": "Cross-series techniques; check device ADC specifications",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00211314.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/15067.pdf",
+    "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1049/CD00211314.pdf",
+    "https://www.st.com/resource/en/application_note/cd00211314.pdf"
+  ],
+  "pages": 28,
+  "sha256": "31f4e725b76df8e92edf9a58318ef9c2344421bab933e5d48c2e89cab70fde51",
+  "cover_text": "November 2008\n  Rev 1\n1/28\nAN2834\nApplication note\nHow to get the best ADC accuracy\nin STM32F10xxx devices\nIntroduction\nThe STM32F10xxx microcontroller family embeds up to three advanced 12-bit ADCs \n(depending on the device) with a conversion time down to 1 \u00b5s. A self-calibration feature is \nprovided to enhance ADC accuracy versus environmental condition changes.\nIn applications involving analog-to-digital conversion, ADC accuracy has an impact on the \noverall system quality and efficiency. To improve this accuracy, you need to understand the \nerrors associated with the ADC and the parameters affecting them.\nThe ADC accuracy cannot depend on the ADC performance and features only, it depends \non the overall application design around the ADC.\nThe aim of this application note is to help understand ADC errors and how to enhance ADC \naccuracy. The document is divided into two main parts:\n\u25a0\nin the first, it gives the different types and sources of ADC errors related to the ADC design \nand to external ADC parameters such as the external hardware design\n\u25a0\nin the second part, it describes the different recommendations and gives hints on how to \nminimize these errors by focusing on the hardware methods\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/15067.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:18.750051+00:00",
+  "path": "data/raw/stm32/stm32-an2834.pdf"
+}

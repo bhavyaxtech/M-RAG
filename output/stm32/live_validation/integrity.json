@@ -1,0 +1,140 @@
+{
+  "checked_at": "2026-09-08T17:58:27.935001+00:00",
+  "documents": [
+    {
+      "doc": "stm32-ds5319",
+      "sha256_matches": true,
+      "pages": 114,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-rm0008",
+      "sha256_matches": true,
+      "pages": 1134,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-es096",
+      "sha256_matches": true,
+      "pages": 31,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-pm0056",
+      "sha256_matches": true,
+      "pages": 156,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-pm0075",
+      "sha256_matches": true,
+      "pages": 31,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2586",
+      "sha256_matches": true,
+      "pages": 28,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2594",
+      "sha256_matches": true,
+      "pages": 16,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2606",
+      "sha256_matches": true,
+      "pages": 27,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an3155",
+      "sha256_matches": true,
+      "pages": 37,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2834",
+      "sha256_matches": true,
+      "pages": 28,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an3116",
+      "sha256_matches": true,
+      "pages": 18,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2548",
+      "sha256_matches": true,
+      "pages": 14,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2824",
+      "sha256_matches": true,
+      "pages": 16,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2820",
+      "sha256_matches": true,
+      "pages": 23,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2629",
+      "sha256_matches": true,
+      "pages": 43,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2557",
+      "sha256_matches": true,
+      "pages": 16,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2821",
+      "sha256_matches": true,
+      "pages": 28,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2867",
+      "sha256_matches": true,
+      "pages": 23,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an1709",
+      "sha256_matches": true,
+      "pages": 38,
+      "manifest_pages_match": true
+    },
+    {
+      "doc": "stm32-an2592",
+      "sha256_matches": true,
+      "pages": 16,
+      "manifest_pages_match": true
+    }
+  ],
+  "physical_pages": 1837,
+  "segment_counts": {
+    "text": 1675,
+    "figure": 563,
+    "table": 1051
+  },
+  "mrag_vectors": 3289,
+  "text_only_vectors": 1675,
+  "dimensions": 3072,
+  "baseline_identical": true,
+  "all_vectors_finite": true,
+  "max_norm_error": 1.1920928955078125e-07,
+  "invalid_page_numbers": [],
+  "image_decode_errors": [],
+  "visual_crops_decoded": 1614
+}

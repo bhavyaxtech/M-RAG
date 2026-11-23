@@ -1,0 +1,1926 @@
+[
+  {
+    "segment_id": "stm32-an2586-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Getting started with STM32F10xxx hardware development"
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "This application note is intended for system designers who require a hardware implementation overview of the development board features such as the power supply, the clock management, the reset control, the boot mode settings and the debug management. It shows how to use the low-density value line, low-density, medium-density value line, medium-density, high-density, XL-density and connectivity line STM32F10xxx product families and describes the minimum hardware resources required to develop an STM32F10xxx application."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Detailed reference design schematics are also contained in this document with descriptions of the main components, interfaces and modes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Glossary"
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Low-density value line devices are STM32F100xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Low-density devices are STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 16 and 32 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Medium-density value line devices are STM32F100xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00009",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "Medium-density devices are STM32F100xx, STM32F101xx, STM32F102xx and STM32F103xx microcontrollers where the Flash memory density ranges between 64 and 128 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00010",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "High-density value line devices are STM32F100xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00011",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "High-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 256 and 512 Kbytes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00012",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "XL-density devices are STM32F101xx and STM32F103xx microcontrollers where the Flash memory density ranges between 768 Kbytes and 1 Mbyte."
+  },
+  {
+    "segment_id": "stm32-an2586-p0001-text-00013",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 1,
+    "text": "●Connectivity line devices are STM32F105xx and STM32F107xx microcontrollers."
+  },
+  {
+    "segment_id": "stm32-an2586-p0002-text-00014",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2586-p0002-text-00015",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 2,
+    "text": "1 Power supplies   \n1.1 Introduction 6   \n1.1.1 Independent A/D converter supply and reference voltage 6   \n1.1.2 Battery backup   \n1.1.3 Voltage regulator 7   \n1.2 Power supply schemes >   \n1.3 Reset and power supply supervisor 8   \n1.3.1 Power on reset (POR) / power down reset (PDR) .8   \n1.3.2 Programmable voltage detector (PVD) .9   \n1.3.3 System reset .9   \n2 Clocks 11   \n2.1 HSE OSC clock 11   \n2.1.1 External source (HSE bypass) . 12   \n2.1.2 External crystal/ceramic resonator (HSE crystal) 12   \n2.2 LSE OSC clock 13   \n2.2.1 External source (LSE bypass) 13   \n2.2.2 External crystal/ceramic resonator (LSE crystal) . 13   \n2.3 Clock security system (CSS) 14   \n3 Boot configuration 15   \n3.1 Boot mode selection 15   \n3.2 Boot pin connection 15   \n3.3 Embedded boot loader mode . 16   \n4 Debug management .17   \n4.1 Introduction 17   \n4.2 SWJ debug port (serial wire and JTAG). 17   \n4.3 Pinout and debug port pins 17   \n4.3.1 SWJ debug port pins .17   \n4.3.2 Flexible SWJ-DP pin assignment . .18   \n4.3.3 Internal pull-up and pull-down resistors on JTAG pins 19   \n4.3.4 SWJ debug port connection with standard JTAG connector .19   \n5 Recommendations 20   \n5.1 Printed circuit board 20   \n5.2 Component position 20   \n5.3 Ground and power supply (Vss, VDD) 20   \n5.4 Decoupling 20   \n5.5 Other signals 21   \n5.6 Unused I/Os and features 21   \n6 Reference design 22   \n6.1 Description 22   \n6.1.1 Clock .22   \n6.1.2 Reset . .22   \n6.1.3 Boot mode .22   \n6.1.4 SWJ interface . .22   \n6.1.5 Power supply .22   \n6.2 Component references 23   \n7 Revision history 27"
+  },
+  {
+    "segment_id": "stm32-an2586-p0004-text-00016",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 4,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2586-p0004-text-00017",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 4,
+    "text": "Table 1. Boot modes. . 15   \nTable 2. Debug port pin assignment. 18   \nTable 3. SWJ I/O pin availability . 18   \nTable 4. Mandatory components 23   \nTable 5. Optional components 23   \nTable 6. Reference connection for all packages. 25   \nTable 7. Document revision history 27"
+  },
+  {
+    "segment_id": "stm32-an2586-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 5,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2586-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 5,
+    "text": "Figure 1. Power supply overview . 6   \nFigure 2. Power supply scheme. 8   \nFigure 3. Power on reset/power down reset waveform 8   \nFigure 4. PVD thresholds. .9   \nFigure 5. Reset circuit 10   \nFigure 6. External clock . 11   \nFigure 7. Crystal/ceramic resonators . 11   \nFigure 8. External clock . 13   \nFigure 9. Crystal/ceramic resonators . 13   \nFigure 10. Boot mode selection implementation example . 15   \nFigure 11. Host-to-board connection . 17   \nFigure 12. JTAG connector implementation 19   \nFigure 13. Typical layout for VDD/Vss pair 21   \nFigure 14. STM32F103ZE(T6) microcontroller reference schematic. 24"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00020",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "Power supplies"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00021",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "1.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00022",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "The device requires a 2.0 V to 3.6 V operating voltage supply $( \\mathsf { V } _ { \\mathsf { D D } } )$ . An embedded regulator is used to supply the internal 1.8 V digital power."
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00023",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "The real-time clock (RTC) and backup registers can be powered from the $\\mathsf { V } _ { \\mathsf { B A T } }$ voltage when the main $\\mathsf { V } _ { \\mathsf { D D } }$ supply is powered off."
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0006_00001.png",
+    "caption": "**Figure 1. Power supply overview** (figure identifier at lower right: **ai14863**).\n\nThe diagram shows the MCU power-supply domains and their associated supply pins/connections:\n\n- **V_DDA domain**\n  - **A/D converter**\n  - **Temp. sensor**\n  - **Reset block**\n  - **PLL**\n  - Associated upper-left supply labels:\n    - **(VSSA) VREF−**\n    - **(from 2.4 V up to V_DDA) VREF+**\n    - **(VDD) V_DDA**\n    - **(VSS) VSSA**\n\n- **V_DD domain**\n  - **I/O Ring**\n  - **Standby circuitry**\n    - **(Wakeup logic, IWDG)**\n  - **Voltage regulator**\n\n- **1.8 V domain**\n  - **Core**\n  - **memories'**\n  - **digital**\n  - **peripherals**\n\n- A **Low voltage detector** is shown below the V_DD domain, connected to the supply/interconnect lines.\n\n- **Backup domain**\n  - **LSE crystal 32 KHz oscillator**\n  - **BKP registers**\n  - **RCC BDCR register**\n  - **RTC**\n\nVisible supply-pin labels along the left side include:\n\n- **VSS**\n- **VDD**\n- **(VDD) VBAT**\n\nThe figure uses square pin/connection markers and black connection dots. The V_DDA, V_DD, 1.8 V, low-voltage-detector, and backup-domain blocks are enclosed within a larger device outline.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Power supply overview",
+    "generated_captions": {
+      "luna": "**Figure 1. Power supply overview** (figure identifier at lower right: **ai14863**).\n\nThe diagram shows the MCU power-supply domains and their associated supply pins/connections:\n\n- **V_DDA domain**\n  - **A/D converter**\n  - **Temp. sensor**\n  - **Reset block**\n  - **PLL**\n  - Associated upper-left supply labels:\n    - **(VSSA) VREF−**\n    - **(from 2.4 V up to V_DDA) VREF+**\n    - **(VDD) V_DDA**\n    - **(VSS) VSSA**\n\n- **V_DD domain**\n  - **I/O Ring**\n  - **Standby circuitry**\n    - **(Wakeup logic, IWDG)**\n  - **Voltage regulator**\n\n- **1.8 V domain**\n  - **Core**\n  - **memories'**\n  - **digital**\n  - **peripherals**\n\n- A **Low voltage detector** is shown below the V_DD domain, connected to the supply/interconnect lines.\n\n- **Backup domain**\n  - **LSE crystal 32 KHz oscillator**\n  - **BKP registers**\n  - **RCC BDCR register**\n  - **RTC**\n\nVisible supply-pin labels along the left side include:\n\n- **VSS**\n- **VDD**\n- **(VDD) VBAT**\n\nThe figure uses square pin/connection markers and black connection dots. The V_DDA, V_DD, 1.8 V, low-voltage-detector, and backup-domain blocks are enclosed within a larger device outline."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00024",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "1.1.1 Independent A/D converter supply and reference voltage"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00025",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "To improve conversion accuracy, the ADC has an independent power supply that can be filtered separately, and shielded from noise on the PCB."
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00026",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "●the ADC voltage supply input is available on a separate $\\mathsf { V } _ { \\mathsf { D D A } }$ pin"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00027",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "an isolated supply ground connection is provided on the $\\mathsf { V } _ { \\mathsf { S S A } }$ pin"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00028",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "When available (depending on package), $V _ { \\mathsf { R E F - } }$ . must be tied to $\\mathsf { V } _ { \\mathsf { S S A } }$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00029",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "On 100-pin and 144-pin packages"
+  },
+  {
+    "segment_id": "stm32-an2586-p0006-text-00030",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 6,
+    "text": "To ensure a better accuracy on low-voltage inputs, the user can connect a separate external reference voltage ADC input on ${ \\mathsf { V } } _ { \\mathsf { R E F } + }$ . The voltage on $V _ { \\mathsf { R E F } }$ + may range from 2.4 V to $\\mathsf { V } _ { \\mathsf { D D A } }$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00031",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "On packages with 64 pins or less"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00032",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The ${ \\mathsf { V } } _ { \\mathsf { R E F } } .$ and $V _ { \\mathsf { R E F } } .$ pins are not available, they are internally connected to the ADC voltage supply $( \\mathsf { V } _ { \\mathsf { D D A } } )$ and ground $( \\mathsf { V } _ { \\mathsf { S S A } } )$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00033",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "1.1.2 Battery backup"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00034",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "To retain the content of the Backup registers when $\\mathsf { V } _ { \\mathsf { D D } }$ is turned off, the $\\mathsf { V } _ { \\mathsf { B A T } }$ pin can be connected to an optional standby voltage supplied by a battery or another source."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00035",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The $\\mathsf { V } _ { \\mathsf { B A T } }$ pin also powers the RTC unit, allowing the RTC to operate even when the main digital supply $( \\mathsf { V } _ { \\mathsf { D D } } )$ is turned off. The switch to the $\\mathsf { V } _ { \\mathsf { B A T } }$ supply is controlled by the power down reset (PDR) circuitry embedded in the Reset block."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00036",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "If no external battery is used in the application, it is highly recommended to connect $\\mathsf { V } _ { \\mathsf { B A T } }$ externally to $\\mathsf { V } _ { \\mathsf { D D } }$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00037",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "1.1.3 Voltage regulator"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00038",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The voltage regulator is always enabled after reset. It works in three different modes depending on the application modes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00039",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "in Run mode, the regulator supplies full power to the 1.8 V domain (core, memories and digital peripherals)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00040",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "in Stop mode, the regulator supplies low power to the 1.8 V domain, preserving the contents of the registers and SRAM"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00041",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "in Standby mode, the regulator is powered off. The contents of the registers and SRAM are lost except for those concerned with the Standby circuitry and the Backup domain."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00042",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "1.2 Power supply schemes"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00043",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The circuit is powered by a stabilized power supply, $\\mathsf { V } _ { \\mathsf { D D } } .$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00044",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "● Caution:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00045",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "– If the ADC is used, the $\\mathsf { V } _ { \\mathsf { D D } }$ range is limited to 2.4 V to 3.6 V"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00046",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "– If the ADC is not used, the $\\mathsf { V } _ { \\mathsf { D D } }$ range is 2.0 V to 3.6 V"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00047",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The $\\mathsf { V } _ { \\mathsf { D D } }$ pins must be connected to $\\mathsf { V } _ { \\mathsf { D D } }$ with external decoupling capacitors (one 100 nF Ceramic capacitor for each $\\mathsf { V } _ { \\mathsf { D D } }$ pin + one Tantalum or Ceramic capacitor (min. $4 . 7 \\mu \\mathsf { F }$ typ.10 μF)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00048",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The $\\mathsf { V } _ { \\mathsf { B A T } }$ pin can be connected to the external battery $( 1 . 8 \\lor < \\lor _ { \\mathrm { B A T } } < 3 . 6 \\lor )$ . If no external battery is used, it is recommended to connect this pin to $\\mathsf { V } _ { \\mathsf { D D } }$ with a 100 nF external ceramic decoupling capacitor."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00049",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The $\\mathsf { V } _ { \\mathsf { D D A } }$ pin must be connected to two external decoupling capacitors (100 nF Ceramic $+ \\textsf { 1 } \\mu \\mathsf { F }$ Tantalum or Ceramic)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00050",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "The $\\mathsf { V } _ { \\mathsf { R E F + } }$ pin can be connected to the $\\mathsf { V } _ { \\mathsf { D D A } }$ external power supply. If a separate, external reference voltage is applied on ${ \\mathsf { V } } _ { { \\mathsf { R E F } } + } ,$ a 100 nF and a 1 μF capacitors must be connected on this pin. In all cases, $\\mathsf { V } _ { \\mathsf { R E F } + }$ must be kept between 2.4 V and $\\mathsf { V } _ { \\mathsf { D D A } }$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00051",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "●Additional precautions can be taken to filter analog noise:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00052",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "$\\mathsf { V } _ { \\mathsf { D D A } }$ can be connected to $\\mathsf { V } _ { \\mathsf { D D } }$ through a ferrite bead."
+  },
+  {
+    "segment_id": "stm32-an2586-p0007-text-00053",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 7,
+    "text": "\\- The $V _ { \\mathsf { R E F } } .$ + pin can be connected to $\\mathsf { V } _ { \\mathsf { D D A } }$ through a resistor (typ. 47 Ω)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0008_00002.png",
+    "caption": "**Figure 2. Power supply scheme** for **STM32F10xxx**.\n\n- **VBAT supply:**\n  - A **Battery** symbol is connected to **VBAT**.\n  - The battery output is labeled **VBAT** and connects to the STM32F10xxx **VBAT** pin.\n\n- **Main digital supply:**\n  - **VDD** is connected to the grouped MCU supply pins labeled **VDD 1/2/3/.../N**.\n  - **VSS** is connected to the grouped ground pins labeled **VSS 1/2/3/.../N**.\n  - The VDD–VSS supply is bypassed to ground with:\n    - **N × 100 nF**\n    - **+ 1 × 10 µF**\n  - Ground symbols are shown at the lower side of the capacitor network.\n\n- **Analog supply/reference pins on the right side of the STM32F10xxx block:**\n  - Pin labels, top to bottom:\n    - **VREF+**\n    - **VDDA**\n    - **VSSA**\n    - **VREF−**\n  - **VDDA** is connected to a **VDD** node and is bypassed to ground with **100 nF + 1 µF**.\n  - **VSSA** is connected to the corresponding ground return.\n  - **VREF+** has a dashed connection to an external **VREF** node.\n  - The **VREF** node is bypassed to ground with **100 nF + 1 µF (note 1)**.\n  - The lower reference/analog return wiring connects the **VREF−/VSSA** area as shown in the diagram.\n\n- The figure includes solid connection lines, dashed reference-supply wiring, junction dots, capacitor symbols, and ground symbols.\n- Identifier printed at lower right: **ai14865b**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Power supply scheme",
+    "generated_captions": {
+      "luna": "**Figure 2. Power supply scheme** for **STM32F10xxx**.\n\n- **VBAT supply:**\n  - A **Battery** symbol is connected to **VBAT**.\n  - The battery output is labeled **VBAT** and connects to the STM32F10xxx **VBAT** pin.\n\n- **Main digital supply:**\n  - **VDD** is connected to the grouped MCU supply pins labeled **VDD 1/2/3/.../N**.\n  - **VSS** is connected to the grouped ground pins labeled **VSS 1/2/3/.../N**.\n  - The VDD–VSS supply is bypassed to ground with:\n    - **N × 100 nF**\n    - **+ 1 × 10 µF**\n  - Ground symbols are shown at the lower side of the capacitor network.\n\n- **Analog supply/reference pins on the right side of the STM32F10xxx block:**\n  - Pin labels, top to bottom:\n    - **VREF+**\n    - **VDDA**\n    - **VSSA**\n    - **VREF−**\n  - **VDDA** is connected to a **VDD** node and is bypassed to ground with **100 nF + 1 µF**.\n  - **VSSA** is connected to the corresponding ground return.\n  - **VREF+** has a dashed connection to an external **VREF** node.\n  - The **VREF** node is bypassed to ground with **100 nF + 1 µF (note 1)**.\n  - The lower reference/analog return wiring connects the **VREF−/VSSA** area as shown in the diagram.\n\n- The figure includes solid connection lines, dashed reference-supply wiring, junction dots, capacitor symbols, and ground symbols.\n- Identifier printed at lower right: **ai14865b**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-text-00054",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "text": "3. N is the number of $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ inputs."
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-text-00055",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "text": "1.3 Reset and power supply supervisor"
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-text-00056",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "text": "1.3.1 Power on reset (POR) / power down reset (PDR)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-text-00057",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "text": "The device has an integrated POR/PDR circuitry that allows proper operation starting from 2 V."
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-text-00058",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "text": "The device remains in the Reset mode as long as $\\mathsf { V } _ { \\mathsf { D D } }$ is below a specified threshold, VpoR/PpR, without the need for an external reset circuit. For more details concerning the power on/power down reset threshold, refer to the electrical characteristics in the lowdensity, medium-density, high-density, XL-density, and connectivity line STM32F10xxx datasheets."
+  },
+  {
+    "segment_id": "stm32-an2586-p0008-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0008_00003.png",
+    "caption": "**Figure 3. Power on reset/power down reset waveform**\n\n- The figure shows the relationship between the supply voltage **VDD** and the **RESET** signal during power-on and power-down.\n- Vertical axis: **VDD** (arrow upward).\n- Horizontal axis: time progression (arrow to the right; no axis label visible).\n\n**VDD waveform and thresholds**\n- VDD starts near zero, ramps upward, reaches a high-level plateau, then ramps downward back toward zero.\n- Two horizontal dashed threshold lines are shown.\n- The voltage difference between the thresholds is labeled **“40 mV hysteresis”**, with a vertical double-headed arrow.\n- **POR** is labeled at the rising-voltage threshold region.\n- **PDR** is labeled at the falling-voltage threshold region.\n- Dashed vertical timing markers extend from the relevant threshold crossings toward the RESET waveform.\n\n**RESET waveform**\n- **RESET** is labeled at the left.\n- RESET is initially low.\n- During VDD ramp-up, RESET remains low until the reset-release timing interval expires, then transitions high.\n- RESET remains high while VDD is at its operating plateau.\n- During VDD ramp-down, RESET transitions low at the power-down reset threshold and remains low.\n\n**Timing annotation**\n- The interval between the rising-threshold crossing and RESET release is shown with a horizontal double-headed arrow labeled:\n  - **Temporization**\n  - **tRSTTEMPO**\n\n- Figure identifier at lower right: **ai14364**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Power on reset/power down reset waveform",
+    "generated_captions": {
+      "luna": "**Figure 3. Power on reset/power down reset waveform**\n\n- The figure shows the relationship between the supply voltage **VDD** and the **RESET** signal during power-on and power-down.\n- Vertical axis: **VDD** (arrow upward).\n- Horizontal axis: time progression (arrow to the right; no axis label visible).\n\n**VDD waveform and thresholds**\n- VDD starts near zero, ramps upward, reaches a high-level plateau, then ramps downward back toward zero.\n- Two horizontal dashed threshold lines are shown.\n- The voltage difference between the thresholds is labeled **“40 mV hysteresis”**, with a vertical double-headed arrow.\n- **POR** is labeled at the rising-voltage threshold region.\n- **PDR** is labeled at the falling-voltage threshold region.\n- Dashed vertical timing markers extend from the relevant threshold crossings toward the RESET waveform.\n\n**RESET waveform**\n- **RESET** is labeled at the left.\n- RESET is initially low.\n- During VDD ramp-up, RESET remains low until the reset-release timing interval expires, then transitions high.\n- RESET remains high while VDD is at its operating plateau.\n- During VDD ramp-down, RESET transitions low at the power-down reset threshold and remains low.\n\n**Timing annotation**\n- The interval between the rising-threshold crossing and RESET release is shown with a horizontal double-headed arrow labeled:\n  - **Temporization**\n  - **tRSTTEMPO**\n\n- Figure identifier at lower right: **ai14364**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00059",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "1.3.2 Programmable voltage detector (PVD)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00060",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "You can use the PVD to monitor the $\\mathsf { V } _ { \\mathsf { D D } }$ power supply by comparing it to a threshold selected by the PLS[2:0] bits in the Power control register (PWR\\_CR)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00061",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "The PVD is enabled by setting the PVDE bit."
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00062",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "A PVDO flag is available, in the Power control/status register (PWR\\_CSR), to indicate whether $\\mathsf { V } _ { \\mathsf { D D } }$ is higher or lower than the PVD threshold. This event is internally connected to EXTI Line16 and can generate an interrupt if enabled through the EXTI registers. The PVD output interrupt can be generated when $\\dot { \\mathsf { V } } _ { \\mathsf { D D } }$ drops below the PVD threshold and/or when $\\mathsf { V } _ { \\mathsf { D D } }$ rises above the PVD threshold depending on the EXTI Line16 rising/falling edge configuration. As an example the service routine can perform emergency shutdown tasks."
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0009_00004.png",
+    "caption": "**Figure 4. PVD thresholds** (source: STM32 AN2586, p. 9)\n\n- Upper graph shows the supply voltage **VDD** versus time:\n  - Vertical axis is labeled **VDD** with an upward arrow.\n  - Horizontal time axis is drawn with a right-pointing arrow but has no visible label.\n  - VDD starts at the baseline, rises linearly, reaches a flat plateau, remains constant, then falls linearly back to the baseline.\n  - Two horizontal dashed lines indicate the PVD threshold levels.\n  - The region between the dashed levels is labeled **PVD threshold**.\n  - A vertical double-headed arrow at the right identifies the separation between the two levels as **100 mV hysteresis**.\n  - Dashed vertical guide lines mark the rising-voltage crossing of the upper threshold and the falling-voltage crossing of the lower threshold.\n\n- Lower graph shows **PVD output**:\n  - Label: **PVD output**.\n  - The output is at a high level before the rising-threshold crossing.\n  - It transitions downward at the left dashed vertical guide and remains low while VDD is between the threshold crossings.\n  - It transitions upward at the right dashed vertical guide and returns to the high level.\n  - The waveform has no numerical voltage scale or explicit logic-high/logic-low labels.\n\n- Figure identifier at bottom right: **ai14365**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. PVD thresholds",
+    "generated_captions": {
+      "luna": "**Figure 4. PVD thresholds** (source: STM32 AN2586, p. 9)\n\n- Upper graph shows the supply voltage **VDD** versus time:\n  - Vertical axis is labeled **VDD** with an upward arrow.\n  - Horizontal time axis is drawn with a right-pointing arrow but has no visible label.\n  - VDD starts at the baseline, rises linearly, reaches a flat plateau, remains constant, then falls linearly back to the baseline.\n  - Two horizontal dashed lines indicate the PVD threshold levels.\n  - The region between the dashed levels is labeled **PVD threshold**.\n  - A vertical double-headed arrow at the right identifies the separation between the two levels as **100 mV hysteresis**.\n  - Dashed vertical guide lines mark the rising-voltage crossing of the upper threshold and the falling-voltage crossing of the lower threshold.\n\n- Lower graph shows **PVD output**:\n  - Label: **PVD output**.\n  - The output is at a high level before the rising-threshold crossing.\n  - It transitions downward at the left dashed vertical guide and remains low while VDD is between the threshold crossings.\n  - It transitions upward at the right dashed vertical guide and returns to the high level.\n  - The waveform has no numerical voltage scale or explicit logic-high/logic-low labels.\n\n- Figure identifier at bottom right: **ai14365**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00063",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "1.3.3 System reset"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00064",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "A system reset sets all registers to their reset values except for the reset flags in the clock controller CSR register and the registers in the Backup domain (see Figure 1)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00065",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "A system reset is generated when one of the following events occurs:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00066",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "1. A low level on the NRST pin (external reset)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00067",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "2. window watchdog end-of-count condition (WWDG reset)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00068",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "3.Independent watchdog end-of-count condition (IWDG reset)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00069",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "4. A software reset (SW reset)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00070",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "5. Low-power management reset"
+  },
+  {
+    "segment_id": "stm32-an2586-p0009-text-00071",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 9,
+    "text": "The reset source can be identified by checking the reset flags in the Control/Status register, RCC\\_CSR."
+  },
+  {
+    "segment_id": "stm32-an2586-p0010-text-00072",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 10,
+    "text": "The STM32F1xx does not require an external reset circuit to power-up correctly. Only a pulldown capacitor is recommended to improve EMS performance by protecting the device against parasitic resets. See Figure 5."
+  },
+  {
+    "segment_id": "stm32-an2586-p0010-text-00073",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 10,
+    "text": "Charging and discharging a pull-down capacitor through an internal resistor increases the device power consumption. The capacitor recommended value (100 nF) can be reduced to 10 nF to limit this power consumption;"
+  },
+  {
+    "segment_id": "stm32-an2586-p0010-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0010_00005.png",
+    "caption": "**Figure 5. Reset circuit** (source: STM32 AN2586, p. 10; figure identifier: **ai14366c**)\n\n- Left side: dashed-outline **External reset circuit** connected to the **NRST** node.\n  - The external circuit shows a push-button/switch symbol connected to ground.\n  - A capacitor labeled **0.1 μF** is also connected from the NRST line to ground.\n- The NRST input is shown entering a device/input block labeled **NRST**.\n- NRST has an internal pull-up resistor labeled **RPU**, connected to **VDD/VDDA**.\n- The NRST node also connects to a pull-down/reset transistor symbol connected to ground.\n- The NRST signal passes through a buffer/input symbol and then into a block labeled **Filter**.\n- The filter output is labeled **System reset**.\n- A branch from the reset circuitry feeds a block labeled **Pulse generator (min 20 μs)**.\n- The pulse-generator output enters a multi-input reset-combining gate. Its labeled reset sources are:\n  - **WWDG reset**\n  - **IWDG reset**\n  - **Power reset**\n  - **Software reset**\n  - **Low-power management reset**\n- The diagram explicitly labels the supply connection as **VDD/VDDA** and the pull-up resistor as **RPU**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Reset circuit",
+    "generated_captions": {
+      "luna": "**Figure 5. Reset circuit** (source: STM32 AN2586, p. 10; figure identifier: **ai14366c**)\n\n- Left side: dashed-outline **External reset circuit** connected to the **NRST** node.\n  - The external circuit shows a push-button/switch symbol connected to ground.\n  - A capacitor labeled **0.1 μF** is also connected from the NRST line to ground.\n- The NRST input is shown entering a device/input block labeled **NRST**.\n- NRST has an internal pull-up resistor labeled **RPU**, connected to **VDD/VDDA**.\n- The NRST node also connects to a pull-down/reset transistor symbol connected to ground.\n- The NRST signal passes through a buffer/input symbol and then into a block labeled **Filter**.\n- The filter output is labeled **System reset**.\n- A branch from the reset circuitry feeds a block labeled **Pulse generator (min 20 μs)**.\n- The pulse-generator output enters a multi-input reset-combining gate. Its labeled reset sources are:\n  - **WWDG reset**\n  - **IWDG reset**\n  - **Power reset**\n  - **Software reset**\n  - **Low-power management reset**\n- The diagram explicitly labels the supply connection as **VDD/VDDA** and the pull-up resistor as **RPU**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "2"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00075",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "Clocks"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00076",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "Three different clock sources can be used to drive the system clock (SYSCLK):"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00077",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "HSI oscillator clock (high-speed internal clock signal)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00078",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "HSE oscillator clock (high-speed external clock signal)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00079",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "● PLL clock"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00080",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "The devices have two secondary clock sources:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00081",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "40 kHz low-speed internal RC (LSI RC) that drives the independent watchdog and, optionally, the RTC used for Auto-wakeup from the Stop/Standby modes."
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00082",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "32.768 kHz low-speed external crystal (LSE crystal) that optionally drives the real-time clock (RTCCLK)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00083",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "Each clock source can be switched on or off independently when it is not used, to optimize the power consumption."
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00084",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "Refer to the STM32F10xxx or STM32F100xx reference manual (RM0008 or RM0041, respectively) for a description of the clock tree:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00085",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "RM0008 for STM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx microcontrollers"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00086",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "● RM0041 for STM32F100xx value line microcontrollers"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00087",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "2.1 HSE OSC clock"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00088",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "The high-speed external clock signal (HSE) can be generated from two possible clock sources:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00089",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "HSE external crystal/ceramic resonator (see Figure 7)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00090",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "● HSE user external clock (see Figure 6)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0011_00006.png",
+    "caption": "Two side-by-side oscillator connection schematics are shown.\n\n### External clock connection\n- Heading: **Hardware configuration**\n- Two device connections labeled:\n  - **OSC_IN**\n  - **OSC_OUT**\n- The external source is connected to **OSC_IN**.\n- **OSC_OUT** is shown as **(Hi-Z)**.\n- Text below the circuit: **External source**\n- Identifier at lower right: **ai14369**\n\n### Crystal/ceramic resonator connection\n- Heading: **Hardware configuration**\n- Device label: **STM32F10xxx**\n- Oscillator pins:\n  - **OSC_IN**\n  - **OSC_OUT**\n- A resonator/crystal symbol is connected between the OSC_IN and OSC_OUT nodes.\n- Capacitors to ground:\n  - **C_L1** from the OSC_IN-side node to ground\n  - **C_L2** from the OSC_OUT-side node to ground\n- External resistor labeled **R_EXT^(1)** is connected between the OSC_OUT-side pin/node and the resonator’s OSC_OUT-side node.\n- Ground symbols are shown below both **C_L1** and **C_L2**.\n- Identifier at lower right: **ai14370**",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. External clock\nFigure 7. Crystal/ceramic resonators",
+    "generated_captions": {
+      "luna": "Two side-by-side oscillator connection schematics are shown.\n\n### External clock connection\n- Heading: **Hardware configuration**\n- Two device connections labeled:\n  - **OSC_IN**\n  - **OSC_OUT**\n- The external source is connected to **OSC_IN**.\n- **OSC_OUT** is shown as **(Hi-Z)**.\n- Text below the circuit: **External source**\n- Identifier at lower right: **ai14369**\n\n### Crystal/ceramic resonator connection\n- Heading: **Hardware configuration**\n- Device label: **STM32F10xxx**\n- Oscillator pins:\n  - **OSC_IN**\n  - **OSC_OUT**\n- A resonator/crystal symbol is connected between the OSC_IN and OSC_OUT nodes.\n- Capacitors to ground:\n  - **C_L1** from the OSC_IN-side node to ground\n  - **C_L2** from the OSC_OUT-side node to ground\n- External resistor labeled **R_EXT^(1)** is connected between the OSC_OUT-side pin/node and the resonator’s OSC_OUT-side node.\n- Ground symbols are shown below both **C_L1** and **C_L2**.\n- Identifier at lower right: **ai14370**"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00091",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "1. The value of $\\mathsf { R } _ { \\mathsf { E X T } }$ depends on the crystal characteristics. Typical value is in the range of 5 to 6 $\\mathsf { R } _ { \\mathsf { S } }$ (resonator series resistance)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0011-text-00092",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 11,
+    "text": "2. Load capacitance $\\mathsf { C } _ { \\mathsf { L } }$ has the following formula: $\\mathsf { C } _ { \\mathsf { L } } = \\mathsf { C } _ { \\mathsf { L } 1 } \\times \\underline { { \\mathsf { C } } } _ { \\mathsf { L } 2 } / \\left( \\mathsf { C } _ { \\mathsf { L } 1 } + \\mathsf { C } _ { \\mathsf { L } 2 } \\right) + \\mathsf { C } _ { \\mathsf { s t r a y } }$ where: $\\mathsf { C } _ { \\mathsf { s t r a y } }$ is the pin capacitance and board or trace PCB-related capacitance. Typically, it is between 2 pF and 7 pF. Please refer to Section 5: Recommendations on page 20 to minimize its value."
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00093",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "2.1.1 External source (HSE bypass)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00094",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "In this mode, an external clock source must be provided. It can have a frequency of up to:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "● 24 MHz for STM32F100xx value line devices"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00096",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "● 25 MHz for STM32F101xx, STM32F102xx and STM32F103xx devices"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00097",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "● 50 MHz for connectivity line devices"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00098",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "The external clock signal (square, sine or triangle) with a duty cycle of about 50%, has to drive the OSC\\_IN pin while the OSC\\_OUT pin must be left in the high impedance state (see Figure 7 and Figure 6)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00099",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "2.1.2 External crystal/ceramic resonator (HSE crystal)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00100",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "The external oscillator frequency ranges from:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00101",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "● 4 to 16 MHz on STM32F101xx, STM32F102xx and STM32F103xx devices"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00102",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "● 4 to 24 MHz for STM32F100xx value line devices"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00103",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "● 3 to 25 MHz on connectivity line devices"
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00104",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "The external oscillator has the advantage of producing a very accurate rate on the main clock. The associated hardware configuration is shown in Figure 7."
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00105",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "The resonator and the load capacitors have to be connected as close as possible to the oscillator pins in order to minimize output distortion and startup stabilization time. The load capacitance values must be adjusted according to the selected oscillator."
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00106",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "For ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ it is recommended to use high-quality ceramic capacitors in the 5 pF-to-25 pF range (typ.), designed for high-frequency applications and selected to meet the requirements of the crystal or resonator. ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ are usually the same value. The crystal manufacturer typically specifies a load capacitance that is the series combination of ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ . The PCB and MCU pin capacitances must be included when sizing ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and $\\mathsf C _ { \\mathsf { L } 2 } ( 1 0 \\mathsf { p F }$ can be used as a rough estimate of the combined pin and board capacitance)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0012-text-00107",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 12,
+    "text": "Refer to the electrical characteristics sections in the datasheet of your product for more details."
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00108",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "2.2 LSE OSC clock"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00109",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "The low-speed external clock signal (LSE) can be generated from two possible clock sources:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00110",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "● LSE external crystal/ceramic resonator (see Figure 9)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00111",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "● LSE user external clock (see Figure 8)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0013_00007.png",
+    "caption": "The cropped page shows two oscillator hardware-configuration diagrams:\n\n### Figure 8 — External clock\n- Heading: **Hardware configuration**\n- Two oscillator pins:\n  - **OSC32_IN**\n  - **OSC32_OUT**\n- The pins are shown as square connection blocks joined by a horizontal line.\n- An **External source** is connected to **OSC32_IN**, indicated by an upward arrow into the OSC32_IN block.\n- **OSC32_OUT** is marked **(Hi-Z)**.\n- Diagram identifier: **ai14371**\n\n### Figure 9 — Crystal/ceramic resonators\n- Heading: **Hardware configuration**\n- Device family label: **STM32F10xxx**\n- Oscillator pins:\n  - **OSC32_IN**\n  - **OSC32_OUT**\n- The two pins connect to an external resonator network.\n- The network includes:\n  - A central resonator symbol between the OSC32_IN and OSC32_OUT paths.\n  - Capacitor **C_L1** connected from the OSC32_IN-side node to ground.\n  - Capacitor **C_L2** connected from the OSC32_OUT-side node to ground.\n  - A resistor labeled **R_EXT(3)** in the OSC32_OUT-side connection.\n- Two ground symbols are shown beneath **C_L1** and **C_L2**.\n- Diagram identifier: **ai14372c**\n- No component values are visible in the crop. The footnote text associated with marker **(3)** is not visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. External clock\nFigure 9. Crystal/ceramic resonators",
+    "generated_captions": {
+      "luna": "The cropped page shows two oscillator hardware-configuration diagrams:\n\n### Figure 8 — External clock\n- Heading: **Hardware configuration**\n- Two oscillator pins:\n  - **OSC32_IN**\n  - **OSC32_OUT**\n- The pins are shown as square connection blocks joined by a horizontal line.\n- An **External source** is connected to **OSC32_IN**, indicated by an upward arrow into the OSC32_IN block.\n- **OSC32_OUT** is marked **(Hi-Z)**.\n- Diagram identifier: **ai14371**\n\n### Figure 9 — Crystal/ceramic resonators\n- Heading: **Hardware configuration**\n- Device family label: **STM32F10xxx**\n- Oscillator pins:\n  - **OSC32_IN**\n  - **OSC32_OUT**\n- The two pins connect to an external resonator network.\n- The network includes:\n  - A central resonator symbol between the OSC32_IN and OSC32_OUT paths.\n  - Capacitor **C_L1** connected from the OSC32_IN-side node to ground.\n  - Capacitor **C_L2** connected from the OSC32_OUT-side node to ground.\n  - A resistor labeled **R_EXT(3)** in the OSC32_OUT-side connection.\n- Two ground symbols are shown beneath **C_L1** and **C_L2**.\n- Diagram identifier: **ai14372c**\n- No component values are visible in the crop. The footnote text associated with marker **(3)** is not visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00112",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "Note: 1 “External clock” figure:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00113",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "To avoid exceeding the maximum value of $ { C _ { L 1 } }$ and $C _ { L 2 } \\left( 1 5 p F \\right)$ it is strongly recommended to use a resonator with a load capacitance $C _ { L } \\leq 7 p F .$ Never use a resonator with a load capacitance of $1 2 . 5 p F$"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00114",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "2 “External clock” and “crystal/ceramic resonators” figures:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00115",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "OSC32\\_IN and OSC\\_OUT pins can be used also as $G P I O ,$ , but it is recommended not to use them as both RTC and GPIO pins in the same application"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00116",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "3 “Crystal/ceramic resonators” figure:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00117",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "The value of $R _ { E X T }$ depends on the crystal characteristics. A 0 Ω resistor would work but would not be optimal. Typical value is in the range of 5 to $6 R _ { S }$ (resonator series resistance). To fine tune $R _ { S }$ value refer to AN2867 - Oscillator design guide for ST microcontrollers."
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00118",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "2.2.1 External source (LSE bypass)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00119",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "In this mode, an external clock source must be provided. It can have a frequency of up to 1 MHz. The external clock signal (square, sine or triangle) with a duty cycle of about 50% has to drive the OSC32\\_IN pin while the OSC32\\_OUT pin must be left high impedance (see Figure 9 and Figure 8)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00120",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "2.2.2 External crystal/ceramic resonator (LSE crystal)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00121",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "The LSE crystal is a 32.768 kHz low-speed external crystal or ceramic resonator. It has the advantage of providing a low-power, but highly accurate clock source to the real-time clock peripheral (RTC) for clock/calendar or other timing functions."
+  },
+  {
+    "segment_id": "stm32-an2586-p0013-text-00122",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 13,
+    "text": "The resonator and the load capacitors have to be connected as close as possible to the oscillator pins in order to minimize output distortion and startup stabilization time. The load capacitance values must be adjusted according to the selected oscillator."
+  },
+  {
+    "segment_id": "stm32-an2586-p0014-text-00123",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 14,
+    "text": "2.3 Clock security system (CSS)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0014-text-00124",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 14,
+    "text": "The clock security system can be activated by software. In this case, the clock detector is enabled after the HSE oscillator startup delay, and disabled when this oscillator is stopped."
+  },
+  {
+    "segment_id": "stm32-an2586-p0014-text-00125",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 14,
+    "text": "If a failure is detected on the HSE oscillator clock, the oscillator is automatically disabled. A clock failure event is sent to the break input of the TIM1 advanced control timer and an interrupt is generated to inform the software about the failure (clock security system interrupt CSSI), allowing the MCU to perform rescue operations. The CSSI is linked to the Cortex™-M3 NMI (non-maskable interrupt) exception vector."
+  },
+  {
+    "segment_id": "stm32-an2586-p0014-text-00126",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 14,
+    "text": "If the HSE oscillator is used directly or indirectly as the system clock (indirectly means that it is used as the PLL input clock, and the PLL clock is used as the system clock), a detected failure causes a switch of the system clock to the HSI oscillator and the disabling of the external HSE oscillator. If the HSE oscillator clock (divided or not) is the clock entry of the PLL used as system clock when the failure occurs, the PLL is disabled too."
+  },
+  {
+    "segment_id": "stm32-an2586-p0014-text-00127",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 14,
+    "text": "For details, see the STM32F10xxx (RM0008) and STM32F100xx (RM0041) reference manuals available from the STMicroelectronics website www.st.com."
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00128",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "Boot configuration"
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00129",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "3.1 Boot mode selection"
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00130",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "In the STM32F10xxx, three different boot modes can be selected by means of the BOOT[1:0] pins as shown in Table 1."
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-table-00001",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0015_00001.png",
+    "caption": "**Table 1. Boot modes**\n\n| **BOOT mode selection pins** |  | **Boot mode** | **Aliasing** |\n|---|---|---|---|\n| **BOOT1** | **BOOT0** |  |  |\n| x | 0 | Main Flash memory | Main Flash memory is selected as boot space |\n| 0 | 1 | System memory | System memory is selected as boot space |\n| 1 | 1 | Embedded SRAM | Embedded SRAM is selected as boot space |\n\nThe table shows boot-mode selection using the BOOT1 and BOOT0 pins.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Boot modes",
+    "generated_captions": {
+      "luna": "**Table 1. Boot modes**\n\n| **BOOT mode selection pins** |  | **Boot mode** | **Aliasing** |\n|---|---|---|---|\n| **BOOT1** | **BOOT0** |  |  |\n| x | 0 | Main Flash memory | Main Flash memory is selected as boot space |\n| 0 | 1 | System memory | System memory is selected as boot space |\n| 1 | 1 | Embedded SRAM | Embedded SRAM is selected as boot space |\n\nThe table shows boot-mode selection using the BOOT1 and BOOT0 pins."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00131",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "The values on the BOOT pins are latched on the $4 ^ { \\mathrm { t h } }$ rising edge of SYSCLK after a reset. It is up to the user to set the BOOT1 and BOOT0 pins after reset to select the required boot mode."
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00132",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "The BOOT pins are also resampled when exiting the Standby mode. Consequently, they must be kept in the required Boot mode configuration in the Standby mode. After this startup delay has elapsed, the CPU fetches the top-of-stack value from address 0x0000 0000, and starts code execution from the boot memory starting from 0x0000 0004."
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00133",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "3.2 Boot pin connection"
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-text-00134",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "text": "Figure 10 shows the external connection required to select the boot memory of the STM32F10xxx."
+  },
+  {
+    "segment_id": "stm32-an2586-p0015-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0015_00008.png",
+    "caption": "**Figure 10. Boot mode selection implementation example** (visible schematic)\n\n- A rectangular device block labeled **STM32F10xxx**.\n- Two input pins on the left side of the device:\n  - **BOOT0**\n  - **BOOT1**\n- Each boot pin is connected through a series resistor labeled **10 kΩ** to a selectable logic source.\n- **BOOT0 selection network:**\n  - The 10 kΩ resistor connects to the **BOOT0** pin.\n  - A switch selects between **VDD** (upper connection) and **ground** (lower connection).\n- **BOOT1 selection network:**\n  - The 10 kΩ resistor connects to the **BOOT1** pin.\n  - A switch selects between **VDD** (upper connection) and **ground** (lower connection).\n- **VDD** is explicitly labeled for both upper supply connections.\n- Ground symbols are shown for both lower connections.\n- Bottom-right identifier: **ai14373**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. Boot mode selection implementation example",
+    "generated_captions": {
+      "luna": "**Figure 10. Boot mode selection implementation example** (visible schematic)\n\n- A rectangular device block labeled **STM32F10xxx**.\n- Two input pins on the left side of the device:\n  - **BOOT0**\n  - **BOOT1**\n- Each boot pin is connected through a series resistor labeled **10 kΩ** to a selectable logic source.\n- **BOOT0 selection network:**\n  - The 10 kΩ resistor connects to the **BOOT0** pin.\n  - A switch selects between **VDD** (upper connection) and **ground** (lower connection).\n- **BOOT1 selection network:**\n  - The 10 kΩ resistor connects to the **BOOT1** pin.\n  - A switch selects between **VDD** (upper connection) and **ground** (lower connection).\n- **VDD** is explicitly labeled for both upper supply connections.\n- Ground symbols are shown for both lower connections.\n- Bottom-right identifier: **ai14373**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00135",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "3.3"
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00136",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "Embedded boot loader mode"
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00137",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "The Embedded boot loader mode is used to reprogram the Flash memory using one of the available serial interfaces:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00138",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "In low-density, low-density value line, medium-density, medium-density value line, and high-density devices, the boot loader is activated through the USART1 interface. For further details please refer to AN2606."
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00139",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "In XL-density devices, the boot loader is activated through the USART1 or USART2 (remapped) interface. For further details please refer to AN2606."
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00140",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "In connectivity line devices the boot loader can be activated through one of the following interfaces: USART1, USART2 (remapped), CAN2 (remapped) or USB OTG FS in Device mode (DFU: device firmware upgrade). The USART peripheral operates with the internal 8 MHz oscillator (HSI). The CAN and USB OTG FS, however, can only function if an external 8 MHz, 14.7456 MHz or 25 MHz clock (HSE) is present. For further details, please refer to AN2662."
+  },
+  {
+    "segment_id": "stm32-an2586-p0016-text-00141",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 16,
+    "text": "This embedded boot loader is located in the System memory and is programmed by ST during production."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00142",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "Debug management"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00143",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "4.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00144",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "The Host/Target interface is the hardware equipment that connects the host to the application board. This interface is made of three components: a hardware debug tool, a JTAG or SW connector and a cable connecting the host to the debug tool."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00145",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "Figure 11 shows the connection of the host to the evaluation board (STM3210B-EVAL, STM3210C-EVAL, STM32100B-EVAL or STM3210E-EVAL)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00146",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "The Value line evaluation board (STM32100B-EVAL or STM32100E-EVAL) embeds the debug tools (ST-LINK). Consequently, it can be directly connected to the PC through a USB cable."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0017_00009.png",
+    "caption": "**Figure 11. Host-to-board connection** — schematic illustration showing:\n\n- **Host PC** at left, connected by a cable to the **Debug tool**.\n- **Debug tool** near the upper center, connected by a cable to the evaluation board’s **JTAG/SW connector**.\n- **Evaluation board** at lower center/right, with the **JTAG/SW connector** indicated on its upper-right area.\n- **Power supply** at right, connected by a cable to the evaluation board.\n- Figure identifier: **ai14866b**.\n\nNo pin numbers, electrical values, axes, or additional technical notes are legible in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. Host-to-board connection",
+    "generated_captions": {
+      "luna": "**Figure 11. Host-to-board connection** — schematic illustration showing:\n\n- **Host PC** at left, connected by a cable to the **Debug tool**.\n- **Debug tool** near the upper center, connected by a cable to the evaluation board’s **JTAG/SW connector**.\n- **Evaluation board** at lower center/right, with the **JTAG/SW connector** indicated on its upper-right area.\n- **Power supply** at right, connected by a cable to the evaluation board.\n- Figure identifier: **ai14866b**.\n\nNo pin numbers, electrical values, axes, or additional technical notes are legible in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00147",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "4.2 SWJ debug port (serial wire and JTAG)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00148",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "The STM32F10xxx core integrates the serial wire / JTAG debug port (SWJ-DP). It is an ARM® standard CoreSight™ debug port that combines a JTAG-DP (5-pin) interface and a SW-DP (2-pin) interface."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00149",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "The JTAG debug port (JTAG-DP) provides a 5-pin standard JTAG interface to the AHP-AP port"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00150",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "The serial wire debug port (SW-DP) provides a 2-pin (clock + data) interface to the AHP-AP port"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00151",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "In the SWJ-DP, the two JTAG pins of the SW-DP are multiplexed with some of the five JTAG pins of the JTAG-DP."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00152",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "4.3 Pinout and debug port pins"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00153",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "The STM32F10xxx MCU is offered in various packages with different numbers of available pins. As a result, some functionality related to the pin availability may differ from one package to another."
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00154",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "4.3.1 SWJ debug port pins"
+  },
+  {
+    "segment_id": "stm32-an2586-p0017-text-00155",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 17,
+    "text": "Five pins are used as outputs for the SWJ-DP as alternate functions of general-purpose I/Os (GPIOs). These pins, shown in Table 2, are available on all packages."
+  },
+  {
+    "segment_id": "stm32-an2586-p0018-table-00002",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0018_00002.png",
+    "caption": "**Table 2. Debug port pin assignment**\n\n| SWJ-DP pin name | JTAG debug port — Type | JTAG debug port — Description | SW debug port — Type | SW debug port — Debug assignment | Pin assignment |\n|---|---:|---|---:|---|---|\n| JTMS/SWDIO | I | JTAG test mode selection | I/O | Serial wire data input/output | PA13 |\n| JTCK/SWCLK | I | JTAG test clock | I | Serial wire clock | PA14 |\n| JTDI | I | JTAG test data input | - | - | PA15 |\n| JTDO/TRACESWO | O | JTAG test data output | - | TRACESWO if async trace is enabled | PB3 |\n| JNTRST | I | JTAG test nReset | - | - | PB4 |\n\nThe table distinguishes JTAG debug-port assignments from SW (Serial Wire) debug-port assignments. “I” denotes input, “O” output, and “I/O” input/output as shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Debug port pin assignment",
+    "generated_captions": {
+      "luna": "**Table 2. Debug port pin assignment**\n\n| SWJ-DP pin name | JTAG debug port — Type | JTAG debug port — Description | SW debug port — Type | SW debug port — Debug assignment | Pin assignment |\n|---|---:|---|---:|---|---|\n| JTMS/SWDIO | I | JTAG test mode selection | I/O | Serial wire data input/output | PA13 |\n| JTCK/SWCLK | I | JTAG test clock | I | Serial wire clock | PA14 |\n| JTDI | I | JTAG test data input | - | - | PA15 |\n| JTDO/TRACESWO | O | JTAG test data output | - | TRACESWO if async trace is enabled | PB3 |\n| JNTRST | I | JTAG test nReset | - | - | PB4 |\n\nThe table distinguishes JTAG debug-port assignments from SW (Serial Wire) debug-port assignments. “I” denotes input, “O” output, and “I/O” input/output as shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0018-text-00156",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 18,
+    "text": "4.3.2 Flexible SWJ-DP pin assignment"
+  },
+  {
+    "segment_id": "stm32-an2586-p0018-text-00157",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 18,
+    "text": "After reset (SYSRESETn or PORESETn), all five pins used for the SWJ-DP are assigned as dedicated pins immediately usable by the debugger host (note that the trace outputs are not assigned except if explicitly programmed by the debugger host)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0018-text-00158",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 18,
+    "text": "However, the STM32F10xxx MCU implements a register to disable some part or all of the SWJ-DP port, and so releases the associated pins for general-purpose I/Os usage. This register is mapped on an APB bridge connected to the Cortex™-M3 system bus. This register is programmed by the user software program and not by the debugger host."
+  },
+  {
+    "segment_id": "stm32-an2586-p0018-table-00003",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0018_00003.png",
+    "caption": "**Table 3. SWJ I/O pin availability**\n\n| Available Debug ports | PA13 / JTMS/ SWDIO | PA14 / JTCK/ SWCLK | PA15 / JTDI | PB3 / JTDO | PB4/ JNTRST |\n|---|---:|---:|---:|---:|---:|\n| Full SWJ (JTAG-DP + SW-DP) - reset state | X | X | X | X | X |\n| Full SWJ (JTAG-DP + SW-DP) but without JNRST | X | X | X | X | — |\n| JTAG-DP disabled and SW-DP enabled | X | X | — | — | — |\n| JTAG-DP disabled and SW-DP disabled | **Released** | **Released** | **Released** | **Released** | **Released** |\n\nColumn-group heading: **SWJ I/O pin assigned**.\n\nThe final-row **“Released”** entry is shown in a merged cell spanning the SWJ I/O pin columns. No legend defining the meaning of **X** is visible in the cropped table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. SWJ I/O pin availability",
+    "generated_captions": {
+      "luna": "**Table 3. SWJ I/O pin availability**\n\n| Available Debug ports | PA13 / JTMS/ SWDIO | PA14 / JTCK/ SWCLK | PA15 / JTDI | PB3 / JTDO | PB4/ JNTRST |\n|---|---:|---:|---:|---:|---:|\n| Full SWJ (JTAG-DP + SW-DP) - reset state | X | X | X | X | X |\n| Full SWJ (JTAG-DP + SW-DP) but without JNRST | X | X | X | X | — |\n| JTAG-DP disabled and SW-DP enabled | X | X | — | — | — |\n| JTAG-DP disabled and SW-DP disabled | **Released** | **Released** | **Released** | **Released** | **Released** |\n\nColumn-group heading: **SWJ I/O pin assigned**.\n\nThe final-row **“Released”** entry is shown in a merged cell spanning the SWJ I/O pin columns. No legend defining the meaning of **X** is visible in the cropped table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0018-text-00159",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 18,
+    "text": "For more details, see the STM32F10xxx (RM0008) and STM32F100xx (RM0041) reference manuals, available from the STMicroelectronics website www.st.com."
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00160",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "4.3.3 Internal pull-up and pull-down resistors on JTAG pins"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00161",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "The JTAG input pins must not be floating since they are directly connected to flip-flops to control the debug mode features. Special care must be taken with the SWCLK/TCK pin that is directly connected to the clock of some of these flip-flops."
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00162",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "To avoid any uncontrolled I/O levels, the STM32F10xxx embeds internal pull-up and pulldown resistors on JTAG input pins:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00163",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JNTRST: Internal pull-up"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00164",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JTDI: Internal pull-up"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00165",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JTMS/SWDIO: Internal pull-up"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00166",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● TCK/SWCLK: Internal pull-down"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00167",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "Once a JTAG I/O is released by the user software, the GPIO controller takes control again. The reset states of the GPIO control registers put the I/Os in the equivalent state:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00168",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JNTRST: Input pull-up"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00169",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JTDI: Input pull-up"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00170",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JTMS/SWDIO: Input pull-up"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00171",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JTCK/SWCLK: Input pull-down"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00172",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "● JTDO: Input floating"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00173",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "The software can then use these I/Os as standard GPIOs."
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00174",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "The JTAG IEEE standard recommends to add pull-up resistors on TDI, TMS and nTRST but there is no special recommendation for TCK. However, for the STM32F10xxx, an integrated pull-down resistor is used for JTCK."
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00175",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "Having embedded pull-up and pull-down resistors removes the need to add external resistors."
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00176",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "4.3.4 SWJ debug port connection with standard JTAG connector"
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-text-00177",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "text": "Figure 12 shows the connection between the STM32F10xxx and a standard JTAG connector."
+  },
+  {
+    "segment_id": "stm32-an2586-p0019-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0019_00010.png",
+    "caption": "**Figure 12. JTAG connector implementation**\n\n- **MCU:** `STM32F10xxx`\n- **JTAG connector:** `JTAG connector CN9`\n- Connector designation: `Connector 2 × 10`\n- The connector is shown with odd-numbered pins on the left and even-numbered pins on the right.\n\n### MCU-to-connector signal connections\n\n| MCU signal label | Connector pin | Connector label |\n|---|---:|---|\n| `nJTRST` | (3) | `nTRST` |\n| `JTDI` | (5) | `TDI` |\n| `JSTM/SWDIO` | (7) | `TMS` |\n| `JTCK/SWCLK` | (9) | `TCK` |\n| — | (11) | `RTCK` |\n| `JTDO` | (13) | `TDO` |\n| `nRSTIN` | (15) | `nSRST` |\n| — | (17) | `DBGRQ` |\n| — | (19) | `DBGACK` |\n\n### Connector pinout and power connections\n\n- Pin (1): `VTREF`; connected to `VDD`.\n- Pin (2): connected to `VDD`.\n- Pin (3): `nTRST`.\n- Pin (4): connected to the common even-pin rail.\n- Pin (5): `TDI`.\n- Pin (6): connected to the common even-pin rail.\n- Pin (7): `TMS`.\n- Pin (8): connected to the common even-pin rail.\n- Pin (9): `TCK`.\n- Pin (10): connected to the common even-pin rail.\n- Pin (11): `RTCK`.\n- Pin (12): connected to the common even-pin rail.\n- Pin (13): `TDO`.\n- Pin (14): connected to the common even-pin rail.\n- Pin (15): `nSRST`.\n- Pin (16): connected to the common even-pin rail.\n- Pin (17): `DBGRQ`.\n- Pin (18): connected to the common even-pin rail.\n- Pin (19): `DBGACK`.\n- Pin (20): connected to the common even-pin rail and ultimately to `VSS`.\n\nThe even-numbered connector pins (2, 4, 6, 8, 10, 12, 14, 16, 18, and 20) are shown tied together by a vertical connection. The upper end is connected to `VDD`, and the lower end is connected to `VSS`.\n\n### Pull-down resistors\n\n- `RTCK` (pin 11) has a `10 kΩ` resistor to ground.\n- `DBGRQ` (pin 17) has a `10 kΩ` resistor to ground.\n- `DBGACK` (pin 19) has a `10 kΩ` resistor to ground.\n\nFigure identifier printed at lower right: `ai14376`.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 12. JTAG connector implementation",
+    "generated_captions": {
+      "luna": "**Figure 12. JTAG connector implementation**\n\n- **MCU:** `STM32F10xxx`\n- **JTAG connector:** `JTAG connector CN9`\n- Connector designation: `Connector 2 × 10`\n- The connector is shown with odd-numbered pins on the left and even-numbered pins on the right.\n\n### MCU-to-connector signal connections\n\n| MCU signal label | Connector pin | Connector label |\n|---|---:|---|\n| `nJTRST` | (3) | `nTRST` |\n| `JTDI` | (5) | `TDI` |\n| `JSTM/SWDIO` | (7) | `TMS` |\n| `JTCK/SWCLK` | (9) | `TCK` |\n| — | (11) | `RTCK` |\n| `JTDO` | (13) | `TDO` |\n| `nRSTIN` | (15) | `nSRST` |\n| — | (17) | `DBGRQ` |\n| — | (19) | `DBGACK` |\n\n### Connector pinout and power connections\n\n- Pin (1): `VTREF`; connected to `VDD`.\n- Pin (2): connected to `VDD`.\n- Pin (3): `nTRST`.\n- Pin (4): connected to the common even-pin rail.\n- Pin (5): `TDI`.\n- Pin (6): connected to the common even-pin rail.\n- Pin (7): `TMS`.\n- Pin (8): connected to the common even-pin rail.\n- Pin (9): `TCK`.\n- Pin (10): connected to the common even-pin rail.\n- Pin (11): `RTCK`.\n- Pin (12): connected to the common even-pin rail.\n- Pin (13): `TDO`.\n- Pin (14): connected to the common even-pin rail.\n- Pin (15): `nSRST`.\n- Pin (16): connected to the common even-pin rail.\n- Pin (17): `DBGRQ`.\n- Pin (18): connected to the common even-pin rail.\n- Pin (19): `DBGACK`.\n- Pin (20): connected to the common even-pin rail and ultimately to `VSS`.\n\nThe even-numbered connector pins (2, 4, 6, 8, 10, 12, 14, 16, 18, and 20) are shown tied together by a vertical connection. The upper end is connected to `VDD`, and the lower end is connected to `VSS`.\n\n### Pull-down resistors\n\n- `RTCK` (pin 11) has a `10 kΩ` resistor to ground.\n- `DBGRQ` (pin 17) has a `10 kΩ` resistor to ground.\n- `DBGACK` (pin 19) has a `10 kΩ` resistor to ground.\n\nFigure identifier printed at lower right: `ai14376`."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00178",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "5 Recommendations"
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00179",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "5.1 Printed circuit board"
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00180",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "For technical reasons, it is best to use a multilayer printed circuit board (PCB) with a separate layer dedicated to ground $( \\mathsf { V } _ { \\mathsf { S S } } )$ and another dedicated to the $\\mathsf { V } _ { \\mathsf { D D } }$ supply. This provides good decoupling and a good shielding effect. For many applications, economical reasons prohibit the use of this type of board. In this case, the major requirement is to ensure a good structure for ground and for the power supply."
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00181",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "5.2 Component position"
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00182",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "A preliminary layout of the PCB must separate the different circuits according to their EMI contribution in order to reduce cross-coupling on the PCB, that is noisy, high-current circuits, low-voltage circuits, and digital components."
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00183",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "5.3 Ground and power supply (V<sub>SS</sub>, V<sub>DD</sub>)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00184",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "Every block (noisy, low-level sensitive, digital, etc.) should be grounded individually and all ground returns should be to a single point. Loops must be avoided or have a minimum area. The power supply should be implemented close to the ground line to minimize the area of the supply loop. This is due to the fact that the supply loop acts as an antenna, and is therefore the main transmitter and receiver of EMI. All component-free PCB areas must be filled with additional grounding to create a kind of shielding (especially when using singlelayer PCBs)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00185",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "5.4 Decoupling"
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00186",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "All power supply and ground pins must be properly connected to the power supplies. These connections, including pads, tracks and vias should have as low an impedance as possible. This is typically achieved with thick track widths and, preferably, the use of dedicated power supply planes in multilayer PCBs."
+  },
+  {
+    "segment_id": "stm32-an2586-p0020-text-00187",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 20,
+    "text": "In addition, each power supply pair should be decoupled with filtering ceramic capacitors C (100 nF) and a chemical capacitor C of about 10 µF connected in parallel on the STM32F10xxx device. These capacitors need to be placed as close as possible to, or below, the appropriate pins on the underside of the PCB. Typical values are 10 nF to 100 nF, but exact values depend on the application needs. Figure 13 shows the typical layout of such a V<sub>DD</sub>/V<sub>SS</sub> pair."
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0021_00011.png",
+    "caption": "**Figure 13. Typical layout for \\(V_{DD}/V_{SS}\\) pair**\n\n- Schematic/package-layout illustration showing a capacitor and vias associated with the \\(V_{DD}\\) and \\(V_{SS}\\) supply pair.\n- Top-left label: **“Via to VDD”**\n- Top-right label: **“Via to VSS”**\n- Central component label: **“Cap.”**\n- Two downward conductors from the capacitor area terminate at supply positions labeled:\n  - **VDD**\n  - **VSS**\n- The lower gray package/die region is labeled **“STM32F10xxx”**.\n- Several additional vertical package pins/pads are drawn on either side of the \\(V_{DD}\\)/\\(V_{SS}\\) pair but are not individually labeled.\n- The drawing has no axes, legend, numerical values, or visible footnotes.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 13. Typical layout for $\\tt V _ { D D } / V _ { S S }$ pair",
+    "generated_captions": {
+      "luna": "**Figure 13. Typical layout for \\(V_{DD}/V_{SS}\\) pair**\n\n- Schematic/package-layout illustration showing a capacitor and vias associated with the \\(V_{DD}\\) and \\(V_{SS}\\) supply pair.\n- Top-left label: **“Via to VDD”**\n- Top-right label: **“Via to VSS”**\n- Central component label: **“Cap.”**\n- Two downward conductors from the capacitor area terminate at supply positions labeled:\n  - **VDD**\n  - **VSS**\n- The lower gray package/die region is labeled **“STM32F10xxx”**.\n- Several additional vertical package pins/pads are drawn on either side of the \\(V_{DD}\\)/\\(V_{SS}\\) pair but are not individually labeled.\n- The drawing has no axes, legend, numerical values, or visible footnotes."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00188",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "5.5 Other signals"
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00189",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "When designing an application, the EMC performance can be improved by closely studying:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00190",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "Signals for which a temporary disturbance affects the running process permanently (the case of interrupts and handshaking strobe signals, and not the case for LED commands)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00191",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "For these signals, a surrounding ground trace, shorter lengths and the absence of noisy and sensitive traces nearby (crosstalk effect) improve EMC performance. For digital signals, the best possible electrical margin must be reached for the two logical states and slow Schmitt triggers are recommended to eliminate parasitic states."
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00192",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "● Noisy signals (clock, etc.)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00193",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "Sensitive signals (high impedance, etc.)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00194",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "5.6 Unused I/Os and features"
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00195",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "All microcontrollers are designed for a variety of applications and often a particular application does not use 100% of the MCU resources."
+  },
+  {
+    "segment_id": "stm32-an2586-p0021-text-00196",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 21,
+    "text": "To increase EMC performance, unused clocks, counters or I/Os, should not be left free, e.g. I/Os should be set to “0” or “1”(pull-up or pull-down to the unused I/O pins.) and unused features should be “frozen” or disabled."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00197",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6 Reference design"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00198",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6.1 Description"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00199",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "The reference design shown in Figure 14, is based on the STM32F103ZE(T6), a highly integrated microcontroller running at 72 MHz, that combines the new Cortex<sup>™</sup>-M3 32-bit RISC CPU core with 512 Kbytes of embedded Flash memory and up to 64 Kbytes of highspeed SRAM."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00200",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "This reference design can be tailored to any other STM32F10xxx device with different package, using the pins correspondence given in Table 6: Reference connection for all packages."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00201",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6.1.1 Clock"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00202",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "Two clock sources are used for the microcontroller:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00203",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "● LSE: X1– 32.768 kHz crystal for the embedded RTC"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00204",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "● HSE: X2– 8 MHz crystal for the STM32F10xxx microcontroller"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00205",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "Refer to Section 2: Clocks on page 11."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00206",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6.1.2 Reset"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00207",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "The reset signal in Figure 14 is active low. The reset sources include:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00208",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "● Reset button (B1)"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00209",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "● Debugging tools via the connector CN1"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00210",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "Refer to Section 1.3: Reset and power supply supervisor on page 8."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00211",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6.1.3 Boot mode"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00212",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "The boot option is configured by setting switches SW2 (Boot 0) and SW1 (Boot 1). Refer to Section 3: Boot configuration on page 15."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00213",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "Note: In low-power mode (more specially in Standby mode) the boot mode is mandatory to be able to connect to tools (the device should boot from the SRAM)."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00214",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6.1.4 SWJ interface"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00215",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "The reference design shows the connection between the STM32F10xxx and a standard JTAG connector. Refer to Section 4: Debug management on page 17."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00216",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "Note: It is recommended to connect the reset pins so as to be able to reset the application from the tools."
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00217",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "6.1.5 Power supply"
+  },
+  {
+    "segment_id": "stm32-an2586-p0022-text-00218",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 22,
+    "text": "Refer to Section 1: Power supplies on page 6."
+  },
+  {
+    "segment_id": "stm32-an2586-p0023-text-00219",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 23,
+    "text": "6.2 Component references"
+  },
+  {
+    "segment_id": "stm32-an2586-p0023-table-00004",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0023_00004.png",
+    "caption": "**Table 4. Mandatory components**\n\n| Id | Components name | Reference | Quantity | Comments |\n|---:|---|---|---:|---|\n| 1 | Microcontroller | STM32F103ZE(T6) | 1 | 144-pin package |\n| 2 | Capacitors | 100 nF | 11 | Ceramic capacitors (decoupling capacitors) |\n| 3 | Capacitor | 10 µF | 1 | Ceramic capacitor (decoupling capacitor) |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. Mandatory components",
+    "generated_captions": {
+      "luna": "**Table 4. Mandatory components**\n\n| Id | Components name | Reference | Quantity | Comments |\n|---:|---|---|---:|---|\n| 1 | Microcontroller | STM32F103ZE(T6) | 1 | 144-pin package |\n| 2 | Capacitors | 100 nF | 11 | Ceramic capacitors (decoupling capacitors) |\n| 3 | Capacitor | 10 µF | 1 | Ceramic capacitor (decoupling capacitor) |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0023-table-00005",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 23,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0023_00005.png",
+    "caption": "**Table 5. Optional components**\n\nColumns: **Id | Components name | Reference | Quantity | Comments**\n\n| Id | Components name | Reference | Quantity | Comments |\n|---:|---|---|---:|---|\n| 1 | Resistor | 10 kΩ | 5 | Pull-up and pull-down for JTAG and Boot mode. |\n| 2 | Resistor | 390 Ω | 1 | Used for HSE: the value depends on the crystal characteristics. This resistor value is given only as a typical example. |\n| 3 | Resistor | 0 Ω | 1 | Used for LSE: the value depends on the crystal characteristics. This resistor value is given only as a typical example. |\n| 4 | Capacitor | 100 nF | 3 | Ceramic capacitor |\n| 5 | Capacitor | 1μF | 2 | Used for VDDA and VREF. |\n| 6 | Capacitor | 10 pF | 2 | Used for LSE: the value depends on the crystal characteristics. |\n| 7 | Capacitor | 20 pF | 2 | Used for HSE: the value depends on the crystal characteristics. |\n| 8 | Quartz | 8 MHz | 1 | Used for HSE |\n| 9 | Quartz | 32 kHz | 1 | Used for LSE |\n| 10 | JTAG connector | HE10 | 1 | No comment shown. |\n| 11 | Battery | 3V3 | 1 | If no external battery is used in the application, it is recommended to connect V<sub>BAT</sub> externally to V<sub>DD</sub> |\n| 12 | Switch | 3V3 | 2 | Used to select the correct boot mode. |\n| 13 | Push-button | B1 | 1 | No comment shown. |\n\nAbbreviations appearing in the comments: **JTAG**, **Boot**, **HSE**, **LSE**, **VDDA**, **VREF**, **V<sub>BAT</sub>**, and **V<sub>DD</sub>**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. Optional components",
+    "generated_captions": {
+      "luna": "**Table 5. Optional components**\n\nColumns: **Id | Components name | Reference | Quantity | Comments**\n\n| Id | Components name | Reference | Quantity | Comments |\n|---:|---|---|---:|---|\n| 1 | Resistor | 10 kΩ | 5 | Pull-up and pull-down for JTAG and Boot mode. |\n| 2 | Resistor | 390 Ω | 1 | Used for HSE: the value depends on the crystal characteristics. This resistor value is given only as a typical example. |\n| 3 | Resistor | 0 Ω | 1 | Used for LSE: the value depends on the crystal characteristics. This resistor value is given only as a typical example. |\n| 4 | Capacitor | 100 nF | 3 | Ceramic capacitor |\n| 5 | Capacitor | 1μF | 2 | Used for VDDA and VREF. |\n| 6 | Capacitor | 10 pF | 2 | Used for LSE: the value depends on the crystal characteristics. |\n| 7 | Capacitor | 20 pF | 2 | Used for HSE: the value depends on the crystal characteristics. |\n| 8 | Quartz | 8 MHz | 1 | Used for HSE |\n| 9 | Quartz | 32 kHz | 1 | Used for LSE |\n| 10 | JTAG connector | HE10 | 1 | No comment shown. |\n| 11 | Battery | 3V3 | 1 | If no external battery is used in the application, it is recommended to connect V<sub>BAT</sub> externally to V<sub>DD</sub> |\n| 12 | Switch | 3V3 | 2 | Used to select the correct boot mode. |\n| 13 | Push-button | B1 | 1 | No comment shown. |\n\nAbbreviations appearing in the comments: **JTAG**, **Boot**, **HSE**, **LSE**, **VDDA**, **VREF**, **V<sub>BAT</sub>**, and **V<sub>DD</sub>**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0024-figure-00012",
+    "type": "figure",
+    "doc": "stm32-an2586",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_figure_p0024_00012.png",
+    "caption": "**Figure 14. STM32F103ZE(T6) microcontroller reference schematic**\n\nThe figure is a reference schematic for an **STM32F103ZE(T6)** MCU, showing power/VBAT connections, decoupling capacitors, JTAG, boot-mode selection, high- and low-speed oscillators, and reset circuitry.\n\n### MCU and GPIO labels\n\nThe main MCU symbol is labeled **STM32F103ZE(T6)** / **MCU**. The visible GPIO groups are:\n\n- **PA0–PA15**\n- **PB0–PB15**\n- **PC0–PC15**\n- **PD0–PD15**\n- **PE0–PE15**\n- **PF0–PF15**\n- **PG0–PG15**\n\nThe symbol also shows the supply/control labels:\n\n- **VDD**\n- **VSS**\n- **VDDA**\n- **VSSA**\n- **VREF+**\n- **VREF−**\n- **VBAT**\n- **BOOT0**\n- **NRST**\n- **OSC_IN**\n- **OSC_OUT**\n- **OSC32_IN**\n- **OSC32_OUT**\n\nThe small pin numbers around the MCU are shown in the schematic; many of the individual numbers are too small to transcribe reliably from the crop.\n\n### Power supply and VBAT section\n\nThe upper-left section, marked **MCU Supply**, connects the MCU supply pins to **VDD** and ground. It includes:\n\n- Multiple **100 nF** bypass capacitors from VDD to ground.\n- MCU pins labeled **VDD**, **VSS**, **VDDA**, **VSSA**, **VREF+**, **VREF−**, and **VBAT**.\n- A battery symbol labeled **BT1** with battery type **CR1220**.\n- A jumper/selection connection near the battery with the note **Default setting 2-3**.\n- VDD and ground power symbols.\n\n### Decoupling capacitors\n\nThe right-hand vertical bank is labeled **Decoupling Capacitor**. It contains capacitors:\n\n- **C6 — 100 nF**\n- **C7 — 100 nF**\n- **C8 — 100 nF**\n- **C9 — 100 nF**\n- **C10 — 100 nF**\n- **C11 — 100 nF**\n- **C12 — 100 nF**\n- **C13 — 100 nF**\n- **C14 — 100 nF**\n- **C15 — 100 nF**\n- **C16 — 100 nF**\n- **C17 — 100 nF**\n\nThe capacitors are connected between the **VDD** rail and ground.\n\n### JTAG connector\n\nThe lower-left section is labeled **JTAG connector** and uses connector **CN1**, marked **JTAG**. The connector is numbered **1 through 20** and is wired to MCU debug/JTAG-related signals and ground/power connections.\n\nThe visible JTAG-related MCU signals include:\n\n- **JTMS/SWDIO**\n- **JTCK/SWCLK**\n- **JTDI**\n- **JTDO**\n- **NJTRST**\n- **NRST**\n\nPull/resistor components visible in this area include:\n\n- **R1 — 10K**\n- **R2 — 10K**\n- **R3 — 10K**\n- **R4 — 10K**\n\nThe exact function of every CN1 numbered contact is not legible at the crop resolution, although all connector numbers 1–20 are visible.\n\n### Boot-mode selection\n\nTwo separate boot-selection circuits are shown:\n\n#### Boot 1\n\nThe circuit is labeled **Boot Mode** and **Boot1**. It includes:\n\n- **SW1**\n- A **VDD** connection\n- A ground connection\n- **R4 — 10K**\n- Connection to the MCU **BOOT1** signal, associated with **PB2**.\n\n#### Boot 0\n\nThe circuit is labeled **Boot Mode** and **Boot0**. It includes:\n\n- **SW2**\n- A **VDD** connection\n- A ground connection\n- A **10K** pull resistor\n- Connection to the MCU **BOOT0** pin.\n\n### High-speed external oscillator\n\nThe center-right oscillator section is labeled **HSE**. It connects to:\n\n- **OSC_IN**\n- **OSC_OUT**\n- Crystal **Y1**, labeled **8 MHz**\n- **C3 — 20 pF**\n- **C4 — 20 pF**\n\nC3 and C4 are connected from the oscillator nodes to ground.\n\n### Low-speed external oscillator\n\nThe nearby section is labeled **LSE**. It connects to:\n\n- **OSC32_IN**\n- **OSC32_OUT**\n- Crystal **Y2**, labeled **32.768 kHz**\n- **C1 — 10 pF**\n- **C2 — 10 pF**\n\nC1 and C2 are connected from the low-speed oscillator nodes to ground.\n\n### Reset circuit\n\nThe lower-right section is labeled **Reset** and connects to the MCU **NRST** pin. It contains:\n\n- **R5 — 330** (the value is printed as “330” in the crop)\n- **C5 — 100 nF**\n- Pushbutton **B1**\n- A VDD connection through the resistor\n- A ground connection through the reset switch/capacitor network\n\nThe MCU reset pin is labeled **NRST**, with the visible package pin number **25** adjacent to it.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 14. STM32F103ZE(T6) microcontroller reference schematic",
+    "generated_captions": {
+      "luna": "**Figure 14. STM32F103ZE(T6) microcontroller reference schematic**\n\nThe figure is a reference schematic for an **STM32F103ZE(T6)** MCU, showing power/VBAT connections, decoupling capacitors, JTAG, boot-mode selection, high- and low-speed oscillators, and reset circuitry.\n\n### MCU and GPIO labels\n\nThe main MCU symbol is labeled **STM32F103ZE(T6)** / **MCU**. The visible GPIO groups are:\n\n- **PA0–PA15**\n- **PB0–PB15**\n- **PC0–PC15**\n- **PD0–PD15**\n- **PE0–PE15**\n- **PF0–PF15**\n- **PG0–PG15**\n\nThe symbol also shows the supply/control labels:\n\n- **VDD**\n- **VSS**\n- **VDDA**\n- **VSSA**\n- **VREF+**\n- **VREF−**\n- **VBAT**\n- **BOOT0**\n- **NRST**\n- **OSC_IN**\n- **OSC_OUT**\n- **OSC32_IN**\n- **OSC32_OUT**\n\nThe small pin numbers around the MCU are shown in the schematic; many of the individual numbers are too small to transcribe reliably from the crop.\n\n### Power supply and VBAT section\n\nThe upper-left section, marked **MCU Supply**, connects the MCU supply pins to **VDD** and ground. It includes:\n\n- Multiple **100 nF** bypass capacitors from VDD to ground.\n- MCU pins labeled **VDD**, **VSS**, **VDDA**, **VSSA**, **VREF+**, **VREF−**, and **VBAT**.\n- A battery symbol labeled **BT1** with battery type **CR1220**.\n- A jumper/selection connection near the battery with the note **Default setting 2-3**.\n- VDD and ground power symbols.\n\n### Decoupling capacitors\n\nThe right-hand vertical bank is labeled **Decoupling Capacitor**. It contains capacitors:\n\n- **C6 — 100 nF**\n- **C7 — 100 nF**\n- **C8 — 100 nF**\n- **C9 — 100 nF**\n- **C10 — 100 nF**\n- **C11 — 100 nF**\n- **C12 — 100 nF**\n- **C13 — 100 nF**\n- **C14 — 100 nF**\n- **C15 — 100 nF**\n- **C16 — 100 nF**\n- **C17 — 100 nF**\n\nThe capacitors are connected between the **VDD** rail and ground.\n\n### JTAG connector\n\nThe lower-left section is labeled **JTAG connector** and uses connector **CN1**, marked **JTAG**. The connector is numbered **1 through 20** and is wired to MCU debug/JTAG-related signals and ground/power connections.\n\nThe visible JTAG-related MCU signals include:\n\n- **JTMS/SWDIO**\n- **JTCK/SWCLK**\n- **JTDI**\n- **JTDO**\n- **NJTRST**\n- **NRST**\n\nPull/resistor components visible in this area include:\n\n- **R1 — 10K**\n- **R2 — 10K**\n- **R3 — 10K**\n- **R4 — 10K**\n\nThe exact function of every CN1 numbered contact is not legible at the crop resolution, although all connector numbers 1–20 are visible.\n\n### Boot-mode selection\n\nTwo separate boot-selection circuits are shown:\n\n#### Boot 1\n\nThe circuit is labeled **Boot Mode** and **Boot1**. It includes:\n\n- **SW1**\n- A **VDD** connection\n- A ground connection\n- **R4 — 10K**\n- Connection to the MCU **BOOT1** signal, associated with **PB2**.\n\n#### Boot 0\n\nThe circuit is labeled **Boot Mode** and **Boot0**. It includes:\n\n- **SW2**\n- A **VDD** connection\n- A ground connection\n- A **10K** pull resistor\n- Connection to the MCU **BOOT0** pin.\n\n### High-speed external oscillator\n\nThe center-right oscillator section is labeled **HSE**. It connects to:\n\n- **OSC_IN**\n- **OSC_OUT**\n- Crystal **Y1**, labeled **8 MHz**\n- **C3 — 20 pF**\n- **C4 — 20 pF**\n\nC3 and C4 are connected from the oscillator nodes to ground.\n\n### Low-speed external oscillator\n\nThe nearby section is labeled **LSE**. It connects to:\n\n- **OSC32_IN**\n- **OSC32_OUT**\n- Crystal **Y2**, labeled **32.768 kHz**\n- **C1 — 10 pF**\n- **C2 — 10 pF**\n\nC1 and C2 are connected from the low-speed oscillator nodes to ground.\n\n### Reset circuit\n\nThe lower-right section is labeled **Reset** and connects to the MCU **NRST** pin. It contains:\n\n- **R5 — 330** (the value is printed as “330” in the crop)\n- **C5 — 100 nF**\n- Pushbutton **B1**\n- A VDD connection through the resistor\n- A ground connection through the reset switch/capacitor network\n\nThe MCU reset pin is labeled **NRST**, with the visible package pin number **25** adjacent to it."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0025-table-00006",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 25,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0025_00006.png",
+    "caption": "## Table 6. Reference connection for all packages\n\n| Pin name | LQFP 144 pins | LQFP 100 pins | LQFP 64 pins | LQFP 48 pins | BGA 144 pins | BGA 100 pins | VFQFPN 36 pins |\n|---|---:|---:|---:|---:|---|---|---:|\n| OSC_IN | 23 | 12 | 5 | 5 | D1 | C1 | 2 |\n| OSC_OUT | 24 | 13 | 6 | 6 | E1 | D1 | 3 |\n| PC15-OSC32_OUT | 9 | 9 | 4 | 4 | C1 | B1 | - |\n| PC14-OSC32_IN | 8 | 8 | 3 | 3 | B1 | A1 | - |\n| BOOT0 | 138 | 94 | 60 | 44 | D5 | D5 | 35 |\n| PB2-BOOT1 | 48 | 37 | 28 | 20 | J5 | G5 | 17 |\n| NRST | 25 | 14 | 7 | 7 | F1 | E1 | 4 |\n| PA13 | 105 | 72 | 46 | 34 | A12 | A10 | 25 |\n| PA14 | 109 | 76 | 49 | 37 | A11 | A9 | 28 |\n| PA15 | 110 | 77 | 50 | 38 | A10 | A8 | 29 |\n| PB4 | 134 | 90 | 56 | 40 | A6 | A6 | 31 |\n| PB3 | 133 | 89 | 55 | 39 | A7 | A7 | 30 |\n| V<sub>SS_1</sub> | 71 | 49 | 31 | 23 | H7 | E7 | 18 |\n| V<sub>SS_2</sub> | 107 | 74 | 47 | 35 | G9 | E6 | 26 |\n| V<sub>SS_3</sub> | 143 | 99 | 63 | 47 | E5 | E5 | 36 |\n| V<sub>SS_4</sub> | 38 | 27 | 18 | - | G4 | E4 | - |\n| V<sub>SS_5</sub> | 16 | 10 | - | - | D2 | C2 | - |\n| V<sub>SS_6</sub> | 51 | - | - | - | H5 | - | - |\n| V<sub>SS_7</sub> | 61 | - | - | - | H6 | - | - |\n| V<sub>SS_8</sub> | 83 | - | - | - | G8 | - | - |\n| V<sub>SS_9</sub> | 94 | - | - | - | G10 | - | - |\n| V<sub>SS_10</sub> | 120 | - | - | - | E7 | - | - |\n| V<sub>SS_11</sub> | 130 | - | - | - | E6 | - | - |\n| V<sub>DD_1</sub> | 72 | 50 | 32 | 24 | G7 | F7 | 19 |\n| V<sub>DD_2</sub> | 108 | 75 | 48 | 36 | F9 | *(blank in image)* | 27 |\n| V<sub>DD_3</sub> | 144 | 100 | 64 | 48 | F5 | F5 | 1 |\n| V<sub>DD_4</sub> | 39 | 28 | 19 | - | F4 | F4 | *(blank in image)* |\n| V<sub>DD_5</sub> | 17 | 11 | - | - | D3 | D2 | - |\n| V<sub>DD_6</sub> | 52 | - | - | - | G5 | - | - |\n| V<sub>DD_7</sub> | 62 | - | - | - | G6 | - | - |\n| V<sub>DD_8</sub> | 84 | - | - | - | F8 | - | - |\n\nHyphens (`-`) are shown in the source table to indicate no listed pin for that package.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. Reference connection for all packages",
+    "generated_captions": {
+      "luna": "## Table 6. Reference connection for all packages\n\n| Pin name | LQFP 144 pins | LQFP 100 pins | LQFP 64 pins | LQFP 48 pins | BGA 144 pins | BGA 100 pins | VFQFPN 36 pins |\n|---|---:|---:|---:|---:|---|---|---:|\n| OSC_IN | 23 | 12 | 5 | 5 | D1 | C1 | 2 |\n| OSC_OUT | 24 | 13 | 6 | 6 | E1 | D1 | 3 |\n| PC15-OSC32_OUT | 9 | 9 | 4 | 4 | C1 | B1 | - |\n| PC14-OSC32_IN | 8 | 8 | 3 | 3 | B1 | A1 | - |\n| BOOT0 | 138 | 94 | 60 | 44 | D5 | D5 | 35 |\n| PB2-BOOT1 | 48 | 37 | 28 | 20 | J5 | G5 | 17 |\n| NRST | 25 | 14 | 7 | 7 | F1 | E1 | 4 |\n| PA13 | 105 | 72 | 46 | 34 | A12 | A10 | 25 |\n| PA14 | 109 | 76 | 49 | 37 | A11 | A9 | 28 |\n| PA15 | 110 | 77 | 50 | 38 | A10 | A8 | 29 |\n| PB4 | 134 | 90 | 56 | 40 | A6 | A6 | 31 |\n| PB3 | 133 | 89 | 55 | 39 | A7 | A7 | 30 |\n| V<sub>SS_1</sub> | 71 | 49 | 31 | 23 | H7 | E7 | 18 |\n| V<sub>SS_2</sub> | 107 | 74 | 47 | 35 | G9 | E6 | 26 |\n| V<sub>SS_3</sub> | 143 | 99 | 63 | 47 | E5 | E5 | 36 |\n| V<sub>SS_4</sub> | 38 | 27 | 18 | - | G4 | E4 | - |\n| V<sub>SS_5</sub> | 16 | 10 | - | - | D2 | C2 | - |\n| V<sub>SS_6</sub> | 51 | - | - | - | H5 | - | - |\n| V<sub>SS_7</sub> | 61 | - | - | - | H6 | - | - |\n| V<sub>SS_8</sub> | 83 | - | - | - | G8 | - | - |\n| V<sub>SS_9</sub> | 94 | - | - | - | G10 | - | - |\n| V<sub>SS_10</sub> | 120 | - | - | - | E7 | - | - |\n| V<sub>SS_11</sub> | 130 | - | - | - | E6 | - | - |\n| V<sub>DD_1</sub> | 72 | 50 | 32 | 24 | G7 | F7 | 19 |\n| V<sub>DD_2</sub> | 108 | 75 | 48 | 36 | F9 | *(blank in image)* | 27 |\n| V<sub>DD_3</sub> | 144 | 100 | 64 | 48 | F5 | F5 | 1 |\n| V<sub>DD_4</sub> | 39 | 28 | 19 | - | F4 | F4 | *(blank in image)* |\n| V<sub>DD_5</sub> | 17 | 11 | - | - | D3 | D2 | - |\n| V<sub>DD_6</sub> | 52 | - | - | - | G5 | - | - |\n| V<sub>DD_7</sub> | 62 | - | - | - | G6 | - | - |\n| V<sub>DD_8</sub> | 84 | - | - | - | F8 | - | - |\n\nHyphens (`-`) are shown in the source table to indicate no listed pin for that package."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0026-table-00007",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0026_00007.png",
+    "caption": "Table showing pin assignments across package types.\n\n**Column headings:**\n- **Pin name**\n- **Pin numbers for LQFP packages**\n  - 144 pins\n  - 100 pins\n  - 64 pins\n  - 48 pins\n- **Pin numbers for BGA packages**\n  - 144 pins\n  - 100 pins\n- **Pin numbers for VFQFPN package**\n  - 36 pins\n\n| Pin name | LQFP 144 pins | LQFP 100 pins | LQFP 64 pins | LQFP 48 pins | BGA 144 pins | BGA 100 pins | VFQFPN 36 pins |\n|---|---:|---:|---:|---:|---|---|---|\n| V<sub>DD_9</sub> | 95 | - | - | - | F10 | — | — |\n| V<sub>DD_10</sub> | 121 | - | - | - | F7 | - | - |\n| V<sub>DD_11</sub> | 131 | - | - | - | F6 | - | - |\n| V<sub>REF+</sub> | 32 | 21 | - | - | L1 | J1 | - |\n| V<sub>REF−</sub> | 31 | 20 | - | - | K1 | H1 | - |\n| V<sub>SSA</sub> | 30 | 19 | 12 | 8 | J1 | G1 | - |\n| V<sub>DDA</sub> | 33 | 22 | 13 | 9 | M1 | K1 | - |\n| V<sub>BAT</sub> | 6 | 6 | 1 | 1 | C2 | B2 | - |\n\nNo table title or footnotes are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Table showing pin assignments across package types.\n\n**Column headings:**\n- **Pin name**\n- **Pin numbers for LQFP packages**\n  - 144 pins\n  - 100 pins\n  - 64 pins\n  - 48 pins\n- **Pin numbers for BGA packages**\n  - 144 pins\n  - 100 pins\n- **Pin numbers for VFQFPN package**\n  - 36 pins\n\n| Pin name | LQFP 144 pins | LQFP 100 pins | LQFP 64 pins | LQFP 48 pins | BGA 144 pins | BGA 100 pins | VFQFPN 36 pins |\n|---|---:|---:|---:|---:|---|---|---|\n| V<sub>DD_9</sub> | 95 | - | - | - | F10 | — | — |\n| V<sub>DD_10</sub> | 121 | - | - | - | F7 | - | - |\n| V<sub>DD_11</sub> | 131 | - | - | - | F6 | - | - |\n| V<sub>REF+</sub> | 32 | 21 | - | - | L1 | J1 | - |\n| V<sub>REF−</sub> | 31 | 20 | - | - | K1 | H1 | - |\n| V<sub>SSA</sub> | 30 | 19 | 12 | 8 | J1 | G1 | - |\n| V<sub>DDA</sub> | 33 | 22 | 13 | 9 | M1 | K1 | - |\n| V<sub>BAT</sub> | 6 | 6 | 1 | 1 | C2 | B2 | - |\n\nNo table title or footnotes are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0027-text-00220",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 27,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2586-p0027-table-00008",
+    "type": "table",
+    "doc": "stm32-an2586",
+    "page": 27,
+    "image_path": "data/parsed/stm32/stm32-an2586/mineru/images/bbox_fallback_table_p0027_00008.png",
+    "caption": "**Table 7. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 12-Jul-2007 | 1 | Initial release. |\n| 23-May-2008 | 2 | Application note also applicable to High-density devices.<br><br>**Figure 1: Power supply overview**, **Figure 2: Power supply scheme** and **Figure 6: Clock overview** updated.<br><br>Low-speed internal RC frequency modified in **Section 2: Clocks on page 11**. V<sub>REF+</sub> voltage range modified.<br><br>**Table 6: Reference connection for all packages on page 25** added.<br><br>Small text changes. |\n| 23-Jun-2009 | 3 | Connectivity line STM32F10xxx and **Section : Glossary** added.<br><br>**Section 1.2: Power supply schemes** and **Figure 2: Power supply scheme** updated.<br><br>**Figure 5: Reset circuit** updated. Figure 6 Clock overview removed in **Section 2: Clocks**. **Note 1** added **Note 3** updated below **Figure 2: External clock**. **Section 2.1.1: External source (HSE bypass)** and **Section 2.1.2: External crystal/ceramic resonator (HSE crystal)** updated.<br><br>Section 2.3 Clock-out capability section removed.<br><br>**Section 3.1: Boot mode selection** and **Section 3.3: Embedded boot loader mode** updated.<br><br>When no external battery is used, it is recommended to externally connect the V<sub>BAT</sub> pin to V<sub>DD</sub>.<br><br>PA14 updated in **Table 7: Document revision history**.<br><br>Small text changes.<br><br>STM3210C-EVAL evaluation board added in **Section 4**. |\n| 01-Mar-2010 | 4 | This application note also applies to STM32F100xx low- and medium-density value line products:<br><br>– low- and medium-density value line devices added to **Introduction on page 1**<br>– **Section 2.1.1: External source (HSE bypass)** and **Section 2.1.2: External crystal/ceramic resonator (HSE crystal)** updated<br>– reference to value line’s evaluation board added to **Section 4.1: Introduction**<br><br>**Table 5: Reset circuit** updated. |\n| 19-Oct-2010 | 5 | Modified **Section 2.2.1: External source (LSE bypass)**<br>Updated for high-density value line devices. |\n| 14-Apr-2011 | 6 | Updated VDDA and VREF schematics in **Figure 14: STM32F103ZE(T6) microcontroller reference schematic on page 24** and **Table 5: Optional components**. |\n| 18-Nov-2011 | 7 | Updated to include XL-density devices. |\n\nThe table has three columns: **Date**, **Revision**, and **Changes**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 7. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 12-Jul-2007 | 1 | Initial release. |\n| 23-May-2008 | 2 | Application note also applicable to High-density devices.<br><br>**Figure 1: Power supply overview**, **Figure 2: Power supply scheme** and **Figure 6: Clock overview** updated.<br><br>Low-speed internal RC frequency modified in **Section 2: Clocks on page 11**. V<sub>REF+</sub> voltage range modified.<br><br>**Table 6: Reference connection for all packages on page 25** added.<br><br>Small text changes. |\n| 23-Jun-2009 | 3 | Connectivity line STM32F10xxx and **Section : Glossary** added.<br><br>**Section 1.2: Power supply schemes** and **Figure 2: Power supply scheme** updated.<br><br>**Figure 5: Reset circuit** updated. Figure 6 Clock overview removed in **Section 2: Clocks**. **Note 1** added **Note 3** updated below **Figure 2: External clock**. **Section 2.1.1: External source (HSE bypass)** and **Section 2.1.2: External crystal/ceramic resonator (HSE crystal)** updated.<br><br>Section 2.3 Clock-out capability section removed.<br><br>**Section 3.1: Boot mode selection** and **Section 3.3: Embedded boot loader mode** updated.<br><br>When no external battery is used, it is recommended to externally connect the V<sub>BAT</sub> pin to V<sub>DD</sub>.<br><br>PA14 updated in **Table 7: Document revision history**.<br><br>Small text changes.<br><br>STM3210C-EVAL evaluation board added in **Section 4**. |\n| 01-Mar-2010 | 4 | This application note also applies to STM32F100xx low- and medium-density value line products:<br><br>– low- and medium-density value line devices added to **Introduction on page 1**<br>– **Section 2.1.1: External source (HSE bypass)** and **Section 2.1.2: External crystal/ceramic resonator (HSE crystal)** updated<br>– reference to value line’s evaluation board added to **Section 4.1: Introduction**<br><br>**Table 5: Reset circuit** updated. |\n| 19-Oct-2010 | 5 | Modified **Section 2.2.1: External source (LSE bypass)**<br>Updated for high-density value line devices. |\n| 14-Apr-2011 | 6 | Updated VDDA and VREF schematics in **Figure 14: STM32F103ZE(T6) microcontroller reference schematic on page 24** and **Table 5: Optional components**. |\n| 18-Nov-2011 | 7 | Updated to include XL-density devices. |\n\nThe table has three columns: **Date**, **Revision**, and **Changes**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00221",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00222",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00223",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00224",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00225",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00226",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00227",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY TWO AUTHORIZED ST REPRESENTATIVES, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00228",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00229",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00230",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00231",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00232",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "© 2011 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00233",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00234",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2586-p0028-text-00235",
+    "type": "text",
+    "doc": "stm32-an2586",
+    "page": 28,
+    "text": "www.st.com"
+  }
+]

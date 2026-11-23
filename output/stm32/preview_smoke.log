@@ -1,0 +1,27 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+{
+  "mode": "mrag",
+  "answer_score": null,
+  "retrieval_seconds": 0.473,
+  "total_seconds_excluding_router": 22.201,
+  "all_requested_documents_retrieved": true,
+  "all_requested_documents_cited": true,
+  "cited_documents": [
+    "stm32-an2557",
+    "stm32-an2594",
+    "stm32-pm0075"
+  ]
+}
+{
+  "mode": "text_only",
+  "answer_score": null,
+  "retrieval_seconds": 1.334,
+  "total_seconds_excluding_router": 12.836,
+  "all_requested_documents_retrieved": true,
+  "all_requested_documents_cited": true,
+  "cited_documents": [
+    "stm32-an2557",
+    "stm32-an2594",
+    "stm32-pm0075"
+  ]
+}

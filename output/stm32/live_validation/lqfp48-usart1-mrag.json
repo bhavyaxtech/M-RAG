@@ -1,0 +1,610 @@
+{
+  "case": {
+    "id": "lqfp48-usart1",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "question": "For STM32F103C8 in the LQFP48 package, what physical pin numbers carry PA9 and PA10, and which default USART1 signals do they provide? Cite the package-specific source.",
+    "mode": "mrag"
+  },
+  "request": {
+    "message": "For STM32F103C8 in the LQFP48 package, what physical pin numbers carry PA9 and PA10, and which default USART1 signals do they provide? Cite the package-specific source.",
+    "mode": "mrag",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:50:19.635829+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103C8 LQFP48 package pinout physical pin numbers PA9 and PA10 default USART1_TX and USART1_RX signals",
+      "page": null,
+      "confidence": 1.0,
+      "reason": "Asks DS5319 package pin mapping and default USART1 functions",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.6408183574676514,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-ds5319-p0026-figure-00009",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 26,
+          "type": "figure",
+          "score": 0.6408183574676514,
+          "text": "**Figure 8. STM32F103xx performance line LQFP48 pinout**\n\nThe figure shows the top-view pinout of an **LQFP48** package. A black dot marks the pin-1 corner. Pin numbering proceeds counterclockwise around the package.\n\n**Left side, pins 1–12 (top to bottom):**\n\n1. **VBAT**  \n2. **PC13-TAMPER-RTC**  \n3. **PC14-OSC32_IN**  \n4. **PC15-OSC32_OUT**  \n5. **PD0-OSC_IN**  \n6. **PD1-OSC_OUT**  \n7. **NRST**  \n8. **VSSA**  \n9. **VDDA**  \n10. **PA0-WKUP**  \n11. **PA1**  \n12. **PA2**\n\n**Bottom side, pins 13–24 (left to right):**\n\n13. **PA3**  \n14. **PA4**  \n15. **PA5**  \n16. **PA6**  \n17. **PA7**  \n18. **PB0**  \n19. **PB1**  \n20. **PB2**  \n21. **PB10**  \n22. **PB11**  \n23. **VSS_1**  \n24. **VDD_1**\n\n**Right side, pins 25–36 (bottom to top):**\n\n25. **PB12**  \n26. **PB13**  \n27. **PB14**  \n28. **PB15**  \n29. **PA8**  \n30. **PA9**  \n31. **PA10**  \n32. **PA11**  \n33. **PA12**  \n34. **PA13**  \n35. **VSS_2**  \n36. **VDD_2**\n\n**Top side, pins 37–48 (right to left):**\n\n37. **PA14**  \n38. **PA15**  \n39. **PB3**  \n40. **PB4**  \n41. **PB5**  \n42. **PB6**  \n43. **PD7**  \n44. **BOOT0**  \n45. **PB8**  \n46. **PB9**  \n47. **VSS_3**  \n48. **VDD_3**",
+          "image_url": "/api/image/stm32-ds5319-p0026-figure-00009",
+          "page_url": "/api/page/stm32-ds5319/26",
+          "bbox": [
+            0.31,
+            0.125,
+            0.746,
+            0.388
+          ]
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-ds5319-p0031-table-00009",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 31,
+          "type": "table",
+          "score": 0.6350806355476379,
+          "text": "**Visible table: pin assignments and alternate functions (STM32F103C8, page 31)**\n\n**Column headings:**\n- **Pins**\n  - LFBGA100\n  - UFBGA100\n  - LQFP48/LQFP64\n  - TFBGA64\n  - LQFP64\n  - LQFP100\n  - VFQFPN36\n- **Pin name**\n- **Type(1)**\n- **I/O Level(2)**\n- **Main function(3) (after reset)**\n- **Alternate functions(4)**\n  - Default\n  - Remap\n\nA hyphen (`-`) indicates no value or no pin in that package.\n\n| LFBGA100 | UFBGA100 | LQFP48/LQFP64 | TFBGA64 | LQFP64 | LQFP100 | VFQFPN36 | Pin name | Type(1) | I/O Level(2) | Main function(3) (after reset) | Default alternate function | Remap alternate function |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| H9 | J12 | - | - | - | 57 | - | PD10 | I/O | FT | PD10 | - | USART3_CK |\n| G9 | J11 | - | - | - | 58 | - | PD11 | I/O | FT | PD11 | - | USART3_CTS |\n| K10 | J10 | - | - | - | 59 | - | PD12 | I/O | FT | PD12 | - | TIM4_CH1 / USART3_RTS |\n| J10 | H12 | - | - | - | 60 | - | PD13 | I/O | FT | PD13 | - | TIM4_CH2 |\n| H10 | H11 | - | - | - | 61 | - | PD14 | I/O | FT | PD14 | - | TIM4_CH3 |\n| G10 | H10 | - | - | - | 62 | - | PD15 | I/O | FT | PD15 | - | TIM4_CH4 |\n| F10 | E12 | - | F6 | 37 | 63 | - | PC6 | I/O | FT | PC6 | - | TIM3_CH1 |\n| E10 | E11 | - | E7 | 38 | 64 | - | PC7 | I/O | FT | PC7 | - | TIM3_CH2 |\n| F9 | E10 | - | E8 | 39 | 65 | - | PC8 | I/O | FT | PC8 | - | TIM3_CH3 |\n| E9 | D12 | - | D8 | 40 | 66 | - | PC9 | I/O | FT | PC9 | - | TIM3_CH4 |\n| D9 | D11 | 29 | D7 | 41 | 67 | 20 | PA8 | I/O | FT | PA8 | USART1_CK(9) / TIM1_CH1(9) / MCO | - |\n| C9 | D10 | 30 | C7 | 42 | 68 | 21 | PA9 | I/O | FT | PA9 | USART1_TX(9) / TIM1_CH2(9) | - |\n| D10 | C12 | 31 | C6 | 43 | 69 | 22 | PA10 | I/O | FT | PA10 | USART1_RX(9) / TIM1_CH3(9) | - |\n| C10 | B12 | 32 | C8 | 44 | 70 | 23 | PA11 | I/O | FT | PA11 | USART1_CTS / CANRX(9) / USBDM / TIM1_CH4(9) | - |\n| B10 | A12 | 33 | B8 | 45 | 71 | 24 | PA12 | I/O | FT | PA12 | USART1_RTS / CANTX(9) / USBDP / TIM1_ETR(9) | - |\n| A10 | A11 | 34 | A8 | 46 | 72 | 25 | PA13 | I/O | FT | JTMS/SWDIO | - | PA13 |\n| F8 | C11 | - | - | - | 73 | - | Not connected | — | — | Not connected | — | - |\n| E6 | F11 | 35 | D5 | 47 | 74 | 26 | VSS_2 | S | - | VSS_2 | - | - |\n| F6 | G11 | 36 | E5 | 48 | 75 | 27 | VDD_2 | S | - | VDD_2 | - | - |\n\nThe footnote definitions for markers **(1), (2), (3), (4), and (9)** are not visible in the supplied crop.",
+          "image_url": "/api/image/stm32-ds5319-p0031-table-00009",
+          "page_url": "/api/page/stm32-ds5319/31",
+          "bbox": [
+            0.109,
+            0.121,
+            0.889,
+            0.842
+          ]
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-ds5319-p0026-figure-00010",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 26,
+          "type": "figure",
+          "score": 0.632675290107727,
+          "text": "Figure 9, “STM32F103xx performance line UFQFPN48 pinout” (visible package marking: **QFPN48**). Top-view pinout diagram with pins numbered counterclockwise/clockwise around the package:\n\n**Left side, top to bottom:**\n1. **VBAT**\n2. **PC13-TAMPER-RTC**\n3. **PC14-OSC32_IN**\n4. **PC15-OSC32_OUT**\n5. **PD0-OSC_IN**\n6. **PD1-OSC_OUT**\n7. **NRST**\n8. **VSSA**\n9. **VDDA**\n10. **PA0-WKUP**\n11. **PA1**\n12. **PA2**\n\n**Bottom side, left to right:**\n13. **PA3**\n14. **PA4**\n15. **PA5**\n16. **PA6**\n17. **PA7**\n18. **PB0**\n19. **PB1**\n20. **PB2**\n21. **PB10**\n22. **PB11**\n23. **VSS_1**\n24. **VDD_1**\n\n**Right side, bottom to top:**\n25. **PB12**\n26. **PB13**\n27. **PB14**\n28. **PB15**\n29. **PA8**\n30. **PA9**\n31. **PA10**\n32. **PA11**\n33. **PA12**\n34. **PA13**\n35. **VSS_2**\n36. **VDD_2**\n\n**Top side, right to left:**\n37. **PA14**\n38. **PA15**\n39. **PB3**\n40. **PB4**\n41. **PB5**\n42. **PB6**\n43. **PB7**\n44. **BOOT0**\n45. **PB8**\n46. **PB9**\n47. **VSS_3**\n48. **VDD_3**\n\nThe diagram shows the package outline and the pin numbering around all four sides. No additional electrical values, axes, legend, or footnotes are visible.",
+          "image_url": "/api/image/stm32-ds5319-p0026-figure-00010",
+          "page_url": "/api/page/stm32-ds5319/26",
+          "bbox": [
+            0.307,
+            0.428,
+            0.741,
+            0.684
+          ]
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-ds5319-p0024-figure-00007",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 24,
+          "type": "figure",
+          "score": 0.6163308024406433,
+          "text": "Figure: STM32F103xx performance line LQFP64 pinout. Package view labeled **LQFP64**; pin numbering proceeds down the left side from 1 to 16, across the bottom from 17 to 32, up the right side from 33 to 48, and across the top from 49 to 64.\n\n**Left side pins (1–16):**\n1. **VBAT**\n2. **PC13-TAMPER-RTC**\n3. **PC 14-OSC 32_IN**\n4. **PC 15-OSC 32_OUT**\n5. **PD 0-OSC_IN**\n6. **PD 1-OSC_OUT**\n7. **NRST**\n8. **PC0**\n9. **PC1**\n10. **PC2**\n11. **PC3**\n12. **VSSA**\n13. **VDDA**\n14. **PA 0-WKUP**\n15. **PA 1**\n16. **PA 2**\n\n**Bottom side pins (17–32), left to right:**\n17. **VSS_4**\n18. **VDD_4**\n19. **PA 3**\n20. **PA 4**\n21. **PA 5**\n22. **PA 6**\n23. **PA 7**\n24. **PC4**\n25. **PC5**\n26. **PB 0**\n27. **PB 1**\n28. **PB 2**\n29. **PB 10**\n30. **PB 11**\n31. **VSS_1**\n32. **VDD_1**\n\n**Right side pins (33–48), bottom to top:**\n33. **PB 12**\n34. **PB 13**\n35. **PB 14**\n36. **PB 15**\n37. **PC6**\n38. **PC7**\n39. **PC8**\n40. **PC9**\n41. **PA 8**\n42. **PA 9**\n43. **PA 10**\n44. **PA 11**\n45. **PA 12**\n46. **PA 13**\n47. **VSS_2**\n48. **VDD_2**\n\n**Top side pins (49–64), right to left:**\n49. **PA 14**\n50. **PA 15**\n51. **PC10**\n52. **PC11**\n53. **PC12**\n54. **PD2**\n55. **PB 3**\n56. **PB 4**\n57. **PB 5**\n58. **PB 6**\n59. **PB 7**\n60. **BOOT0**\n61. **PB 8**\n62. **PB 9**\n63. **VSS_3**\n64. **VDD_3**\n\nThe figure identifier **ai14392** appears at the lower right.",
+          "image_url": "/api/image/stm32-ds5319-p0024-figure-00007",
+          "page_url": "/api/page/stm32-ds5319/24",
+          "bbox": [
+            0.213,
+            0.121,
+            0.878,
+            0.416
+          ]
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-ds5319-p0027-figure-00011",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 27,
+          "type": "figure",
+          "score": 0.6099437475204468,
+          "text": "Figure 10, “STM32F103xx performance line VFQFPN36 pinout” (QFN36 package pinout diagram). The package drawing shows a rectangular package outline with pins numbered counterclockwise around the perimeter. Center label: **QFN36**. Identifier at lower right: **ai14654**.\n\n**Left side pins, top to bottom:**\n1. **VDD_3**  \n2. **OSC_IN/PD0**  \n3. **OSC_OUT/PD1**  \n4. **NRST**  \n5. **VSSA**  \n6. **VDDA**  \n7. **PA0-WKUP**  \n8. **PA1**  \n9. **PA2**\n\n**Bottom side pins, left to right:**\n10. **PA3**  \n11. **PA4**  \n12. **PA5**  \n13. **PA6**  \n14. **PA7**  \n15. **PB0**  \n16. **PB1**  \n17. **PB2**  \n18. **VSS_1**\n\n**Right side pins, bottom to top:**\n19. **VDD_1**  \n20. **PA8**  \n21. **PA9**  \n22. **PA10**  \n23. **PA11**  \n24. **PA12**  \n25. **PA13**  \n26. **VSS_2**  \n27. **VDD_2**\n\n**Top side pins, right to left:**\n28. **PA14**  \n29. **PA15**  \n30. **PB3**  \n31. **PB4**  \n32. **PB5**  \n33. **PB6**  \n34. **PB7**  \n35. **BOOT0**  \n36. **VSS_3**",
+          "image_url": "/api/image/stm32-ds5319-p0027-figure-00011",
+          "page_url": "/api/page/stm32-ds5319/27",
+          "bbox": [
+            0.206,
+            0.119,
+            0.885,
+            0.492
+          ]
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-ds5319-p0022-table-00005",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 22,
+          "type": "table",
+          "score": 0.6007922887802124,
+          "text": "Visible figure: STM32F103xx performance line LQFP100 pinout. Package designation: **LQFP100**. Pin numbering/orientation shown: pin 1 at the upper-left side, increasing downward to 25; pins 26–50 run left-to-right along the bottom; pins 51–75 run bottom-to-top along the right side; pins 76–100 run right-to-left along the top.\n\n### Left side, pins 1–25\n1. **PE2**  \n2. **PE3**  \n3. **PE4**  \n4. **PE5**  \n5. **PE6**  \n6. **VBAT**  \n7. **PC13-TAMPER-RTC**  \n8. **PC14-OSC32_IN**  \n9. **PC15-OSC32_OUT**  \n10. **VSS_5**  \n11. **VDD_5**  \n12. **OSC_IN**  \n13. **OSC_OUT**  \n14. **NRST**  \n15. **PC0**  \n16. **PC1**  \n17. **PC2**  \n18. **PC3**  \n19. **VSSA**  \n20. **VREF-**  \n21. **VREF+**  \n22. **VDDA**  \n23. **PA0-WKUP**  \n24. **PA1**  \n25. **PA2**\n\n### Bottom side, pins 26–50\n26. **PA3**  \n27. **VSS_4**  \n28. **VDD_4**  \n29. **PA4**  \n30. **PA5**  \n31. **PA6**  \n32. **PA7**  \n33. **PC4**  \n34. **PC5**  \n35. **PB0**  \n36. **PB1**  \n37. **PB2**  \n38. **PE7**  \n39. **PE8**  \n40. **PE9**  \n41. **PE10**  \n42. **PE11**  \n43. **PE12**  \n44. **PE13**  \n45. **PE14**  \n46. **PE15**  \n47. **PB10**  \n48. **PB11**  \n49. **VSS_1**  \n50. **VDD_1**\n\n### Right side, pins 51–75\n51. **PB12**  \n52. **PB13**  \n53. **PB14**  \n54. **PB15**  \n55. **PD8**  \n56. **PD9**  \n57. **PD10**  \n58. **PD11**  \n59. **PD12**  \n60. **PD13**  \n61. **PD14**  \n62. **PD15**  \n63. **PC6**  \n64. **PC7**  \n65. **PC8**  \n66. **PC9**  \n67. **PA8**  \n68. **PA9**  \n69. **PA10**  \n70. **PA11**  \n71. **PA12**  \n72. **PA13**  \n73. **NC**  \n74. **VSS_2**  \n75. **VDD_2**\n\n### Top side, pins 76–100\n76. **PA14**  \n77. **PA15**  \n78. **PC10**  \n79. **PC11**  \n80. **PC12**  \n81. **PD0**  \n82. **PD1**  \n83. **PD2**  \n84. **PD3**  \n85. **PD4**  \n86. **PD5**  \n87. **PD6**  \n88. **PD7**  \n89. **PB3**  \n90. **PB4**  \n91. **PB5**  \n92. **PB6**  \n93. **PB7**  \n94. **BOOT0**  \n95. **PB8**  \n96. **PB9**  \n97. **PE0**  \n98. **PE1**  \n99. **VSS_3**  \n100. **VDD_3**\n\nFigure identifier visible at lower right: **ai14391**.",
+          "image_url": "/api/image/stm32-ds5319-p0022-table-00005",
+          "page_url": "/api/page/stm32-ds5319/22",
+          "bbox": [
+            0.206,
+            0.121,
+            0.885,
+            0.535
+          ]
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-ds5319-p0029-table-00007",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 29,
+          "type": "table",
+          "score": 0.6006518602371216,
+          "text": "**Pin assignment table (STM32F103C8, page 29; table title/section not visible in crop)**\n\n**Column headings:**\n\n- **Pins:** LFBGA100, UFBGA100, LQFP48/UQFP48, TFBGA64, LQFP64, LQFP100, VFQFPN36\n- **Pin name**\n- **Type(1)**\n- **I/O Level(2)**\n- **Main function(3) (after reset)**\n- **Alternate functions(4):** Default, Remap\n\n| LFBGA100 | UFBGA100 | LQFP48/UQFP48 | TFBGA64 | LQFP64 | LQFP100 | VFQFPN36 | Pin name | Type(1) | I/O Level(2) | Main function(3) (after reset) | Alternate function — Default | Alternate function — Remap |\n|---|---|---:|---|---:|---:|---:|---|---|---|---|---|---|\n| G2 | L2 | 10 | G2 | 14 | 23 | 7 | PA0-WKUP | I/O | - | PA0 | WKUP/USART2_CTS(9)/ADC12_IN0/TIM2_CH1_ETR(9) | - |\n| H2 | M2 | 11 | H2 | 15 | 24 | 8 | PA1 | I/O | - | PA1 | USART2_RTS(9)/ADC12_IN1/TIM2_CH2(9) | - |\n| J2 | K3 | 12 | F3 | 16 | 25 | 9 | PA2 | I/O | - | PA2 | USART2_TX(9)/ADC12_IN2/TIM2_CH3(9) | - |\n| K2 | L3 | 13 | G3 | 17 | 26 | 10 | PA3 | I/O | - | PA3 | USART2_RX(9)/ADC12_IN3/TIM2_CH4(9) | - |\n| E4 | E3 | - | C2 | 18 | 27 | - | VSS_4 | S | - | VSS_4 | - | - |\n| F4 | H3 | - | D2 | 19 | 28 | - | VDD_4 | S | - | VDD_4 | - | - |\n| G3 | M3 | 14 | H3 | 20 | 29 | 11 | PA4 | I/O | - | PA4 | SPI1_NSS(9)/USART2_CK(9)/ADC12_IN4 | - |\n| H3 | K4 | 15 | F4 | 21 | 30 | 12 | PA5 | I/O | - | PA5 | SPI1_SCK(9)/ADC12_IN5 | - |\n| J3 | L4 | 16 | G4 | 22 | 31 | 13 | PA6 | I/O | - | PA6 | SPI1_MISO(9)/ADC12_IN6/TIM3_CH1(9) | TIM1_BKIN |\n| K3 | M4 | 17 | H4 | 23 | 32 | 14 | PA7 | I/O | - | PA7 | SPI1_MOSI(9)/ADC12_IN7/TIM3_CH2(9) | TIM1_CH1N |\n| G4 | K5 | - | H5 | 24 | 33 | - | PC4 | I/O | - | PC4 | ADC12_IN14 | - |\n| H4 | L5 | - | H6 | 25 | 34 | - | PC5 | I/O | - | PC5 | ADC12_IN15 | - |\n| J4 | M5 | 18 | F5 | 26 | 35 | 15 | PB0 | I/O | - | PB0 | ADC12_IN8/TIM3_CH3(9) | TIM1_CH2N |\n| K4 | M6 | 19 | G5 | 27 | 36 | 16 | PB1 | I/O | - | PB1 | ADC12_IN9/TIM3_CH4(9) | TIM1_CH3N |\n\nFootnote markers **(1), (2), (3), (4), and (9)** are present in the table, but their explanatory footnotes are not visible in the provided crop.",
+          "image_url": "/api/image/stm32-ds5319-p0029-table-00007",
+          "page_url": "/api/page/stm32-ds5319/29",
+          "bbox": [
+            0.109,
+            0.121,
+            0.889,
+            0.845
+          ]
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-ds5319-p0033-table-00011",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 33,
+          "type": "table",
+          "score": 0.5825130939483643,
+          "text": "Visible table segment from **stm32f103c8, page 33**.\n\n### Column headings\n\n- **Pins**\n  - **LFBGA100**\n  - **UFBGA100**\n  - **LQFP48/UQFN48**\n  - **TFBGA64**\n  - **LQFP64**\n  - **LQFP100**\n  - **VFQFPN36**\n- **Pin name**\n- **Type(1)**\n- **I/O Level(2)**\n- **Main function(3) (after reset)**\n- **Alternate functions(4)**\n  - **Default**\n  - **Remap**\n\n### Pin/function rows\n\n| LFBGA100 | UFBGA100 | LQFP48/UQFN48 | TFBGA64 | LQFP64 | LQFP100 | VFQFPN36 | Pin name | Type(1) | I/O Level(2) | Main function(3) (after reset) | Alternate function — Default | Alternate function — Remap |\n|---|---|---|---|---|---|---|---|---|---|---|---|---|\n| B4 | A3 | 45 | B3 | 61 | 95 | - | **PB8** | I/O | FT | **PB8** | **TIM4_CH3(9)** | **I2C1_SCL / CANRX** |\n| A4 | B3 | 46 | A3 | 62 | 96 | - | **PB9** | I/O | FT | **PB9** | **TIM4_CH4(9)** | **I2C1_SDA / CANTX** |\n| D4 | C3 | - | - | - | 97 | - | **PE0** | I/O | FT | **PE0** | **TIM4_ETR** | - |\n| C4 | A2 | - | - | - | 98 | - | **PE1** | I/O | FT | **PE1** | - | - |\n| E5 | D3 | 47 | D4 | 63 | 99 | 36 | **V<sub>SS_3</sub>** | S | - | **V<sub>SS_3</sub>** | - | - |\n| F5 | C4 | 48 | E4 | 64 | 100 | 1 | **V<sub>DD_3</sub>** | S | - | **V<sub>DD_3</sub>** | - | - |\n\nThe footnote definitions for markers **(1), (2), (3), (4), and (9)** are not visible in the provided crop.",
+          "image_url": "/api/image/stm32-ds5319-p0033-table-00011",
+          "page_url": "/api/page/stm32-ds5319/33",
+          "bbox": [
+            0.109,
+            0.121,
+            0.889,
+            0.463
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "read",
+      "status": "active"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "stage",
+      "stage": "read",
+      "status": "done"
+    },
+    {
+      "type": "token",
+      "text": "For"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " L"
+    },
+    {
+      "type": "token",
+      "text": "Q"
+    },
+    {
+      "type": "token",
+      "text": "FP"
+    },
+    {
+      "type": "token",
+      "text": "48"
+    },
+    {
+      "type": "token",
+      "text": " package"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": ":\n\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "PA"
+    },
+    {
+      "type": "token",
+      "text": "9"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " physical"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "30"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " provides"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " default"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "USART"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "_TX"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " signal"
+    },
+    {
+      "type": "token",
+      "text": ".\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "PA"
+    },
+    {
+      "type": "token",
+      "text": "10"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " physical"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "31"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " provides"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " default"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "USART"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "_RX"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " signal"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "The"
+    },
+    {
+      "type": "token",
+      "text": " package"
+    },
+    {
+      "type": "token",
+      "text": "-specific"
+    },
+    {
+      "type": "token",
+      "text": " L"
+    },
+    {
+      "type": "token",
+      "text": "Q"
+    },
+    {
+      "type": "token",
+      "text": "FP"
+    },
+    {
+      "type": "token",
+      "text": "48"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": "out"
+    },
+    {
+      "type": "token",
+      "text": " confirms"
+    },
+    {
+      "type": "token",
+      "text": " PA"
+    },
+    {
+      "type": "token",
+      "text": "9"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " PA"
+    },
+    {
+      "type": "token",
+      "text": "10"
+    },
+    {
+      "type": "token",
+      "text": " at"
+    },
+    {
+      "type": "token",
+      "text": " pins"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "30"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "31"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " respectively"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "done",
+      "answer": "For the **STM32F103C8 in the LQFP48 package**:\n\n- **PA9 is physical pin 30** and provides the default **USART1_TX** signal.\n- **PA10 is physical pin 31** and provides the default **USART1_RX** signal. [S2]\n\nThe package-specific LQFP48 pinout confirms PA9 and PA10 at pins 30 and 31, respectively. [S1]",
+      "cited": [
+        "S2",
+        "S1"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 3230,
+        "retrieve": 440,
+        "first_token": 8396,
+        "total": 8571
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 8.58
+}

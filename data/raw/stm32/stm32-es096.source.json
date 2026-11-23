@@ -1,0 +1,29 @@
+{
+  "doc_id": "stm32-es096",
+  "document_id": "ES096",
+  "title": "STM32F101/102/103 medium-density errata",
+  "document_kind": "errata_sheet",
+  "applicability": "Check device and silicon revision for each issue",
+  "manufacturer_url": "https://www.st.com/resource/en/errata_sheet/es096-stm32f101x8b-stm32f102x8b-and-stm32f103x8b-mediumdensity-device-limitations-stmicroelectronics.pdf",
+  "download_urls": [
+    "https://media.githubusercontent.com/media/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+    "https://raw.githubusercontent.com/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+    "https://www.st.com/resource/en/errata_sheet/es096-stm32f101x8b-stm32f102x8b-and-stm32f103x8b-mediumdensity-device-limitations-stmicroelectronics.pdf"
+  ],
+  "pages": 31,
+  "sha256": "7bcdf58d8b602292d68abb59e181a4f44a038f215d8b01b0167f6d7139285490",
+  "cover_text": "Applicability\nThis document applies to the part numbers of STM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-\ndensity devices and the device variants as stated in this page.\nIt gives a summary and a description of the device errata, with respect to the device datasheet and reference\nmanual RM0008.\nDeviation of the real device behavior from the intended device behavior is considered to be a device limitation.\nDeviation of the description in the reference manual or the datasheet from the intended device behavior is\nconsidered to be a documentation erratum. The term \u201cerrata\u201d applies both to limitations and documentation errata.\nTable 1. Device summary\nReference\nPart numbers\nSTM32F101x8/B(1)\nSTM32F101C8, STM32F101R8, STM32F101V8, STM32F101T8, STM32F101CB,\nSTM32F101RB, STM32F101VB\nSTM32F102x8/B(1)\nSTM32F102C8, STM32F102R8, STM32F102CB, STM32F102RB\nSTM32F103x8/B(1)\nSTM32F103C8, STM32F103R8, STM32F103V8, STM32F103T8,STM32F103CB,\nSTM32F103RB, STM32F103VB\n \n1.\nIncluding all the devices with 32 Kbytes of flash memory without the letter A in their order code.\n \nTable 2. Device variants\nReference\nSilicon revision codes\nDevice marking(1)\nREV_ID(2)\nSTM32F101x8/B\nA\n0x0000\nB\n0x2000\nZ\n0x2001\nY, X, 1, 2, 3\n0x2003\nSTM32F102x8/B\nA\n0x0000\nY, X, 1, 2, 3\n0x2003\nSTM32F103x8/B\nA\n0x0000\nB\n0x2000\nZ\n0x2001\nY, X, 1, 2, 3\n0x2003\n \n1.\nRefer to the device datasheet for how to identify this code on different types of package.\n2.\nREV_ID[15:0] bitfield of DBGMCU_IDCODE register.\n \nSTM32F101x8/B, STM32F102x8/B and STM32F103x8/B medium-density device \nerrata\nSTM32F10xx8 STM32F10xxB\nErrata sheet\nES096 - Rev 15 - March 2022\nFor further information contact your local STMicroelectronics sales office.\nwww.st.com\n",
+  "references": {
+    "RM0008": [
+      1
+    ],
+    "AN2867": [
+      8
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://media.githubusercontent.com/media/FastLED/datasheets/main/stmicroelectronics/mcu/STM32F103/errata.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:12.691018+00:00",
+  "path": "data/raw/stm32/stm32-es096.pdf"
+}

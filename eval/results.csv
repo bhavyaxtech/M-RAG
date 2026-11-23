@@ -1,0 +1,149 @@
+question,mode,doc,requires_visual,retrieved_segment_ids,generated_answer,model_used,retrieval_hit,answer_score
+"In the ESP32-WROOM-32E/32UE pin-definition table, which module pin is TXD0, and which GPIO/UART transmit function does it expose?",mrag,esp32-wroom-32e-32ue,true,"[""esp32-wroom-32e-32ue-p0010-text-chunk-000"", ""esp32-wroom-32e-32ue-p0039-figure-00011"", ""esp32-wroom-32e-32ue-p0010-figure-00005"", ""esp32-wroom-32e-32ue-p0038-figure-00010"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000""]","**TXD0 is module pin 35**. It exposes **GPIO1 / U0TXD**, the **UART0 transmit** function.  
+— *ESP32-WROOM-32E/ESP32-WROOM-32UE Datasheet v2.1*, pin layout, p. 10; schematic, p. 38.",gpt-5.6-sol,true,correct
+"In the ESP32-WROOM-32E/32UE pin-definition table, which module pin is TXD0, and which GPIO/UART transmit function does it expose?",text_only,esp32-wroom-32e-32ue,true,"[""esp32-wroom-32e-32ue-p0010-text-chunk-000"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000"", ""esp32-wroom-32e-32ue-p0018-text-chunk-000"", ""esp32-wroom-32e-32ue-p0019-text-chunk-000"", ""esp32-wroom-32e-32ue-p0003-text-chunk-000""]","The retrieved evidence is insufficient to determine the module pin for **TXD0** or its specific GPIO/UART transmit function. Page 10 introduces the pin definitions but does not include the relevant pin-definition table row; page 19 only states that UART pins can be routed through the GPIO Matrix. *(ESP32-WROOM-32E/32UE Datasheet v2.1, pp. 10, 19).*",gpt-5.6-sol,false,no answer
+What minimum current must the external power supply deliver under the ESP32-WROOM-32E/32UE recommended operating conditions?,mrag,esp32-wroom-32e-32ue,true,"[""esp32-wroom-32e-32ue-p0002-text-chunk-000"", ""esp32-wroom-32e-32ue-p0029-text-chunk-000"", ""esp32-wroom-32e-32ue-p0017-text-chunk-000"", ""esp32-wroom-32e-32ue-p0039-figure-00011"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000""]","The retrieved excerpts do **not specify the minimum current** the external power supply must deliver. They only give an operating supply range of **3.0 ~ 3.6 V**; the current-consumption excerpt provides measurement conditions but omits the relevant values. Therefore, the minimum supply-current requirement cannot be determined from the supplied context.
+
+*Source: ESP32-WROOM-32E/ESP32-WROOM-32UE Datasheet v2.1, pp. 2 and 29.*",gpt-5.6-sol,false,no answer
+What minimum current must the external power supply deliver under the ESP32-WROOM-32E/32UE recommended operating conditions?,text_only,esp32-wroom-32e-32ue,true,"[""esp32-wroom-32e-32ue-p0002-text-chunk-000"", ""esp32-wroom-32e-32ue-p0029-text-chunk-000"", ""esp32-wroom-32e-32ue-p0017-text-chunk-000"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000"", ""esp32-wroom-32e-32ue-p0003-text-chunk-000""]","The retrieved context does not specify the minimum current the external power supply must deliver. It only gives the recommended operating voltage as **3.0–3.6 V**; page 29 provides current-measurement conditions but no supply-current minimum. Therefore, the required minimum current cannot be determined from the supplied evidence.  
+— *ESP32-WROOM-32E/ESP32-WROOM-32UE Datasheet v2.1*, pp. 2, 29.",gpt-5.6-sol,false,no answer
+What is the typical resistance of the ESP32-WROOM-32E/32UE internal pull-up resistor?,mrag,esp32-wroom-32e-32ue,true,"[""atmega328p-p0533-text-chunk-000"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000"", ""rp2040-p0618-table-00889"", ""atmega328p-p0556-text-chunk-000"", ""esp32-wroom-32e-32ue-p0003-text-chunk-000""]","The retrieved evidence is insufficient to determine the typical internal pull-up resistance. The provided ESP32-WROOM-32E/32UE datasheet excerpts do not include an electrical-characteristics value for the internal pull-up resistor.
+
+**Source:** *ESP32-WROOM-32E/ESP32-WROOM-32UE Datasheet*, Version 2.1, pages 1 and 3.",gpt-5.6-sol,false,no answer
+What is the typical resistance of the ESP32-WROOM-32E/32UE internal pull-up resistor?,text_only,esp32-wroom-32e-32ue,true,"[""atmega328p-p0533-text-chunk-000"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000"", ""atmega328p-p0556-text-chunk-000"", ""esp32-wroom-32e-32ue-p0003-text-chunk-000"", ""esp32-wroom-32e-32ue-p0002-text-chunk-000""]","The retrieved **ESP32-WROOM-32E/32UE Datasheet v2.1** excerpts do not specify the typical resistance of the internal pull-up resistor, so the value cannot be determined from the provided evidence. The datasheet states that its information applies to both modules, but the retrieved pages contain no pull-up resistance specification. *(ESP32-WROOM-32E/ESP32-WROOM-32UE Datasheet v2.1, p. 3; features on p. 2).*",gpt-5.6-sol,false,no answer
+"For the LM317 TO-220 legacy, TO-263, and SOT-223 packages, which pin and tab assignment corresponds to OUTPUT?",mrag,lm317,true,"[""lm317-p0005-table-00003"", ""lm317-p0005-figure-00005"", ""lm317-p0005-figure-00004"", ""lm317-p0005-figure-00003"", ""lm317-p0001-table-00001""]","For all three LM317 packages, **OUTPUT is assigned to pin 2 and the TAB**:
+
+- **TO-220 (Legacy Chip):** Pin **2**, **TAB**
+- **TO-263:** Pin **2**, **TAB**
+- **SOT-223:** Pin **2**, **TAB** (the package drawing identifies the tab as pin **4**, also labeled **OUTPUT**)
+
+Source: *LM317 datasheet*, page 5, Pin Functions table and package pinout figures.",gpt-5.6-sol,true,correct
+"For the LM317 TO-220 legacy, TO-263, and SOT-223 packages, which pin and tab assignment corresponds to OUTPUT?",text_only,lm317,true,"[""lm317-p0001-text-chunk-000"", ""lm317-p0013-text-chunk-000"", ""lm317-p0042-text-chunk-000"", ""lm317-p0037-text-chunk-000"", ""lm317-p0035-text-chunk-000""]","The retrieved LM317 datasheet context identifies the packages—SOT-223 (DCY), TO-263 (KTT), and legacy TO-220 (KCS, KCT)—but does **not** include their pin/tab function assignments. Therefore, the OUTPUT pin and tab assignment cannot be established from the provided evidence without guessing.  
+
+**Source:** *LM317 3-Pin Adjustable Regulator*, p. 1; package-drawing excerpts pp. 35, 37, and 42.",gpt-5.6-sol,false,no answer
+"For the new-chip LM317 in the 4-pin DCY (SOT-223) package, what is the junction-to-board thermal resistance, RθJB?",mrag,lm317,true,"[""lm317-p0007-table-00008"", ""lm317-p0007-table-00007"", ""lm317-p0023-text-chunk-001"", ""lm317-p0001-table-00001"", ""lm317-p0040-figure-00065""]","For the **new-chip LM317** in the **DCY (SOT-223), 4-pin** package, the junction-to-board thermal resistance **RθJB is 8.4 °C/W**.
+
+**Source:** *LM317 datasheet*, page 7, Thermal Metric table.",gpt-5.6-sol,true,correct
+"For the new-chip LM317 in the 4-pin DCY (SOT-223) package, what is the junction-to-board thermal resistance, RθJB?",text_only,lm317,true,"[""lm317-p0023-text-chunk-001"", ""lm317-p0001-text-chunk-000"", ""lm317-p0007-text-chunk-000"", ""lm317-p0024-text-chunk-000"", ""lm317-p0023-text-chunk-000""]","The retrieved evidence is insufficient to determine **RθJB**. It confirms that the new-chip LM317 uses the **4-pin SOT-223 (DCY)** package and that thermal information is provided in Section 6.5, but the retrieved page 7 segment does not include the thermal-resistance table or the **RθJB** value. *(LM317 datasheet, pp. 1, 7).*",gpt-5.6-sol,false,no answer
+"Over the full operating temperature range, with 3 V ≤ (VIN − VOUT) ≤ 40 V, what are the LM317's typical and maximum line-regulation values?",mrag,lm317,true,"[""lm317-p0010-figure-00015"", ""lm317-p0001-text-chunk-000"", ""lm317-p0013-text-chunk-000"", ""lm317-p0009-figure-00008"", ""lm317-p0010-figure-00013""]","The retrieved context gives a **typical line regulation of 0.01%/V**, but it does **not provide the maximum value** for the stated conditions—full operating temperature range and \(3\text{ V} \le (V_{IN}-V_{OUT}) \le 40\text{ V}\).
+
+Therefore:
+
+- **Typical:** **0.01%/V**
+- **Maximum:** **Not specified in the retrieved evidence**
+
+Source: *LM317 3-Pin Adjustable Regulator* datasheet, **page 1**.",gpt-5.6-sol,false,incorrect
+"Over the full operating temperature range, with 3 V ≤ (VIN − VOUT) ≤ 40 V, what are the LM317's typical and maximum line-regulation values?",text_only,lm317,true,"[""lm317-p0001-text-chunk-000"", ""lm317-p0013-text-chunk-000"", ""lm317-p0002-text-chunk-000"", ""lm317-p0023-text-chunk-000"", ""lm317-p0017-text-chunk-000""]","The retrieved context is insufficient to determine the LM317’s **typical and maximum line-regulation values over the full operating temperature range** for **3 V ≤ (VIN − VOUT) ≤ 40 V**.
+
+It only states a general **typical line regulation of 0.01%/V** and provides no maximum value or full-temperature specification under that condition. *(LM317 datasheet, p. 1).*",gpt-5.6-sol,false,incorrect
+"In the STM32F103xx LQFP48 package, which physical pin is assigned to PA9?",mrag,stm32f103c8,true,"[""stm32f103c8-p0026-figure-00009"", ""stm32f103c8-p0026-figure-00010"", ""stm32f103c8-p0024-figure-00007"", ""stm32f103c8-p0027-figure-00011"", ""stm32f103c8-p0033-table-00011""]","In the STM32F103xx **LQFP48** package, **PA9 is assigned to physical pin 30**.  
+*(Source: STM32F103C8 datasheet, Figure 8, page 26.)*",gpt-5.6-sol,true,correct
+"In the STM32F103xx LQFP48 package, which physical pin is assigned to PA9?",text_only,stm32f103c8,true,"[""stm32f103c8-p0033-text-chunk-000"", ""stm32f103c8-p0098-text-chunk-000"", ""stm32f103c8-p0083-text-chunk-000"", ""stm32f103c8-p0020-text-chunk-000"", ""atmega328p-p0014-text-chunk-000""]","The retrieved context does not provide the LQFP48 pin-assignment table or identify the physical pin for **PA9**, so the pin number cannot be determined from the supplied evidence without guessing. It only confirms that the device uses a **48-pin, 7 × 7 mm LQFP** package.
+
+**Source:** *STM32F103C8 datasheet*, p. 98, §6.9 “LQFP48 package information.”",gpt-5.6-sol,false,no answer
+"At an ADC clock of 14 MHz, what minimum and maximum total conversion times, including sampling time, are specified for the STM32F103x8/xB?",mrag,stm32f103c8,true,"[""atmega328p-p0251-table-00204"", ""atmega328p-p0249-text-chunk-000"", ""stm32f103c8-p0074-table-00057"", ""stm32f103c8-p0012-text-chunk-000"", ""atmega328p-p0250-figure-00105""]","At **f_ADC = 14 MHz**, the STM32F103x8/xB specifies a total conversion time **t_CONV**, including sampling time, of:
+
+- **Minimum:** 1 µs  
+- **Maximum:** 18 µs  
+- **Typical:** not specified  
+
+Source: *STM32F103x8/xB datasheet*, Table 47 “ADC characteristics,” page 74.",gpt-5.6-sol,true,correct
+"At an ADC clock of 14 MHz, what minimum and maximum total conversion times, including sampling time, are specified for the STM32F103x8/xB?",text_only,stm32f103c8,true,"[""atmega328p-p0249-text-chunk-000"", ""stm32f103c8-p0012-text-chunk-000"", ""rp2040-p0560-text-chunk-000"", ""stm32f103c8-p0017-text-chunk-000"", ""stm32f103c8-p0019-text-chunk-000""]","The retrieved STM32F103x8/xB datasheet context states that an ADC conversion time of **1 µs** is achievable when APB2 is at **14 MHz**, but it does **not provide the maximum total conversion time, including sampling time**. Therefore, the requested minimum-and-maximum range cannot be established from the supplied evidence without guessing.
+
+**Source:** STM32F103x8/xB datasheet, p. 12.",gpt-5.6-sol,false,partially correct
+"What minimum, typical, and maximum weak pull-up equivalent resistance values are specified for the STM32F103x8/xB?",mrag,stm32f103c8,true,"[""stm32f103c8-p0062-text-chunk-000"", ""rp2040-p0618-table-00889"", ""esp32-wroom-32e-32ue-p0029-table-00018"", ""stm32f103c8-p0061-table-00045"", ""atmega328p-p0533-text-chunk-000""]","For the STM32F103x8/xB, the **RPU weak pull-up equivalent resistor**, specified at **VIN = VSS**, is:
+
+- **Minimum:** 30 kΩ  
+- **Typical:** 40 kΩ  
+- **Maximum:** 50 kΩ  
+
+The pull-up consists of a true resistance in series with a switchable PMOS; the PMOS contribution is approximately 10% minimum.  
+**Source:** *STM32F103x8/xB datasheet*, Table 36, pp. 61–62.",gpt-5.6-sol,true,correct
+"What minimum, typical, and maximum weak pull-up equivalent resistance values are specified for the STM32F103x8/xB?",text_only,stm32f103c8,true,"[""stm32f103c8-p0062-text-chunk-000"", ""atmega328p-p0533-text-chunk-000"", ""atmega328p-p0556-text-chunk-000"", ""stm32f103c8-p0066-text-chunk-000"", ""atmega328p-p0509-text-chunk-000""]","The retrieved context is insufficient to determine the minimum, typical, and maximum weak pull-up equivalent resistance values.
+
+Page 62 only states that the pull-up/pull-down uses a true resistor in series with a switchable PMOS/NMOS, whose contribution is approximately 10%; it does not include the resistance-value table. Page 66 concerns the separate permanent NRST pull-up and likewise does not provide the requested values in the retrieved text.  
+**Source:** *STM32F103x8/xB datasheet*, pp. 62 and 66.",gpt-5.6-sol,false,no answer
+"In the ATmega328P 28-pin PDIP pinout, which physical pin carries PD1/TXD?",mrag,atmega328p,true,"[""atmega328p-p0012-figure-00001"", ""atmega328p-p0098-text-chunk-000"", ""atmega328p-p0099-text-chunk-000"", ""atmega328p-p0295-table-00260"", ""atmega328p-p0097-table-00074""]","In the ATmega328P **28-pin PDIP (28 SPDIP)** package, **PD1 (PCINT17/TXD)** is on physical **pin 3**.  
+— *ATmega328P datasheet, Figure 1-1, page 12*",gpt-5.6-sol,true,correct
+"In the ATmega328P 28-pin PDIP pinout, which physical pin carries PD1/TXD?",text_only,atmega328p,true,"[""atmega328p-p0098-text-chunk-000"", ""atmega328p-p0099-text-chunk-000"", ""atmega328p-p0013-text-chunk-000"", ""atmega328p-p0092-text-chunk-001"", ""atmega328p-p0294-text-chunk-000""]","The retrieved excerpts identify **PD1/TXD** as **Port D, Bit 1**, but they do not provide the 28-pin PDIP physical pin number. Therefore, the physical pin cannot be determined from the supplied context alone.  
+— *ATmega328P datasheet*, pp. 13, 98.",gpt-5.6-sol,false,no answer
+What maximum SPI slave rise/fall time is specified for the ATmega328P?,mrag,atmega328p,true,"[""atmega328p-p0315-text-chunk-000"", ""atmega328p-p0315-table-00281"", ""atmega328p-p0317-table-00282"", ""stm32f103c8-p0070-table-00052"", ""atmega328p-p0317-text-chunk-000""]","The ATmega328P specifies a **maximum SPI slave rise/fall time of 1600 ns**.
+
+Source: *ATmega328P datasheet*, Table 29-13 “SPI Timing Parameters,” p. 315.",gpt-5.6-sol,true,correct
+What maximum SPI slave rise/fall time is specified for the ATmega328P?,text_only,atmega328p,true,"[""atmega328p-p0315-text-chunk-000"", ""atmega328p-p0317-text-chunk-000"", ""atmega328p-p0170-text-chunk-001"", ""atmega328p-p0169-text-chunk-000"", ""atmega328p-p0312-text-chunk-000""]","The retrieved evidence is insufficient to determine the specified maximum SPI slave rise/fall time. It identifies **Section 29.6, “SPI Timing Characteristics,”** but does not include the timing table containing the rise/fall-time value. The only related slave timing provided is that SCK low and high periods must each be **longer than 2 CPU clock cycles**, which is not a rise/fall-time specification.
+
+**Source:** *ATmega328P datasheet*, pp. 315 and 170.",gpt-5.6-sol,false,no answer
+What is the maximum total IOVDD current that may be sourced by all RP2040 GPIO and QSPI pins?,mrag,rp2040,true,"[""rp2040-p0618-text-chunk-000"", ""rp2040-p0237-text-chunk-000"", ""stm32f103c8-p0037-table-00014"", ""rp2040-p0240-text-chunk-000"", ""rp2040-p0011-text-chunk-000""]","The retrieved evidence does not provide the numeric value of **I<sub>IOVDD_MAX</sub>**. It only states that the sum of current sourced by all outputs driven high from the IOVDD bank—essentially all **GPIO and QSPI pins**—must not exceed **I<sub>IOVDD_MAX</sub>**. Therefore, the maximum total current cannot be determined from the supplied context without guessing.  
+**Source:** *RP2040 Datasheet*, p. 618, §5.5.3.5.",gpt-5.6-sol,false,no answer
+What is the maximum total IOVDD current that may be sourced by all RP2040 GPIO and QSPI pins?,text_only,rp2040,true,"[""rp2040-p0618-text-chunk-000"", ""rp2040-p0237-text-chunk-000"", ""rp2040-p0240-text-chunk-000"", ""rp2040-p0011-text-chunk-000"", ""rp2040-p0155-text-chunk-000""]","The retrieved context does not provide the numeric value of **I<sub>IOVDD_MAX</sub>**. It only states that the sum of all currents sourced by the **GPIO and QSPI pins** from the IOVDD bank must not exceed **I<sub>IOVDD_MAX</sub>**. Therefore, the maximum total current cannot be determined from the supplied evidence. *(RP2040 Datasheet, p. 618)*",gpt-5.6-sol,false,no answer
+"According to the RP2040 pin output timing table, what are the minimum and maximum delays from the flop to the GPIO12 pad?",mrag,rp2040,true,"[""rp2040-p0619-text-chunk-000"", ""rp2040-p0622-table-00897"", ""rp2040-p0620-table-00894"", ""rp2040-p0621-table-00896"", ""rp2040-p0619-table-00892""]","The retrieved context is insufficient to determine the **flop-to-GPIO12 pad output delay**. The output-delay table fragments only show **GPIO0–GPIO5**; no GPIO12 output row is provided. The **2.29 ns minimum / 5.40 ns maximum** values shown for GPIO12 are explicitly for **“Pad input”**, so they do not answer the output-timing question.
+
+Source: *RP2040 Datasheet*, Pin IO Delays, pp. 619–622 (output-delay reference on p. 619; retrieved GPIO12 input row on p. 622).",gpt-5.6-sol,false,no answer
+"According to the RP2040 pin output timing table, what are the minimum and maximum delays from the flop to the GPIO12 pad?",text_only,rp2040,true,"[""rp2040-p0619-text-chunk-000"", ""rp2040-p0618-text-chunk-000"", ""rp2040-p0237-text-chunk-000"", ""rp2040-p0011-text-chunk-000"", ""rp2040-p0630-text-chunk-000""]","The retrieved context does not include Table 629’s row for **GPIO12**, so the exact minimum and maximum flop-to-pad delays cannot be determined without guessing.
+
+The available text only states that these delays assume a nominal **5 pF** load and **IOVDD = 1.8 V** with **PADS_VSEL set**, with min/max covering process variation, **1.1 V ±10%**, and **−40 °C to 125 °C**. *(RP2040 Datasheet, p. 619, §5.5.3.6)*",gpt-5.6-sol,false,no answer
+How many UART interfaces does the ESP32 have?,mrag,esp32-wroom-32e-32ue,false,"[""esp32-wroom-32e-32ue-p0019-text-chunk-000"", ""esp32-wroom-32e-32ue-p0018-text-chunk-000"", ""esp32-wroom-32e-32ue-p0020-text-chunk-000"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000"", ""esp32-wroom-32e-32ue-p0024-text-chunk-000""]","The ESP32 has **three UART interfaces**. Their pins can be assigned to any GPIOs through the GPIO Matrix.
+
+Source: *ESP32-WROOM-32E/ESP32-WROOM-32UE Datasheet*, Version 2.1, p. 19.",gpt-5.6-sol,true,correct
+How many UART interfaces does the ESP32 have?,text_only,esp32-wroom-32e-32ue,false,"[""esp32-wroom-32e-32ue-p0019-text-chunk-000"", ""esp32-wroom-32e-32ue-p0018-text-chunk-000"", ""esp32-wroom-32e-32ue-p0020-text-chunk-000"", ""esp32-wroom-32e-32ue-p0001-text-chunk-000"", ""esp32-wroom-32e-32ue-p0024-text-chunk-000""]","The ESP32 has **three UART interfaces**. Their pins can be assigned from any GPIOs via the GPIO Matrix.
+
+Source: *ESP32-WROOM-32E / ESP32-WROOM-32UE Datasheet*, Version 2.1, page 19.",gpt-5.6-sol,true,correct
+How does the LM317 recover after an overload condition?,mrag,lm317,false,"[""lm317-p0002-text-chunk-000"", ""lm317-p0013-text-chunk-000"", ""lm317-p0013-figure-00028"", ""lm317-p0001-text-chunk-000"", ""lm317-p0014-text-chunk-000""]","After an overload, the LM317’s overcurrent and overtemperature protection either:
+
+- shuts down the Darlington NPN output stage, or  
+- reduces the output current to prevent damage.
+
+The device **automatically resets**. Its output remains reduced or alternates between on and off until the overload is removed, after which normal regulation resumes. Overload protection remains functional even if the **ADJUST** pin is disconnected.
+
+**Source:** *LM317 3-Pin Adjustable Regulator* datasheet, pp. 13–14; see Sections 7.3.2 and 7.4.4.",gpt-5.6-sol,true,correct
+How does the LM317 recover after an overload condition?,text_only,lm317,false,"[""lm317-p0002-text-chunk-000"", ""lm317-p0013-text-chunk-000"", ""lm317-p0001-text-chunk-000"", ""lm317-p0014-text-chunk-000"", ""lm317-p0018-text-chunk-000""]","During an overload, the LM317 protects itself by either:
+
+- Shutting down the Darlington NPN output stage, or
+- Reducing the output current.
+
+It **automatically resets** from the overload. Until the overload is removed, the output remains reduced or alternates between on and off; afterward, normal operation resumes. Overload protection remains functional even if the **ADJUST** pin is disconnected.
+
+**Source:** *LM317 3-Pin Adjustable Regulator* datasheet, pages 13–14.",gpt-5.6-sol,true,correct
+What does the STM32F103x8/xB DMA controller's circular-buffer management avoid when the controller reaches the end of the buffer?,mrag,stm32f103c8,false,"[""rp2040-p0100-text-chunk-000"", ""rp2040-p0098-text-chunk-000"", ""rp2040-p0097-text-chunk-000"", ""rp2040-p0125-text-chunk-001"", ""rp2040-p0092-text-chunk-000""]","The retrieved evidence is insufficient. It covers the **RP2040 DMA controller**, not the **STM32F103x8/xB**, and does not describe STM32 circular-buffer management. Therefore, what it avoids at the end of the buffer cannot be established from the provided context without guessing. (RP2040 datasheet, pp. 92, 97–100, 125.)",gpt-5.6-sol,false,no answer
+What does the STM32F103x8/xB DMA controller's circular-buffer management avoid when the controller reaches the end of the buffer?,text_only,stm32f103c8,false,"[""rp2040-p0100-text-chunk-000"", ""rp2040-p0098-text-chunk-000"", ""rp2040-p0097-text-chunk-000"", ""rp2040-p0125-text-chunk-001"", ""rp2040-p0092-text-chunk-000""]","The retrieved context is insufficient to answer. It only covers the **RP2040 DMA controller** and does not describe the STM32F103x8/xB circular-buffer behavior. Therefore, what STM32 circular-buffer management avoids at the end of the buffer cannot be established from these sources. *(RP2040 datasheet, pp. 92, 98–100).*",gpt-5.6-sol,false,no answer
+"In the ATmega328P ADC, what analog input levels correspond to the minimum and maximum digital values?",mrag,atmega328p,false,"[""atmega328p-p0246-text-chunk-000"", ""atmega328p-p0247-text-chunk-000"", ""atmega328p-p0490-figure-00445"", ""atmega328p-p0247-figure-00101"", ""atmega328p-p0319-text-chunk-000""]","The ATmega328P ADC produces a **10-bit digital result**:
+
+- **Minimum digital value, 0:** represents an analog input of **GND (0 V)**.
+- **Maximum digital value, 1023:** represents an analog input of **AREF minus 1 LSB**, where  
+  \[
+  1\ \mathrm{LSB}=\frac{V_{\mathrm{AREF}}}{1024}
+  \]
+  so the corresponding level is  
+  \[
+  V_{\mathrm{AREF}}-\frac{V_{\mathrm{AREF}}}{1024}
+  =\frac{1023}{1024}V_{\mathrm{AREF}}.
+  \]
+
+The selected reference at **AREF** may be derived from **AVCC**, the internal nominal **1.1 V** reference, or an external reference, depending on the **REFSn** settings.  
+**Source:** *ATmega328P datasheet*, Chapter 24, p. 246.",gpt-5.6-sol,true,correct
+"In the ATmega328P ADC, what analog input levels correspond to the minimum and maximum digital values?",text_only,atmega328p,false,"[""atmega328p-p0246-text-chunk-000"", ""atmega328p-p0247-text-chunk-000"", ""atmega328p-p0319-text-chunk-000"", ""atmega328p-p0256-text-chunk-000"", ""atmega328p-p0257-text-chunk-000""]","For the ATmega328P’s 10-bit ADC:
+
+- **Minimum digital value `0x000` (0):** represents **analog ground, 0 V (GND)**.
+- **Maximum digital value `0x3FF` (1023):** represents **the selected reference voltage, \(V_{REF}\), minus 1 LSB**, where  
+  \[
+  1\ \mathrm{LSB}=\frac{V_{REF}}{1024}
+  \]
+  Thus, the corresponding input level is:
+  \[
+  V_{IN}=V_{REF}-\frac{V_{REF}}{1024}
+  =\frac{1023}{1024}V_{REF}
+  \]
+
+Here, \(V_{REF}\) is the selected ADC reference applied/connected to **AREF**, such as **AVCC** or the nominal **1.1 V** internal reference.
+
+**Source:** *ATmega48A/PA/88A/PA/168A/PA/328/P Datasheet*, pp. 246 and 256.",gpt-5.6-sol,true,correct
+Why is the RP2040's internal SRAM physically partitioned into six banks?,mrag,rp2040,false,"[""rp2040-p0122-text-chunk-000"", ""rp2040-p0123-text-chunk-000"", ""rp2040-p0121-text-chunk-000"", ""rp2040-p0010-text-chunk-000"", ""rp2040-p0011-text-chunk-000""]","The RP2040’s 264kB internal SRAM is physically partitioned into six banks to **increase memory bandwidth by permitting simultaneous parallel access from different bus masters**. Each bank has a dedicated AHB-Lite arbiter, so masters can access different banks concurrently, allowing up to **four 32-bit SRAM accesses per system clock cycle**—one per master.
+
+The banks comprise four 64kB banks and two 4kB banks. Despite this physical partitioning, software can normally treat them as one contiguous 264kB memory region. The first 256kB is word-striped across the four larger banks to provide parallelism for typical access patterns.
+
+**Source:** *RP2040 Datasheet*, pp. 11, 122.",gpt-5.6-sol,true,correct
+Why is the RP2040's internal SRAM physically partitioned into six banks?,text_only,rp2040,false,"[""rp2040-p0122-text-chunk-000"", ""rp2040-p0123-text-chunk-000"", ""rp2040-p0121-text-chunk-000"", ""rp2040-p0010-text-chunk-000"", ""rp2040-p0011-text-chunk-000""]","The RP2040’s 264kB internal SRAM is physically partitioned into six banks to improve memory bandwidth by permitting simultaneous parallel access from different bus masters. Each bank has a dedicated AHB-Lite arbiter, allowing different masters to access different banks concurrently—up to four 32-bit SRAM accesses per system clock cycle, one per master.
+
+The six banks comprise four 64kB banks and two 4kB banks. Despite this physical partitioning, software can normally treat them as one contiguous 264kB memory region. The first 256kB is word-striped across the four larger banks, so consecutive words are routed to different banks, providing parallelism without explicit software management.
+
+**Source:** *RP2040 Datasheet*, pp. 11, 122.",gpt-5.6-sol,true,correct

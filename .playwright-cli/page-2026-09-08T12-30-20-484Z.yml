@@ -1,0 +1,143 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - paragraph [ref=e6]: M-RAG
+        - paragraph [ref=e7]: Document intelligence
+      - navigation "Document sessions" [ref=e8]:
+        - generic [ref=e49]:
+          - heading "Hardware datasheets" [level=2] [ref=e51]
+          - generic [ref=e52]:
+            - button "RP2040 / Raspberry Pi Pico 641 pages" [ref=e53]:
+              - generic [ref=e58]:
+                - generic [ref=e59]: RP2040 / Raspberry Pi Pico
+                - generic [ref=e60]: 641 pages
+            - button "ESP32-WROOM-32E/32UE 52 pages" [ref=e61]:
+              - generic [ref=e66]:
+                - generic [ref=e67]: ESP32-WROOM-32E/32UE
+                - generic [ref=e68]: 52 pages
+            - button "ATmega328P 653 pages" [ref=e69]:
+              - generic [ref=e74]:
+                - generic [ref=e75]: ATmega328P
+                - generic [ref=e76]: 653 pages
+            - button "LM317 43 pages Session · 1 turns" [pressed] [ref=e341]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: LM317
+                - generic [ref=e84]: 43 pages
+                - generic [ref=e317]: Session · 1 turns
+            - button "STM32F103C8 114 pages" [ref=e85]:
+              - generic [ref=e90]:
+                - generic [ref=e91]: STM32F103C8
+                - generic [ref=e92]: 114 pages
+      - generic [ref=e10]:
+        - button "New session" [ref=e319]
+        - paragraph [ref=e11]: Clears only the selected document's conversation.
+    - main [ref=e12]:
+      - generic [ref=e320]:
+        - paragraph [ref=e321]: Hardware datasheets
+        - generic [ref=e322]:
+          - generic [ref=e323]:
+            - heading "LM317" [level=1] [ref=e324]
+            - paragraph [ref=e325]: 43 pages · session locked to this document
+          - generic [ref=e326]: Active
+      - log [ref=e327]:
+        - generic [ref=e329]:
+          - generic [ref=e342]:
+            - generic [ref=e343]: What is the maximum continuous output current listed for the LM317?
+            - article [ref=e345]:
+              - generic [ref=e346]: M
+              - generic [ref=e347]:
+                - generic [ref=e348]: searched the index · 5 segments retrieved · 4.6s
+                - generic [ref=e350]: From datasheets
+                - generic [ref=e353]:
+                  - paragraph [ref=e354]:
+                    - text: The LM317’s maximum continuous output current is
+                    - strong [ref=e355]: 1.5A
+                    - text: .
+                    - link "S1" [ref=e356] [cursor=pointer]:
+                      - /url: "#segment-S1"
+                    - link "S2" [ref=e357] [cursor=pointer]:
+                      - /url: "#segment-S2"
+                  - paragraph [ref=e358]:
+                    - text: This rating applies over an output-voltage range of
+                    - strong [ref=e359]: 1.25V to 37V
+                    - text: ; a
+                    - strong [ref=e360]: 3V headroom
+                    - text: ((V_I - V_O)) is recommended to support maximum current and lowest temperature.
+                    - link "S2" [ref=e361] [cursor=pointer]:
+                      - /url: "#segment-S2"
+                - generic [ref=e363]:
+                  - button "Why this answer" [ref=e364] [cursor=pointer]
+                  - generic [ref=e371]:
+                    - term [ref=e372]: Route
+                    - definition [ref=e373]: datasheet question (confidence 1.00)
+                    - term [ref=e374]: Searched for
+                    - definition [ref=e375]: LM317 maximum continuous output current
+                    - term [ref=e376]: Relevance
+                    - definition [ref=e377]: top match 0.575, above the 0.42 floor
+                    - term [ref=e378]: Used
+                    - definition [ref=e379]: S1 LM317 p.1 text, S2 LM317 p.13 text
+                    - term [ref=e380]: Unused
+                    - definition [ref=e381]: S3, S4, S5, still listed as evidence
+                    - term [ref=e382]: Evidence
+                    - definition [ref=e383]: figures, tables, and text from this document
+                    - term [ref=e384]: Models
+                    - definition [ref=e385]: gpt-5.6-sol · routed by gpt-5.6-luna
+          - generic [ref=e465]:
+            - generic [ref=e466]: Explain the circuit diagram on page 20 and identify the key components.
+            - article [ref=e468]:
+              - generic [ref=e469]: M
+              - generic [ref=e472]:
+                - button "Read" [ref=e473] [cursor=pointer]
+                - region "Retrieval pipeline progress" [ref=e480]:
+                  - list [ref=e481]:
+                    - listitem [ref=e482]: Understand
+                    - listitem [ref=e486]: Retrieve
+                    - listitem [ref=e490]: Read
+                    - listitem [ref=e492]: Answer
+                  - generic [ref=e494]: Reading S1, S2, S4…
+      - generic [ref=e336]:
+        - textbox "Ask a question about LM317" [active] [ref=e337]
+        - generic [ref=e338]:
+          - generic [ref=e339]: Searching LM317 only
+          - button "Stop generating" [ref=e496]
+    - complementary [ref=e21]:
+      - generic [ref=e497]:
+        - generic [ref=e498]:
+          - heading "Evidence" [level=2] [ref=e499]
+          - generic [ref=e500]: 4 found · 0 cited
+        - article [ref=e501]:
+          - generic [ref=e502]:
+            - generic [ref=e503]: S1
+            - generic [ref=e504]:
+              - paragraph [ref=e505]: LM317
+              - paragraph [ref=e506]: Page 20 · figure · 0.609
+          - img "figure from LM317 page 20" [ref=e510]
+          - button "Open page 20" [ref=e511]
+        - article [ref=e517]:
+          - generic [ref=e518]:
+            - generic [ref=e519]: S2
+            - generic [ref=e520]:
+              - paragraph [ref=e521]: LM317
+              - paragraph [ref=e522]: Page 20 · figure · 0.595
+          - img "figure from LM317 page 20" [ref=e526]
+          - button "Open page 20" [ref=e527]
+        - article [ref=e533]:
+          - generic [ref=e534]:
+            - generic [ref=e535]: S3
+            - generic [ref=e536]:
+              - paragraph [ref=e537]: LM317
+              - paragraph [ref=e538]: Page 20 · text · 0.560
+          - paragraph [ref=e541]: "8.3.7 50mA, Constant-Current, Battery-Charger Circuit Use the current-limit operation mode to trickle charge a battery at a fixed current. $\\mathsf { I } _ { \\mathsf { C H G } } = 1 . 2 5 \\mathsf { V } \\div 2 4 \\Omega$ . Make sure $\\mathsf { V } _ { \\mathsf { I } }$ is greater than $\\mathsf { V } _ { \\mathsf { B A T } } + 4 . 2 5 \\mathsf { V } .$ (1.25V $[ \\mathsf { V } _ { \\mathsf { R E F } } ] \\ + \\ 3 \\mathsf { V }$ [headroom]). Figure 8-12 shows a diagram of a battery-charger circuit. 8.3.8 Slow Turn-On 15V Regulator Circuit The capacitor C1, in combination with the PNP transistor, helps the circuit (Figure 8-13) to slowly start supplying voltage. In the beginning, the capacitor is not charged. Therefore, the output voltage starts at $\\mathsf { V } _ { \\mathsf { C } 1 } + \\mathsf { V } _ { \\mathsf { B E } } + 1$ .25V $= 0 \\vee + 0 . 6 5 \\vee + 1 . 2 5 \\vee = 1 . 9 \\vee$ . When the capacitor voltage rises, $\\mathsf { V } _ { \\mathsf { O U T } }$ rises at the same rate. When the output voltage reaches the value determined by R1 and R2, the PNP is turned off. 8.3.9 AC Voltage-Regulator Circuit Figure 8-14 shows a circuit employing two LM317 devices. These two LM317 devices regulate both the positive and negative swings of a sinusoidal AC input."
+          - button "Open page 20" [ref=e542]
+        - article [ref=e548]:
+          - generic [ref=e549]:
+            - generic [ref=e550]: S4
+            - generic [ref=e551]:
+              - paragraph [ref=e552]: LM317
+              - paragraph [ref=e553]: Page 20 · figure · 0.540
+          - img "figure from LM317 page 20" [ref=e557]
+          - button "Open page 20" [ref=e558]
+      - button "Build provenance" [ref=e30]
+  - button "Open Next.js Dev Tools" [ref=e44] [cursor=pointer]
+  - alert [ref=e48]

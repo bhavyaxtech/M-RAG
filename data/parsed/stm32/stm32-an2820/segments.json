@@ -1,0 +1,1268 @@
+[
+  {
+    "segment_id": "stm32-an2820-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "AN2820 Application note"
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "Driving bipolar stepper motors using a medium-density STM32F103xx microcontroller"
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "This application note describes how to achieve compact size, high speed and low cost with less resources when driving bipolar stepper motors using the medium-density STM32F103xx family of cortex-M3-based microcontrollers. It presents a simple method to implement the full-step and half-step operating modes to control stepper motors."
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "A stepper motor is an electromechanical device that converts electric pulses into discrete mechanical step motions. The shaft of a stepper motor rotates in discrete steps when electric command pulses are applied to it in the proper sequence. Stepper motors are a good choice whenever controlled movement is required. They are particularly useful in applications where rotation angle, speed, position and synchronism control is needed."
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "The major advantages of stepper motors are that they need no feedback devices, they are inexpensive relative to other motion control systems, they show an excellent low-speed torque and they are stable. Many stepper motor applications could benefit from the power, features and flexibility of the STM32F10xxx devices. They include robotics controllers, turning machine tools, video cameras and other precise shaft-positioning-control environments."
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "Moreover, the high performance of the STM32F10xxx microcontrollers offers designers the possibility of driving stepper motors reliably with low computing requirements from the controller."
+  },
+  {
+    "segment_id": "stm32-an2820-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 1,
+    "text": "This application note gives a simple method to control stepper motors following a typical run profile. The user can choose the operating mode (full-step or half-step), the rotation sense of the motor (clockwise or counter clockwise) and the control current mode (fast or slow decay).This method uses the medium-density STM32F103xx and the L6208 fully integrated two-phase stepper motor driver. It is the cheapest and simplest way of obtaining minimum CPU load."
+  },
+  {
+    "segment_id": "stm32-an2820-p0002-text-00009",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2820-p0002-text-00010",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 2,
+    "text": "1 Stepper motor basics . 5   \n1.1 Stepper motor types . 5   \n1.2 Drive signals . 6   \n2 Driving a bipolar stepper motor using a   \nmedium-density STM32F103xx   \n2.1 Hardware development 7   \n2.1.1 STM32F10xxx features used to drive a bipolar stepper motor   \n2.1.2 L6208 DMOS driver for bipolar stepper motor . . . 8   \n2.2 Firmware development . 13   \n2.2.1 Firmware description . . 13   \n2.2.2 Source files . 14   \n2.2.3 Main program and routine flowcharts . 15   \n2.2.4 Software library description of the stepper motor driver . . 17   \n2.2.5 Firmware performance study . . 20   \n3 Conclusion . . 21   \n4 Revision history . 22"
+  },
+  {
+    "segment_id": "stm32-an2820-p0003-text-00011",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 3,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2820-p0003-text-00012",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 3,
+    "text": "Table 1. Electrical characteristics of L6208 10   \nTable 2. List of sources files . 14   \nTable 3. Stepper motor library functions . . 18   \nTable 4. Stepper\\_ResetDisable function description. . 18   \nTable 5. Stepper\\_Start function description 18   \nTable 6. Stepper\\_Cmd function description 18   \nTable 7. Stepper\\_PinControlConfig function description 19   \nTable 8. Stepper\\_SelectMode function description . 19   \nTable 9. Stepper\\_SetRotationDirection function description . 19   \nTable 10. Stepper\\_SetControlMode function description 19   \nTable 11. Stepper\\_Init function description 20   \nTable 12. Peripheral usage. . . 20   \nTable 13. Resource requirements 20   \nTable 14. Document revision history 22"
+  },
+  {
+    "segment_id": "stm32-an2820-p0004-text-00013",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2820-p0004-text-00014",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 4,
+    "text": "Figure 1. Stepper motor types . . 6   \nFigure 2. Typical run profile . 7   \nFigure 3. L6208 block diagram . 9   \nFigure 4. L6208 typical application 10   \nFigure 5. Half-step mode . 11   \nFigure 6. Normal drive mode . 12   \nFigure 7. Wave drive mode 13   \nFigure 8. Connection example between L6208 and STM32F10xxx 13   \nFigure 9. Clock signal for the stepper motor 14   \nFigure 10. Main program flowchart 16   \nFigure 11. DMA routine flowchart 17   \nFigure 12. Systick routine flowchart . 17"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "Stepper motor basics"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "1.1 Stepper motor types"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "There are three basic stepper motor types:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "Variable reluctance"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "● Permanent magnet"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00020",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "● Hybrid"
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00021",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "The variable-reluctance (VR) motor type has been around for a long time. It is probably the easiest to understand from a structural point of view. This type of motor consists of a soft-Iron multitoothed rotor and a wound stator. When the stator windings are fed with DC current, the poles become magnetized. Rotation occurs when the rotor teeth are attracted to the energized stator poles."
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00022",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "The permanent-magnet (PM) motor type has permanent magnets added to the motor structure. The rotor does not have teeth like in VR motors. Instead, it is magnetized with alternating North and South poles situated in a straight line parallel to the rotor shaft. These magnetized rotor poles provide increased magnetic flux intensity that gives the PM motor improved torque characteristics compared to those of the VR type."
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00023",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "The hybrid (HB) motor type exhibits a better performance in terms of step resolution, torque and speed. This type of motor combines the best features of both the PM and VR stepper motor types. The rotor is multitoothed like in VR motors and contains an axially magnetized concentric magnet around its shaft. The teeth on the rotor provide an even better path which helps guide the magnetic flux to preferred locations in the air gap. This feature increases the detent, holding and dynamic torque characteristics of the motor compared to both the VR and PM motor types."
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00024",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "Stepper motors are available in either bipolar or unipolar windings."
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00025",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "Unipolar stepper motors have two identical coils that are not connected electrically and both have center tap. The flux is reversed by powering either end of the bifilar coil pair with the center taps made common. The advantage of unipolar stepper motors is that they need only one changeover switch. However, they require a double bifilar winding, which means that for a given bulk factor the wire is thinner and the resistance much higher."
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00026",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "Bipolar stepper motors are the same as unipolar motors except that the coils do not have center taps. For a bipolar motor, a H-bridge can be used to reverse the polarity of the windings and thus the flux. The advantage of bipolar stepper motors is that they use only one winding with a good bulk factor (low winding resistance)."
+  },
+  {
+    "segment_id": "stm32-an2820-p0005-text-00027",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 5,
+    "text": "Unipolar motors are still popular because their drive circuit appears to be simpler when implemented with discrete devices. With the integrated circuits available today, however, bipolar motors can be driven with no more components than unipolar motors."
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0006_00001.png",
+    "caption": "Figure showing two stepper-motor winding types:\n\n- **Bipolar motor** (left)\n  - Upper/left winding labeled **I₁**. The winding drawing includes current-direction arrows at its upper and lower ends; the upper arrow points right and the lower arrow points left.\n  - Lower winding labeled **I₂**, drawn horizontally with multiple coil loops. An arrow at the left end points upward, and an arrow at the right end points downward.\n  - Adjacent circular rotor symbol contains a diagonal arrow/shaft pointing from the lower-left toward the upper-right.\n\n- **Unipolar motor** (right)\n  - Upper/left winding labeled **I₁**, with multiple visible current-direction arrows along the winding; the upper arrow points right, a middle arrow points right, and the lower arrow points left.\n  - Lower winding labeled **I₂**, drawn horizontally with multiple coil loops and a central connection. A vertical arrow near the center points upward, and an arrow at the right end points downward.\n  - Adjacent circular rotor symbol contains a diagonal arrow/shaft pointing from the lower-left toward the upper-right.\n\nVisible labels: **Bipolar motor**, **Unipolar motor**, **I₁**, and **I₂**. Figure identifier at bottom right: **ai15423**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Stepper motor types",
+    "generated_captions": {
+      "luna": "Figure showing two stepper-motor winding types:\n\n- **Bipolar motor** (left)\n  - Upper/left winding labeled **I₁**. The winding drawing includes current-direction arrows at its upper and lower ends; the upper arrow points right and the lower arrow points left.\n  - Lower winding labeled **I₂**, drawn horizontally with multiple coil loops. An arrow at the left end points upward, and an arrow at the right end points downward.\n  - Adjacent circular rotor symbol contains a diagonal arrow/shaft pointing from the lower-left toward the upper-right.\n\n- **Unipolar motor** (right)\n  - Upper/left winding labeled **I₁**, with multiple visible current-direction arrows along the winding; the upper arrow points right, a middle arrow points right, and the lower arrow points left.\n  - Lower winding labeled **I₂**, drawn horizontally with multiple coil loops and a central connection. A vertical arrow near the center points upward, and an arrow at the right end points downward.\n  - Adjacent circular rotor symbol contains a diagonal arrow/shaft pointing from the lower-left toward the upper-right.\n\nVisible labels: **Bipolar motor**, **Unipolar motor**, **I₁**, and **I₂**. Figure identifier at bottom right: **ai15423**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00028",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "1.2 Drive signals"
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00029",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "A direct current motor runs by itself when supplied with voltage, whereas a stepper motor needs commutation signals."
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00030",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "Different modes can be used to drive stepper motors, including the full-step and half-step modes. The full-step mode is normally used by full-step motor drives. In this mode, both phases are always supplied and the motor has a full rated torque. This control mode requires only four rectangular signals that could also be generated by PWM (fixed duty cycle within a one-step duration). Depending on the leading phase, the motor axis rotates clockwise or counter clockwise."
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00031",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "The half-step mode is a bit more complicated. If half-step driving is used, the motor advances half a step after each clock pulse, thus obtaining a higher position resolution and reducing instability."
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00032",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "In both modes, however, the signals are all related to each other in a definite way so that they can be generated using standard logic. A good logic implementation may however be quite expensive and it would be better to use an application-specific integrated circuit. In general, specific integrated circuits contain an internal translator circuit controlled by stepand-direction inputs. The IC (Integrated circuit) motor controller allows operation in three modes only: full-step two phases on, half-step and wave drive. This type of IC needs four signals to the controller which are provided by a microcomputer or another dedicated controller chip. In addition, this solution requires a power stage and a microprocessor to generate the different control signals to each motor."
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00033",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "Some known applications need to be able to vary the stepper motor speed in order to generate a determined velocity profile (for example: a typical run profile). In this case, the best way to drive the stepper motor, in each of the three possible modes, is the software solution using a microcontroller circuit that could replace any other controller. In a microcontroller-based application, it is possible to use software and PWM timers, which removes the need for an external controller."
+  },
+  {
+    "segment_id": "stm32-an2820-p0006-text-00034",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 6,
+    "text": "Using this approach, it is possible to realize a high-speed application that uses minimum hardware and creates very low microcontroller CPU load."
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00035",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "Driving a bipolar stepper motor using a medium-density STM32F103xx"
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00036",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "This section describes how to drive a stepper motor in full- and half-step modes with the medium-density STM32F103xx microcontroller, according to the typical run profile illustrated in Figure 2."
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0007_00002.png",
+    "caption": "**Figure 2. Typical run profile**\n\n- Line graph with vertical axis labeled **Velocity** and horizontal axis labeled **time**.\n- Vertical axis has an upward arrow; horizontal axis has a right-pointing arrow.\n- Velocity profile:\n  - Starts at the time-axis origin at velocity **V₀**.\n  - Increases linearly to **V₁**.\n  - Remains constant at **V₁** for a plateau interval.\n  - Decreases linearly back to the time axis.\n- **V₀** is marked on the vertical axis at the starting level.\n- **V₁** is marked on the vertical axis at the plateau level.\n- A horizontal dashed line extends from the **V₁** label to the rising/plateau transition.\n- Two vertical dashed lines mark the beginning and end of the constant-velocity interval.\n- A double-headed horizontal dimension arrow beneath the graph spans between these two dashed lines and is labeled **T**.\n- The figure identifier **ai15424** appears at the lower right.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Typical run profile",
+    "generated_captions": {
+      "luna": "**Figure 2. Typical run profile**\n\n- Line graph with vertical axis labeled **Velocity** and horizontal axis labeled **time**.\n- Vertical axis has an upward arrow; horizontal axis has a right-pointing arrow.\n- Velocity profile:\n  - Starts at the time-axis origin at velocity **V₀**.\n  - Increases linearly to **V₁**.\n  - Remains constant at **V₁** for a plateau interval.\n  - Decreases linearly back to the time axis.\n- **V₀** is marked on the vertical axis at the starting level.\n- **V₁** is marked on the vertical axis at the plateau level.\n- A horizontal dashed line extends from the **V₁** label to the rising/plateau transition.\n- Two vertical dashed lines mark the beginning and end of the constant-velocity interval.\n- A double-headed horizontal dimension arrow beneath the graph spans between these two dashed lines and is labeled **T**.\n- The figure identifier **ai15424** appears at the lower right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00037",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "According to Figure 2, the stepper motor accelerates from the velocity $\\mathsf { V } _ { 0 }$ up to velocity $\\mathsf { V } _ { 1 }$ that has to be maintained for the period of time T. After this period, the motor decelerates down to the initial velocity $\\mathsf { V } _ { 0 } .$ The obtained velocity profile shows the same slope during the acceleration and deceleration."
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00038",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "2.1 Hardware development"
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00039",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "As said in the previous section, it is necessary to correctly choose the microcontroller and the IC to implement the best solution to drive the stepper motor. In this application, a medium-density STM32F103xx device and the L6208 DMOS driver have been selected."
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00040",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "2.1.1 STM32F10xxx features used to drive a bipolar stepper motor"
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00041",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "The medium-density STM32F103xx has a set of peripherals ideally suited to driving stepper motors. These peripherals include three standard (general-purpose) timers (TIM2, TIM3 and TIM4) with an internal clock frequency of up to 72 MHz and four 16-bit independent channels for high-resolution capture. Moreover, the STM32F103xx peripherals include an advanced-control timer (TIM1) with an internal clock frequency of 72 MHz and four 16-bit high-resolution capture channels. This timer has three channels (CH1, CH2 and CH3) able to generate three complementary signals, and one independent channel (CH4). These timer channels are able to generate signals in PWM or in output compare modes. The PWM and the output compare features are required to generate a regular step clock input for the L6208 to control the stepper motor. This application aims at controlling the stepper motor speed by using TIM2 in output compare toggle mode with a constant duty cycle of 50% and a variable frequency. The latter is used to vary the motor speed in accordance with the typical velocity profile. When changing the clock frequency, a minimum CPU load is required to prevent the driven stepper motor from stalling."
+  },
+  {
+    "segment_id": "stm32-an2820-p0007-text-00042",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 7,
+    "text": "The DMA controller is used to transfer the timer periods, leading to a sped-up CPU operation because, via the DMA controller, the device directly transfers periods from memory to timers without any CPU intervention. The DMA controller of the STM32F10xxx has seven independently configurable channels with three event flags for each channel: one for DMA Half Transfer, another for DMA Transfer complete and the last one for DMA Transfer Error. In this application, the update event DMA request and the DMA Transfer complete interrupt are used to control the transfer of the periods. For all the timers, the update event request is present in different DMA channels. Thus, the advantage of this choice is that all the timers with their DMA requests can work at the same time to drive different stepper motors."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00043",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "The SysTick is used to maintain the maximum stepper motor speed during the period T. This flexible system timer allows the generation of an interrupt each time the programmed time base is reached."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00044",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "The medium-density STM32F103xx has eighty GPIOs that can be configured as alternate function push-pull. These I/Os are able to control the rotation sense of the stepper motor (clockwise or counter clockwise), the step mode (full- or half-step), the decay mode (slow or fast) and the L6208 Chip Enable signal. (Refer to the STM32F10xxx reference manual for more details about the medium-density STM32F103xx features)."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00045",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "In summary, with its peripherals, the medium-density STM32F103xx can drive nineteen stepper motors at the same time in the full- and half-step modes with minimum CPU load. The hardware requirements of this solution are an IC that integrates a basic H-bridge circuit for each winding in the power stage, and a centralized logic mainly used for phase generation."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00046",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "2.1.2 L6208 DMOS driver for bipolar stepper motor"
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00047",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "The drive circuits used for bipolar stepper motors are more complex because bipolar motors do not have a center tap on their windings. To reverse the direction of the field produced by a motor winding, it is therefore necessary to reverse the current through the winding by using a H-bridge circuit. There are a lot of integrated H-bridge drivers on the market. The driver selected for this application is the L6208, a DMOS fully integrated stepper motor driver with non-dissipative overcurrent protection used to drive two-phase bipolar stepper motors. It includes a dual DMOS full bridge, two fixed off-time PWM current controllers (one for each of the bridges) that perform the chopping regulation and a phase sequence generator to generate the stepping sequence."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00048",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "Figure 3 presents the block diagram of the L6208 IC. With reference to this figure, the main L6208 inputs are:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00049",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "EN logic input: it is the Chip Enable input. A low logic level switches off all power MOSFETs of both Bridge A and Bridge B. This pin is also connected to the collector of the overcurrent and thermal protection circuits to implement overcurrent protection."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00050",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "CLOCK logic input: it is the step clock input. The state machine makes one step on each rising edge."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00051",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "CW/CCW logic input: it selects the sense of rotation. A high logic level sets the clockwise sense, whereas a low logic level sets the counter clockwise sense."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00052",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "HALF/FULL logic input: it is the step mode selector. A high logic level sets the halfstep mode, whereas a low logic level sets the full-step mode."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00053",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "CONTROL logic input: it is the decay mode selector. A high logic level sets the slow decay mode, whereas a low logic level sets the fast decay mode."
+  },
+  {
+    "segment_id": "stm32-an2820-p0008-text-00054",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 8,
+    "text": "$\\mathsf { v } \\mathsf { R E F } _ { \\mathsf { A } }$ and $V { \\mathsf { R E F } } _ { \\mathsf { B } }$ analog inputs: they are the bridge A and bridge B source pins, respectively."
+  },
+  {
+    "segment_id": "stm32-an2820-p0009-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0009_00003.png",
+    "caption": "**Figure 3. L6208 block diagram** (figure title/caption not visible in the crop; identified from the supplied context)\n\nThe diagram shows the internal functional blocks and external connections of the **L6208**, including two power half-bridges labeled **Bridge A** and **Bridge B**.\n\n### External pins and labels\n\n**Left-side control and supply pins:**\n- **VBOOT**\n- **VCP**\n- **EN**\n- **CONTROL**\n- **HALF/FULL**\n- **CLOCK**\n- **RESET**\n- **CW/CCW**\n\n**Right-side Bridge A pins:**\n- **VSA**\n- **OUT1A**\n- **OUT2A**\n- **SENSEA**\n- **VREFA**\n- **RCA**\n\n**Right-side Bridge B pins:**\n- **VSB**\n- **OUT1B**\n- **OUT2B**\n- **SENSEB**\n- **VREFB**\n- **RCB**\n\nThe right-side supply labels are rendered with subscripts in the figure as **VSA**, **VSB**, **VREFA**, **VREFB**, **RCA**, and **RCB**.\n\n### Left-side internal functional blocks\n\n- **Charge pump**, connected to **VCP** and the **VBOOT** supply node.\n- **Thermal protection** block.\n- An overcurrent-related logic path marked **OCD_A** and **OCD_B**.\n- **Stepping sequence generation** block, receiving:\n  - **HALF/FULL**\n  - **CLOCK**\n  - **RESET**\n  - **CW/CCW**\n- **Voltage regulator**, with outputs labeled:\n  - **10 V**\n  - **5 V**\n- **Gate logic** block.\n- **Overcurrent detection** block associated with Bridge A.\n- A second **Gate logic** block and **Overcurrent detection** block associated with Bridge B.\n- **EN** and **CONTROL** signals feed the internal control/gate circuitry.\n\n### Bridge A\n\nBridge A is enclosed in a dashed outline labeled **Bridge A**. It contains:\n\n- Two high-side gate-driver/amplifier symbols supplied from **VBOOT**.\n- Two low-side gate-driver/amplifier symbols supplied from **10 V**.\n- Four power-switch symbols arranged as two half-bridge legs.\n- Diode symbols across the power-switch devices.\n- Output nodes connected to:\n  - **OUT1A**\n  - **OUT2A**\n- The bridge supply is connected to **VSA**.\n- The lower/current-return node connects to **SENSEA**.\n- Gate-control lines are driven by the **Gate logic** block.\n- An **Overcurrent detection** block feeds the gate-control path.\n\n### Bridge A current-control/PWM loop\n\nA feedback/control loop below Bridge A contains:\n\n- **PWM** label above the loop.\n- **One-shot monostable**\n- **Masking time**\n- **Sense comparator**\n- Comparator input labeled **SENSE**\n- Comparator reference/input connection from **VREFA**\n- Timing/control connection to **RCA**\n- The PWM loop feeds back into the Bridge A gate-control circuitry.\n- The **SENSEA** connection is routed from the bridge output/current-sensing node to the sense-comparator section.\n\n### Bridge B\n\nBridge B is enclosed in a dashed outline labeled **Bridge B**. Its visible functional blocks are:\n\n- **Overcurrent detection**\n- **Gate logic**\n\nThe Bridge B external connections are:\n\n- Supply: **VSB**\n- Outputs: **OUT1B**, **OUT2B**\n- Current-sense input: **SENSEB**\n- Reference input: **VREFB**\n- Timing/control connection: **RCB**\n\n### Other visible labels and connections\n\n- Internal supply nodes are labeled **VBOOT**, **10 V**, and **5 V**.\n- The upper bridge includes visible internal bootstrap/power-driver connections from **VBOOT**.\n- Multiple internal signal lines from the stepping-sequence generator and gate logic route to both bridge sections.\n- The figure identifier **ai15425** appears at the bottom right.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. L6208 block diagram\nFigure 4 shows a typical bipolar stepper motor driver application using the L6208 driver. It also shows the different pins of the used package, which is the PowerDIP24/SO24. A highquality ceramic capacitor in the range of 100 to 200 nF should be inserted between the power pins $( \\mathsf { V } _ { \\mathsf { S A } }$ and $\\mathsf { V } _ { \\mathsf { S B } } )$ and ground close to the L6208 to improve high-frequency filtering on the power supply and reduce the high-frequency transients generated by switching. The capacitor connected between the EN input and ground sets the shutdown time when an overcurrent is detected. The two current-sensing inputs $( \\mathsf { S E N S E } _ { \\mathsf { A } }$ and $\\mathsf { S E N S E } _ { \\mathsf { B } } )$ should be connected as close as possible to the sense resistors in the layout. The sense resistors should be non-inductive resistors to minimize the di/dt transients across them. To improve noise immunity, it is preferable to connect unused logic pins (except for EN) to 5 V (high logic level) or to GND (low logic level). It is recommended to keep power ground and signal ground separated on the PCB.",
+    "generated_captions": {
+      "luna": "**Figure 3. L6208 block diagram** (figure title/caption not visible in the crop; identified from the supplied context)\n\nThe diagram shows the internal functional blocks and external connections of the **L6208**, including two power half-bridges labeled **Bridge A** and **Bridge B**.\n\n### External pins and labels\n\n**Left-side control and supply pins:**\n- **VBOOT**\n- **VCP**\n- **EN**\n- **CONTROL**\n- **HALF/FULL**\n- **CLOCK**\n- **RESET**\n- **CW/CCW**\n\n**Right-side Bridge A pins:**\n- **VSA**\n- **OUT1A**\n- **OUT2A**\n- **SENSEA**\n- **VREFA**\n- **RCA**\n\n**Right-side Bridge B pins:**\n- **VSB**\n- **OUT1B**\n- **OUT2B**\n- **SENSEB**\n- **VREFB**\n- **RCB**\n\nThe right-side supply labels are rendered with subscripts in the figure as **VSA**, **VSB**, **VREFA**, **VREFB**, **RCA**, and **RCB**.\n\n### Left-side internal functional blocks\n\n- **Charge pump**, connected to **VCP** and the **VBOOT** supply node.\n- **Thermal protection** block.\n- An overcurrent-related logic path marked **OCD_A** and **OCD_B**.\n- **Stepping sequence generation** block, receiving:\n  - **HALF/FULL**\n  - **CLOCK**\n  - **RESET**\n  - **CW/CCW**\n- **Voltage regulator**, with outputs labeled:\n  - **10 V**\n  - **5 V**\n- **Gate logic** block.\n- **Overcurrent detection** block associated with Bridge A.\n- A second **Gate logic** block and **Overcurrent detection** block associated with Bridge B.\n- **EN** and **CONTROL** signals feed the internal control/gate circuitry.\n\n### Bridge A\n\nBridge A is enclosed in a dashed outline labeled **Bridge A**. It contains:\n\n- Two high-side gate-driver/amplifier symbols supplied from **VBOOT**.\n- Two low-side gate-driver/amplifier symbols supplied from **10 V**.\n- Four power-switch symbols arranged as two half-bridge legs.\n- Diode symbols across the power-switch devices.\n- Output nodes connected to:\n  - **OUT1A**\n  - **OUT2A**\n- The bridge supply is connected to **VSA**.\n- The lower/current-return node connects to **SENSEA**.\n- Gate-control lines are driven by the **Gate logic** block.\n- An **Overcurrent detection** block feeds the gate-control path.\n\n### Bridge A current-control/PWM loop\n\nA feedback/control loop below Bridge A contains:\n\n- **PWM** label above the loop.\n- **One-shot monostable**\n- **Masking time**\n- **Sense comparator**\n- Comparator input labeled **SENSE**\n- Comparator reference/input connection from **VREFA**\n- Timing/control connection to **RCA**\n- The PWM loop feeds back into the Bridge A gate-control circuitry.\n- The **SENSEA** connection is routed from the bridge output/current-sensing node to the sense-comparator section.\n\n### Bridge B\n\nBridge B is enclosed in a dashed outline labeled **Bridge B**. Its visible functional blocks are:\n\n- **Overcurrent detection**\n- **Gate logic**\n\nThe Bridge B external connections are:\n\n- Supply: **VSB**\n- Outputs: **OUT1B**, **OUT2B**\n- Current-sense input: **SENSEB**\n- Reference input: **VREFB**\n- Timing/control connection: **RCB**\n\n### Other visible labels and connections\n\n- Internal supply nodes are labeled **VBOOT**, **10 V**, and **5 V**.\n- The upper bridge includes visible internal bootstrap/power-driver connections from **VBOOT**.\n- Multiple internal signal lines from the stepping-sequence generator and gate logic route to both bridge sections.\n- The figure identifier **ai15425** appears at the bottom right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0010-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0010_00004.png",
+    "caption": "**Figure 4. L6208 typical application** (STM32 AN2820, page 10). The diagram shows the L6208 driver connected to an 8–52 VDC supply, a motor, bootstrap/charge-pump components, sense resistors, control inputs, and RC decay networks.\n\n### Supply and grounding\n- Positive supply: `+ VS 8-52VDC`\n- Supply decoupling capacitors: `C1`, `C2`, connected between `VS` and the node labeled `Power ground`.\n- Separate labels are shown for:\n  - `Power ground`\n  - `Signal ground`\n- The lower ground network connects the L6208 ground pins and the external RC networks to ground.\n\n### L6208 power and motor pins\n- Pin `20`: `VSA`, connected to `VS`\n- Pin `17`: `VSB`, connected to `VS`\n- Pin `22`: `VCP`\n- Pin `15`: `VBOOT`\n- Pin `3`: `SENSEA`\n- Pin `10`: `SENSEB`\n- Pin `5`: `OUT1A`\n- Pin `21`: `OUT2A`\n- Pin `8`: `OUT1B`\n- Pin `16`: `OUT2B`\n- Pin `18`: `GND`\n- Pin `19`: `GND`\n- Pin `6`: `GND`\n- Pin `7`: `GND`\n\nThe output pins are wired to a motor symbol marked `M`:\n- `OUT1A` and `OUT2A` connect to one motor winding/bridge output pair.\n- `OUT1B` and `OUT2B` connect to the other motor winding/bridge output pair.\n- `SENSEA` and `SENSEB` connect through external resistors labeled:\n  - `R_SENSEA`\n  - `R_SENSEB`\n\n### Bootstrap and charge-pump network\n- `D1` and `D2` are shown in the charge-pump/bootstrap network.\n- `R_P` and `C_P` are connected in series to pin `VCP`.\n- `CBOOT` is connected between the supply-side node and the `VBOOT` node.\n- Pin `VBOOT` is pin `15`.\n\n### Reference and reset/enable circuitry\n- Pin `24`: `VREFA`\n- Pin `11`: `VREFB`\n- `VREFA` and `VREFB` are connected to the external reference node labeled:\n  - `VREF = 0-1 V`\n- Capacitor `CREF` is connected from the reference node to ground.\n- Pin `23`: `RESET`; external input label shown as overbarred `RESET`.\n- Pin `14`: `EN`; external input label shown as overbarred `ENABLE`.\n- Capacitor `CEN` is connected from the `EN` node to ground.\n\n### Logic/control inputs\n- Pin `13`: `CONTROL`; external signal label shown as overbarred `FAST/SLOW DECAY`.\n- Pin `12`: `HALF/FULL`; external signal label `HALF/FULL`.\n- Pin `1`: `CLOCK`; external signal label `CLOCK`.\n- Pin `2`: `CW/CCW`; external signal label `CW/CCW`.\n\n### Decay-control RC networks\n- Pin `4`: `RCA`\n  - Connected to a parallel RC network consisting of `C_A` and `R_A`.\n  - The network returns to ground.\n- Pin `9`: `RCB`\n  - Connected to a parallel RC network consisting of `C_B` and `R_B`.\n  - The network returns to ground.\n\nNo component values are provided for `C1`, `C2`, `CBOOT`, `R_SENSEA`, `R_SENSEB`, `R_P`, `C_P`, `CREF`, `CEN`, `C_A`, `R_A`, `C_B`, or `R_B` in the visible figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. L6208 typical application\nTable 1 gives the electrical characteristics of the L6208 driver.",
+    "generated_captions": {
+      "luna": "**Figure 4. L6208 typical application** (STM32 AN2820, page 10). The diagram shows the L6208 driver connected to an 8–52 VDC supply, a motor, bootstrap/charge-pump components, sense resistors, control inputs, and RC decay networks.\n\n### Supply and grounding\n- Positive supply: `+ VS 8-52VDC`\n- Supply decoupling capacitors: `C1`, `C2`, connected between `VS` and the node labeled `Power ground`.\n- Separate labels are shown for:\n  - `Power ground`\n  - `Signal ground`\n- The lower ground network connects the L6208 ground pins and the external RC networks to ground.\n\n### L6208 power and motor pins\n- Pin `20`: `VSA`, connected to `VS`\n- Pin `17`: `VSB`, connected to `VS`\n- Pin `22`: `VCP`\n- Pin `15`: `VBOOT`\n- Pin `3`: `SENSEA`\n- Pin `10`: `SENSEB`\n- Pin `5`: `OUT1A`\n- Pin `21`: `OUT2A`\n- Pin `8`: `OUT1B`\n- Pin `16`: `OUT2B`\n- Pin `18`: `GND`\n- Pin `19`: `GND`\n- Pin `6`: `GND`\n- Pin `7`: `GND`\n\nThe output pins are wired to a motor symbol marked `M`:\n- `OUT1A` and `OUT2A` connect to one motor winding/bridge output pair.\n- `OUT1B` and `OUT2B` connect to the other motor winding/bridge output pair.\n- `SENSEA` and `SENSEB` connect through external resistors labeled:\n  - `R_SENSEA`\n  - `R_SENSEB`\n\n### Bootstrap and charge-pump network\n- `D1` and `D2` are shown in the charge-pump/bootstrap network.\n- `R_P` and `C_P` are connected in series to pin `VCP`.\n- `CBOOT` is connected between the supply-side node and the `VBOOT` node.\n- Pin `VBOOT` is pin `15`.\n\n### Reference and reset/enable circuitry\n- Pin `24`: `VREFA`\n- Pin `11`: `VREFB`\n- `VREFA` and `VREFB` are connected to the external reference node labeled:\n  - `VREF = 0-1 V`\n- Capacitor `CREF` is connected from the reference node to ground.\n- Pin `23`: `RESET`; external input label shown as overbarred `RESET`.\n- Pin `14`: `EN`; external input label shown as overbarred `ENABLE`.\n- Capacitor `CEN` is connected from the `EN` node to ground.\n\n### Logic/control inputs\n- Pin `13`: `CONTROL`; external signal label shown as overbarred `FAST/SLOW DECAY`.\n- Pin `12`: `HALF/FULL`; external signal label `HALF/FULL`.\n- Pin `1`: `CLOCK`; external signal label `CLOCK`.\n- Pin `2`: `CW/CCW`; external signal label `CW/CCW`.\n\n### Decay-control RC networks\n- Pin `4`: `RCA`\n  - Connected to a parallel RC network consisting of `C_A` and `R_A`.\n  - The network returns to ground.\n- Pin `9`: `RCB`\n  - Connected to a parallel RC network consisting of `C_B` and `R_B`.\n  - The network returns to ground.\n\nNo component values are provided for `C1`, `C2`, `CBOOT`, `R_SENSEA`, `R_SENSEB`, `R_P`, `C_P`, `CREF`, `CEN`, `C_A`, `R_A`, `C_B`, or `R_B` in the visible figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0010-table-00001",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0010_00001.png",
+    "caption": "**Table 1. Electrical characteristics of L6208**\n\n| Parameters | MIN | MAX | Unity |\n|---|---:|---:|---|\n| Supply voltage (Vₛ) | — | 52 | V |\n| Output current (Iₒᵤₜ) | — | 2.8 | A |\n| Switching frequency (fₛw) | — | 100 | kHz |\n| Operating Junction temperature (Tⱼ) | −25 | +125 | °C |\n\nThe table’s column heading is visibly **“Unity”** (not “Unit”). Minimum values for **Output current (Iₒᵤₜ)** and **Switching frequency (fₛw)** are blank in the visible crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Electrical characteristics of L6208",
+    "generated_captions": {
+      "luna": "**Table 1. Electrical characteristics of L6208**\n\n| Parameters | MIN | MAX | Unity |\n|---|---:|---:|---|\n| Supply voltage (Vₛ) | — | 52 | V |\n| Output current (Iₒᵤₜ) | — | 2.8 | A |\n| Switching frequency (fₛw) | — | 100 | kHz |\n| Operating Junction temperature (Tⱼ) | −25 | +125 | °C |\n\nThe table’s column heading is visibly **“Unity”** (not “Unit”). Minimum values for **Output current (Iₒᵤₜ)** and **Switching frequency (fₛw)** are blank in the visible crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0010-text-00055",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 10,
+    "text": "The L6208 includes a fixed off-time PWM current controller for each of the two bridges. The current control circuit senses the bridge current by sensing the voltage drop across an external sense resistor connected between the source of the two lower power MOS transistors and ground."
+  },
+  {
+    "segment_id": "stm32-an2820-p0010-text-00056",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 10,
+    "text": "Current from each motor winding is flowing through the corresponding sense resistor, causing a voltage drop that is used, by the logic, to control the peak value of the load current. Two issues must be taken into account when choosing the value of the sense resistors, R<sub>SENSE</sub>:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0010-text-00057",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 10,
+    "text": "Sense resistors dissipate power and give rise to potentially dangerous negative voltages on the SENSE pin when the current starts flowing again. For this reason the resistance of this component should be kept low."
+  },
+  {
+    "segment_id": "stm32-an2820-p0010-text-00058",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 10,
+    "text": "The voltage drop across $\\mathsf { R } _ { \\mathsf { S E N S E } }$ is compared with the reference voltage (on $\\mathsf { V } _ { \\mathsf { r e f } } \\mathsf { p i n } )$ by the internal comparator. The lower the R<sub>S S</sub> value, the higher the peak current error. This is due to noise on the $\\mathsf { V } _ { \\mathsf { r e f } }$ pin and to the input offset of the current sense comparator: too small $\\mathsf { R } _ { \\mathsf { S E N S E } }$ values have to be avoided."
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00059",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "A good tradeoff consists in calculating the sense resistor value so that the voltage drop corresponding to the peak current through the load $( \\boldsymbol { \\mathsf { I } } _ { \\mathsf { p e a k } } )$ is of about 0.5 V:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00060",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "$$\n\\mathsf { R } _ { \\mathsf { S E N S E } } = 0 . 5 \\vee / \\mathsf { I } _ { \\mathsf { p e a k } } .\n$$"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00061",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "The sense resistor must mandatorily be of the non-inductive type in order to avoid dangerous negative spikes on the SENSE pins."
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00062",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "Current control modes: fast and slow decay modes"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00063",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "The CONTROL input is used to select the behavior of the bridge during the off time. When the CONTROL pin is low, the fast decay mode is selected and both transistors in the bridge are switched off during the off time. When the CONTROL pin is high, the slow decay mode is selected and only the low-side transistor of the bridge is switched off during the off time."
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00064",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "Stepping sequence generation: half- and full-step modes"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00065",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "The phase sequence generator is a state machine that provides the phase and enables inputs for the two bridges to drive a stepper motor in either full-step or half-step mode. Two full-step modes are possible: the normal drive mode where both phases are on at each step and the wave drive mode where only one phase is on at a time. The drive mode is selected by the HALF/FULL input. A rising edge of the CLOCK input causes the state machine to move forward to the next state. The sense of rotation is set by the CW/CCW input. The RESET input resets the state machine to Home state (State 1)."
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00066",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "● Half-step mode"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00067",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "A high logic level on the HALF/FULL input selects the half-step mode. Figure 5 shows the motor current waveforms and the state diagram of the phase sequence generator. At startup or after reset the phase sequence generator is in state 1 (Home state). After each clock pulse the state changes according to the sequence:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00068",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "– 1,2,3,4,5,6,7,8,… if CW/CCW is high (clockwise sense)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "– 1,8,7,6,5,4,3,2,… if CW/CCW is low (counterclockwise sense)."
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "Figure 5. Half-step mode"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0011_00005.png",
+    "caption": "Figure showing an eight-state sequence and corresponding \\(I_{\\mathrm{OUTA}}\\), \\(I_{\\mathrm{OUTB}}\\), and CLOCK waveforms.\n\n**State-sequence diagram:**\n- Eight rectangular states labeled: **1, 2, 3, 4, 5, 6, 7, 8**.\n- **Startup or reset** points into state **1**.\n- State transitions form a loop:\n  - **1 → 2** (upward)\n  - **2 → 3** (upward)\n  - **3 → 4** (rightward)\n  - **4 → 5** (rightward)\n  - **5 → 6** (downward)\n  - **6 → 7** (downward)\n  - **7 → 8** (leftward)\n  - **8 → 1** (leftward)\n\n**Waveforms:**\n- Upper waveform label: **I_OUTA** (shown as \\(I_{\\mathrm{OUTA}}\\)).\n  - Vertical axis arrow at the left.\n  - Begins at a middle reference level, drops to a lower level, rises to an upper level, returns to the middle level, then drops again to the lower level.\n  - The upper-level interval occurs between the first and second downward transitions.\n- Middle waveform label: **I_OUTB** (shown as \\(I_{\\mathrm{OUTB}}\\)).\n  - Vertical axis arrow at the left.\n  - Begins at a middle reference level, drops to a lower level, returns to the middle level, rises to an upper level, then returns to the middle level.\n  - The upper-level interval occurs after the second upward transition and ends at the final downward transition.\n- Lower waveform label: **CLOCK**.\n  - Vertical axis arrow at the left.\n  - Eight clock pulses are shown, with the high portions numbered above them:\n    **1, 2, 3, 4, 5, 6, 7, 8**.\n  - The clock starts low, produces eight successive pulses, and returns low after pulse 8.\n- Horizontal waveform arrows point to the right.\n- Figure identifier at bottom right: **ai15427**.\n- No units or numerical amplitude values are shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Figure showing an eight-state sequence and corresponding \\(I_{\\mathrm{OUTA}}\\), \\(I_{\\mathrm{OUTB}}\\), and CLOCK waveforms.\n\n**State-sequence diagram:**\n- Eight rectangular states labeled: **1, 2, 3, 4, 5, 6, 7, 8**.\n- **Startup or reset** points into state **1**.\n- State transitions form a loop:\n  - **1 → 2** (upward)\n  - **2 → 3** (upward)\n  - **3 → 4** (rightward)\n  - **4 → 5** (rightward)\n  - **5 → 6** (downward)\n  - **6 → 7** (downward)\n  - **7 → 8** (leftward)\n  - **8 → 1** (leftward)\n\n**Waveforms:**\n- Upper waveform label: **I_OUTA** (shown as \\(I_{\\mathrm{OUTA}}\\)).\n  - Vertical axis arrow at the left.\n  - Begins at a middle reference level, drops to a lower level, rises to an upper level, returns to the middle level, then drops again to the lower level.\n  - The upper-level interval occurs between the first and second downward transitions.\n- Middle waveform label: **I_OUTB** (shown as \\(I_{\\mathrm{OUTB}}\\)).\n  - Vertical axis arrow at the left.\n  - Begins at a middle reference level, drops to a lower level, returns to the middle level, rises to an upper level, then returns to the middle level.\n  - The upper-level interval occurs after the second upward transition and ends at the final downward transition.\n- Lower waveform label: **CLOCK**.\n  - Vertical axis arrow at the left.\n  - Eight clock pulses are shown, with the high portions numbered above them:\n    **1, 2, 3, 4, 5, 6, 7, 8**.\n  - The clock starts low, produces eight successive pulses, and returns low after pulse 8.\n- Horizontal waveform arrows point to the right.\n- Figure identifier at bottom right: **ai15427**.\n- No units or numerical amplitude values are shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "● Normal drive mode (full-step, two phases on)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 11,
+    "text": "A low level on the HALF/FULL input selects the full-step mode. If the low level is applied when the state machine is at an odd numbered state, the normal drive mode is selected. Figure 6 shows the motor current waveform and the state diagram of the phase sequence generator. The normal drive mode can easily be selected by holding the HALF/FULL input low and applying a reset. At startup or after reset the state machine is in state 1. While the $H A L F / / F U L L$ input is kept low, the state changes following the sequence:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00073",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "$^ { 1 , 3 , 5 , 7 , \\dots }$ if CW/CCW is high (clockwise sense)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00074",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "$1 , 7 , 5 , 3 , \\ldots$ if CW/CCW is low (counterclockwise sense)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0012_00006.png",
+    "caption": "**Figure 6. Normal drive mode**\n\nThe figure shows an eight-step drive sequence and the corresponding **IOUTA**, **IOUTB**, and **CLOCK** waveforms.\n\n- **Drive-state sequence diagram (left):**\n  - Eight numbered states arranged around a circular progression:\n    - **1**: lower left\n    - **2**: middle left\n    - **3**: upper left\n    - **4**: top center\n    - **5**: upper right\n    - **6**: middle right\n    - **7**: lower right\n    - **8**: lower center\n  - Circular arrows indicate progression through the states in numerical order, **1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 1**.\n  - A diagonal arrow points to state **1** and is labeled **“Startup or reset”**.\n\n- **Waveforms (right):**\n  - Three vertically arranged traces with upward-pointing vertical axes and right-pointing horizontal axes:\n    1. **IOUTA**\n    2. **IOUTB**\n    3. **CLOCK**\n  - **IOUTA:** rectangular waveform with an initial low interval, a high interval, a low interval, a second high interval, and then low.\n  - **IOUTB:** rectangular waveform phase-shifted relative to IOUTA; it begins low, transitions high, returns low, then transitions high again and remains high in the visible portion.\n  - **CLOCK:** repeating rectangular clock waveform. The visible high intervals are marked, from left to right, with the state labels:\n    - **1, 3, 5, 7, 1, 3, 5, 7**\n  - No voltage, current, time, or frequency scales are shown.\n  - Figure identifier at bottom right: **ai15428**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. Normal drive mode",
+    "generated_captions": {
+      "luna": "**Figure 6. Normal drive mode**\n\nThe figure shows an eight-step drive sequence and the corresponding **IOUTA**, **IOUTB**, and **CLOCK** waveforms.\n\n- **Drive-state sequence diagram (left):**\n  - Eight numbered states arranged around a circular progression:\n    - **1**: lower left\n    - **2**: middle left\n    - **3**: upper left\n    - **4**: top center\n    - **5**: upper right\n    - **6**: middle right\n    - **7**: lower right\n    - **8**: lower center\n  - Circular arrows indicate progression through the states in numerical order, **1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 1**.\n  - A diagonal arrow points to state **1** and is labeled **“Startup or reset”**.\n\n- **Waveforms (right):**\n  - Three vertically arranged traces with upward-pointing vertical axes and right-pointing horizontal axes:\n    1. **IOUTA**\n    2. **IOUTB**\n    3. **CLOCK**\n  - **IOUTA:** rectangular waveform with an initial low interval, a high interval, a low interval, a second high interval, and then low.\n  - **IOUTB:** rectangular waveform phase-shifted relative to IOUTA; it begins low, transitions high, returns low, then transitions high again and remains high in the visible portion.\n  - **CLOCK:** repeating rectangular clock waveform. The visible high intervals are marked, from left to right, with the state labels:\n    - **1, 3, 5, 7, 1, 3, 5, 7**\n  - No voltage, current, time, or frequency scales are shown.\n  - Figure identifier at bottom right: **ai15428**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00075",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "● Wave drive mode (full-step, one phase on)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00076",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "A low level on the HALF/FULL input pin selects the full-step mode. If a low level is applied when the state machine is at an even numbered state, the wave drive mode is selected. Figure 7 shows the motor current waveform and the state diagram of the phase sequence generator. To enter the wave drive mode, the state machine must be in an even numbered state. A more direct method of entering the wave drive mode consists in first applying a reset, then applying one pulse to the clock input while keeping the HALF/FULL input high, then taking the HALF/FULL input low. This sequence first forces the state machine to sate 1. The clock pulse, with the HALF/FULL input high causes the state machine to switch from state 1 to either state 2 or 8 depending on the CW/CCW input. After each clock pulse (rising edge), the state machine changes states following the sequence:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00077",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "– 2,4,6,8,… if CW/CCW is high (clockwise sense)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00078",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "$8 , 6 , 4 , 2 , \\ldots$ if CW/CCW is low (counter clockwise sense)"
+  },
+  {
+    "segment_id": "stm32-an2820-p0012-text-00079",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 12,
+    "text": "Refer to the L6208 datasheet for more details."
+  },
+  {
+    "segment_id": "stm32-an2820-p0013-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0013_00007.png",
+    "caption": "**Figure 7. Wave drive mode**\n\n- **Left: state-sequence diagram**\n  - State boxes shown: **1, 2, 3, 4, 5, 6, 7, 8**.\n  - Arrangement:\n    - Top row: **3, 4, 5**\n    - Middle row: **2, 6**\n    - Bottom row: **1, 8, 7**\n  - A dashed arrow labeled **“Startup or reset”** points to state **1**.\n  - The active state progression is shown by arrows:\n    - **1 → 2**\n    - **2 → 4**\n    - **4 → 6**\n    - **6 → 8**\n    - **8 → 2**\n  - States **3, 5, and 7** are shown but are not part of the indicated repeating sequence.\n\n- **Right: waveforms**\n  - Three horizontal timing traces are labeled:\n    - **I_OUTA** (shown as \\(I_\\mathrm{OUTA}\\))\n    - **I_OUTB** (shown as \\(I_\\mathrm{OUTB}\\))\n    - **CLOCK**\n  - Each waveform has a right-pointing time arrow. No voltage/current units or numerical amplitude values are shown.\n  - **I_OUTA:** stepped waveform with positive-level pulses followed by negative-level pulses, repeating over the displayed interval.\n  - **I_OUTB:** complementary/phase-shifted stepped waveform, initially at a negative level, then positive and negative stepped pulses repeating.\n  - **CLOCK:** repeating rectangular clock waveform.\n  - State numbers above the clock waveform, in sequence from left to right, are:\n    - **2, 4, 6, 8, 2, 4, 6, 8**\n  - Figure identifier at lower right: **ai15429**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Wave drive mode",
+    "generated_captions": {
+      "luna": "**Figure 7. Wave drive mode**\n\n- **Left: state-sequence diagram**\n  - State boxes shown: **1, 2, 3, 4, 5, 6, 7, 8**.\n  - Arrangement:\n    - Top row: **3, 4, 5**\n    - Middle row: **2, 6**\n    - Bottom row: **1, 8, 7**\n  - A dashed arrow labeled **“Startup or reset”** points to state **1**.\n  - The active state progression is shown by arrows:\n    - **1 → 2**\n    - **2 → 4**\n    - **4 → 6**\n    - **6 → 8**\n    - **8 → 2**\n  - States **3, 5, and 7** are shown but are not part of the indicated repeating sequence.\n\n- **Right: waveforms**\n  - Three horizontal timing traces are labeled:\n    - **I_OUTA** (shown as \\(I_\\mathrm{OUTA}\\))\n    - **I_OUTB** (shown as \\(I_\\mathrm{OUTB}\\))\n    - **CLOCK**\n  - Each waveform has a right-pointing time arrow. No voltage/current units or numerical amplitude values are shown.\n  - **I_OUTA:** stepped waveform with positive-level pulses followed by negative-level pulses, repeating over the displayed interval.\n  - **I_OUTB:** complementary/phase-shifted stepped waveform, initially at a negative level, then positive and negative stepped pulses repeating.\n  - **CLOCK:** repeating rectangular clock waveform.\n  - State numbers above the clock waveform, in sequence from left to right, are:\n    - **2, 4, 6, 8, 2, 4, 6, 8**\n  - Figure identifier at lower right: **ai15429**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0013-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0013_00008.png",
+    "caption": "**Figure 8 – Connection example between L6208 and STM32F10xxx** (schematic)\n\n- Central device: **L6208N**, reference **U1**.\n- Left device block: **STM32**.\n- Right side provides two motor-winding outputs:\n  - **OUTA1** and **OUTA2** routed to connector **CN3**, pins **1** and **2**.\n  - **OUTB1** and **OUTB2** routed to connector **CN4**, pins **1** and **2**.\n- The connector pin-number markings **1** and **2** are visible. Connector pin labels other than those shown are not legible.\n\n### STM32 signal connections\n\nThe STM32 block shows these labels:\n\n- **GND**\n- **TIMx_CHy** (text is slightly blurred but appears as `TIMx_CHy`)\n- **PC6**\n- **PC8**\n- **PC7**\n- **PC9**\n- **PC5**\n- **PWM** (label at the lower-left side of the STM32 block; exact surrounding text is blurred)\n- **VREFA**\n- **VREFB**\n- **DIAG**\n\nThe upper STM32 signal traces connect to the left-side control inputs of U1, labeled:\n\n- **CLOCK**\n- **CW/CCW**\n- **CONTROL**\n- **HALF/FULL**\n- **RESET**\n\nA resistor, visibly marked **R9**, is placed in the control/reset signal wiring near the **PC9/PC5** connections. The exact routing of the two adjacent lower STM32 signals is partly obscured by the low resolution.\n\n### L6208N supply, bootstrap, and charge-pump network\n\nAround the upper side of U1 are:\n\n- Several **GND** connections.\n- Capacitors **C1**, **C2**, **C3**, **C4**, and **C5**.\n- Diodes **D1**, **D2**, and **D3**.\n- The L6208 supply/control labels visible around the top of the IC include:\n  - **VBOOT**\n  - **VCP**\n  - **VS**\n  - Multiple **GND** pins/connections.\n- The exact pin numbers beside several top-side U1 pins are too small to transcribe reliably.\n\nAt the upper-right:\n\n- Connector **CN1**, pins **1** and **2**.\n- The upper connector wiring is labeled **VDD** and **GND**.\n- A selectable **ext. / int.** connection is shown near the top-right supply network.\n- The selector area is labeled **PullUp**.\n- A supply/reference label beginning **VCOREF** is visible; the final character is blurred.\n- **R2**, **C5**, and **D3** are visible in this section.\n- **D3** is connected toward ground.\n\n### L6208N current-sense/reference network\n\nBelow U1 are the visible L6208 labels:\n\n- **VREFA**\n- **SENSEA**\n- **VREFB**\n- **SENSEB**\n- Additional lower-side supply/output labels are present but are too blurred for fully reliable transcription.\n\nThe lower network includes:\n\n- **C7**\n- **C8**\n- **C9**\n- **C10**\n- **RCA**\n- **RCB**\n- A resistor group/array connected from the sense circuitry toward ground. Individual resistor reference designators and values are too small to read.\n- Several nodes are marked **CW** near potentiometer/resistor symbols.\n- A lower-left adjustment network includes a component marked **PullUp**, resistor **R21**, and another adjustable component/resistor marked **CW**.\n- A second lower adjustment network includes resistor **R24** and a component marked **CW**.\n\n### STM32 reference and diagnostic wiring\n\n- The STM32 **VREFA** line runs rightward to the U1 reference/sense circuitry and includes **R13**.\n- The STM32 **VREFB** line runs rightward through a resistor marked **R22** (the reference is somewhat blurred) toward the lower U1 circuitry.\n- The STM32 **DIAG** signal is shown at the lower left, with a separate net label **DIAG** and a small connection/test point on the line.\n- Additional pull-up and adjustment components are shown between the reference/diagnostic nets and ground.\n- Component values are not legible in the supplied crop.\n\n### Other visible identifiers\n\n- U1: **L6208N**\n- Resistors/designators visibly include **R2**, **R9**, **R13**, **R21**, **R22** (partly blurred), and **R24**.\n- Capacitors: **C1**, **C2**, **C3**, **C4**, **C5**, **C7**, **C8**, **C9**, **C10**.\n- Diodes: **D1**, **D2**, **D3**.\n- Connectors: **CN1**, **CN2**, **CN3**, **CN4**.\n- **CN2** is shown on the right with a visible **GND** connection and pins **1** and **2**; its other pin labeling is not fully legible.\n- No component numeric values are reliably readable from the image.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Connection example between L6208 and STM32F10xxx",
+    "generated_captions": {
+      "luna": "**Figure 8 – Connection example between L6208 and STM32F10xxx** (schematic)\n\n- Central device: **L6208N**, reference **U1**.\n- Left device block: **STM32**.\n- Right side provides two motor-winding outputs:\n  - **OUTA1** and **OUTA2** routed to connector **CN3**, pins **1** and **2**.\n  - **OUTB1** and **OUTB2** routed to connector **CN4**, pins **1** and **2**.\n- The connector pin-number markings **1** and **2** are visible. Connector pin labels other than those shown are not legible.\n\n### STM32 signal connections\n\nThe STM32 block shows these labels:\n\n- **GND**\n- **TIMx_CHy** (text is slightly blurred but appears as `TIMx_CHy`)\n- **PC6**\n- **PC8**\n- **PC7**\n- **PC9**\n- **PC5**\n- **PWM** (label at the lower-left side of the STM32 block; exact surrounding text is blurred)\n- **VREFA**\n- **VREFB**\n- **DIAG**\n\nThe upper STM32 signal traces connect to the left-side control inputs of U1, labeled:\n\n- **CLOCK**\n- **CW/CCW**\n- **CONTROL**\n- **HALF/FULL**\n- **RESET**\n\nA resistor, visibly marked **R9**, is placed in the control/reset signal wiring near the **PC9/PC5** connections. The exact routing of the two adjacent lower STM32 signals is partly obscured by the low resolution.\n\n### L6208N supply, bootstrap, and charge-pump network\n\nAround the upper side of U1 are:\n\n- Several **GND** connections.\n- Capacitors **C1**, **C2**, **C3**, **C4**, and **C5**.\n- Diodes **D1**, **D2**, and **D3**.\n- The L6208 supply/control labels visible around the top of the IC include:\n  - **VBOOT**\n  - **VCP**\n  - **VS**\n  - Multiple **GND** pins/connections.\n- The exact pin numbers beside several top-side U1 pins are too small to transcribe reliably.\n\nAt the upper-right:\n\n- Connector **CN1**, pins **1** and **2**.\n- The upper connector wiring is labeled **VDD** and **GND**.\n- A selectable **ext. / int.** connection is shown near the top-right supply network.\n- The selector area is labeled **PullUp**.\n- A supply/reference label beginning **VCOREF** is visible; the final character is blurred.\n- **R2**, **C5**, and **D3** are visible in this section.\n- **D3** is connected toward ground.\n\n### L6208N current-sense/reference network\n\nBelow U1 are the visible L6208 labels:\n\n- **VREFA**\n- **SENSEA**\n- **VREFB**\n- **SENSEB**\n- Additional lower-side supply/output labels are present but are too blurred for fully reliable transcription.\n\nThe lower network includes:\n\n- **C7**\n- **C8**\n- **C9**\n- **C10**\n- **RCA**\n- **RCB**\n- A resistor group/array connected from the sense circuitry toward ground. Individual resistor reference designators and values are too small to read.\n- Several nodes are marked **CW** near potentiometer/resistor symbols.\n- A lower-left adjustment network includes a component marked **PullUp**, resistor **R21**, and another adjustable component/resistor marked **CW**.\n- A second lower adjustment network includes resistor **R24** and a component marked **CW**.\n\n### STM32 reference and diagnostic wiring\n\n- The STM32 **VREFA** line runs rightward to the U1 reference/sense circuitry and includes **R13**.\n- The STM32 **VREFB** line runs rightward through a resistor marked **R22** (the reference is somewhat blurred) toward the lower U1 circuitry.\n- The STM32 **DIAG** signal is shown at the lower left, with a separate net label **DIAG** and a small connection/test point on the line.\n- Additional pull-up and adjustment components are shown between the reference/diagnostic nets and ground.\n- Component values are not legible in the supplied crop.\n\n### Other visible identifiers\n\n- U1: **L6208N**\n- Resistors/designators visibly include **R2**, **R9**, **R13**, **R21**, **R22** (partly blurred), and **R24**.\n- Capacitors: **C1**, **C2**, **C3**, **C4**, **C5**, **C7**, **C8**, **C9**, **C10**.\n- Diodes: **D1**, **D2**, **D3**.\n- Connectors: **CN1**, **CN2**, **CN3**, **CN4**.\n- **CN2** is shown on the right with a visible **GND** connection and pins **1** and **2**; its other pin labeling is not fully legible.\n- No component numeric values are reliably readable from the image."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0013-text-00080",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 13,
+    "text": "2.2 Firmware development"
+  },
+  {
+    "segment_id": "stm32-an2820-p0013-text-00081",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 13,
+    "text": "In order to guarantee a minimum CPU load when controlling the stepper motor, an optimized program is provided that uses the resources and performance of the STM32F10xxx device."
+  },
+  {
+    "segment_id": "stm32-an2820-p0013-text-00082",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 13,
+    "text": "2.2.1 Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2820-p0013-text-00083",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 13,
+    "text": "In this application, TIM2 is used in output compare toggle mode to change the signal clock frequency. The signal frequency is increased from 200 Hz up to 800 Hz during acceleration, and from 800 Hz to 200 Hz during deceleration with a duty cycle of 50%. When defining the frequencies and the pulses, the electrical characteristics of the L6208 must be taken into"
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-text-00084",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "text": "account. The maximum clock frequency of the L6208 is 100 kHz and the minimum clock low and high times are of 1 µs. The output compare toggle mode offers the possibility of changing only the frequency and keeping the duty cycle constant to obtain a regular clock signal with minimum CPU load. The transfer of the periods from memory to the ARR timer register is ensured by the DMA controller."
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-text-00085",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "text": "Two buffers are used to change the TIM2 periods. They are stored in SRAM. SRC\\_Buffer\\_INC is the buffer for the stepper motor acceleration and SRC\\_Buffer\\_DEC is the buffer for the motor deceleration. In this application, the acceleration and deceleration have the same slope. Each buffer contains ten frequencies for the input clock signal."
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-text-00086",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "text": "In the acceleration phase, on completion of the transfer of all the periods in SRC\\_Buffer\\_INC, a DMA transfer complete interrupt is generated. This interrupt stops the DMA transfer and enables the SysTick that starts counting a time T of 8 ms, during which the stepper motor continues running at maximum speed. After T, a SysTick interrupt is generated and DMA transfer is enabled for the transfer of the periods in SRC\\_Buffer\\_DEC. On completion of the transfer of the last period, the DMA transfer complete interrupt occurs. The whole procedure is repeated every 38 ms."
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0014_00009.png",
+    "caption": "**Figure 9. Clock signal for the stepper motor** — oscilloscope capture.\n\n- Four oscilloscope channels are indicated in the top bar:\n  - Channel 1, yellow: `2.00V/`\n  - Channel 2, green: `2.00V/`\n  - Channel 3, purple: `2.00V/`\n  - Channel 4, magenta: `2.00V/` (channel indication is partially clipped at the right)\n- Horizontal acquisition/status display:\n  - `0.0s`\n  - `20.00?/` (time-base text is partially unclear)\n  - `Stop`\n- Yellow channel waveform, labelled at the left approximately `TIM_CH...` (remaining characters are clipped/unreadable), is a dense burst of regular clock pulses.\n- Green channel waveform, labelled approximately `DMA_T...` (remaining characters are clipped/unreadable), is predominantly low level with several narrow positive-going pulses.\n- Purple channel waveform, labelled approximately `SYS_T...` (remaining characters are clipped/unreadable), is predominantly low level with occasional narrow positive-going pulses.\n- The display includes a dashed vertical cursor/trigger marker near the center and vertical graticule divisions.\n- Bottom measurement readouts:\n  - `ΔX = 8.00000000ms`\n  - `1/ΔX = 125.00Hz`\n  - `ΔY(1) = 3.500V`\n- The complete signal labels and part of the time-base notation are not fully legible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. Clock signal for the stepper motor",
+    "generated_captions": {
+      "luna": "**Figure 9. Clock signal for the stepper motor** — oscilloscope capture.\n\n- Four oscilloscope channels are indicated in the top bar:\n  - Channel 1, yellow: `2.00V/`\n  - Channel 2, green: `2.00V/`\n  - Channel 3, purple: `2.00V/`\n  - Channel 4, magenta: `2.00V/` (channel indication is partially clipped at the right)\n- Horizontal acquisition/status display:\n  - `0.0s`\n  - `20.00?/` (time-base text is partially unclear)\n  - `Stop`\n- Yellow channel waveform, labelled at the left approximately `TIM_CH...` (remaining characters are clipped/unreadable), is a dense burst of regular clock pulses.\n- Green channel waveform, labelled approximately `DMA_T...` (remaining characters are clipped/unreadable), is predominantly low level with several narrow positive-going pulses.\n- Purple channel waveform, labelled approximately `SYS_T...` (remaining characters are clipped/unreadable), is predominantly low level with occasional narrow positive-going pulses.\n- The display includes a dashed vertical cursor/trigger marker near the center and vertical graticule divisions.\n- Bottom measurement readouts:\n  - `ΔX = 8.00000000ms`\n  - `1/ΔX = 125.00Hz`\n  - `ΔY(1) = 3.500V`\n- The complete signal labels and part of the time-base notation are not fully legible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-text-00087",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "text": "2.2.2 Source files"
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-text-00088",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "text": "The program provided with this application note includes the source files listed in Table 2 below."
+  },
+  {
+    "segment_id": "stm32-an2820-p0014-table-00002",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0014_00002.png",
+    "caption": "**Table (two columns):**\n\n| Files | Description |\n|---|---|\n| `StepperMotor.c` | Routines used to control the stepper motors in different configurations and modes. |\n| `main.c` | Example program. |\n| `STM32f10x_it.c` | Interrupt service routines. |\n\nNo additional footnotes, units, conditions, or numeric values are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. List of sources files",
+    "generated_captions": {
+      "luna": "**Table (two columns):**\n\n| Files | Description |\n|---|---|\n| `StepperMotor.c` | Routines used to control the stepper motors in different configurations and modes. |\n| `main.c` | Example program. |\n| `STM32f10x_it.c` | Interrupt service routines. |\n\nNo additional footnotes, units, conditions, or numeric values are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00089",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "2.2.3"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00090",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "Main program and routine flowcharts"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00091",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "To test an example of stepper motor control, some #define statements should be uncommented in the main source file:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00092",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "1. Uncomment one of the two possibilities for the step mode:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00093",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "#define Half\\_Step The selected mode is the half-step mode."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00094",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "#define Full\\_Step The selected mode is the full-step mode."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00095",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "2. Uncomment one of the two possibilities for the motor rotation sense:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00096",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "#define RotationDirection\\_CW The motor rotates in the clockwise sense."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00097",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "#define RotationDirection\\_CCW The motor rotates in the counter clockwise sense."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00098",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "3. Uncomment one of the two possibilities for the current decay mode:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00099",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "#define ControlSlow\\_Current The slow decay mode is selected."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00100",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "#define ControlFast\\_Current The fast decay mode is selected."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00101",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "Moreover, the user should select the STM3210B-EVAL board in the tool options."
+  },
+  {
+    "segment_id": "stm32-an2820-p0015-text-00102",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 15,
+    "text": "Figure 9, Figure 10 and Figure 11 provide the flowcharts of the main program, the DMA routine and the SysTick routine, respectively."
+  },
+  {
+    "segment_id": "stm32-an2820-p0016-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0016_00010.png",
+    "caption": "**Figure 10. Main program flowchart** (flow proceeds vertically downward via arrows)\n\n1. **Begin main** (rounded start terminator)\n2. **System clock configuration**\n3. **NVIC configuration**\n4. **Driver activation**\n5. **Configure the driver control pins**\n6. **Select the rotation sense**\n7. **Select the step mode**\n8. **Select the decay mode**\n9. **Start the stepper motor**\n10. **Configure all peripherals and enable the DMA interrupt**\n11. **End main** (rounded end terminator)\n\nThe flowchart contains a single linear sequence with no decision branches. Figure identifier **ai15431** appears at the lower right.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. Main program flowchart",
+    "generated_captions": {
+      "luna": "**Figure 10. Main program flowchart** (flow proceeds vertically downward via arrows)\n\n1. **Begin main** (rounded start terminator)\n2. **System clock configuration**\n3. **NVIC configuration**\n4. **Driver activation**\n5. **Configure the driver control pins**\n6. **Select the rotation sense**\n7. **Select the step mode**\n8. **Select the decay mode**\n9. **Start the stepper motor**\n10. **Configure all peripherals and enable the DMA interrupt**\n11. **End main** (rounded end terminator)\n\nThe flowchart contains a single linear sequence with no decision branches. Figure identifier **ai15431** appears at the lower right."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0017-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0017_00011.png",
+    "caption": "**Figure 11. DMA routine flowchart**\n\nVisible flowchart sequence and branching:\n\n1. Start terminator: **“Start of DMA_IRQ”**\n2. Process: **“Disable DMA transfer”**\n3. Decision diamond: **“Acceleration set”**\n   - **Yes** branch (left):\n     1. **“DMA_MemoryBaseAddress  \n        =  \n        SRC_Buffer_INC”**\n     2. **“Enable DMA transfer”**\n     3. **“Acceleration = Reset”**\n   - **No** branch (right):\n     1. **“Enable Systick counter”**\n     2. **“Enable Systick interrupt  \n        for 8 ms”**\n     3. **“Acceleration = Set”**\n4. Both branches merge into: **“Clear DMA Transfer  \n   Complete Flag”**\n5. End terminator: **“End of DMA_IRQ”**\n\nArrows indicate a top-to-bottom flow. The decision’s **Yes** path is on the left and its **No** path is on the right. Figure identifier at the bottom right: **ai15431**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. DMA routine flowchart",
+    "generated_captions": {
+      "luna": "**Figure 11. DMA routine flowchart**\n\nVisible flowchart sequence and branching:\n\n1. Start terminator: **“Start of DMA_IRQ”**\n2. Process: **“Disable DMA transfer”**\n3. Decision diamond: **“Acceleration set”**\n   - **Yes** branch (left):\n     1. **“DMA_MemoryBaseAddress  \n        =  \n        SRC_Buffer_INC”**\n     2. **“Enable DMA transfer”**\n     3. **“Acceleration = Reset”**\n   - **No** branch (right):\n     1. **“Enable Systick counter”**\n     2. **“Enable Systick interrupt  \n        for 8 ms”**\n     3. **“Acceleration = Set”**\n4. Both branches merge into: **“Clear DMA Transfer  \n   Complete Flag”**\n5. End terminator: **“End of DMA_IRQ”**\n\nArrows indicate a top-to-bottom flow. The decision’s **Yes** path is on the left and its **No** path is on the right. Figure identifier at the bottom right: **ai15431**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0017-figure-00012",
+    "type": "figure",
+    "doc": "stm32-an2820",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_figure_p0017_00012.png",
+    "caption": "**Figure 12. Systick routine flowchart**\n\nVertical flowchart with downward arrows showing:\n\n1. **Start of Systick_IRQ** — rounded start/end terminator.\n2. **DMA_MemoryBaseAddress=SRC_Buffer_DEC** — process box.\n3. **Enable DMA transfer** — process box.\n4. **Disable Systick** — process box.\n5. **Acceleration = Set** — process box.\n6. **End of Systick_IRQ** — rounded start/end terminator.\n\nFigure identifier at lower right: **ai15433**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 12. Systick routine flowchart",
+    "generated_captions": {
+      "luna": "**Figure 12. Systick routine flowchart**\n\nVertical flowchart with downward arrows showing:\n\n1. **Start of Systick_IRQ** — rounded start/end terminator.\n2. **DMA_MemoryBaseAddress=SRC_Buffer_DEC** — process box.\n3. **Enable DMA transfer** — process box.\n4. **Disable Systick** — process box.\n5. **Acceleration = Set** — process box.\n6. **End of Systick_IRQ** — rounded start/end terminator.\n\nFigure identifier at lower right: **ai15433**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0017-text-00103",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 17,
+    "text": "2.2.4 Software library description of the stepper motor driver"
+  },
+  {
+    "segment_id": "stm32-an2820-p0017-text-00104",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 17,
+    "text": "This section describes the software library of the stepper motor driver, gives the details of the related functions and provides an example of use of these functions and an example of a typical run profile."
+  },
+  {
+    "segment_id": "stm32-an2820-p0017-text-00105",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 17,
+    "text": "The stepper motor driver can be used to manage the stepper motor functionality in both fulland half-step modes, in both clockwise and counter clockwise rotation senses and in both slow and fast decay modes."
+  },
+  {
+    "segment_id": "stm32-an2820-p0017-text-00106",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 17,
+    "text": "Table 3 lists the different functions of the stepper motor library."
+  },
+  {
+    "segment_id": "stm32-an2820-p0018-table-00003",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0018_00003.png",
+    "caption": "**Table 3. Stepper motor library functions**\n\n| Function name | Description |\n|---|---|\n| `Stepper_ResetDisable` | Disables the initialization of the driver to its default reset value. |\n| `Stepper_Start` | Starts or stops the stepper motor. |\n| `Stepper_Cmd` | Activates or deactivates the driver by enabling or disabling the peripheral clocks. |\n| `Stepper_PinControlConfig` | Configures the driver control pins. |\n| `Stepper_SelectMode` | Selects the step mode: full- or half-step. |\n| `Stepper_SetRotationDirection` | Selects the rotation sense: CW or CCW. |\n| `Stepper_SetControlMode` | Specifies the decay mode: slow or fast. |\n| `Stepper_Init` | Configures all peripherals to control the stepper motor and enables the DMA interrupt. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Stepper motor library functions",
+    "generated_captions": {
+      "luna": "**Table 3. Stepper motor library functions**\n\n| Function name | Description |\n|---|---|\n| `Stepper_ResetDisable` | Disables the initialization of the driver to its default reset value. |\n| `Stepper_Start` | Starts or stops the stepper motor. |\n| `Stepper_Cmd` | Activates or deactivates the driver by enabling or disabling the peripheral clocks. |\n| `Stepper_PinControlConfig` | Configures the driver control pins. |\n| `Stepper_SelectMode` | Selects the step mode: full- or half-step. |\n| `Stepper_SetRotationDirection` | Selects the rotation sense: CW or CCW. |\n| `Stepper_SetControlMode` | Specifies the decay mode: slow or fast. |\n| `Stepper_Init` | Configures all peripherals to control the stepper motor and enables the DMA interrupt. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0018-table-00004",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0018_00004.png",
+    "caption": "**Table 4. Stepper_ResetDisable function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_ResetDisable` |\n| Function prototype | `void Stepper_ResetDisable(void)` |\n| Behavior description | Disables the initialization of the driver to its default reset value. |\n| Input | None |\n| Output | None |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. Stepper\\_ResetDisable function description",
+    "generated_captions": {
+      "luna": "**Table 4. Stepper_ResetDisable function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_ResetDisable` |\n| Function prototype | `void Stepper_ResetDisable(void)` |\n| Behavior description | Disables the initialization of the driver to its default reset value. |\n| Input | None |\n| Output | None |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0018-table-00005",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0018_00005.png",
+    "caption": "**Table 5. Stepper_Start function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_Start` |\n| Function prototype | `void Stepper_Start(FunctionalState NewState)` |\n| Behavior description | Starts or stops the stepper motor. |\n| Input | `NewState: ENABLE or DISABLE` |\n| Output | `None` |\n\nThe nearby text indicates that the `Stepper_Cmd` function is described in **Table 6**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. Stepper\\_Start function description\nThe Stepper\\_Cmd function is described in Table 6.",
+    "generated_captions": {
+      "luna": "**Table 5. Stepper_Start function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_Start` |\n| Function prototype | `void Stepper_Start(FunctionalState NewState)` |\n| Behavior description | Starts or stops the stepper motor. |\n| Input | `NewState: ENABLE or DISABLE` |\n| Output | `None` |\n\nThe nearby text indicates that the `Stepper_Cmd` function is described in **Table 6**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0018-table-00006",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0018_00006.png",
+    "caption": "**Table 6. Stepper_Cmd function description** *(caption inferred from nearby context; not visible in the crop)*\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_Cmd` |\n| Function prototype | `void Stepper_Cmd(FunctionalState NewState)` |\n| Behavior description | Activates or deactivates the driver by enabling or disabling the peripheral clock. |\n| Input | `NewState: ENABLE or DISABLE` |\n| Output | None |\n\nNo column headings, footnotes, units, or additional conditions are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. Stepper\\_Cmd function description",
+    "generated_captions": {
+      "luna": "**Table 6. Stepper_Cmd function description** *(caption inferred from nearby context; not visible in the crop)*\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_Cmd` |\n| Function prototype | `void Stepper_Cmd(FunctionalState NewState)` |\n| Behavior description | Activates or deactivates the driver by enabling or disabling the peripheral clock. |\n| Input | `NewState: ENABLE or DISABLE` |\n| Output | None |\n\nNo column headings, footnotes, units, or additional conditions are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0019-text-00107",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 19,
+    "text": "The Stepper\\_PinControlConfig function is described in Table 7."
+  },
+  {
+    "segment_id": "stm32-an2820-p0019-table-00007",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0019_00007.png",
+    "caption": "**Table 7. Stepper_PinControlConfig function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_PinControlConfig` |\n| Function prototype | `void Stepper_PinControlConfig(void)` |\n| Behavior description | Configures the driver control pins |\n| Input | None |\n| Output | None |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Stepper\\_PinControlConfig function description",
+    "generated_captions": {
+      "luna": "**Table 7. Stepper_PinControlConfig function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_PinControlConfig` |\n| Function prototype | `void Stepper_PinControlConfig(void)` |\n| Behavior description | Configures the driver control pins |\n| Input | None |\n| Output | None |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0019-table-00008",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0019_00008.png",
+    "caption": "**Table 8. Stepper_SelectMode function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_SelectMode` |\n| Function prototype | `void Stepper_SelectMode(uint16_t Stepper_Mode)` |\n| Behavior description | Selects the step mode: full or half mode |\n| Input | `Stepper_Mode: Stepper_Full or Stepper_Half` |\n| Output | None |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 8. Stepper\\_SelectMode function description",
+    "generated_captions": {
+      "luna": "**Table 8. Stepper_SelectMode function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_SelectMode` |\n| Function prototype | `void Stepper_SelectMode(uint16_t Stepper_Mode)` |\n| Behavior description | Selects the step mode: full or half mode |\n| Input | `Stepper_Mode: Stepper_Full or Stepper_Half` |\n| Output | None |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0019-table-00009",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0019_00009.png",
+    "caption": "### Table: Stepper_SetRotationDirection function description\n\n| Field | Description |\n|---|---|\n| **Function name** | `Stepper_SetRotationDirection` |\n| **Function prototype** | `Stepper_SetRotationDirection(uint16_t Stepper_RotationDirection)` |\n| **Behavior description** | Selects the rotation sense: CW or CCW |\n| **Input** | `Stepper_RotationDirection`: `Stepper_RotationDirection_CW` or `Stepper_RotationDirection_CCW` |\n| **Output** | None |\n\nThe table title itself is not visible in the provided crop; the nearby caption identifies it as **“Table 9. Stepper_SetRotationDirection function description.”**",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. Stepper\\_SetRotationDirection function description",
+    "generated_captions": {
+      "luna": "### Table: Stepper_SetRotationDirection function description\n\n| Field | Description |\n|---|---|\n| **Function name** | `Stepper_SetRotationDirection` |\n| **Function prototype** | `Stepper_SetRotationDirection(uint16_t Stepper_RotationDirection)` |\n| **Behavior description** | Selects the rotation sense: CW or CCW |\n| **Input** | `Stepper_RotationDirection`: `Stepper_RotationDirection_CW` or `Stepper_RotationDirection_CCW` |\n| **Output** | None |\n\nThe table title itself is not visible in the provided crop; the nearby caption identifies it as **“Table 9. Stepper_SetRotationDirection function description.”**"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0019-table-00010",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0019_00010.png",
+    "caption": "**Table 10. Stepper_SetControlMode function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_SetControlMode` |\n| Function prototype | `void Stepper_SetControlMode(uint16_t Stepper_ControlMode)` |\n| Behavior description | Specifies the decay mode. |\n| Input | `Stepper_ControlMode`: `Stepper_ControlFast` or `Stepper_ControlSlow` |\n| Output | None |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 10. Stepper\\_SetControlMode function description",
+    "generated_captions": {
+      "luna": "**Table 10. Stepper_SetControlMode function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_SetControlMode` |\n| Function prototype | `void Stepper_SetControlMode(uint16_t Stepper_ControlMode)` |\n| Behavior description | Specifies the decay mode. |\n| Input | `Stepper_ControlMode`: `Stepper_ControlFast` or `Stepper_ControlSlow` |\n| Output | None |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-table-00011",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0020_00011.png",
+    "caption": "**Table 11. Stepper_Init function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_Init` |\n| Function prototype | `void Stepper_Init(void)` |\n| Behavior description | Configures all peripherals to control the stepper motor and enables the DMA interrupt. |\n| Input | None |\n| Output | None |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 11. Stepper\\_Init function description",
+    "generated_captions": {
+      "luna": "**Table 11. Stepper_Init function description**\n\n| Field | Description |\n|---|---|\n| Function name | `Stepper_Init` |\n| Function prototype | `void Stepper_Init(void)` |\n| Behavior description | Configures all peripherals to control the stepper motor and enables the DMA interrupt. |\n| Input | None |\n| Output | None |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-text-00108",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "text": "2.2.5 Firmware performance study"
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-text-00109",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "text": "The peripherals used in this application to control a stepper motor following the typical run profile are presented in Table 12. Table 13 indicates the resource requirements."
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-table-00012",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0020_00012.png",
+    "caption": "**Table 12. Peripheral usage**\n\n| Peripheral | Description | Interrupt enable |\n|---|---|---|\n| 5 I/O pins | Stepper motor output pins | — |\n| 1 I/O pin | Used as TIM2 Channel1 in output | — |\n| TIM2 | Configured in output compare toggle mode | — |\n| DMA | Transfers the periods from memory to timer by using the update event request | Transfer complete interrupt |\n| Systick | Maintains the maximum motor speed during time interval T | Generates an interrupt each time interval T is reached |\n\nBlank cells in the **Interrupt enable** column are shown as empty in the source table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 12. Peripheral usage",
+    "generated_captions": {
+      "luna": "**Table 12. Peripheral usage**\n\n| Peripheral | Description | Interrupt enable |\n|---|---|---|\n| 5 I/O pins | Stepper motor output pins | — |\n| 1 I/O pin | Used as TIM2 Channel1 in output | — |\n| TIM2 | Configured in output compare toggle mode | — |\n| DMA | Transfers the periods from memory to timer by using the update event request | Transfer complete interrupt |\n| Systick | Maintains the maximum motor speed during time interval T | Generates an interrupt each time interval T is reached |\n\nBlank cells in the **Interrupt enable** column are shown as empty in the source table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-text-00110",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "text": "To control a stepper motor following the typical run profile, the software uses three interrupts, a DMA interrupt during acceleration, a SysTick interrupt and another DMA interrupt during deceleration. These interrupts are generated every 38 ms. In this implementation, each interrupt routine takes 12 cycles to enter the interrupt and 12 cycles to exit it. For the three interrupts, this makes a total of 72 cycles. With a clock speed of 72 MHz, it takes less than 1 µs to enter and exit the three interrupts."
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-text-00111",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "text": "The first DMA interrupt takes 3.6 µs, the sysTick interrupt takes 2 µs and the second DMA interrupt takes 2 µs. Stepper motor control therefore takes less than 8.6 µs. If the interrupts are required every 38 ms, stepper motor handling uses only 2.10<sup>-4</sup>% of the processing power of the CPU."
+  },
+  {
+    "segment_id": "stm32-an2820-p0020-table-00013",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0020_00013.png",
+    "caption": "**Table 13. Resource requirements**\n\n| RAM | Flash memory |\n|---|---|\n| 1.5 Kbit | 7.5 Kbit |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 13. Resource requirements",
+    "generated_captions": {
+      "luna": "**Table 13. Resource requirements**\n\n| RAM | Flash memory |\n|---|---|\n| 1.5 Kbit | 7.5 Kbit |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0021-text-00112",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 21,
+    "text": "Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2820-p0021-text-00113",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 21,
+    "text": "In this application, the stepper motor is controlled using the medium-density STM32F103xx. The user is able to choose the step mode, the rotation sense and the current control mode. Although on today's market it is relatively easy to find devices capable of assuming a similar function, the solution discussed here offers more flexibility than a dedicated IC. The STM32F10xxx device has a set of peripherals particularly well suited to driving stepper motors with the best efficiency according to a typical run profile. Moreover, the application is implemented in a cost saving way, both in terms of external components and CPU usage as the application uses minimum hardware and very simple and flexible firmware routines."
+  },
+  {
+    "segment_id": "stm32-an2820-p0022-text-00114",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 22,
+    "text": "4 Revision history"
+  },
+  {
+    "segment_id": "stm32-an2820-p0022-table-00014",
+    "type": "table",
+    "doc": "stm32-an2820",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an2820/mineru/images/bbox_fallback_table_p0022_00014.png",
+    "caption": "**Table 14. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 06-Mar-2009 | 1 | Initial release. |\n| 30-Apr-2009 | 2 | Occurrences of `u16` updated to `uint16_t` in accordance with the new STM32F10xxx standard peripheral library (StdPeriph_Lib) V3.0.0. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 14. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 14. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 06-Mar-2009 | 1 | Initial release. |\n| 30-Apr-2009 | 2 | Occurrences of `u16` updated to `uint16_t` in accordance with the new STM32F10xxx standard peripheral library (StdPeriph_Lib) V3.0.0. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00115",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00116",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00117",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00118",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00119",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00120",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00121",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00122",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00123",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00124",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00125",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00126",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "© 2009 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00127",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00128",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2820-p0023-text-00129",
+    "type": "text",
+    "doc": "stm32-an2820",
+    "page": 23,
+    "text": "www.st.com"
+  }
+]

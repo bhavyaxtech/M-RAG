@@ -1,0 +1,239 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+{
+  "checked_at": "2026-09-08T17:12:43.972646+00:00",
+  "downloaded_documents": 20,
+  "target_documents": 20,
+  "pages": 1837,
+  "parsed_documents": 20,
+  "parsed_pages": 1837,
+  "additional_completed_batch_pages": 0,
+  "visual_segments_in_completed_documents": 1614,
+  "cached_captions_in_completed_documents": 1133,
+  "published": false,
+  "paid_calls_started_by_preflight": 0,
+  "status": "parsed_ready_for_build"
+}
+Parsing AN2548 (14 pages)
+Reusing parse: stm32-an2548
+Parsing AN2594 (16 pages)
+Reusing parse: stm32-an2594
+Parsing AN2824 (16 pages)
+Reusing parse: stm32-an2824
+Parsing AN2557 (16 pages)
+Reusing parse: stm32-an2557
+Parsing AN2592 (16 pages)
+Reusing parse: stm32-an2592
+Parsing AN3116 (18 pages)
+Reusing parse: stm32-an3116
+Parsing AN2820 (23 pages)
+Reusing parse: stm32-an2820
+Parsing AN2867 (23 pages)
+Reusing parse: stm32-an2867
+Parsing AN2606 (27 pages)
+Reusing parse: stm32-an2606
+Parsing AN2586 (28 pages)
+Reusing parse: stm32-an2586
+Parsing AN2834 (28 pages)
+Reusing parse: stm32-an2834
+Parsing AN2821 (28 pages)
+Reusing parse: stm32-an2821
+Parsing ES096 (31 pages)
+Reusing parse: stm32-es096
+Parsing PM0075 (31 pages)
+Reusing parse: stm32-pm0075
+Parsing AN3155 (37 pages)
+Reusing parse: stm32-an3155
+Parsing AN1709 (38 pages)
+Reusing parse: stm32-an1709
+Parsing AN2629 (43 pages)
+Reusing parse: stm32-an2629
+Parsing DS5319 (114 pages)
+Reusing parse: stm32-ds5319
+Parsing PM0056 (156 pages)
+Reusing parse: stm32-pm0056
+Parsing RM0008 (1134 pages)
+Reusing parse: stm32-rm0008
+Reusing parse: stm32-ds5319
+Reusing parse: stm32-rm0008
+Reusing parse: stm32-es096
+Reusing parse: stm32-pm0056
+Reusing parse: stm32-pm0075
+Reusing parse: stm32-an2586
+Reusing parse: stm32-an2594
+Reusing parse: stm32-an2606
+Reusing parse: stm32-an3155
+Reusing parse: stm32-an2834
+Reusing parse: stm32-an3116
+Reusing parse: stm32-an2548
+Reusing parse: stm32-an2824
+Reusing parse: stm32-an2820
+Reusing parse: stm32-an2629
+Reusing parse: stm32-an2557
+Reusing parse: stm32-an2821
+Reusing parse: stm32-an2867
+Reusing parse: stm32-an1709
+Reusing parse: stm32-an2592
+Captioning stm32-ds5319
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  Checkpoint: 125 visual segment(s) complete.
+  0 generated, 139 cached
+Captioning stm32-rm0008
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  Checkpoint: 125 visual segment(s) complete.
+  Checkpoint: 150 visual segment(s) complete.
+  Checkpoint: 175 visual segment(s) complete.
+  Checkpoint: 200 visual segment(s) complete.
+  Checkpoint: 225 visual segment(s) complete.
+  Checkpoint: 250 visual segment(s) complete.
+  Checkpoint: 275 visual segment(s) complete.
+  Checkpoint: 300 visual segment(s) complete.
+  Checkpoint: 325 visual segment(s) complete.
+  Checkpoint: 350 visual segment(s) complete.
+  Checkpoint: 375 visual segment(s) complete.
+  Checkpoint: 400 visual segment(s) complete.
+  Checkpoint: 425 visual segment(s) complete.
+  Checkpoint: 450 visual segment(s) complete.
+  Checkpoint: 475 visual segment(s) complete.
+  Checkpoint: 500 visual segment(s) complete.
+  Checkpoint: 525 visual segment(s) complete.
+  Checkpoint: 550 visual segment(s) complete.
+  Checkpoint: 575 visual segment(s) complete.
+  Checkpoint: 600 visual segment(s) complete.
+  Checkpoint: 625 visual segment(s) complete.
+  Checkpoint: 650 visual segment(s) complete.
+  Checkpoint: 675 visual segment(s) complete.
+  Checkpoint: 700 visual segment(s) complete.
+  Checkpoint: 725 visual segment(s) complete.
+  Checkpoint: 750 visual segment(s) complete.
+  Checkpoint: 775 visual segment(s) complete.
+  Checkpoint: 800 visual segment(s) complete.
+  Checkpoint: 825 visual segment(s) complete.
+  Checkpoint: 850 visual segment(s) complete.
+  Checkpoint: 875 visual segment(s) complete.
+  Checkpoint: 900 visual segment(s) complete.
+  Checkpoint: 925 visual segment(s) complete.
+  Checkpoint: 950 visual segment(s) complete.
+  Checkpoint: 975 visual segment(s) complete.
+  Checkpoint: 1000 visual segment(s) complete.
+  Checkpoint: 1025 visual segment(s) complete.
+  Checkpoint: 1050 visual segment(s) complete.
+  481 generated, 580 cached
+Captioning stm32-es096
+  0 generated, 9 cached
+Captioning stm32-pm0056
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  0 generated, 116 cached
+Captioning stm32-pm0075
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 26 cached
+Captioning stm32-an2586
+  0 generated, 20 cached
+Captioning stm32-an2594
+  0 generated, 9 cached
+Captioning stm32-an2606
+  0 generated, 16 cached
+Captioning stm32-an3155
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 28 cached
+Captioning stm32-an2834
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 25 cached
+Captioning stm32-an3116
+  0 generated, 15 cached
+Captioning stm32-an2548
+  0 generated, 6 cached
+Captioning stm32-an2824
+  0 generated, 7 cached
+Captioning stm32-an2820
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 26 cached
+Captioning stm32-an2629
+  0 generated, 21 cached
+Captioning stm32-an2557
+  0 generated, 7 cached
+Captioning stm32-an2821
+  0 generated, 14 cached
+Captioning stm32-an2867
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 27 cached
+Captioning stm32-an1709
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 35 cached
+Captioning stm32-an2592
+  0 generated, 7 cached
+  Embedded 32/2103 new records
+  Embedded 64/2103 new records
+  Embedded 96/2103 new records
+  Embedded 128/2103 new records
+  Embedded 160/2103 new records
+  Embedded 192/2103 new records
+  Embedded 224/2103 new records
+  Embedded 256/2103 new records
+  Embedded 288/2103 new records
+  Embedded 320/2103 new records
+  Embedded 352/2103 new records
+  Embedded 384/2103 new records
+  Embedded 416/2103 new records
+  Embedded 448/2103 new records
+  Embedded 480/2103 new records
+  Embedded 512/2103 new records
+  Embedded 544/2103 new records
+  Embedded 576/2103 new records
+  Embedded 608/2103 new records
+  Embedded 640/2103 new records
+  Embedded 672/2103 new records
+  Embedded 704/2103 new records
+  Embedded 736/2103 new records
+  Embedded 768/2103 new records
+  Embedded 800/2103 new records
+  Embedded 832/2103 new records
+  Embedded 864/2103 new records
+  Embedded 896/2103 new records
+  Embedded 928/2103 new records
+  Embedded 960/2103 new records
+  Embedded 992/2103 new records
+  Embedded 1024/2103 new records
+  Embedded 1056/2103 new records
+  Embedded 1088/2103 new records
+  Embedded 1120/2103 new records
+  Embedded 1152/2103 new records
+  Embedded 1184/2103 new records
+  Embedded 1216/2103 new records
+  Embedded 1248/2103 new records
+  Embedded 1280/2103 new records
+  Embedded 1312/2103 new records
+  Embedded 1344/2103 new records
+  Embedded 1376/2103 new records
+  Embedded 1408/2103 new records
+  Embedded 1440/2103 new records
+  Embedded 1472/2103 new records
+  Embedded 1504/2103 new records
+  Embedded 1536/2103 new records
+  Embedded 1568/2103 new records
+  Embedded 1600/2103 new records
+  Embedded 1632/2103 new records
+  Embedded 1664/2103 new records
+  Embedded 1696/2103 new records
+  Embedded 1728/2103 new records
+  Embedded 1760/2103 new records
+  Embedded 1792/2103 new records
+  Embedded 1824/2103 new records
+  Embedded 1856/2103 new records
+  Embedded 1888/2103 new records
+  Embedded 1920/2103 new records
+  Embedded 1952/2103 new records
+  Embedded 1984/2103 new records
+  Embedded 2016/2103 new records
+  Embedded 2048/2103 new records
+  Embedded 2080/2103 new records
+  Embedded 2103/2103 new records
+Persistent Azure estimate including unknown-call reservations: $2.8952

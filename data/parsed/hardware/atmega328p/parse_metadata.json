@@ -1,0 +1,12 @@
+{
+  "doc": "atmega328p",
+  "source_pdf": "data/raw/hardware/atmega328p.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/hardware/atmega328p/mineru/atmega328p/auto/atmega328p_content_list.json",
+  "segment_counts": {
+    "text": 3123,
+    "figure": 708,
+    "table": 338
+  }
+}

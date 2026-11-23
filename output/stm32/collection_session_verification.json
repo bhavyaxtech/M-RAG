@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-09-08T23:54:00.9144114+05:30",
+  "feature": "Independent STM32 20-PDF shared library session",
+  "python_tests_passed": 84,
+  "frontend_tests_passed": 12,
+  "production_build": "passed",
+  "typescript": "passed",
+  "scoped_eslint": "passed",
+  "api_restarted": true,
+  "browser_checks": [
+    "Opened collection directly without selecting a PDF",
+    "Header showed All 20 PDFs and 1837 pages",
+    "Comparison answer cited AN2594 and AN2557",
+    "Follow-up resolved first method and second from shared history",
+    "Switched to DS5319 and back; both library turns remained",
+    "AN2557 citation opened its original page 1 with a loaded image",
+    "No horizontal page overflow detected at tested viewport"
+  ],
+  "live_input_validation": [
+    "Unknown corpus returns 404",
+    "Conflicting document/corpus returns 422",
+    "Corpus-only document scope returns 422"
+  ],
+  "limitations": [
+    "Conversation state is in memory and does not survive a page reload",
+    "Source-backed accuracy benchmark remains unfinished; see verification_report.md"
+  ],
+  "subagents_used": 2
+}

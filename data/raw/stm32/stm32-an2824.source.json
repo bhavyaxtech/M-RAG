@@ -1,0 +1,21 @@
+{
+  "doc_id": "stm32-an2824",
+  "document_id": "AN2824",
+  "title": "STM32F10xxx I2C optimized examples",
+  "document_kind": "application_note",
+  "applicability": "Check ES096 for applicable silicon limitations",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00209826.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/15021.pdf",
+    "https://www.st.com/resource/en/application_note/cd00209826.pdf"
+  ],
+  "pages": 16,
+  "sha256": "577da8cb5325844677bccab8ca0eb0fc4e836fd93472913d27cdc48c004aba3d",
+  "cover_text": "June 2010\nDoc ID 15021 Rev 4\n1/16\nAN2824\nApplication note\nSTM32F10xxx I2C optimized examples\nIntroduction\nThe aim of this application note is to provide I2C firmware optimized examples based on \npolling, interrupts and DMA, covering the four I2C communication modes available in the \nSTM32F10xxx, that is, slave transmitter, slave receiver, master transmitter and master \nreceiver and to provide recommendations on the correct use of the I2C peripheral.\nThis application note applies to STM32F101xx and STM32F103xx medium, high and XL \ndensity microcontrollers, STM32F105/107xx connectivity line and STM32F100xx value line \ndevices. Throughout this document, these devices are referred to collectively as \nSTM32F10xxx.\nThe application note is organized in three parts. The first part describes the I2C master \nprogramming examples using Polling, DMA and Interrupts. The second part describes the \nI2C slave programming examples using DMA and Interrupts. The third part is an overview of \nthe content of the firmware accompanying this application note. .\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/15021.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:20.582419+00:00",
+  "path": "data/raw/stm32/stm32-an2824.pdf"
+}

@@ -1,0 +1,129 @@
+INFO:     127.0.0.1:58294 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58295 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58296 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58297 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58298 - "GET /api/page/stm32-ds5319/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58299 - "GET /api/page/stm32-ds5319/114 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58300 - "GET /api/page/stm32-rm0008/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58301 - "GET /api/page/stm32-rm0008/1134 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58302 - "GET /api/page/stm32-es096/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58304 - "GET /api/page/stm32-es096/31 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58305 - "GET /api/page/stm32-pm0056/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58306 - "GET /api/page/stm32-pm0056/156 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58307 - "GET /api/page/stm32-pm0075/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58308 - "GET /api/page/stm32-pm0075/31 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58309 - "GET /api/page/stm32-an2586/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58310 - "GET /api/page/stm32-an2586/28 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58311 - "GET /api/page/stm32-an2594/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58312 - "GET /api/page/stm32-an2594/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58313 - "GET /api/page/stm32-an2606/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58314 - "GET /api/page/stm32-an2606/27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58315 - "GET /api/page/stm32-an3155/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58316 - "GET /api/page/stm32-an3155/37 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58317 - "GET /api/page/stm32-an2834/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58318 - "GET /api/page/stm32-an2834/28 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58319 - "GET /api/page/stm32-an3116/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58320 - "GET /api/page/stm32-an3116/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58321 - "GET /api/page/stm32-an2548/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58322 - "GET /api/page/stm32-an2548/14 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58323 - "GET /api/page/stm32-an2824/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58324 - "GET /api/page/stm32-an2824/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58325 - "GET /api/page/stm32-an2820/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58326 - "GET /api/page/stm32-an2820/23 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58327 - "GET /api/page/stm32-an2629/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58328 - "GET /api/page/stm32-an2629/43 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58329 - "GET /api/page/stm32-an2557/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58330 - "GET /api/page/stm32-an2557/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58331 - "GET /api/page/stm32-an2821/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58332 - "GET /api/page/stm32-an2821/28 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58333 - "GET /api/page/stm32-an2867/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58334 - "GET /api/page/stm32-an2867/23 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58335 - "GET /api/page/stm32-an1709/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58336 - "GET /api/page/stm32-an1709/38 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58337 - "GET /api/page/stm32-an2592/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58338 - "GET /api/page/stm32-an2592/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58339 - "GET /api/image/stm32-ds5319-p0001-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58340 - "GET /api/image/stm32-rm0008-p0040-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58341 - "GET /api/image/stm32-es096-p0001-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58342 - "GET /api/image/stm32-pm0056-p0010-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58343 - "GET /api/image/stm32-pm0075-p0001-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58344 - "GET /api/image/stm32-an2586-p0006-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58345 - "GET /api/image/stm32-an2594-p0005-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58346 - "GET /api/image/stm32-an2606-p0006-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58347 - "GET /api/image/stm32-an3155-p0005-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58348 - "GET /api/image/stm32-an2834-p0005-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58349 - "GET /api/image/stm32-an3116-p0005-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58350 - "GET /api/image/stm32-an2548-p0004-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58351 - "GET /api/image/stm32-an2824-p0007-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58352 - "GET /api/image/stm32-an2820-p0006-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58353 - "GET /api/image/stm32-an2629-p0007-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58354 - "GET /api/image/stm32-an2557-p0007-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58355 - "GET /api/image/stm32-an2821-p0001-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58356 - "GET /api/image/stm32-an2867-p0006-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58357 - "GET /api/image/stm32-an1709-p0005-table-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58358 - "GET /api/image/stm32-an2592-p0004-figure-00001 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51794 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51794 - "GET /_next/static/chunks/31m4zr8lv0wwj.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57810 - "GET /_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53511 - "GET /_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57810 - "GET /_next/static/chunks/0xcvaoeddcyhx.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53511 - "GET /_next/static/chunks/3paz0moie42yo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51794 - "GET /_next/static/chunks/0uszqhb3r8aty.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63621 - "GET /_next/static/chunks/turbopack-0uvyc9tf1m7nh.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58248 - "GET /_next/static/chunks/3p81yds8x4t9x.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59988 - "GET /_next/static/chunks/0fhb6-39ae9xi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51794 - "GET /_next/static/chunks/3rx-k4na656se.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57810 - "GET /_next/static/chunks/3memsp10pn-_1.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59988 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57810 - "GET /favicon.ico?favicon.2vob68tjqpejf.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53755 - "POST /api/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60189 - "POST /api/chat HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60190 - "POST /api/chat HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:60191 - "POST /api/chat HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:65081 - "POST /api/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54427 - "GET / HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54427 - "GET /_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54427 - "GET /_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56703 - "GET /_next/static/chunks/31m4zr8lv0wwj.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56703 - "GET /_next/static/chunks/0uszqhb3r8aty.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54427 - "GET /_next/static/chunks/0xcvaoeddcyhx.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65057 - "GET /_next/static/chunks/3paz0moie42yo.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61196 - "GET /_next/static/chunks/turbopack-0uvyc9tf1m7nh.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65350 - "GET /_next/static/chunks/3p81yds8x4t9x.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53456 - "GET /_next/static/chunks/0fhb6-39ae9xi.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53456 - "GET /_next/static/chunks/3rx-k4na656se.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65350 - "GET /_next/static/chunks/3memsp10pn-_1.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:65350 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET /_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58909 - "GET /_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55722 - "GET /_next/static/chunks/31m4zr8lv0wwj.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60979 - "GET /_next/static/chunks/0uszqhb3r8aty.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49730 - "GET /_next/static/chunks/0xcvaoeddcyhx.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65110 - "GET /_next/static/chunks/3paz0moie42yo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58909 - "GET /_next/static/chunks/turbopack-0uvyc9tf1m7nh.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET /_next/static/chunks/3p81yds8x4t9x.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60979 - "GET /_next/static/chunks/0fhb6-39ae9xi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55722 - "GET /_next/static/chunks/3rx-k4na656se.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET /_next/static/chunks/3memsp10pn-_1.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56038 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55255 - "POST /api/chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63755 - "GET /api/page/stm32-an2548/11 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65333 - "GET /api/page/stm32-rm0008/215 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59158 - "GET /_next/static/chunks/31m4zr8lv0wwj.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65037 - "GET /_next/static/chunks/3memsp10pn-_1.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55640 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55640 - "GET /_next/static/chunks/2jk31d6ujfvis.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56238 - "GET /_next/static/chunks/0uszqhb3r8aty.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64948 - "GET /_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60767 - "GET /_next/static/chunks/0xcvaoeddcyhx.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51383 - "GET /_next/static/chunks/3paz0moie42yo.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51379 - "GET /_next/static/chunks/turbopack-0uvyc9tf1m7nh.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56238 - "GET /_next/static/chunks/3p81yds8x4t9x.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55640 - "GET /_next/static/chunks/0fhb6-39ae9xi.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64948 - "GET /_next/static/chunks/3rx-k4na656se.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56238 - "GET /_next/static/chunks/3w79w6g129a42.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56238 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51383 - "GET /favicon.ico?favicon.2vob68tjqpejf.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51383 - "POST /api/chat HTTP/1.1" 200 OK

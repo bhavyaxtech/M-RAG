@@ -1,0 +1,1675 @@
+[
+  {
+    "segment_id": "stm32-an2867-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2867-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 1,
+    "text": "Most designers are familiar with oscillators (Pierce-Gate topology), but few really understand how they operate, let alone how to properly design an oscillator. In practice, most designers do not even really pay attention to the oscillator design until they realize the oscillator does not operate properly (usually when it is already being produced). This should not happen. Many systems or projects are delayed in their deployment because of a crystal not working as intended. The oscillator should receive its proper amount of attention during the design phase, well before the manufacturing phase. The designer would then avoid the nightmare scenario of products being returned."
+  },
+  {
+    "segment_id": "stm32-an2867-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 1,
+    "text": "This application note introduces the Pierce oscillator basics and provides some guidelines for a good oscillator design. It also shows how to determine the different external components and provides guidelines for a good PCB for the oscillator."
+  },
+  {
+    "segment_id": "stm32-an2867-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 1,
+    "text": "This document finally contains an easy guideline to select suitable crystals and external components, and it lists some recommended crystals (HSE and LSE) for STM32™™and STM8A/S microcontrollers in order to quick start development"
+  },
+  {
+    "segment_id": "stm32-an2867-p0002-text-00005",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2867-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 2,
+    "text": "1 Quartz crystal properties and model . 6   \n2 Oscillator theory 8   \n3 Pierce oscillator . 9   \n4 Pierce oscillator design 10   \n4.1 Feedback resistor RF 10   \n4.2 Load capacitor $\\mathsf C _ { \\mathsf L }$ .11   \n4.3 Gain margin of the oscillator 11   \n4.4 Drive level DL and external resistor RExt calculation . 12   \n4.4.1 Calculating drive level DL .12   \n4.4.2 Another drive level measurement method .13   \n4.4.3 Calculating external resistor RExt .13   \n4.5 Startup time 14   \n4.6 Crystal pullability 14   \n5 Easy guideline for the selection of suitable crystal   \nand external components 15   \n6 Some recommended crystals for STM32™microcontrollers . . .. 16   \n6.1 HSE part 16   \n6.1.1 Part numbers of recommended 8 MHz crystals .16   \n6.1.2 Part numbers of recommended 8 MHz ceramic resonators .16   \n6.1.3 Part numbers of recommended 25 MHz crystals   \n(Ethernet applications) .17   \n6.1.4 Part numbers of recommended 14.7456 MHz crystals (audio   \napplications) 17   \n6.2 LSE part 18   \n7 Some recommended crystals for STM8A/S microcontrollers . . .19   \n7.1 Part numbers of recommended crystal oscillators 19   \n7.2 Part numbers of recommended ceramic resonators 19   \n8 Some PCB hints .20   \n2/23 Doc ID 15287 Rev 3 ST   \n9 Conclusion ......... .....21   \n10 Revision history .. .. .. ... 22"
+  },
+  {
+    "segment_id": "stm32-an2867-p0004-text-00007",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 4,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2867-p0004-text-00008",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 4,
+    "text": "Table 1. Example of equivalent circuit parameters. .7   \nTable 2. Typical feedback resistor values for given frequencies 10   \nTable 3. EPSON® 16   \nTable 4. HOSONIC ELECTRONIC. 16   \nTable 5. CTS® 16   \nTable 6. FOXElectronics® 16   \nTable 7. Recommendable condition (for consumer) 16   \nTable 8. Recommendable condition (for CAN bus) 16   \nTable 9. HOSONIC ELECTRONIC. 17   \nTable 10. FOXElectronics R 17   \nTable 11. CTS® 17   \nTable 12. FOXElectronics® 17   \nTable 13. ABRACON™M 17   \nTable 14. EPSON TOYOCOM 18   \nTable 15. JFVNY® 18   \nTable 16. KDS 18   \nTable 17. KYOCERA 19   \nTable 18. Recommendable conditions (for consumer) . 19   \nTable 19. Recommendable conditions (for CAN-BUS). 19   \nTable 20. Document revision history 22"
+  },
+  {
+    "segment_id": "stm32-an2867-p0005-text-00009",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 5,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2867-p0005-text-00010",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 5,
+    "text": "Figure 1. Quartz crystal model. . .6   \nFigure 2. Impedance representation in the frequency domain. . .6   \nFigure 3. Oscillator principle .8   \nFigure 4. Pierce oscillator circuitry . .9   \nFigure 5. Inverter transfer function. 10   \nFigure 6. Current drive measurement with a current probe . 12   \nFigure 7. Recommended layout for an oscillator circuit . . 20"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00011",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "Quartz crystal properties and model"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00012",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "A quartz crystal is a piezoelectric device transforming electric energy to mechanical energy and vice versa. The transformation occurs at the resonant frequency. The quartz crystal can be modeled as follows:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0006_00001.png",
+    "caption": "**Figure 1. Quartz crystal model**\n\n- Left: quartz crystal schematic symbol, shown as a series rectangular crystal element between two terminals. The element is labeled **Q**.\n- The symbol is followed by an equivalence sign (**≡**).\n- Right: equivalent electrical model connected between two external terminals:\n  - A shunt capacitor labeled **C₀** across the two terminals.\n  - A lower series branch containing, from left to right:\n    - Inductor **Lₘ**\n    - Resistor **Rₘ**\n    - Capacitor **Cₘ**\n- The upper **C₀** branch and lower **Lₘ–Rₘ–Cₘ** series branch are connected in parallel between the left and right terminals.\n- Figure identifier at lower right: **ai15833**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Quartz crystal model",
+    "generated_captions": {
+      "luna": "**Figure 1. Quartz crystal model**\n\n- Left: quartz crystal schematic symbol, shown as a series rectangular crystal element between two terminals. The element is labeled **Q**.\n- The symbol is followed by an equivalence sign (**≡**).\n- Right: equivalent electrical model connected between two external terminals:\n  - A shunt capacitor labeled **C₀** across the two terminals.\n  - A lower series branch containing, from left to right:\n    - Inductor **Lₘ**\n    - Resistor **Rₘ**\n    - Capacitor **Cₘ**\n- The upper **C₀** branch and lower **Lₘ–Rₘ–Cₘ** series branch are connected in parallel between the left and right terminals.\n- Figure identifier at lower right: **ai15833**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00013",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "C0: represents the shunt capacitance resulting from the capacitor formed by the electrodes"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00014",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "$\\mathsf { L } _ { \\mathsf { m } } \\dot { \\cdot }$ (motional inductance) represents the vibrating mass of the crystal"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00015",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "$\\mathsf { C } _ { \\mathsf { m } } \\mathrm { : }$ (motional capacitance) represents the elasticity of the crystal"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00016",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "$\\mathsf { R } _ { \\mathsf { m } } \\mathrm { . }$ (motional resistance) represents the circuit losses"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00017",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "The impedance of the crystal is given by the following equation (assuming that $\\mathsf { R } _ { \\mathsf { m } }$ is negligible):"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00018",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "$$\n\\overset { \\triangledown } { \\boldsymbol { \\Xi } } = \\frac { \\mathrm { j } } { \\mathsf { w } } \\times \\frac { \\mathsf { w } ^ { 2 } \\mathsf { L } _ { \\mathsf { m } } \\mathsf { C } _ { \\mathsf { m } } - 1 } { ( \\mathsf { C } _ { 0 } + \\mathsf { C } _ { \\mathsf { m } } ) - \\mathsf { w } ^ { 2 } \\mathsf { L } _ { \\mathsf { m } } \\mathsf { C } _ { \\mathsf { m } } \\mathsf { C } _ { 0 } } \\left( 1 \\right)\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00019",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "Figure 2 represents the impedance in the frequency domain."
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0006_00002.png",
+    "caption": "**Figure 2. Impedance representation in the frequency domain**\n\n- **Upper plot:** impedance versus frequency.\n  - Vertical axis: **Impedance**\n  - Horizontal axis: **Frequency**\n  - Left-side annotation: **Inductive behavior: the quartz oscillates**\n  - Lower-left annotation: **Capacitive behavior: no oscillation**\n  - A blue impedance curve is capacitive at lower frequencies, crosses the frequency axis at **Fₛ**, rises through the shaded region, and becomes very large near the right dashed boundary. It then drops sharply and continues at a lower level on the right.\n  - Two vertical dashed lines mark **Fₛ** (left) and **Fₐ** (right).\n  - The region between the dashed lines is shaded gray and labeled **Area of parallel resonance: Fₚ**, with an arrow pointing into the shaded region.\n  - Black dots mark the curve at **Fₛ** and **Fₐ**.\n\n- **Lower plot:** phase versus frequency.\n  - Vertical axis: **Phase (deg)**\n  - Horizontal axis: **Frequency**\n  - Phase reference labels: **+90** and **−90**\n  - The blue phase trace is at **−90°** below **Fₛ**, at **+90°** between **Fₛ** and **Fₐ**, and returns to **−90°** above **Fₐ**.\n\n- Figure identifier printed at lower right: **ai15834**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Impedance representation in the frequency domain",
+    "generated_captions": {
+      "luna": "**Figure 2. Impedance representation in the frequency domain**\n\n- **Upper plot:** impedance versus frequency.\n  - Vertical axis: **Impedance**\n  - Horizontal axis: **Frequency**\n  - Left-side annotation: **Inductive behavior: the quartz oscillates**\n  - Lower-left annotation: **Capacitive behavior: no oscillation**\n  - A blue impedance curve is capacitive at lower frequencies, crosses the frequency axis at **Fₛ**, rises through the shaded region, and becomes very large near the right dashed boundary. It then drops sharply and continues at a lower level on the right.\n  - Two vertical dashed lines mark **Fₛ** (left) and **Fₐ** (right).\n  - The region between the dashed lines is shaded gray and labeled **Area of parallel resonance: Fₚ**, with an arrow pointing into the shaded region.\n  - Black dots mark the curve at **Fₛ** and **Fₐ**.\n\n- **Lower plot:** phase versus frequency.\n  - Vertical axis: **Phase (deg)**\n  - Horizontal axis: **Frequency**\n  - Phase reference labels: **+90** and **−90**\n  - The blue phase trace is at **−90°** below **Fₛ**, at **+90°** between **Fₛ** and **Fₐ**, and returns to **−90°** above **Fₐ**.\n\n- Figure identifier printed at lower right: **ai15834**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00020",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "$\\mathsf { F } _ { \\mathsf { s } }$ is the series resonant frequency when the impedance ${ \\cal Z } = 0 .$ Its expression can be deduced from equation (1) as follows:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0006-text-00021",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 6,
+    "text": "$$\n\\mathsf { F } _ { \\mathsf { s } } = \\frac { 1 } { 2 \\pi \\sqrt { \\mathsf { L } _ { \\mathsf { m } } \\mathsf { C } _ { \\mathsf { m } } } }\\tag{2}\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00022",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "$\\mathsf { F } _ { \\mathsf { a } }$ is the anti-resonant frequency when impedance Z tends to infinity. Using equation (1), it is expressed as follows:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00023",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "$$\n\\mathsf { F } _ { \\mathsf { a } } = \\mathsf { F } _ { \\mathsf { s } } \\sqrt { 1 + \\frac { \\mathsf { C } _ { \\mathsf { m } } } { \\mathsf { C } _ { 0 } } }\\tag{3}\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00024",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "The region delimited by $\\mathsf { F } _ { \\mathsf { s } }$ and $\\mathsf { F } _ { \\mathsf { a } }$ is usually called the area of parallel resonance (shaded area in Figure 2). In this region, the crystal operates in parallel resonance and behaves as an inductance that adds an additional phase equal to 180 ° in the loop. Its frequency $\\mathsf { F } _ { \\mathsf { p } }$ (or $\\mathsf { F } _ { \\mathsf { L } }$ : load frequency) has the following expression:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00025",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "$$\n\\mathsf { F } _ { \\mathsf { p } } = \\mathsf { F } _ { \\mathsf { s } } \\biggl ( 1 + \\frac { \\mathsf { C } _ { \\mathsf { m } } } { 2 ( \\mathsf { C } _ { 0 } + \\mathsf { C } _ { \\mathsf { L } } ) } \\biggr )\\tag{4}\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00026",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "From equation (4), it appears that the oscillation frequency of the crystal can be tuned by varying the load capacitor $\\mathsf C _ { \\mathsf L }$ . This is why in their datasheets, crystal manufacturers indicate the exact $\\mathsf C _ { \\mathsf { L } }$ required to make the crystal oscillate at the nominal frequency."
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00027",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "Table 1 gives an example of equivalent crystal circuit component values to have a nominal frequency of 8 MHz."
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-table-00001",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0007_00001.png",
+    "caption": "**Table 1. Example of equivalent circuit parameters**\n\n| Equivalent component | Value |\n|---|---:|\n| Rₘ | 8 Ω |\n| Lₘ | 14.7 mH |\n| Cₘ | 0.027 pF |\n| C₀ | 5.57 pF |\n\nNo test conditions or footnotes are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Example of equivalent circuit parameters",
+    "generated_captions": {
+      "luna": "**Table 1. Example of equivalent circuit parameters**\n\n| Equivalent component | Value |\n|---|---:|\n| Rₘ | 8 Ω |\n| Lₘ | 14.7 mH |\n| Cₘ | 0.027 pF |\n| C₀ | 5.57 pF |\n\nNo test conditions or footnotes are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00028",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "Using equations (2), (3) and (4) we can determine $\\mathsf { F } _ { \\mathsf { s } } , \\mathsf { F } _ { \\mathsf { a } }$ and $\\mathsf { F } _ { \\mathsf { p } }$ of this crystal: $\\mathsf { F } _ { \\mathsf { s } } = 7 9 8 8 7 6 8$ Hz and $\\mathsf { F } _ { \\mathsf { a } } = 8 0 0 8 1 0 2 \\mathsf { H z }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00029",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "If the load capacitance $\\mathsf C _ { \\mathsf L }$ at the crystal electrodes is equal to 10 pF, the crystal will oscillate at the following frequency: $\\mathsf { F } _ { \\mathsf { p } } = 7 9 9 5 6 9 5$ Hz."
+  },
+  {
+    "segment_id": "stm32-an2867-p0007-text-00030",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 7,
+    "text": "To have an oscillation frequency of exactly 8 MHz, $\\mathsf C _ { \\mathsf L }$ should be equal to 4.02 pF."
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00031",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "2"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00032",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "Oscillator theory"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00033",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "An oscillator consists of an amplifier and a feedback network to provide frequency selection.   \nFigure 3 shows the block diagram of the basic principle."
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0008_00003.png",
+    "caption": "**Figure 3. Oscillator principle**\n\n- Block diagram showing an oscillator loop composed of:\n  - **Active element**, represented by a right-pointing triangular block labeled **A(f)**.\n  - **Passive feedback element**, represented by a rectangular block labeled **B(f)**.\n- The signal path runs from the left into the **A(f)** active-element block and exits to the right, where a right-pointing arrow indicates the output direction.\n- A feedback connection branches from the output on the right, runs downward and left through the **B(f)** passive feedback-element block, and returns upward to the input node on the left.\n- Labels visible: **Active element**, **A(f)**, **B(f)**, and **Passive feedback element**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Oscillator principle",
+    "generated_captions": {
+      "luna": "**Figure 3. Oscillator principle**\n\n- Block diagram showing an oscillator loop composed of:\n  - **Active element**, represented by a right-pointing triangular block labeled **A(f)**.\n  - **Passive feedback element**, represented by a rectangular block labeled **B(f)**.\n- The signal path runs from the left into the **A(f)** active-element block and exits to the right, where a right-pointing arrow indicates the output direction.\n- A feedback connection branches from the output on the right, runs downward and left through the **B(f)** passive feedback-element block, and returns upward to the input node on the left.\n- Labels visible: **Active element**, **A(f)**, **B(f)**, and **Passive feedback element**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00034",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "A(f) is the complex transfer function of the amplifier that provides energy to keep the oscillator oscillating."
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00035",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "$$\n\\mathsf { A } ( \\mathsf { f } ) = \\mathsf { \\left| A ( f ) \\right| \\cdot \\mathrm { \\Large ~ e ^ { j \\mathsf { f } \\alpha ( \\mathsf { f } ) } } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00036",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "●B(f) is the complex transfer function of the feedback that sets the oscillator frequency."
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00037",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "$$\n\\mathsf { B } ( \\mathsf { f } ) = \\mathsf { \\left| B ( \\mathsf { f } ) \\right| \\cdot \\hbar e } ^ { \\mathsf { j } \\mathsf { f } \\mathsf { \\beta ( \\mathsf { f } ) } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00038",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "To oscillate, the following Barkhausen conditions must be fulfilled. The closed-loop gain should be greater than 1 and the total phase shift of 360 ° is to be provided:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00039",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "$$\n\\big | \\mathsf { A } ( \\mathsf { f } ) \\big | \\cdot \\big | \\mathsf { B } ( \\mathsf { f } ) \\big | \\ge 1 \\mathsf { a n d } \\mathsf { \\alpha } \\alpha ( \\mathsf { f } ) + \\mathsf { \\beta } ( \\mathsf { f } ) = 2 \\pi\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00040",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "The oscillator needs initial electric energy to start up. Power-up transients and noise can supply the needed energy. However, the energy level should be high enough to trigger oscillation at the required frequency. Mathematically, this is represented by |A(f)| · |B(f)| » 1I, which means that the open-loop gain should be much higher than 1. The time required for the oscillations to become steady depends on the open-loop gain."
+  },
+  {
+    "segment_id": "stm32-an2867-p0008-text-00041",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 8,
+    "text": "Meeting the oscillation conditions is not enough to explain why a crystal oscillator starts to oscillate. Under these conditions, the amplifier is very unstable, any disturbance introduced in this positive feedback loop system makes the amplifier unstable and causes oscillations to start. This may be due to power-on, a disable-to enable sequence, the thermal noise of the crystal, etc. It is also important to note that only noise within the range of serial-to parallel frequency can be amplified. This represents but a little amount of energy, which is why crystal oscillators are so long to start up."
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00042",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "Pierce oscillator"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00043",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "Pierce oscillators are commonly used in applications because of their low consumption, low cost and stability."
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0009_00004.png",
+    "caption": "**Figure 4. Pierce oscillator circuitry**\n\n- A rectangular block labeled **Microcontroller** encloses the internal oscillator circuitry.\n- Internal inverter symbol labeled **Inv**:\n  - Input node on the left, connected to **OSC_IN**.\n  - Output node on the right, connected to **OSC_OUT**.\n  - The inverter output has a small inversion bubble.\n- Feedback resistor **R_F** is connected between the **OSC_IN** and **OSC_OUT** nodes, above the inverter.\n- External network:\n  - **R_Ext** is a vertical resistor connected from the **OSC_OUT** node down to the right-hand external oscillator node.\n  - Crystal/resonator **Q** is connected horizontally between the **OSC_IN** node and the lower right node beneath **R_Ext**.\n  - Load capacitor **C_L1** is connected from the **OSC_IN** node to ground.\n  - Load capacitor **C_L2** is connected from the lower right node to ground.\n  - **C_S** is shown below **Q**, with dashed connections to the two crystal-node terminals, indicating the crystal’s shunt/parasitic capacitance or equivalent parallel capacitance.\n- The two ground symbols are unlabelled.\n- No component values, electrical ratings, or numeric conditions are visible in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. Pierce oscillator circuitry",
+    "generated_captions": {
+      "luna": "**Figure 4. Pierce oscillator circuitry**\n\n- A rectangular block labeled **Microcontroller** encloses the internal oscillator circuitry.\n- Internal inverter symbol labeled **Inv**:\n  - Input node on the left, connected to **OSC_IN**.\n  - Output node on the right, connected to **OSC_OUT**.\n  - The inverter output has a small inversion bubble.\n- Feedback resistor **R_F** is connected between the **OSC_IN** and **OSC_OUT** nodes, above the inverter.\n- External network:\n  - **R_Ext** is a vertical resistor connected from the **OSC_OUT** node down to the right-hand external oscillator node.\n  - Crystal/resonator **Q** is connected horizontally between the **OSC_IN** node and the lower right node beneath **R_Ext**.\n  - Load capacitor **C_L1** is connected from the **OSC_IN** node to ground.\n  - Load capacitor **C_L2** is connected from the lower right node to ground.\n  - **C_S** is shown below **Q**, with dashed connections to the two crystal-node terminals, indicating the crystal’s shunt/parasitic capacitance or equivalent parallel capacitance.\n- The two ground symbols are unlabelled.\n- No component values, electrical ratings, or numeric conditions are visible in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00044",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "Inv: the internal inverter that works as an amplifier"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00045",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "Q: crystal quartz or a ceramic resonator"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00046",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "$\\mathsf { R } _ { \\mathsf { F } } \\mathrm { : }$ internal feedback resistor"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00047",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "$\\mathsf { R } _ { \\mathsf { E x t } } .$ external resistor to limit the inverter output current"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00048",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "$\\mathsf { C } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 } { \\mathrm { : } }$ are the two external load capacitors"
+  },
+  {
+    "segment_id": "stm32-an2867-p0009-text-00049",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 9,
+    "text": "${ \\mathsf { C } } _ { \\mathsf { s } } \\mathrm { : }$ stray capacitance is the addition of the MCU pin capacitance (OSC\\_IN and OSC\\_OUT) and the PCB capacitance: it is a parasitical capacitance."
+  },
+  {
+    "segment_id": "stm32-an2867-p0010-text-00050",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 10,
+    "text": "4 Pierce oscillator design"
+  },
+  {
+    "segment_id": "stm32-an2867-p0010-text-00051",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 10,
+    "text": "This section describes the different parameters and how to determine their values in order to be more conversant with the Pierce oscillator design."
+  },
+  {
+    "segment_id": "stm32-an2867-p0010-text-00052",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 10,
+    "text": "4.1 Feedback resistor $\\mathsf { R } _ { \\mathsf { F } }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0010-text-00053",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 10,
+    "text": "In most of the cases in ST microcontrollers, $\\mathsf { R } _ { \\mathsf { F } }$ is embedded in the oscillator circuitry. Its role is to make the inverter act as an amplifier. The feedback resistor is connected between $\\mathsf { V } _ { \\mathsf { i n } }$ and $\\mathsf { V } _ { \\mathsf { o u t } }$ so as to bias the amplifier at $\\mathsf { V } _ { \\mathsf { o u t } } = \\mathsf { V } _ { \\mathsf { i n } }$ and force it to operate in the linear region (shaded area in Figure 5). The amplifier amplifies the noise (for example, the thermal noise of the crystal) within the range of serial to parallel frequency $( \\mathsf { F } _ { \\mathsf { a } } , \\mathsf { F } _ { \\mathsf { a } } )$ . This noise causes the oscillations to start up. In some cases, if $\\mathsf { R } _ { \\mathsf { F } }$ is removed after the oscillations have stabilized, the oscillator continues to operate normally."
+  },
+  {
+    "segment_id": "stm32-an2867-p0010-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0010_00005.png",
+    "caption": "**Figure 5. Inverter transfer function**\n\n- Plot of inverter output voltage \\(V_{out}\\) versus input voltage \\(V_{in}\\).\n- Vertical axis: \\(V_{out}\\), with a marked level \\(V_{DD}\\).\n- Horizontal axis: \\(V_{in}\\), with a marked \\(V_{DD}\\) value and an arrow at the positive direction.\n- Blue transfer characteristic:\n  - Begins at \\(V_{out}=V_{DD}\\) for low \\(V_{in}\\), forming a horizontal segment.\n  - Decreases approximately linearly through the shaded central region.\n  - Reaches \\(V_{out}=0\\), then remains approximately at zero for higher \\(V_{in}\\).\n- Two vertical dashed lines bound the shaded gray **linear area**.\n- Annotation above the shaded region: **“Linear area: the inverter acts as an amplifier”**, with an arrow pointing into the region.\n- Left side of the plot is labeled **“Saturation region”**.\n- Right side of the plot is labeled **“Saturation region”**.\n- The transition region is marked approximately **“~ \\(V_{DD}/2\\)”** below the horizontal axis.\n- Figure identifier at lower right: **ai15837**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Inverter transfer function",
+    "generated_captions": {
+      "luna": "**Figure 5. Inverter transfer function**\n\n- Plot of inverter output voltage \\(V_{out}\\) versus input voltage \\(V_{in}\\).\n- Vertical axis: \\(V_{out}\\), with a marked level \\(V_{DD}\\).\n- Horizontal axis: \\(V_{in}\\), with a marked \\(V_{DD}\\) value and an arrow at the positive direction.\n- Blue transfer characteristic:\n  - Begins at \\(V_{out}=V_{DD}\\) for low \\(V_{in}\\), forming a horizontal segment.\n  - Decreases approximately linearly through the shaded central region.\n  - Reaches \\(V_{out}=0\\), then remains approximately at zero for higher \\(V_{in}\\).\n- Two vertical dashed lines bound the shaded gray **linear area**.\n- Annotation above the shaded region: **“Linear area: the inverter acts as an amplifier”**, with an arrow pointing into the region.\n- Left side of the plot is labeled **“Saturation region”**.\n- Right side of the plot is labeled **“Saturation region”**.\n- The transition region is marked approximately **“~ \\(V_{DD}/2\\)”** below the horizontal axis.\n- Figure identifier at lower right: **ai15837**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0010-table-00002",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0010_00002.png",
+    "caption": "**Table 2. Typical feedback resistor values for given frequencies**\n\n| Frequency | Feedback resistor range |\n|---|---|\n| 32.768 kHz | 10 to 25 MΩ |\n| 1 MHz | 5 to 10 MΩ |\n| 10 MHz | 1 to 5 MΩ |\n| 20 MHz | 470 kΩ to 5 MΩ |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2.Typical feedback resistor values for given frequencies",
+    "generated_captions": {
+      "luna": "**Table 2. Typical feedback resistor values for given frequencies**\n\n| Frequency | Feedback resistor range |\n|---|---|\n| 32.768 kHz | 10 to 25 MΩ |\n| 1 MHz | 5 to 10 MΩ |\n| 10 MHz | 1 to 5 MΩ |\n| 20 MHz | 470 kΩ to 5 MΩ |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00054",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "4.2 Load capacitor $\\complement _ { \\mathrm { L } }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00055",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "The load capacitance is the terminal capacitance of the circuit connected to the crystal oscillator. This value is determined by the external capacitors ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ and the stray capacitance of the printed circuit board and connections $( \\mathsf { C } _ { \\mathsf { s } } )$ . The $\\mathsf C _ { \\mathsf { L } }$ value is specified by the crystal manufacturer. Mainly, for the frequency to be accurate, the oscillator circuit has to show the same load capacitance to the crystal as the one the crystal was adjusted for. Frequency stability mainly requires that the load capacitance be constant. The external capacitors ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ are used to tune the desired value of $\\mathsf C _ { \\mathsf L }$ to reach the value specified by the crystal manufacturer."
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00056",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "The following equation gives the expression of ${ \\mathsf { C } } _ { \\mathsf { L } } \\mathbf { \\mathrm { : } }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00057",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "$$\n\\mathsf C _ { \\mathsf L } = \\frac { \\mathsf C _ { \\mathsf L 1 } \\times \\mathsf C _ { \\mathsf L 2 } } { \\mathsf C _ { \\mathsf L 1 } + \\mathsf C _ { \\mathsf L 2 } } + \\mathsf C _ { \\mathsf s }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00058",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "Example of ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ calculation:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00059",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "For example if the $\\mathsf { C } _ { \\mathsf { L } }$ value of the crystal is equal to 15 pF and, assuming that ${ \\mathsf C } _ { \\mathsf s } = { \\mathsf 5 } { \\mathsf { p F } } ,$ then:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00060",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "$\\mathsf C _ { \\mathsf L } - \\mathsf C _ { \\mathsf s } = \\frac { \\mathsf C _ { \\mathsf L 1 } \\times \\mathsf C _ { \\mathsf L 2 } } { \\mathsf C _ { \\mathsf L 1 } + \\mathsf C _ { \\mathsf L 2 } } = 1 0 \\mathsf p \\mathsf F$ . That is: ${ \\mathsf C } _ { \\mathsf L 1 } = { \\mathsf C } _ { \\mathsf L 2 } = 2 0 \\mathsf { p F }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00061",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "4.3 Gain margin of the oscillator"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00062",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "The gain margin is the key parameter that determines whether the oscillator will start up or not. It has the following expression:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00063",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "ga $\\mathsf { i n } _ { \\mathsf { m a r g i n } } = \\frac { \\mathsf { g } _ { \\mathsf { m } } } { \\mathsf { g } _ { \\mathsf { m c r i t } } }$ , where:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00064",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "$\\mathfrak { g } _ { \\mathfrak { m } }$ is the transconductance of the inverter (in mA/V for the high-frequency part or in $\\mu \\mathsf { A } N \\nu$ for the low-frequency part: 32 kHz)."
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00065",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "${ \\mathfrak { g } } _ { \\mathfrak { m c r i t } } \\left( { \\mathfrak { g } } _ { \\mathfrak { m } } \\right.$ critical) depends on the crystal parameters."
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00066",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "Assuming that $\\mathsf C _ { \\mathsf { L } 1 } = \\mathsf C _ { \\mathsf { L } 2 }$ , and assuming that the crystal sees the same $\\mathsf C _ { \\mathsf L }$ on its pads as the value given by the crystal manufacturer, $\\mathsf { \\mathsf { g } m c r i t }$ is expressed as follows:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00067",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "${ \\sf g } _ { \\sf m c r i t } = 4 \\times \\sf { E S R } \\times \\left( 2 \\pi { \\sf F } \\right) ^ { 2 } \\times \\left( { \\sf C } _ { 0 } + { \\sf C } _ { \\sf L } \\right) ^ { 2 }$ , where $\\mathsf { E S R } = \\mathsf { e q u i v a l e n t }$ series resistor"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00068",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "According to the Eric Vittoz theory: the impedance of the motional RLC equivalent circuit of a crystal is compensated by the impedance of the amplifier and the two external capacitances."
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "To satisfy this theory, the inverter transconductance $( \\mathfrak { g } _ { \\mathfrak { m } } )$ must have a value ${ \\mathfrak { g } } _ { \\mathfrak { m } } > { \\mathfrak { g } } _ { \\mathfrak { m } \\mathtt { c r i t } } .$ . In this case, the oscillation condition is reached. A gain margin of 5 can be considered as a minimum to ensure an efficient startup of oscillations."
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "For example, to design the oscillator part of a microcontroller that has a ${ \\mathfrak { g } } _ { \\mathfrak { m } }$ value equal to 25 $\\mathsf { m A } N ,$ we choose a quartz crystal (from Fox) that has the following characteristics: frequency $= 8 \\mathsf { M H } z , \\mathsf { C } _ { 0 } = 7 \\mathsf { p F } , \\mathsf { C } _ { \\mathsf { L } } = 1 0 \\mathsf { p F } , \\mathsf { E S R } = 8 0 \\Omega$ . Will this crystal oscillate with this microcontroller?"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "Let us calculate $\\mathsf { g } _ { \\mathsf { m c r i t } } .$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 11,
+    "text": "$$\n\\mathfrak { g } _ { \\mathrm { m c r i t } } = 4 \\times 8 0 \\times ( 2 \\times \\pi \\times 8 \\times 1 0 ^ { 6 } ) ^ { 2 } \\times ( 7 \\times 1 0 ^ { - 1 2 } + 1 0 \\times 1 0 ^ { - 1 2 } ) ^ { 2 } = 0 . 2 3 \\ \\mathrm { m A } / \\mathrm { ~ V ~ a ~ t ~ } ,\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0012_00006.png",
+    "caption": "**Figure 6. Current drive measurement with a current probe**\n\n- Diagram of a small circuit board used to measure crystal current.\n- Visible labels:\n  - **Crystal**\n  - **Current probe**\n  - **To oscilloscope**\n- The crystal is shown mounted vertically on the board.\n- A current probe is positioned at the crystal connection/lead area, with its cable routed toward the upper right.\n- The cable is labeled **“To oscilloscope.”**\n- The board drawing also shows an integrated-circuit package and several small components; their markings are not legible.\n- Figure identifier printed below the diagram: **ai15838**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. Current drive measurement with a current probe",
+    "generated_captions": {
+      "luna": "**Figure 6. Current drive measurement with a current probe**\n\n- Diagram of a small circuit board used to measure crystal current.\n- Visible labels:\n  - **Crystal**\n  - **Current probe**\n  - **To oscilloscope**\n- The crystal is shown mounted vertically on the board.\n- A current probe is positioned at the crystal connection/lead area, with its cable routed toward the upper right.\n- The cable is labeled **“To oscilloscope.”**\n- The board drawing also shows an integrated-circuit package and several small components; their markings are not legible.\n- Figure identifier printed below the diagram: **ai15838**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00073",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "Calculating the gain margin gives:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00074",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "$$\n\\mathsf { g a i n } _ { \\mathsf { m a r g i n } } = { \\frac { \\mathsf { g } _ { \\mathsf { m } } } { \\mathsf { g } _ { \\mathsf { m c r i t } } } } = { \\frac { 2 5 } { 0 . 2 3 } } = 1 0 7\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00075",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "The gain margin is very sufficient to start the oscillation and the “gain margin greater than $5 ^ { \\mathfrak { v } }$ condition is reached. The crystal will oscillate normally."
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00076",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "If an insufficient gain margin is found (gain margin < 5) the oscillation condition is not reached and the crystal will not start up. You should then try to select a crystal with a lower ESR or/and with a lower $\\mathsf C _ { \\mathsf L }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00077",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "4.4 Drive level DL and external resistor $\\boldsymbol { \\mathsf { R } } _ { \\mathsf { E x t } }$ calculation"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00078",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "The drive level and external resistor value are closely related. They will therefore be addressed in the same section."
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00079",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "4.4.1 Calculating drive level DL"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00080",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "The drive level is the power dissipated in the crystal. It has to be limited otherwise the quartz crystal can fail due to excessive mechanical vibration. The maximum drive level is specified by the crystal manufacturer, usually in mW. Exceeding this maximum value may lead to the crystal being damaged."
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00081",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "The drive level is given by the following formula: $\\mathsf { D } \\mathsf { L } = \\mathsf { E } \\mathsf { S } \\mathsf { R } \\times { \\mathsf { I } _ { \\mathsf { Q } } } ^ { 2 }$ , where:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00082",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "ESR is the equivalent series resistor (specified by the crystal manufacturer):"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00083",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "$$\nE S R = R _ { \\mathrm { m } } \\times \\left( 1 + \\frac { C _ { 0 } } { C _ { L } } \\right) ^ { 2 }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00084",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "$\\mathsf { I } _ { \\mathsf { Q } }$ is the current flowing through the crystal in RMS. This current can be displayed on an oscilloscope as a sine wave. The current value can be read as the peak-to-peak value $( \\mathsf { I } _ { \\mathsf { P P } } )$ . When using a current probe (as shown in Figure 6), the voltage scale of an oscilloscope may be converted into 1mA/1mV."
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00085",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "So as described previously, when tuning the current with the potentiometer, the current through the crystal does not exceed I max RMS (assuming that the current through the crystal is sinusoidal)."
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "Thus I<sub>Q</sub>max RMS is given by:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0012-text-00087",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 12,
+    "text": "$$\n\\mathsf { I } _ { \\mathsf { Q m a x } } \\mathsf { R M S } = \\sqrt { \\frac { \\mathsf { D L } _ { \\mathsf { m a x } } } { \\mathsf { E S R } } } = \\frac { \\mathsf { I } _ { \\mathsf { Q m a x } } \\mathsf { P P } } { 2 \\sqrt { 2 } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00088",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "Therefore the current through the crystal (peak-to-peak value read on the oscilloscope) should not exceed a maximum peak-to-peak current $( \\mathsf { I } _ { \\mathsf { Q m a x } } \\mathsf { P } \\mathsf { P } )$ equal to:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00089",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$$\n{ \\mathsf { I } } _ { \\mathsf { Q m a x } } \\mathsf { P P } = 2 \\times \\sqrt { \\frac { 2 \\times \\mathsf { D L } _ { \\mathsf { m a x } } } { \\mathsf { E S R } } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00090",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "Hence the need for an external resistor $( \\mathsf { R } _ { \\mathsf { E x t } } )$ (refer to Section 4.4.3) when $\\mathsf { I } _ { \\mathsf { Q } }$ exceeds $\\mathsf { I } _ { \\mathsf { Q m a x } } \\mathsf { P } \\mathsf { P } .$ . The addition of $\\mathsf { R } _ { \\mathsf { E x t } }$ then becomes mandatory and it is added to ESR in the expression of $\\mathsf { I } _ { \\mathsf { Q m a x } }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00091",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "4.4.2 Another drive level measurement method"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00092",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "The drive level can be computed as:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00093",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$\\mathsf { D L } = \\mathsf { I } ^ { 2 } \\mathsf { _ { Q R M S } } \\times \\mathsf { E S R }$ , where $\\mathsf { l } _ { \\mathsf { Q R M S } }$ is the RMS AC current."
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00094",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "This current can be calculated by measuring the voltage swing at the amplifier input with a low-capacitance oscilloscope probe (no more than 1 pF). The amplifier input current is negligible with respect to the current through ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ , so we can assume that the current through the crystal is equal to the current flowing through ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ . Therefore the RMS voltage at this point is related to the RMS current by:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00095",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$\\mathsf { I } _ { \\mathsf { Q R M S } } = 2 \\pi \\mathsf { F } \\times \\mathsf { V } _ { \\mathsf { R M S } } \\times \\mathsf { C } _ { \\mathsf { t o t } }$ , with:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "● F = crystal frequency"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$v _ { \\mathsf { R M S } } = { \\frac { \\mathsf { v } _ { \\mathsf { p p } } } { 2 { \\sqrt { 2 } } } }$ , where: $\\mathsf { V } _ { \\mathsf { p } \\mathsf { p } }$ is the voltage peak-to-peak measured at ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ level"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$\\mathsf C _ { \\mathsf { t o t } } = \\mathsf C _ { \\mathsf { L } 1 } + ( \\mathsf C _ { \\mathsf { s } } / 2 ) + \\mathsf C _ { \\mathsf { p r o b e } }$ where:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ is the external load capacitor at the amplifier input"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$\\complement _ { \\mathsf { s } }$ is the stray capacitance"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$\\mathsf { C } _ { \\mathsf { p r o b e } }$ is the probe capacitance) is the probe capacitance"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "Therefore the drive level, DL, is given by: ${ \\sf D L } = \\frac { \\mathsf { E S R } \\times \\left( \\pi \\times \\mathsf { F } \\times \\mathsf { C _ { { \\sf t o t } } } \\right) ^ { 2 } \\times { ( \\mathsf { V _ { p p } ) } } ^ { 2 } } { 2 } .$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00103",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "This DL value must not exceed the drive level specified by the crystal manufacturer."
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00104",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "4.4.3 Calculating external resistor $\\boldsymbol { \\mathsf { R } } _ { \\mathsf { E x t } }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00105",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "The role of this resistor is to limit the drive level of the crystal. With ${ \\mathsf { C } } _ { \\lfloor 2  } ,$ it forms a low-pass filter that forces the oscillator to start at the fundamental frequency and not at overtones (prevents the oscillator from vibrating at 3, 5, 7 etc. times the fundamental frequency). If the power dissipated in the crystal is higher than the value specified by the crystal manufacturer, the external resistor $\\mathsf { R } _ { \\mathsf { E x t } }$ becomes mandatory to avoid overdriving the crystal. If the power dissipated in the selected quartz is less than the drive level specified by the crystal manufacturer, the insertion of $\\mathsf { R } _ { \\mathsf { E x t } }$ is not recommended and its value is then $0 \\Omega$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00106",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "An initial estimation of $\\mathsf { R } _ { \\mathsf { E x t } }$ is obtained by considering the voltage divider formed by $\\mathsf { R } _ { \\mathsf { E x t } } / \\mathsf { C } _ { \\mathsf { L } 2 } .$ . Thus, the value of $\\mathsf { R } _ { \\mathsf { E x t } }$ is equal to the reactance of ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00107",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "Therefore: $\\mathsf { R } _ { \\mathsf { E x t } } = \\frac { 1 } { 2 \\pi \\mathsf { F C } _ { 2 } }$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00108",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "Let us put:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00109",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "● oscillation frequency $\\mathsf { F } = 8$ MHz"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00110",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "$\\mathsf C _ { \\mathsf L 2 } = 1 5 ~ \\mathsf p \\mathsf F$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0013-text-00111",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 13,
+    "text": "Then: $\\mathsf { R } _ { \\mathsf { E x t } } = \\mathsf { 1 3 2 6 } \\Omega$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00112",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "The recommended way of optimizing $\\mathsf { R } _ { \\mathsf { E x t } }$ is to first choose ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ as explained earlier and to connect a potentiometer in the place of $\\mathsf { R } _ { \\mathsf { E x t } }$ . The potentiometer should be initially set to be approximately equal to the capacitive reactance of ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ . It should then be adjusted as required until an acceptable output and crystal drive level are obtained."
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00113",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "Caution: After calculating $\\mathsf { R } _ { \\mathsf { E x t } }$ it is recommended to recalculate the gain margin (refer to Section 4.3: Gain margin of the oscillator) to make sure that the addition of $\\mathsf { R } _ { \\mathsf { E x t } }$ has no effect on the oscillation condition. That is, the value of $\\mathsf { R } _ { \\mathsf { E x t } }$ has to be added to ESR in the expression of $\\mathsf { \\mathsf { g } m c r i t }$ and $\\mathfrak { g } _ { \\mathfrak { m } } > > \\mathfrak { g } _ { \\mathfrak { m } \\mathfrak { c r i t } }$ must also remain true:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00114",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "$$\n\\mathrm { g } _ { \\mathsf { m } } > > \\mathsf { g } _ { \\mathsf { m c r i t } } = 4 \\times ( \\mathsf { E S R } + \\mathsf { R } _ { \\mathsf { E x t } } ) \\times ( 2 \\times \\mathsf { P l } \\times \\mathsf { F } ) ^ { 2 } \\times ( \\mathsf { C } _ { 0 } + \\mathsf { C } _ { \\mathsf { L } } ) ^ { 2 }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00115",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "Note: $I f R _ { E x t }$ is too low, there is no power dissipation in the crystal. $I f R _ { E x t }$ is too high, there is no oscillation: the oscillation condition is not reached."
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00116",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "4.5 Startup time"
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00117",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "It is the time that take the oscillations to start and become stable. This time is longer for a quartz than for a ceramic resonator. It depends on the external components: ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ The startup time also depends on the crystal frequency and decreases as the frequency rises. It also depends on the type of crystal used: quartz or ceramic resonator (the startup time for a quartz is very long compared to that of a ceramic resonator). Startup problems are usually due to the gain margin (as explained previously) linked to ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ being too small or too large, or to ESR being too high."
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00118",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "The startup times of crystals for frequencies in the MHz range are within the ms range."
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00119",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "The startup time of a 32 kHz crystal is within the 1 s to 5 s range."
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00120",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "4.6 Crystal pullability"
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00121",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "Pullability refers to the change in frequency of a crystal in the area of usual parallel resonance. It is also a measure of its frequency change for a given change in load capacitance. A decrease in load capacitance causes an increase in frequency. Conversely, an increase in load capacitance causes a decrease in frequency. Pullability is given by the following formula:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0014-text-00122",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 14,
+    "text": "$$\n\\mathsf { P u l l a b i l i t y } _ { ( \\mathsf { P P M } / \\mathsf { \\Lambda } \\mathsf { p F } ) } = \\frac { \\mathsf { C } _ { \\mathsf { m } } \\times 1 0 ^ { 6 } } { 2 \\times ( \\mathsf { C } _ { 0 } + \\mathsf { C } _ { \\mathsf { L } } ) ^ { 2 } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00123",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Easy guideline for the selection of suitable crystal and external components"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00124",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "This section gives a recommended procedure to select suitable crystal/externa components. The whole procedure is divided into three main steps:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00125",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Step1: Calculate the gain margin"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00126",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "(please refer to Section 4.3: Gain margin of the oscillator)"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00127",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Choose a crystal and go to the references (chosen crystal + microcontroller datasheets)"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00128",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Calculate the oscillator gain margin and check if it greater than 5:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00129",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "If Gain margin $< 5 ,$ , the crystal is not suitable, choose another with a lower ESR or/and a lower $\\mathsf C _ { \\mathsf L }$ . Redo step 1."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00130",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "If Gain margin > 5, go to step 2."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00131",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Step2: Calculate the external load capacitors"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00132",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "(please refer to Section 4.2: Load capacitor CL)"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00133",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Calculate ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ and check if they match the exact capacitor value on market or not:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00134",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "If you found the exact capacitor value then the oscillator will oscillate at the exact expected frequency. You can proceed to step 3."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00135",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "● If you did not find the exact value and:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00136",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "frequency accuracy is a key issue for you, you can use a variable capacitor to obtain the exact value. Then you can proceed to step 3."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00137",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "frequency accuracy is not critical for you, choose the nearest value found on market and go to step 3."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00138",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "Step3: Calculate the drive level and external resistor"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00139",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "(please refer to Section 4.4: Drive level DL and external resistor RExt calculation)"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00140",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "● Compute DL and check if is greater or lower than $\\mathsf { D L } _ { \\mathsf { c r y s t a l } } .$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00141",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "If $\\mathsf { D L } < \\mathsf { D L } _ { \\mathsf { c r y s t a l } } ,$ no need for an external resistor. Congratulations you have found a suitable crystal."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00142",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "If $\\mathsf { D L } > \\mathsf { D L } _ { \\mathsf { c r v s t a l } } ,$ you should calculate $\\mathsf { R } _ { \\mathsf { E x t } }$ in order to have: $\\mathsf { D L } < \\mathsf { D L } _ { \\mathsf { c r v s t a l } } .$ . You should then recalculate the gain margin taking $\\mathsf { R } _ { \\mathsf { E x t } }$ into account."
+  },
+  {
+    "segment_id": "stm32-an2867-p0015-text-00143",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 15,
+    "text": "If you find that gain margin > 5, congratulations, you have found a suitable crystal. If not, then this crystal will not work and you have to choose another. Return to step 1 to run the procedure for the new crystal."
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-text-00144",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "text": "Some recommended crystals for STM32™ microcontrollers"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-text-00145",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "text": "6.1 HSE part"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-text-00146",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "text": "6.1.1 Part numbers of recommended 8 MHz crystals"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-table-00003",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0016_00003.png",
+    "caption": "**Table 3. EPSON®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| MA-406 or MA-505 or MA-506 (8 MHz) | 80 Ω | 10 pF | 5 pF | 137.4 | SMD |\n\nNo minimum/typical/maximum qualifiers are shown in the visible table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. EPSON<sup>®</sup>",
+    "generated_captions": {
+      "luna": "**Table 3. EPSON®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| MA-406 or MA-505 or MA-506 (8 MHz) | 80 Ω | 10 pF | 5 pF | 137.4 | SMD |\n\nNo minimum/typical/maximum qualifiers are shown in the visible table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-table-00004",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0016_00004.png",
+    "caption": "**Table (visible portion)**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| HC-49S-8 MHz | 80 Ω | 10 pF | 7 pF | 107 | Through-hole |\n\nThe table title/caption is not visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. HOSONIC ELECTRONIC",
+    "generated_captions": {
+      "luna": "**Table (visible portion)**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| HC-49S-8 MHz | 80 Ω | 10 pF | 7 pF | 107 | Through-hole |\n\nThe table title/caption is not visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-table-00005",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0016_00005.png",
+    "caption": "Visible table (caption/context: “Table 5. CTS®”; the table title itself is not visible in the crop):\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| ATS08A | 60 Ω | 20 pF | 7 pF | 56.9 | Through-hole |\n| ATS08ASM | 60 Ω | 20 pF | 7 pF | 56.9 | SMD |\n\nNo additional notes, footnotes, test conditions, or units for “Gain margin” are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. CTS<sup>®</sup>",
+    "generated_captions": {
+      "luna": "Visible table (caption/context: “Table 5. CTS®”; the table title itself is not visible in the crop):\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| ATS08A | 60 Ω | 20 pF | 7 pF | 56.9 | Through-hole |\n| ATS08ASM | 60 Ω | 20 pF | 7 pF | 56.9 | SMD |\n\nNo additional notes, footnotes, test conditions, or units for “Gain margin” are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-table-00006",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0016_00006.png",
+    "caption": "**Table 6. FOX Electronics®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| FOXSLF/080-20 | 80 Ω | 20 pF | 7 pF | 43.1 | Through-hole |\n| FOXSDLF/080-20 | 80 Ω | 20 pF | 7 pF | 43.1 | SMD |\n| PFXLF/080-20 | 80 Ω | 20 pF | 7 pF | 43.1 | SMD |\n\nAll three listed parts have ESR of **80 Ω**, load capacitance **C<sub>L</sub> = 20 pF**, shunt/static capacitance **C<sub>0</sub> = 7 pF**, and gain margin **43.1**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. FOXElectronics<sup>®</sup>",
+    "generated_captions": {
+      "luna": "**Table 6. FOX Electronics®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| FOXSLF/080-20 | 80 Ω | 20 pF | 7 pF | 43.1 | Through-hole |\n| FOXSDLF/080-20 | 80 Ω | 20 pF | 7 pF | 43.1 | SMD |\n| PFXLF/080-20 | 80 Ω | 20 pF | 7 pF | 43.1 | SMD |\n\nAll three listed parts have ESR of **80 Ω**, load capacitance **C<sub>L</sub> = 20 pF**, shunt/static capacitance **C<sub>0</sub> = 7 pF**, and gain margin **43.1**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-text-00147",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "text": "6.1.2 Part numbers of recommended 8 MHz ceramic resonators"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-text-00148",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "text": "Table 7 and Table 8 give the references of recommended CERALOCK<sup>®</sup> ceramic resonator for the STM32™ microcontrollers provided and certified by Murata."
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-table-00007",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0016_00007.png",
+    "caption": "**Table 7. Recommendable condition (for consumer)**\n\n| Part number | C<sub>L</sub> | Package |\n|---|---|---|\n| CSTCE8M00G55-R0 | Embedded load capacitors C<sub>L1</sub> = C<sub>L2</sub> = 33 pF | SMD |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Recommendable condition (for consumer)",
+    "generated_captions": {
+      "luna": "**Table 7. Recommendable condition (for consumer)**\n\n| Part number | C<sub>L</sub> | Package |\n|---|---|---|\n| CSTCE8M00G55-R0 | Embedded load capacitors C<sub>L1</sub> = C<sub>L2</sub> = 33 pF | SMD |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0016-table-00008",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 16,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0016_00008.png",
+    "caption": "**Table 8. Recommendable condition (for CAN bus)**\n\n| Part number | C<sub>L</sub> | Package |\n|---|---|---|\n| CSTCE8M00G15C**-R0<sup>(1)</sup> | Embedded load capacitors C<sub>L1</sub> = C<sub>L2</sub> = 33 pF | SMD |\n\nThe footnote text for marker **(1)** is not visible in the provided crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 8. Recommendable condition (for CAN bus)",
+    "generated_captions": {
+      "luna": "**Table 8. Recommendable condition (for CAN bus)**\n\n| Part number | C<sub>L</sub> | Package |\n|---|---|---|\n| CSTCE8M00G15C**-R0<sup>(1)</sup> | Embedded load capacitors C<sub>L1</sub> = C<sub>L2</sub> = 33 pF | SMD |\n\nThe footnote text for marker **(1)** is not visible in the provided crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-text-00149",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "text": "For other Murata resonators recommended for STM32 microcontrollers, please refer to the following link:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-text-00150",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "text": "http://search.murata.co.jp/Ceramy/ICListAction.do?sKeyHin=STM32&sKeyMak=ST-MICROELECTRONICS&sLang=en&sParam=STM32"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-text-00151",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "text": "6.1.3 Part numbers of recommended 25 MHz crystals (Ethernet applications)"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-table-00009",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0017_00009.png",
+    "caption": "**Table (title not visible in the crop; nearby context identifies it as Table 9, HOSONIC ELECTRONIC)**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| 6FA25000F10M11 | 40 Ω | 10pF | 7pF | 21.91 | SMD |\n| SA25000F10M11 | 40 Ω | 10pF | 7pF | 21.91 | Through-hole |\n\nThe crop does not show additional table notes, test conditions, or footnotes.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. HOSONIC ELECTRONIC",
+    "generated_captions": {
+      "luna": "**Table (title not visible in the crop; nearby context identifies it as Table 9, HOSONIC ELECTRONIC)**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| 6FA25000F10M11 | 40 Ω | 10pF | 7pF | 21.91 | SMD |\n| SA25000F10M11 | 40 Ω | 10pF | 7pF | 21.91 | Through-hole |\n\nThe crop does not show additional table notes, test conditions, or footnotes."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-table-00010",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0017_00010.png",
+    "caption": "**Table 10. FOXElectronics®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| FOXSLF/250F-20 | 30 Ω | 20 pF | 7 pF | 11.58 | Through-hole |\n| FOXSDLF/250F-20 | 30 Ω | 20 pF | 7 pF | 11.58 | SMD |\n| PFXLF250F-20 | 30 Ω | 20 pF | 7 pF | 11.58 | SMD |\n\nNo units are visibly specified for “Gain margin.”",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 10. FOXElectronics<sup>®</sup>",
+    "generated_captions": {
+      "luna": "**Table 10. FOXElectronics®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| FOXSLF/250F-20 | 30 Ω | 20 pF | 7 pF | 11.58 | Through-hole |\n| FOXSDLF/250F-20 | 30 Ω | 20 pF | 7 pF | 11.58 | SMD |\n| PFXLF250F-20 | 30 Ω | 20 pF | 7 pF | 11.58 | SMD |\n\nNo units are visibly specified for “Gain margin.”"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-table-00011",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0017_00011.png",
+    "caption": "**Table 11** (caption text not visible in crop; nearby context identifies it as “Table 11. …”)\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| ATS25A | 30 Ω | 20 pF | 7 pF | 11.58 | Through-hole |\n| ATS25ASM | 30 Ω | 20 pF | 7 pF | 11.58 | SMD |\n\nAll values and labels above are legible in the cropped table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 11. $\\tt c r s ^ { \\otimes }$",
+    "generated_captions": {
+      "luna": "**Table 11** (caption text not visible in crop; nearby context identifies it as “Table 11. …”)\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| ATS25A | 30 Ω | 20 pF | 7 pF | 11.58 | Through-hole |\n| ATS25ASM | 30 Ω | 20 pF | 7 pF | 11.58 | SMD |\n\nAll values and labels above are legible in the cropped table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-text-00152",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "text": "6.1.4 Part numbers of recommended 14.7456 MHz crystals (audio applications)"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-table-00012",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0017_00012.png",
+    "caption": "**Table 12. FOXElectronics®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| FOXSLF/147-20 | 40 Ω | 20 pF | 7 pF | 24.97 | Through-hole |\n| FOXSDLF/147-20 | 40 Ω | 20 pF | 7 pF | 24.97 | SMD |\n\nAll visible values and labels are legible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 12. FOXElectronics<sup>®</sup>",
+    "generated_captions": {
+      "luna": "**Table 12. FOXElectronics®**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| FOXSLF/147-20 | 40 Ω | 20 pF | 7 pF | 24.97 | Through-hole |\n| FOXSDLF/147-20 | 40 Ω | 20 pF | 7 pF | 24.97 | SMD |\n\nAll visible values and labels are legible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0017-table-00013",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0017_00013.png",
+    "caption": "**Table 13. ABRACON™** *(caption referenced by nearby context; table crop shows the following content)*\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| ABMM2-14.7456 MHz | 50 Ω | 18 pF | 7 pF | 29.3 | SMD |\n\nNo additional notes or footnotes are visible in the crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 13. ABRACON™",
+    "generated_captions": {
+      "luna": "**Table 13. ABRACON™** *(caption referenced by nearby context; table crop shows the following content)*\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| ABMM2-14.7456 MHz | 50 Ω | 18 pF | 7 pF | 29.3 | SMD |\n\nNo additional notes or footnotes are visible in the crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0018-text-00153",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 18,
+    "text": "6.2 LSE part"
+  },
+  {
+    "segment_id": "stm32-an2867-p0018-text-00154",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 18,
+    "text": "For the LSE part of STM32™ microcontrollers, it is recommended to use a crystal with $\\mathsf { C } _ { \\mathsf { L } } < 7 \\mathsf { p F } .$"
+  },
+  {
+    "segment_id": "stm32-an2867-p0018-table-00014",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0018_00014.png",
+    "caption": "**Table 14. EPSON TOYOCOM** *(caption provided as nearby context)*\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| C-2-Type | 35 kΩ | 6 pF | 2 pF | 13.5 | Through-hole |\n| C-4-Type | 55 kΩ | 6 pF | 2 pF | 8.5 | Through-hole |\n\nThe visible table contains no separate minimum/typical/maximum columns or footnotes.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 14. EPSON TOYOCOM",
+    "generated_captions": {
+      "luna": "**Table 14. EPSON TOYOCOM** *(caption provided as nearby context)*\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| C-2-Type | 35 kΩ | 6 pF | 2 pF | 13.5 | Through-hole |\n| C-4-Type | 55 kΩ | 6 pF | 2 pF | 8.5 | Through-hole |\n\nThe visible table contains no separate minimum/typical/maximum columns or footnotes."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0018-table-00015",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0018_00015.png",
+    "caption": "**Table 15. JFVNY®** *(caption/context; table title text beyond this is not visible in the crop)*\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| DT-38G06 | 30 kΩ | 6 pF | 1.3 pF | 18.44 | Through-hole |\n| MC306G06 | 50 kΩ | 6 pF | 2 pF | 9.3 | SMD |\n\nNo test-condition text or footnotes are visible in the cropped table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 15. JFVNY<sup>®</sup>",
+    "generated_captions": {
+      "luna": "**Table 15. JFVNY®** *(caption/context; table title text beyond this is not visible in the crop)*\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| DT-38G06 | 30 kΩ | 6 pF | 1.3 pF | 18.44 | Through-hole |\n| MC306G06 | 50 kΩ | 6 pF | 2 pF | 9.3 | SMD |\n\nNo test-condition text or footnotes are visible in the cropped table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0018-table-00016",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 18,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0018_00016.png",
+    "caption": "**Table 16. KDS**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| SM-26F | 80 kΩ | 6 pF | 1.1 pF | 7.3 | Through-hole |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 16. KDS",
+    "generated_captions": {
+      "luna": "**Table 16. KDS**\n\n| Part number | ESR | C<sub>L</sub> | C<sub>0</sub> | Gain margin | Package |\n|---|---:|---:|---:|---:|---|\n| SM-26F | 80 kΩ | 6 pF | 1.1 pF | 7.3 | Through-hole |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-text-00155",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "text": "Some recommended crystals for STM8A/S microcontrollers"
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-text-00156",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "text": "7.1 Part numbers of recommended crystal oscillators"
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-table-00017",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0019_00017.png",
+    "caption": "**Table 17. KYOCERA**\n\n| Part number | Freq. | ESR | CL | Drive level (DL) |\n|---|---:|---:|---:|---:|\n| CX5032GA08000H0QSWZZ | 8 MHz | 300 Ω max | 12 pF | 500 µW max |\n| CX5032GA16000H0QSWZZ | 16 MHz | 100 Ω max | 12 pF | 300 µW max |\n| CX8045GA08000H0QSWZZ | 8 MHz | 200 Ω max | 12 pF | 500 µW max |\n| CX8045GA16000H0QSWZZ | 16 MHz | 50 Ω max | 12 pF | 300 µW max |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 17. KYOCERA",
+    "generated_captions": {
+      "luna": "**Table 17. KYOCERA**\n\n| Part number | Freq. | ESR | CL | Drive level (DL) |\n|---|---:|---:|---:|---:|\n| CX5032GA08000H0QSWZZ | 8 MHz | 300 Ω max | 12 pF | 500 µW max |\n| CX5032GA16000H0QSWZZ | 16 MHz | 100 Ω max | 12 pF | 300 µW max |\n| CX8045GA08000H0QSWZZ | 8 MHz | 200 Ω max | 12 pF | 500 µW max |\n| CX8045GA16000H0QSWZZ | 16 MHz | 50 Ω max | 12 pF | 300 µW max |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-text-00157",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "text": "7.2 Part numbers of recommended ceramic resonators"
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-text-00158",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "text": "Table 18 and Table 19 give the references of recommended CERALOCK® ceramic resonators for the STM8A microcontrollers provided and certified by Murata."
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-table-00018",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0019_00018.png",
+    "caption": "**Table 18. Recommendable conditions (for consumer)**\n\n| Part number | Freq. | CL |\n|---|---:|---:|\n| CSTCR4M00G55B-R0 | 4 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 39 pF |\n| CSTCR8M00G55A-R0 | 8 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 33 pF |\n| CSTCR16M00G55A-R0 | 16 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 15 pF |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 18. Recommendable conditions (for consumer)",
+    "generated_captions": {
+      "luna": "**Table 18. Recommendable conditions (for consumer)**\n\n| Part number | Freq. | CL |\n|---|---:|---:|\n| CSTCR4M00G55B-R0 | 4 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 39 pF |\n| CSTCR8M00G55A-R0 | 8 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 33 pF |\n| CSTCR16M00G55A-R0 | 16 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 15 pF |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0019-table-00019",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0019_00019.png",
+    "caption": "**Table 19. Recommendable conditions (for CAN-BUS)**\n\n| Part number | Freq. | CL |\n|---|---:|---:|\n| CSTCR4M00G15C**-R0 | 4 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 39 pF |\n| CSTCR8M00G15C**-R0 | 8 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 33 pF |\n| CSTCE16M0V13C**-R0 | 16 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 15 pF |\n\nThe table columns are **Part number**, **Freq.**, and **CL**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 19. Recommendable conditions (for CAN-BUS)",
+    "generated_captions": {
+      "luna": "**Table 19. Recommendable conditions (for CAN-BUS)**\n\n| Part number | Freq. | CL |\n|---|---:|---:|\n| CSTCR4M00G15C**-R0 | 4 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 39 pF |\n| CSTCR8M00G15C**-R0 | 8 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 33 pF |\n| CSTCE16M0V13C**-R0 | 16 MHz | C<sub>L1</sub> = C<sub>L2</sub> = 15 pF |\n\nThe table columns are **Part number**, **Freq.**, and **CL**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00159",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "Some PCB hints"
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00160",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "1. High values of stray capacitance and inductances must be avoided as much as possible as they might give rise to an undesired mode of oscillation and lead to startup problems."
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00161",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "In addition, high-frequency signals should be avoided near the oscillator circuitry."
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00162",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "2. Reduce trace lengths as much as possible."
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00163",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "3. Use ground planes to isolate signals and reduce noise. For instance, the use of a local ground plane on the PCB layer immediately below the crystal guard ring is a good solution to isolate the crystal from undesired coupling with signals on other PCB layers (crosstalk). Note that the ground plane is needed in the vicinity of the crystal only and not on the entire board (see Figure 7.)."
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00164",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "4. The $\\mathsf { V } _ { \\mathsf { S S } }$ paths can also be routed as shown in Figure 7. In this way, the $\\mathsf { V } _ { \\mathsf { S S } }$ paths isolate the oscillator input from the output and the oscillator from adjacent circuitry. The unterminated $\\mathsf { V } _ { \\mathsf { S S } }$ paths that end under $\\mathtt { C } _ { \\mathtt { L } 1 }$ and $\\complement _ { \\mathsf { L } 2 }$ are not in contact with the ground shield under the quartz. All $\\mathsf { V } _ { \\mathsf { S S } }$ vias in Figure 7 are connected to the local ground plane (except for the quartz pads)."
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-text-00165",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "text": "5. Use decoupling capacitors between each $\\mathsf { V } _ { \\mathsf { D D } }$ path and the closest $\\mathsf { V } _ { \\mathsf { S S } }$ path to reduce noise."
+  },
+  {
+    "segment_id": "stm32-an2867-p0020-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an2867",
+    "page": 20,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_figure_p0020_00007.png",
+    "caption": "Figure: recommended layout for an oscillator circuit.\n\n- Left side: outlined **Microcontroller** area with two oscillator pins:\n  - **OSC_IN**\n  - **OSC_OUT**\n- The OSC_IN and OSC_OUT traces run rightward to a crystal circuit.\n- Center/right component area:\n  - **Quartz** crystal, shown inside a rectangular shaded **Ground shield**.\n  - Two capacitors connected from the oscillator nodes toward ground, labeled **C1** (upper) and **C2** (lower).\n  - External resistor position labeled **R_Ext(1)** on the lower trace between the microcontroller and the crystal network.\n- Grounding/layout annotations:\n  - Multiple ground traces/vias are shown around the oscillator circuit.\n  - Upper ground routing is labeled **VSS paths**.\n  - The crystal enclosure is labeled **Ground shield**.\n  - Lower/right surrounding copper area is labeled **Local ground plane (other layer)**.\n- Blue arrows identify the **VSS paths**, **Ground shield**, **Quartz**, and **Local ground plane (other layer)**.\n- The figure includes the identifier **ai15839** at the lower right.\n- No component values or electrical units are shown in the figure.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Recommended layout for an oscillator circuit\n$R _ { E x t }$ is mandatory only if the dissipated power in the crystal exceeds the drive level specified by the crystal manufacturer. Otherwise, its value is 0 Ω (refer to Section 4.4: Drive level DL and external resistor RExt calculation for more details).",
+    "generated_captions": {
+      "luna": "Figure: recommended layout for an oscillator circuit.\n\n- Left side: outlined **Microcontroller** area with two oscillator pins:\n  - **OSC_IN**\n  - **OSC_OUT**\n- The OSC_IN and OSC_OUT traces run rightward to a crystal circuit.\n- Center/right component area:\n  - **Quartz** crystal, shown inside a rectangular shaded **Ground shield**.\n  - Two capacitors connected from the oscillator nodes toward ground, labeled **C1** (upper) and **C2** (lower).\n  - External resistor position labeled **R_Ext(1)** on the lower trace between the microcontroller and the crystal network.\n- Grounding/layout annotations:\n  - Multiple ground traces/vias are shown around the oscillator circuit.\n  - Upper ground routing is labeled **VSS paths**.\n  - The crystal enclosure is labeled **Ground shield**.\n  - Lower/right surrounding copper area is labeled **Local ground plane (other layer)**.\n- Blue arrows identify the **VSS paths**, **Ground shield**, **Quartz**, and **Local ground plane (other layer)**.\n- The figure includes the identifier **ai15839** at the lower right.\n- No component values or electrical units are shown in the figure."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0021-text-00166",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 21,
+    "text": "Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2867-p0021-text-00167",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 21,
+    "text": "The most important parameter is the gain margin of the oscillator, which determines if the oscillator will start up or not. This parameter has to be calculated at the beginning of the design phase to choose the suitable crystal for the application. The second parameter is the value of the external load capacitors that have to be selected in accordance with the C specification of the crystal (provided by the crystal manufacturer). This determines the frequency accuracy of the crystal. The third parameter is the value of the external resistor that is used to limit the drive level. In the 32 kHz oscillator part, however, it is not recommended to use an external resistor."
+  },
+  {
+    "segment_id": "stm32-an2867-p0021-text-00168",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 21,
+    "text": "Because of the number of variables involved, in the experimentation phase you should use components that have exactly the same properties as those that will be used in production. Likewise, you should work with the same oscillator layout and in the same environment to avoid unexpected behavior and therefore save time."
+  },
+  {
+    "segment_id": "stm32-an2867-p0022-text-00169",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 22,
+    "text": "10"
+  },
+  {
+    "segment_id": "stm32-an2867-p0022-text-00170",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 22,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2867-p0022-table-00020",
+    "type": "table",
+    "doc": "stm32-an2867",
+    "page": 22,
+    "image_path": "data/parsed/stm32/stm32-an2867/mineru/images/bbox_fallback_table_p0022_00020.png",
+    "caption": "**Table 20. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 20-Jan-2009 | 1 | Initial release. |\n| 10-Nov-2009 | 2 | DL formula corrected in **Section 4.4.2: Another drive level measurement method.**<br><br>Package column added to all tables in **Section 6: Some recommended crystals for STM32™ microcontrollers.**<br><br>Recommended part numbers updated in **Section 6.1: HSE part** and **Section 6.2: LSE part.**<br><br>**Section 6.1.3: Part numbers of recommended 25 MHz crystals (Ethernet applications)** added.<br><br>**Section 6.1.4: Part numbers of recommended 14.7456 MHz crystals (audio applications)** added. |\n| 27-Apr-2010 | 3 | Added **Section 7: Some recommended crystals for STM8A/S microcontrollers.** |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 20. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 20. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 20-Jan-2009 | 1 | Initial release. |\n| 10-Nov-2009 | 2 | DL formula corrected in **Section 4.4.2: Another drive level measurement method.**<br><br>Package column added to all tables in **Section 6: Some recommended crystals for STM32™ microcontrollers.**<br><br>Recommended part numbers updated in **Section 6.1: HSE part** and **Section 6.2: LSE part.**<br><br>**Section 6.1.3: Part numbers of recommended 25 MHz crystals (Ethernet applications)** added.<br><br>**Section 6.1.4: Part numbers of recommended 14.7456 MHz crystals (audio applications)** added. |\n| 27-Apr-2010 | 3 | Added **Section 7: Some recommended crystals for STM8A/S microcontrollers.** |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00171",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00172",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00173",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00174",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00175",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00176",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00177",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00178",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00179",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00180",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00181",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00182",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "© 2010 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00183",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00184",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2867-p0023-text-00185",
+    "type": "text",
+    "doc": "stm32-an2867",
+    "page": 23,
+    "text": "www.st.com"
+  }
+]

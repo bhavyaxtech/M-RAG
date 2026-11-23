@@ -1,0 +1,22 @@
+{
+  "doc_id": "stm32-an3116",
+  "document_id": "AN3116",
+  "title": "STM32F10xxx ADC modes and applications",
+  "document_kind": "application_note",
+  "applicability": "ADC modes vary by density and device",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00258017.pdf",
+  "download_urls": [
+    "https://sites.ecse.rpi.edu/courses/static/ECSE-4790/_downloads/13a0f873aa3b4acb44116670b5d7434e/AN3116-stm32_ADC_modes.pdf",
+    "https://eliasoenal.com/st%20website/16840.pdf",
+    "https://www.st.com/resource/en/application_note/cd00258017.pdf"
+  ],
+  "pages": 18,
+  "sha256": "f2d34df96dd6c2b5092c4a8d5ea761df33a517ac0777dce874730135f17bc886",
+  "cover_text": "March 2010\nDoc ID 16840 Rev 1\n1/18\nAN3116\nApplication note\nSTM32\u2122\u2019s ADC modes\nand their applications\nIntroduction\nSTM32 microcontrollers have one of the most advanced ADCs on the microcontroller \nmarket. You could imagine a multitude of applications based on the STM32 ADC features. \nSome ADC modes are provided to simplify measurements and give efficient results in \napplications such as motor control.\nThis application note provides help for ADC users to understand some advanced modes \noffered in the STM32 microcontrollers, and to quick start development. Each of the \ndescribed modes is provided with an example of application to better understand how to use \nthem. Most modes come with a basic firmware to make it easier to understand the ADC \nconfiguration.\nThis application note is divided into two sections: independent modes and dual modes. The \nfirst section describes modes used with a single ADC. The second section describes modes \nthat should be used with two ADCs (ADC1 and ADC2 working jointly).\nThis application note does not describe the ADC modes that result from the combination of \nother modes.\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://sites.ecse.rpi.edu/courses/static/ECSE-4790/_downloads/13a0f873aa3b4acb44116670b5d7434e/AN3116-stm32_ADC_modes.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:18.410116+00:00",
+  "path": "data/raw/stm32/stm32-an3116.pdf"
+}

@@ -1,0 +1,26 @@
+{
+  "doc_id": "stm32-an2821",
+  "document_id": "AN2821",
+  "title": "STM32F10xxx RTC clock/calendar implementation",
+  "document_kind": "application_note",
+  "applicability": "Clock/calendar implementation using STM32F10xxx RTC",
+  "manufacturer_url": "https://www.st.com/resource/en/application_note/cd00210041.pdf",
+  "download_urls": [
+    "https://eliasoenal.com/st%20website/14949.pdf",
+    "https://www.keil.com/dd/docs/datashts/st/stm32f10xxx/an2821.pdf",
+    "https://www.st.com/resource/en/application_note/cd00210041.pdf"
+  ],
+  "pages": 28,
+  "sha256": "da6601a5ef95517cfab41726fad5cbbcc79707afaa00e89aa963650d57293155",
+  "cover_text": "         \nApril 2009\nDoc ID 14949 Rev 2\n1/28\nAN2821\nApplication note\nClock/calendar implementation\non the STM32F10xxx microcontroller RTC\nThe internal RTC (real-time clock) of the 32-bit, ARM\u00ae Cortex\u2122-M3-based medium-density \nSTM32F10xxx microcontroller is an independent timer. It provides a set of continuously \nrunning counters, which, using suitable software, can be used to implement a clock/calendar \nfunction. The RTC and backup registers are supplied through a switch that draws power \nfrom either the VDD supply (when present) or the backup battery. Thus the RTC runs even \nwhen the main supply is switched off.\nThis application note gives an example of how to implement the clock/calendar functionality \nusing the medium-density STM32F10xxx microcontroller in low-power and standard \napplications. The firmware example also performs leap year counting and tamper time \nstamping. It provides a low-power mode demonstration and a basic RTC calibration routine \nto compensate for crystal and temperature variations.\nThe STM3210B-EVAL board supports the firmware example described in this application \nnote without any modification to its hardware.\nFigure 1.\nSTM3210B-EVAL board\nwww.st.com\n",
+  "references": {
+    "AN2604": [
+      11
+    ]
+  },
+  "status": "downloaded",
+  "retrieved_from": "https://eliasoenal.com/st%20website/14949.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:23.925341+00:00",
+  "path": "data/raw/stm32/stm32-an2821.pdf"
+}

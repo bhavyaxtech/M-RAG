@@ -1,0 +1,1690 @@
+{
+  "case": {
+    "id": "usart-boot",
+    "question": "For STM32F103C8, distinguish boot-mode selection and supported interface from the USART command protocol. Which documents establish each?",
+    "candidate_source_documents": [
+      "AN2606",
+      "AN3155",
+      "DS5319"
+    ],
+    "ground_truth_answer": null,
+    "requires_visual": null,
+    "status": "candidate_requires_source_review_not_scored",
+    "mode": "text_only"
+  },
+  "request": {
+    "message": "For STM32F103C8, distinguish boot-mode selection and supported interface from the USART command protocol. Which documents establish each?",
+    "mode": "text_only",
+    "doc": "stm32-ds5319",
+    "scope": "collection",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:50:06.949351+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103C8 boot-mode selection supported bootloader interface AN2606 versus USART command protocol AN3155",
+      "page": null,
+      "confidence": 0.99,
+      "reason": "Hardware documentation question covered by listed STM32F1 bootloader documents",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.6956112384796143,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-an2606-p0021-text-chunk-000",
+          "doc": "stm32-an2606",
+          "doc_title": "AN2606 (rev 9) — STM32 system-memory boot mode",
+          "page": 21,
+          "type": "text",
+          "score": 0.6710267663002014,
+          "text": "4.4 Bootloader selection\n\nThe STM32F10xx XL-density embedded Bootloader supports two peripheral interfaces: USART1 and USART2. Any one of these peripheral interfaces can be used to communicate with the bootloader and download the application code to the internal Flash.\n\nThe embedded Bootloader firmware is able to auto-detect the peripheral interface to be used. In an infinite loop, it detects any communication on the supported bootloader interfaces.\n\nNote:\n\nThe RX pin of the unused peripheral in this bootloader has to be maintained at a known (low or high) level and should not be left floating during the detection phase as described below:\n\nIf USART1 is used to connect to the bootloader: the USART2\\_RX (PD6) pin has to be kept at a high or low level and must not be left floating during the detection phase.\n\nIf USART2 is used to connect to the bootloader: the USART1\\_RX (PA10) pin has to be kept at a high or low level and must not be left floating during the detection phase.\n\nTo use the USART bootloader on USART1 or USART2, connect the serial cable to the desired interface. Once the bootloader detects the data byte 0x7F on this interface, the bootloader firmware executes the auto-baudrate sequence and then enters a loop, waiting for any USART bootloader command.\n\nOnce one interface is selected for the bootloader, the other interface is disabled.\n\nFigure 3 shows the bootloader detection mechanism. More details are provided in the sections corresponding to each peripheral bootloader.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2606/21",
+          "bbox": null
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-an3155-p0001-text-chunk-000",
+          "doc": "stm32-an3155",
+          "doc_title": "AN3155 (rev 2) — USART protocol used in STM32 bootloader",
+          "page": 1,
+          "type": "text",
+          "score": 0.6956112384796143,
+          "text": "Introduction\n\nThis application note describes the USART protocol used in the STM32 microcontroller bootloader. It details each supported command. For more information about the USART hardware resources and requirements for your device bootloader, please refer to the “STM32 system memory boot mode” application note (AN2606).\n\nRelated documents\n\nAvailable from www.st.com:\n\nAN2606 “STM32 system memory boot mode”",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an3155/1",
+          "bbox": null
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-an2606-p0014-text-chunk-000",
+          "doc": "stm32-an2606",
+          "doc_title": "AN2606 (rev 9) — STM32 system-memory boot mode",
+          "page": 14,
+          "type": "text",
+          "score": 0.6565563678741455,
+          "text": "3.3 Bootloader selection\n\nThe STM32F105xx and STM32F107xx embedded bootloader supports four peripherals interfaces: USART1, USART2, CAN2 and DFU (USB). Any one of these peripheral interfaces can be used to communicate with the bootloader and download the application code to the internal Flash.\n\nThe embedded bootloader firmware is able to auto-detect the peripheral interface to be used. In an infinite loop, it detects any communication on the supported bootloader interfaces.\n\nNote:\n\nThe RX pins of the unused peripherals in this bootloader have to be maintained at a known (low or high) level and should not be left floating during the detection phase as described below:\n\nIf USART1 is used to connect to the bootloader: the USART2\\_RX (PD6), CAN2\\_RX (PB5), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase.\n\nIf USART2 is used to connect to the bootloader: the USART1\\_RX (PA10), CAN2\\_RX (PB5), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase.\n\nIf CAN2 is used to connect to the bootloader: USART1\\_RX (PA10), USART2\\_RX (PD6), OTG\\_FS\\_DM (PA11) and OTG\\_FS\\_DP (PA12) pins have to be kept at a high or low level and must not be left floating during the detection phase.\n\nIf DFU is used to connect to the bootloader: the USART1\\_RX (PA10), USART2\\_RX (PD6) and CAN2\\_RX (PB5) pins have to be kept at a high or low level and must not be left floating during the detection phase.\n\nTo use the USART bootloader on USART1 or USART2, connect the serial cable to the desired interface. Once the bootloader detects the data byte 0x7F on this interface, the bootloader firmware executes the auto-baud rate sequence and then enters a loop, waiting for any USART bootloader command.\n\nTo use the CAN2 interface, connect the CAN cable to CAN2. Once the bootloader detects a frame on the CAN2\\_RX pin (PB5), the bootloader firmware enters a CAN loop and starts to check the external clock frequency value, if the HSE is 8 MHz, 14.7456 MHz or 25 MHz CAN bootloader firmware enters an infinite loop and waits until it receives a message, otherwise a system reset is generated.\n\nIf a USB cable is plugged into the microcontroller’s USB interface at any time during the bootloader firmware selection sequence, the bootloader then enters the DFU bootloader loop waiting for any DFU bootloader command.\n\nTo use the USART or the CAN bootloader, it is mandatory that no USB cable is connected to the USB peripheral during the selection phase. Once the USART or CAN bootloader is selected, the user can plug a USB cable without impacting the selected bootloader execution except commands which generate a system reset.\n\nOnce one interface is selected for the bootloader, all other interfaces are disabled.\n\nThe figure below shows the bootloader detection mechanism. More details are provided in the sections corresponding to each peripheral bootloader.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2606/14",
+          "bbox": null
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-an3155-p0005-text-chunk-000",
+          "doc": "stm32-an3155",
+          "doc_title": "AN3155 (rev 2) — USART protocol used in STM32 bootloader",
+          "page": 5,
+          "type": "text",
+          "score": 0.5997616052627563,
+          "text": "USART bootloader code sequence\n\nOnce the system memory boot mode is entered and the STM32 microcontroller has been configured (for more details refer to application note AN2606 “STM32 system memory boot mode”) the bootloader code begins to scan the USARTx\\_RX line pin, waiting to receive the 0x7F data frame: one start bit, 0x7F data bits, even parity bit and one stop bit.\n\nThe duration of this data frame is measured using the Systick timer. The count value of the timer is then used to calculate the corresponding baud rate factor with respect to the current system clock.\n\nNext, the code initializes the serial interface accordingly. Using this calculated baud rate, an acknowledge byte (0x79) is returned to the host, which signals that the STM32 is ready to receive commands.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an3155/5",
+          "bbox": null
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-an2606-p0001-text-chunk-000",
+          "doc": "stm32-an2606",
+          "doc_title": "AN2606 (rev 9) — STM32 system-memory boot mode",
+          "page": 1,
+          "type": "text",
+          "score": 0.6519565582275391,
+          "text": "AN2606 Application note\n\nSTM32™ microcontroller system memory boot mode\n\nIntroduction\n\nThe bootloader is stored in the internal boot ROM memory (system memory) of STM32 devices. It is programmed by ST during production. Its main task is to download the application program to the internal Flash memory through one of the available serial peripherals (USART, CAN, USB, etc.). A communication protocol is defined for each serial interface, with a compatible command set and sequences.\n\nThe main features of the bootloader are the following:\n\n● It uses an embedded serial interface to download the code with a predefined communication protocol\n\nIt transfers and updates the Flash memory code, the data, and the vector table sections\n\nThis application note presents the general concept of the bootloader. It describes the supported peripherals and hardware requirements to be considered when using the bootloader of any STM32 device currently in production. However the specifications of the low-level communication protocol for each supported serial peripheral are documented in separate documents:\n\nFor specifications of the USART protocol used in the bootloader please refer to AN3155\n\n● For the specification of CAN protocol used in the bootloader please refer to AN3154\n\nFor the specification of DFU (USB Device) protocol used in the bootloader please refer to AN3156\n\nRelated documents (available from www.st.com)\n\n● STM32 datasheets:\n\n– low, medium and high-densitySTM32F101xx and STM32F103xx datasheets\n\n一 low, medium and high-density STM32F100xx and STM32F102xx datasheets\n\n– STM32F105xx/107xx connectivity line datasheet\n\n– XL-density STM32F101xx and STM32F103xx datasheets\n\n● STM32 reference manuals:\n\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx reference manual (RM0008)\n\nlow, medium and high-density STM32F100xx value line reference manual (RM0041)\n\n● STM32 Flash programming manuals\n\nSTM32F101xx, STM32F102xx, STM32F103xx and STM32F105xx/107xx Flash programming manual (PM0042)\n\nlow, medium and high-density STM32F100xx value line Flash programming manual (PM0063)\n\n– XL-density STM32F101xx and STM32F103xx programming manual (PM0068)",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2606/1",
+          "bbox": null
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-an3155-p0002-text-chunk-000",
+          "doc": "stm32-an3155",
+          "doc_title": "AN3155 (rev 2) — USART protocol used in STM32 bootloader",
+          "page": 2,
+          "type": "text",
+          "score": 0.5880413055419922,
+          "text": "Contents\n\n1 USART bootloader code sequence 5   \n2 Choosing the USARTx baud rate . . 6   \n2.1 Minimum baud rate . 6   \n2.2 Maximum baud rate 6   \n3 Bootloader command set . . 7   \n3.1 Device-dependent bootloader parameters 8   \n3.2 Get command . 9   \n3.3 Get Version & Read Protection Status command . . . 10   \n3.4 Get ID command 12   \n3.5 Read Memory command . 13   \n3.6 Go command 16   \n3.7 Write Memory command 18   \n3.8 Erase Memory command . 21   \n3.9 Extended Erase Memory command . . 24   \n3.10 Write Protect command 27   \n3.11 Write Unprotect command 30   \n3.12 Readout Protect command . 31   \n3.13 Readout Unprotect command 33   \n4 Bootloader protocol version evolution . . 35   \n5 Revision history . 36",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an3155/2",
+          "bbox": null
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-an2586-p0016-text-chunk-000",
+          "doc": "stm32-an2586",
+          "doc_title": "AN2586 (rev 7) — STM32F10xxx hardware development",
+          "page": 16,
+          "type": "text",
+          "score": 0.645371675491333,
+          "text": "3.3\n\nEmbedded boot loader mode\n\nThe Embedded boot loader mode is used to reprogram the Flash memory using one of the available serial interfaces:\n\nIn low-density, low-density value line, medium-density, medium-density value line, and high-density devices, the boot loader is activated through the USART1 interface. For further details please refer to AN2606.\n\nIn XL-density devices, the boot loader is activated through the USART1 or USART2 (remapped) interface. For further details please refer to AN2606.\n\nIn connectivity line devices the boot loader can be activated through one of the following interfaces: USART1, USART2 (remapped), CAN2 (remapped) or USB OTG FS in Device mode (DFU: device firmware upgrade). The USART peripheral operates with the internal 8 MHz oscillator (HSI). The CAN and USB OTG FS, however, can only function if an external 8 MHz, 14.7456 MHz or 25 MHz clock (HSE) is present. For further details, please refer to AN2662.\n\nThis embedded boot loader is located in the System memory and is programmed by ST during production.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2586/16",
+          "bbox": null
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-rm0008-p0061-text-chunk-001",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 61,
+          "type": "text",
+          "score": 0.5739461779594421,
+          "text": "line devices, 0x1FFF F000 in other devices).\n\nBoot from the embedded SRAM: SRAM is accessible only at address 0x2000 0000.\n\nNote:\n\nWhen booting from SRAM, in the application initialization code, you have to relocate the vector table in SRAM using the NVIC exception table and offset register.\n\nFor XL-density devices, when booting from the main Flash memory, you have an option to boot from any of two memory banks. By default, boot from Flash memory bank 1 is selected. You can choose to boot from Flash memory bank 2 by clearing the BFB2 bit in the user option bytes. When this bit is cleared and the boot pins are in the boot from main Flash memory configuration, the device boots from system memory, and the boot loader jumps to execute the user application programmed in Flash memory bank 2. For further details refer to AN2606.\n\nNote:\n\nWhen booting from Bank2 in the applications initialization code, relocate the vector table to the Bank2 base address. (0x0808 0000) using the NVIC exception table and offset register.\n\nEmbedded boot loader\n\nThe embedded boot loader is located in the System memory, programmed by ST during production. It is used to reprogram the Flash memory with one of the available serial interfaces:\n\nIn low-, medium- and high-density devices the bootoader is activated through the USART1 interface.\n\nIn XL-density devices the boot loader is activated through the following interfaces: USART1 or USART2 (remapped).\n\nIn connectivity line devices the boot loader can be activated through one of the following interfaces: USART1, USART2 (remapped), CAN2 (remapped) or USB OTG FS in Device mode (DFU: device firmware upgrade).",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/61",
+          "bbox": null
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "For"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " these"
+    },
+    {
+      "type": "token",
+      "text": " are"
+    },
+    {
+      "type": "token",
+      "text": " separate"
+    },
+    {
+      "type": "token",
+      "text": " layers"
+    },
+    {
+      "type": "token",
+      "text": ":\n\n"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": " Question"
+    },
+    {
+      "type": "token",
+      "text": " |"
+    },
+    {
+      "type": "token",
+      "text": " Established"
+    },
+    {
+      "type": "token",
+      "text": " by"
+    },
+    {
+      "type": "token",
+      "text": " |"
+    },
+    {
+      "type": "token",
+      "text": " Result"
+    },
+    {
+      "type": "token",
+      "text": " |\n"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": "---"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": "---"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": "---"
+    },
+    {
+      "type": "token",
+      "text": "|\n"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Which"
+    },
+    {
+      "type": "token",
+      "text": " memory"
+    },
+    {
+      "type": "token",
+      "text": "/"
+    },
+    {
+      "type": "token",
+      "text": "boot"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " selected"
+    },
+    {
+      "type": "token",
+      "text": "?"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " |"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " defines"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "ing"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " main"
+    },
+    {
+      "type": "token",
+      "text": " Flash"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " System"
+    },
+    {
+      "type": "token",
+      "text": " memory"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " SRAM"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "DS"
+    },
+    {
+      "type": "token",
+      "text": "531"
+    },
+    {
+      "type": "token",
+      "text": "9"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " provides"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": " information"
+    },
+    {
+      "type": "token",
+      "text": " needed"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " implement"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " selection"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " supplied"
+    },
+    {
+      "type": "token",
+      "text": " excerpts"
+    },
+    {
+      "type": "token",
+      "text": " do"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " include"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " BO"
+    },
+    {
+      "type": "token",
+      "text": "OT"
+    },
+    {
+      "type": "token",
+      "text": "-pin"
+    },
+    {
+      "type": "token",
+      "text": " selection"
+    },
+    {
+      "type": "token",
+      "text": " table"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " its"
+    },
+    {
+      "type": "token",
+      "text": " exact"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": "-state"
+    },
+    {
+      "type": "token",
+      "text": " combinations"
+    },
+    {
+      "type": "token",
+      "text": " cannot"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " cited"
+    },
+    {
+      "type": "token",
+      "text": " here"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " |\n"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Which"
+    },
+    {
+      "type": "token",
+      "text": " peripheral"
+    },
+    {
+      "type": "token",
+      "text": " does"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " ROM"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "loader"
+    },
+    {
+      "type": "token",
+      "text": " support"
+    },
+    {
+      "type": "token",
+      "text": "?"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " |"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "260"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "258"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " corrobor"
+    },
+    {
+      "type": "token",
+      "text": "ating"
+    },
+    {
+      "type": "token",
+      "text": " hardware"
+    },
+    {
+      "type": "token",
+      "text": " references"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " For"
+    },
+    {
+      "type": "token",
+      "text": " medium"
+    },
+    {
+      "type": "token",
+      "text": "-density"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": " devices"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " embedded"
+    },
+    {
+      "type": "token",
+      "text": " System"
+    },
+    {
+      "type": "token",
+      "text": "-memory"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "loader"
+    },
+    {
+      "type": "token",
+      "text": " uses"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "USART"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "]."
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "260"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " document"
+    },
+    {
+      "type": "token",
+      "text": " intended"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " specify"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "loader"
+    },
+    {
+      "type": "token",
+      "text": " peripherals"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " hardware"
+    },
+    {
+      "type": "token",
+      "text": " requirements"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": "]."
+    },
+    {
+      "type": "token",
+      "text": " |\n"
+    },
+    {
+      "type": "token",
+      "text": "|"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "What"
+    },
+    {
+      "type": "token",
+      "text": " bytes"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " commands"
+    },
+    {
+      "type": "token",
+      "text": " are"
+    },
+    {
+      "type": "token",
+      "text": " exchanged"
+    },
+    {
+      "type": "token",
+      "text": " over"
+    },
+    {
+      "type": "token",
+      "text": " USART"
+    },
+    {
+      "type": "token",
+      "text": "?"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " |"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "315"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " It"
+    },
+    {
+      "type": "token",
+      "text": " defines"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " USART"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "loader"
+    },
+    {
+      "type": "token",
+      "text": " protocol"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " while"
+    },
+    {
+      "type": "token",
+      "text": " explicitly"
+    },
+    {
+      "type": "token",
+      "text": " referring"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": "-specific"
+    },
+    {
+      "type": "token",
+      "text": " interface"
+    },
+    {
+      "type": "token",
+      "text": " support"
+    },
+    {
+      "type": "token",
+      "text": " back"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "260"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "]."
+    },
+    {
+      "type": "token",
+      "text": " After"
+    },
+    {
+      "type": "token",
+      "text": " System"
+    },
+    {
+      "type": "token",
+      "text": "-memory"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": " has"
+    },
+    {
+      "type": "token",
+      "text": " already"
+    },
+    {
+      "type": "token",
+      "text": " been"
+    },
+    {
+      "type": "token",
+      "text": " entered"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " host"
+    },
+    {
+      "type": "token",
+      "text": " sends"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "0"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "7"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " synchronization"
+    },
+    {
+      "type": "token",
+      "text": "/"
+    },
+    {
+      "type": "token",
+      "text": "automatic"
+    },
+    {
+      "type": "token",
+      "text": " baud"
+    },
+    {
+      "type": "token",
+      "text": " detection"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "loader"
+    },
+    {
+      "type": "token",
+      "text": " replies"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "0"
+    },
+    {
+      "type": "token",
+      "text": "x"
+    },
+    {
+      "type": "token",
+      "text": "79"
+    },
+    {
+      "type": "token",
+      "text": " ACK"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " then"
+    },
+    {
+      "type": "token",
+      "text": " accepts"
+    },
+    {
+      "type": "token",
+      "text": " protocol"
+    },
+    {
+      "type": "token",
+      "text": " commands"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]."
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " command"
+    },
+    {
+      "type": "token",
+      "text": " set"
+    },
+    {
+      "type": "token",
+      "text": " includes"
+    },
+    {
+      "type": "token",
+      "text": " Get"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " Get"
+    },
+    {
+      "type": "token",
+      "text": " ID"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " Read"
+    },
+    {
+      "type": "token",
+      "text": " Memory"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " Go"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " Write"
+    },
+    {
+      "type": "token",
+      "text": " Memory"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " Er"
+    },
+    {
+      "type": "token",
+      "text": "ase"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " protection"
+    },
+    {
+      "type": "token",
+      "text": "-related"
+    },
+    {
+      "type": "token",
+      "text": " commands"
+    },
+    {
+      "type": "token",
+      "text": " ["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "]."
+    },
+    {
+      "type": "token",
+      "text": " |\n\n"
+    },
+    {
+      "type": "token",
+      "text": "Thus"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "AN"
+    },
+    {
+      "type": "token",
+      "text": "315"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": " does"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " establish"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " supports"
+    },
+    {
+      "type": "token",
+      "text": " USART"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": "loading"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " select"
+    },
+    {
+      "type": "token",
+      "text": " System"
+    },
+    {
+      "type": "token",
+      "text": "-memory"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " It"
+    },
+    {
+      "type": "token",
+      "text": " only"
+    },
+    {
+      "type": "token",
+      "text": " specifies"
+    },
+    {
+      "type": "token",
+      "text": " how"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " communicate"
+    },
+    {
+      "type": "token",
+      "text": " after"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " boot"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " supported"
+    },
+    {
+      "type": "token",
+      "text": " USART"
+    },
+    {
+      "type": "token",
+      "text": " interface"
+    },
+    {
+      "type": "token",
+      "text": "—"
+    },
+    {
+      "type": "token",
+      "text": "est"
+    },
+    {
+      "type": "token",
+      "text": "ablished"
+    },
+    {
+      "type": "token",
+      "text": " primarily"
+    },
+    {
+      "type": "token",
+      "text": " by"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "RM"
+    },
+    {
+      "type": "token",
+      "text": "000"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": "/"
+    },
+    {
+      "type": "token",
+      "text": "DS"
+    },
+    {
+      "type": "token",
+      "text": "531"
+    },
+    {
+      "type": "token",
+      "text": "9"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " AN"
+    },
+    {
+      "type": "token",
+      "text": "260"
+    },
+    {
+      "type": "token",
+      "text": "6"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "—"
+    },
+    {
+      "type": "token",
+      "text": "have"
+    },
+    {
+      "type": "token",
+      "text": " been"
+    },
+    {
+      "type": "token",
+      "text": " selected"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "done",
+      "answer": "For the **STM32F103C8**, these are separate layers:\n\n| Question | Established by | Result |\n|---|---|---|\n| **Which memory/boot mode is selected?** | **RM0008** defines booting from main Flash, System memory, or SRAM; **DS5319** provides the device pin information needed to implement that selection. The supplied excerpts do not include the STM32F103C8 BOOT-pin selection table, so its exact pin-state combinations cannot be cited here. |\n| **Which peripheral does the ROM bootloader support?** | **AN2606**, with **RM0008** and **AN2586** as corroborating hardware references. For medium-density STM32F103 devices, the embedded System-memory bootloader uses **USART1** [S7][S8]. AN2606 is the document intended to specify device bootloader peripherals and hardware requirements [S5]. |\n| **What bytes and commands are exchanged over USART?** | **AN3155**. It defines the USART bootloader protocol, while explicitly referring device-specific interface support back to AN2606 [S2]. After System-memory mode has already been entered, the host sends **0x7F** for synchronization/automatic baud detection; the bootloader replies with **0x79 ACK**, then accepts protocol commands [S4]. The command set includes Get, Get ID, Read Memory, Go, Write Memory, Erase, and protection-related commands [S6]. |\n\nThus, **AN3155 does not establish that STM32F103C8 supports USART1 bootloading or select System-memory boot mode**. It only specifies how to communicate after the boot mode and supported USART interface—established primarily by **RM0008/DS5319 and AN2606**—have been selected.",
+      "cited": [
+        "S7",
+        "S8",
+        "S5",
+        "S2",
+        "S4",
+        "S6"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 2948,
+        "retrieve": 679,
+        "first_token": 17813,
+        "total": 18493
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 18.5
+}

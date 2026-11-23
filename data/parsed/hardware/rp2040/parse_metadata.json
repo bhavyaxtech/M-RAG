@@ -1,0 +1,12 @@
+{
+  "doc": "rp2040",
+  "source_pdf": "data/raw/hardware/rp2040.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/hardware/rp2040/mineru/rp2040_content_list.json",
+  "segment_counts": {
+    "text": 6414,
+    "figure": 140,
+    "table": 929
+  }
+}

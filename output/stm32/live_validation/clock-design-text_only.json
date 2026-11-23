@@ -1,0 +1,1748 @@
+{
+  "case": {
+    "id": "clock-design",
+    "question": "For STM32F103C8, how should I choose and connect an external crystal, and which device-specific electrical limits constrain the general oscillator guidance?",
+    "candidate_source_documents": [
+      "DS5319",
+      "AN2586",
+      "AN2867"
+    ],
+    "ground_truth_answer": null,
+    "requires_visual": null,
+    "status": "candidate_requires_source_review_not_scored",
+    "mode": "text_only"
+  },
+  "request": {
+    "message": "For STM32F103C8, how should I choose and connect an external crystal, and which device-specific electrical limits constrain the general oscillator guidance?",
+    "mode": "text_only",
+    "doc": "stm32-ds5319",
+    "scope": "collection",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:48:31.741370+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103C8 external crystal selection and connection; device-specific oscillator electrical limits and constraints compared with general oscillator design guidance",
+      "page": null,
+      "confidence": 0.99,
+      "reason": "STM32F103C8 crystal and oscillator limits are covered by listed technical documents",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": true,
+      "page_addressed": false,
+      "requested_page": null,
+      "top_score": 0.6624618172645569,
+      "segments": [
+        {
+          "label": "S1",
+          "segment_id": "stm32-an2586-p0012-text-chunk-000",
+          "doc": "stm32-an2586",
+          "doc_title": "AN2586 (rev 7) — STM32F10xxx hardware development",
+          "page": 12,
+          "type": "text",
+          "score": 0.6624618172645569,
+          "text": "2.1.1 External source (HSE bypass)\n\nIn this mode, an external clock source must be provided. It can have a frequency of up to:\n\n● 24 MHz for STM32F100xx value line devices\n\n● 25 MHz for STM32F101xx, STM32F102xx and STM32F103xx devices\n\n● 50 MHz for connectivity line devices\n\nThe external clock signal (square, sine or triangle) with a duty cycle of about 50%, has to drive the OSC\\_IN pin while the OSC\\_OUT pin must be left in the high impedance state (see Figure 7 and Figure 6).\n\n2.1.2 External crystal/ceramic resonator (HSE crystal)\n\nThe external oscillator frequency ranges from:\n\n● 4 to 16 MHz on STM32F101xx, STM32F102xx and STM32F103xx devices\n\n● 4 to 24 MHz for STM32F100xx value line devices\n\n● 3 to 25 MHz on connectivity line devices\n\nThe external oscillator has the advantage of producing a very accurate rate on the main clock. The associated hardware configuration is shown in Figure 7.\n\nThe resonator and the load capacitors have to be connected as close as possible to the oscillator pins in order to minimize output distortion and startup stabilization time. The load capacitance values must be adjusted according to the selected oscillator.\n\nFor ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ it is recommended to use high-quality ceramic capacitors in the 5 pF-to-25 pF range (typ.), designed for high-frequency applications and selected to meet the requirements of the crystal or resonator. ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ are usually the same value. The crystal manufacturer typically specifies a load capacitance that is the series combination of ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ . The PCB and MCU pin capacitances must be included when sizing ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and $\\mathsf C _ { \\mathsf { L } 2 } ( 1 0 \\mathsf { p F }$ can be used as a rough estimate of the combined pin and board capacitance).\n\nRefer to the electrical characteristics sections in the datasheet of your product for more details.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2586/12",
+          "bbox": null
+        },
+        {
+          "label": "S2",
+          "segment_id": "stm32-an2867-p0021-text-chunk-000",
+          "doc": "stm32-an2867",
+          "doc_title": "AN2867 (rev 3) — Oscillator design guide for STM32 MCUs",
+          "page": 21,
+          "type": "text",
+          "score": 0.6421275734901428,
+          "text": "Conclusion\n\nThe most important parameter is the gain margin of the oscillator, which determines if the oscillator will start up or not. This parameter has to be calculated at the beginning of the design phase to choose the suitable crystal for the application. The second parameter is the value of the external load capacitors that have to be selected in accordance with the C specification of the crystal (provided by the crystal manufacturer). This determines the frequency accuracy of the crystal. The third parameter is the value of the external resistor that is used to limit the drive level. In the 32 kHz oscillator part, however, it is not recommended to use an external resistor.\n\nBecause of the number of variables involved, in the experimentation phase you should use components that have exactly the same properties as those that will be used in production. Likewise, you should work with the same oscillator layout and in the same environment to avoid unexpected behavior and therefore save time.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2867/21",
+          "bbox": null
+        },
+        {
+          "label": "S3",
+          "segment_id": "stm32-ds5319-p0052-text-chunk-000",
+          "doc": "stm32-ds5319",
+          "doc_title": "DS5319 (rev 20) — STM32F103x8/xB datasheet",
+          "page": 52,
+          "type": "text",
+          "score": 0.625103771686554,
+          "text": "High-speed external clock generated from a crystal/ceramic resonator\n\nThe high-speed external (HSE) clock can be supplied with a 4 to 16 MHz crystal/ceramic resonator oscillator. All the information given in this paragraph is based on characterization results obtained with typical external components specified in Table 22. In the application, the resonator and the load capacitors have to be placed as close as possible to the oscillator pins in order to minimize output distortion and startup stabilization time. Refer to the crystal resonator manufacturer for more details on the resonator characteristics (frequency, package, accuracy).\n\nFor ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ , it is recommended to use high-quality external ceramic capacitors in the 5 pF to 25 pF range (typ.), designed for high-frequency applications, and selected to match the requirements of the crystal or resonator (see Figure 24). ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and $\\mathsf { C } _ { \\mathsf { L } 2 }$ are usually the same size. The crystal manufacturer typically specifies a load capacitance that is the series combination of ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 }$ . PCB and MCU pin capacitance must be included (10 pF can be used as a rough estimate of the combined pin and board capacitance) when sizing ${ \\mathsf { C } } _ { \\mathsf { L } 1 }$ and ${ \\mathsf { C } } _ { \\mathsf { L } 2 } .$ . Refer to AN2867 “Oscillator design guide for ST microcontrollers”, available from the STMicroelectronics website www.st.com.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-ds5319/52",
+          "bbox": null
+        },
+        {
+          "label": "S4",
+          "segment_id": "stm32-rm0008-p0095-text-chunk-000",
+          "doc": "stm32-rm0008",
+          "doc_title": "RM0008 (rev 20) — STM32F1 reference manual",
+          "page": 95,
+          "type": "text",
+          "score": 0.5815829634666443,
+          "text": "External source (HSE bypass)\n\nIn this mode, an external clock source must be provided. It can have a frequency of up to 25 MHz. You select this mode by setting the HSEBYP and HSEON bits in the Clock control register (RCC\\_CR). The external clock signal (square, sinus or triangle) with \\~50% duty cycle has to drive the OSC\\_IN pin while the OSC\\_OUT pin should be left hi-Z. See Figure 9.\n\nExternal crystal/ceramic resonator (HSE crystal)\n\nThe 4 to 16 MHz external oscillator has the advantage of producing a very accurate rate on the main clock.\n\nThe associated hardware configuration is shown in Figure 9. Refer to the electrical characteristics section of the datasheet for more details.\n\nThe HSERDY flag in the Clock control register (RCC\\_CR) indicates if the high-speed external oscillator is stable or not. At startup, the clock is not released until this bit is set by hardware. An interrupt can be generated if enabled in the Clock interrupt register (RCC\\_CIR).\n\nThe HSE Crystal can be switched on and off using the HSEON bit in the Clock control register (RCC\\_CR).\n\n7.2.2 HSI clock\n\nThe HSI clock signal is generated from an internal 8 MHz RC Oscillator and can be used directly as a system clock or divided by 2 to be used as PLL input.\n\nThe HSI RC oscillator has the advantage of providing a clock source at low cost (no external components). It also has a faster startup time than the HSE crystal oscillator however, even with calibration the frequency is less accurate than an external crystal oscillator or ceramic resonator.\n\nCalibration\n\nRC oscillator frequencies can vary from one chip to another due to manufacturing process variations, this is why each device is factory calibrated by ST for 1% accuracy at $T _ { \\mathsf { A } } { = } 2 5 ^ { \\circ } \\mathsf { C }$\n\nAfter reset, the factory calibration value is loaded in the HSICAL[7:0] bits in the Clock control register (RCC\\_CR).\n\nIf the application is subject to voltage or temperature variations this may affect the RC oscillator speed. You can trim the HSI frequency in the application using the HSITRIM[4:0] bits in the Clock control register (RCC\\_CR).\n\nThe HSIRDY flag in the Clock control register (RCC\\_CR) indicates if the HSI RC is stable or not. At startup, the HSI RC output clock is not released until this bit is set by hardware.\n\nThe HSI RC can be switched on and off using the HSION bit in the Clock control register (RCC\\_CR).\n\nThe HSI signal can also be used as a backup source (Auxiliary clock) if the HSE crystal oscillator fails. Refer to Section 7.2.7: Clock security system (CSS)",
+          "image_url": null,
+          "page_url": "/api/page/stm32-rm0008/95",
+          "bbox": null
+        },
+        {
+          "label": "S5",
+          "segment_id": "stm32-an1709-p0027-text-chunk-000",
+          "doc": "stm32-an1709",
+          "doc_title": "AN1709 (rev not extracted) — EMC design guide for STM8 STM32 and legacy MCUs",
+          "page": 27,
+          "type": "text",
+          "score": 0.54948490858078,
+          "text": "3.2 EMISSION\n\n3.2.1 Internal PLL\n\nSome ST Microcontrollers have an embedded programmable PLL Clock Generator allowing the usage of standard 3 to 5 MHz crystals to obtain a large range of internal frequencies (up to 24MHz). By these means, ST Microcontroller can operate with cheaper, medium frequency crystals, while still providing a high frequency internal clock for maximum system performance. The high clock frequency source is contained inside the chip and does not go through the PCB (Printed Circuit Board) tracks and external components. This reduces the potential noise emission of the application.\n\nThe use of PLL network also filters CPU clock against external sporadic disturbances (glitches).\n\n3.2.2 Global low power approach\n\n3.2.2.1 Low powered oscillator\n\nThe oscillator is an major source of noise. To reduce this noise emission, the current driven by the oscillator is limited.\n\nThe main clock of some of ST Microcontrollers can be generated by four different source types coming from the multi-oscillator block (MO). This allows the designer to easily select the best trade-off in terms of cost, performance and noise emission. The clock sources are listed below in order from the most noisy to the least noisy:\n\n■ an external source\n\n■ crystal or ceramic resonator oscillators\n\n■ an internal high frequency RC oscillator\n\nEach oscillator is optimized for a given frequency range in terms of consumption and is selectable through the option byte. The associated hardware configurations are shown in Table 11. Refer to the electrical characteristics section of the datasheet for more details in each case.\n\nExternal Clock Source\n\nIn external clock mode, a clock signal (square, sinus or triangle) with \\~50% duty cycle has to drive the OSC1 pin while the OSC2 pin is tied to ground.\n\nCrystal/Ceramic Oscillators\n\nThis family of oscillators has the advantage of producing a very accurate rate on the main clock of the microcontroller. The selection within a list of 5 oscillators with different frequency ranges has to be done by option byte in order to reduce consumption (refer to the Microcontroller datasheet for more details on the frequency ranges). In this mode of the multi-oscillator, the resonator and the load capacitors have to be placed as close as possible to the oscillator pins in order to minimize output distortion and start-up stabilization time. The loading capacitance values must be adjusted according to the selected oscillator.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an1709/27",
+          "bbox": null
+        },
+        {
+          "label": "S6",
+          "segment_id": "stm32-an2821-p0020-text-chunk-000",
+          "doc": "stm32-an2821",
+          "doc_title": "AN2821 (rev 2) — STM32F10xxx RTC clock/calendar implementation",
+          "page": 20,
+          "type": "text",
+          "score": 0.5461658239364624,
+          "text": "Note:\n\nThe TAMPER-RTC pin functionality is not available:\n\nwhen the user is navigating through the MENU options\n\nwhen user is viewing the tamper log\n\nduring the calibration process\n\nwhen the microprocessor is in a low-power mode\n\nwhen the main $V _ { D D }$ supply is off\n\n6.4 Clock calibration\n\nTo calibrate the external oscillator in manual mode, do as follows:\n\nGo to MENU -> CALIBRATE-> MANUAL. A message appears on the LCD screen: “LSE/64 is available on the PC13/TAMPER-RTC pin. Measure the frequency and press Sel to proceed”.\n\nThe frequency output on the TAMPER-RTC pin can be measured by using a highprecision frequency counter. The PC13 pad is available on the STM3210B-EVAL board. (Refer to Figure 9: STM3210B-EVAL board description.)\n\nFollow the steps of the procedure illustrated in Figure 6: Calibration process to calculate the error in ppm. On the basis of this error, the calibration value can be inferred from the Calibration lookup table in Appendix A.\n\nOnce this is done, press Sel. You will be prompted to enter the calibration value. To do so, use the joystick up/down and left/right buttons, then press Sel again. If the entered value is within the range (0-121), it is stored into the RTC clock/calibration register and the application returns to the home screen. Otherwise, the value is invalid. This generates an error message and the application returns to the home screen without modifying the value in the RTC clock/calibration register.\n\nTo calibrate the external oscillator in auto-calibration mode, do as follows:\n\nFirst, connect a wire link from PC13 (RTC clock output on the TAMPER-RTC pin) to PA1 (timer input). Both of these pads are available on the STM3210B-EVAL board. (Refer to Figure 9: STM3210B-EVAL board description.)\n\nSelect MENU->CALIBRATE->AUTO: the calibration value is automatically calculated and fed into the calibration register. A confirmation message will appear on the LCD screen.\n\n● After the calibration process, the application returns to normal clock operation.\n\nFor more details, please refer to Appendix B: Additional notes on calibration and clock accuracy on page 25.\n\n6.5 Clock source selection\n\nBy default, on startup the clock runs at the external crystal oscillator frequency of 32.768 kHz. This frequency is provided by the clock source of the STM3210B-EVAL board. An external clock source can also be used to provide the time base for the RTC. Figure 10 shows how to realize the RTC time base circuit.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2821/20",
+          "bbox": null
+        },
+        {
+          "label": "S7",
+          "segment_id": "stm32-an2629-p0034-text-chunk-000",
+          "doc": "stm32-an2629",
+          "doc_title": "AN2629 (rev 2) — STM32F10xxx low-power modes",
+          "page": 34,
+          "type": "text",
+          "score": 0.521172046661377,
+          "text": "Caution:\n\nHalf cycle configuration is not available in combination with a prescaler on the AHB. The clock system should be equal to the HCLK clock. This feature can therefore be used only with a direct clock from the internal, 8 MHz RC (HSI) oscillator or with the HSE oscillator.\n\n● Internal or external oscillator\n\nUsing the internal oscillator instead of the external oscillator also reduces power consumption. The maximum system clock frequency that can be attained, however, is 64 MHz, and the accuracy is poorer than that of an external crystal oscillator or a ceramic resonator.\n\nNote:\n\nFor more information on oscillators please refer to the STM32F10xxx reference manual.\n\n● Sleep mode\n\nAnother way of reducing power consumption is to switch to the STM32F10xxx Sleep mode when the application is waiting for an event or an interrupt.\n\nThis example shows the possible STM32F10xxx clock configurations that can be used to optimize the power consumption of an application. They such as frequency selection, clock gating, half cycle, internal oscillator and WFI mode, to optimize the power consumption of your application.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2629/34",
+          "bbox": null
+        },
+        {
+          "label": "S8",
+          "segment_id": "stm32-an2834-p0016-text-chunk-000",
+          "doc": "stm32-an2834",
+          "doc_title": "AN2834 (rev 1) — Improving STM32 ADC accuracy",
+          "page": 16,
+          "type": "text",
+          "score": 0.516819953918457,
+          "text": "STM32F10xxx side\n\nIn most STM32F10xxx microcontrollers the $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ pins are placed close to each other. So are the $V _ { \\mathsf { R E F } } .$ and $\\mathsf { V } _ { \\mathsf { S S A } }$ pins. A capacitor can therefore be connected very close to the microcontroller with very short leads. For multiple $\\mathsf { V } _ { \\mathsf { D D } }$ and $\\mathsf { V } _ { \\mathsf { S S } }$ pins, use separate decoupling capacitors.\n\nThe $\\mathsf { V } _ { \\mathsf { D D A } }$ pin must be connected to two external decoupling capacitors (10 nF Ceramic + 1 μF Tantalum or Ceramic). See Figure 14 and Figure 15 for decoupling examples.\n\nFor STM32F10xxx devices delivered in 100/144-pin packages, it is possible to improve the accuracy on low-voltage inputs by connecting a separate external ADC reference voltage input on ${ \\mathsf { V } } _ { \\mathsf { R E F + } }$ (refer to Section 2.2.4). The voltage on $\\mathsf { V } _ { \\mathsf { R E F } + }$ may range from 2.4 V to VDDA. If a separate, external reference voltage is applied on ${ \\mathsf { V } } _ { \\mathsf { R E F + } }$ two 10 nF and 1 μF capacitors must be connected on this pin. In all cases, ${ \\dot { \\mathsf { V } } } _ { \\mathsf { R E F } }$ must be kept between 2.4 V and VDDA.",
+          "image_url": null,
+          "page_url": "/api/page/stm32-an2834/16",
+          "bbox": null
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "For"
+    },
+    {
+      "type": "token",
+      "text": " an"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " H"
+    },
+    {
+      "type": "token",
+      "text": "SE"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " choose"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "–"
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": " MHz"
+    },
+    {
+      "type": "token",
+      "text": " parallel"
+    },
+    {
+      "type": "token",
+      "text": "-res"
+    },
+    {
+      "type": "token",
+      "text": "on"
+    },
+    {
+      "type": "token",
+      "text": "ant"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " ceramic"
+    },
+    {
+      "type": "token",
+      "text": " reson"
+    },
+    {
+      "type": "token",
+      "text": "ator"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " Connect"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": " between"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "OSC"
+    },
+    {
+      "type": "token",
+      "text": "_IN"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " OSC"
+    },
+    {
+      "type": "token",
+      "text": "_OUT"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " one"
+    },
+    {
+      "type": "token",
+      "text": " load"
+    },
+    {
+      "type": "token",
+      "text": " capacitor"
+    },
+    {
+      "type": "token",
+      "text": " from"
+    },
+    {
+      "type": "token",
+      "text": " each"
+    },
+    {
+      "type": "token",
+      "text": " oscillator"
+    },
+    {
+      "type": "token",
+      "text": " pin"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " ground"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " place"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " capac"
+    },
+    {
+      "type": "token",
+      "text": "itors"
+    },
+    {
+      "type": "token",
+      "text": " immediately"
+    },
+    {
+      "type": "token",
+      "text": " beside"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " MCU"
+    },
+    {
+      "type": "token",
+      "text": " pins"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " short"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " symmetric"
+    },
+    {
+      "type": "token",
+      "text": " traces"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " Select"
+    },
+    {
+      "type": "token",
+      "text": " C"
+    },
+    {
+      "type": "token",
+      "text": "_L"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " C"
+    },
+    {
+      "type": "token",
+      "text": "_L"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " satisfy"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " manufacturer"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " specified"
+    },
+    {
+      "type": "token",
+      "text": " load"
+    },
+    {
+      "type": "token",
+      "text": " capacit"
+    },
+    {
+      "type": "token",
+      "text": "ance"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " They"
+    },
+    {
+      "type": "token",
+      "text": " are"
+    },
+    {
+      "type": "token",
+      "text": " normally"
+    },
+    {
+      "type": "token",
+      "text": " equal"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " high"
+    },
+    {
+      "type": "token",
+      "text": "-quality"
+    },
+    {
+      "type": "token",
+      "text": " RF"
+    },
+    {
+      "type": "token",
+      "text": " ceramic"
+    },
+    {
+      "type": "token",
+      "text": " capac"
+    },
+    {
+      "type": "token",
+      "text": "itors"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " ST"
+    },
+    {
+      "type": "token",
+      "text": " gives"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "5"
+    },
+    {
+      "type": "token",
+      "text": "–"
+    },
+    {
+      "type": "token",
+      "text": "25"
+    },
+    {
+      "type": "token",
+      "text": " p"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": " typical"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " practical"
+    },
+    {
+      "type": "token",
+      "text": " range"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " As"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " first"
+    },
+    {
+      "type": "token",
+      "text": " approximation"
+    },
+    {
+      "type": "token",
+      "text": ":"
+    },
+    {
+      "type": "token",
+      "text": "  \n"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "Crystal"
+    },
+    {
+      "type": "token",
+      "text": " load"
+    },
+    {
+      "type": "token",
+      "text": " ≈"
+    },
+    {
+      "type": "token",
+      "text": " ("
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "_L"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": " ×"
+    },
+    {
+      "type": "token",
+      "text": " C"
+    },
+    {
+      "type": "token",
+      "text": "_L"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": ")/("
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "_L"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": " +"
+    },
+    {
+      "type": "token",
+      "text": " C"
+    },
+    {
+      "type": "token",
+      "text": "_L"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": ")"
+    },
+    {
+      "type": "token",
+      "text": " +"
+    },
+    {
+      "type": "token",
+      "text": " stray"
+    },
+    {
+      "type": "token",
+      "text": " capacit"
+    },
+    {
+      "type": "token",
+      "text": "ance"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": "  \n"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": " Include"
+    },
+    {
+      "type": "token",
+      "text": " MCU"
+    },
+    {
+      "type": "token",
+      "text": "-pin"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " PCB"
+    },
+    {
+      "type": "token",
+      "text": " capacit"
+    },
+    {
+      "type": "token",
+      "text": "ance"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " ST"
+    },
+    {
+      "type": "token",
+      "text": " permits"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "10"
+    },
+    {
+      "type": "token",
+      "text": " p"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": " as"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " rough"
+    },
+    {
+      "type": "token",
+      "text": " estimate"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " their"
+    },
+    {
+      "type": "token",
+      "text": " combined"
+    },
+    {
+      "type": "token",
+      "text": " contribution"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " but"
+    },
+    {
+      "type": "token",
+      "text": " final"
+    },
+    {
+      "type": "token",
+      "text": " values"
+    },
+    {
+      "type": "token",
+      "text": " should"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " validated"
+    },
+    {
+      "type": "token",
+      "text": " on"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " real"
+    },
+    {
+      "type": "token",
+      "text": " PCB"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " Check"
+    },
+    {
+      "type": "token",
+      "text": " oscillator"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "gain"
+    },
+    {
+      "type": "token",
+      "text": " margin"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " first"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " ensure"
+    },
+    {
+      "type": "token",
+      "text": " reliable"
+    },
+    {
+      "type": "token",
+      "text": " startup"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " then"
+    },
+    {
+      "type": "token",
+      "text": " verify"
+    },
+    {
+      "type": "token",
+      "text": " load"
+    },
+    {
+      "type": "token",
+      "text": "-cap"
+    },
+    {
+      "type": "token",
+      "text": "ac"
+    },
+    {
+      "type": "token",
+      "text": "itor"
+    },
+    {
+      "type": "token",
+      "text": " values"
+    },
+    {
+      "type": "token",
+      "text": " for"
+    },
+    {
+      "type": "token",
+      "text": " frequency"
+    },
+    {
+      "type": "token",
+      "text": " accuracy"
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " drive"
+    },
+    {
+      "type": "token",
+      "text": " level"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " add"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " series"
+    },
+    {
+      "type": "token",
+      "text": " resistor"
+    },
+    {
+      "type": "token",
+      "text": " only"
+    },
+    {
+      "type": "token",
+      "text": " if"
+    },
+    {
+      "type": "token",
+      "text": " needed"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " keep"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " drive"
+    },
+    {
+      "type": "token",
+      "text": " within"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " rating"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "token",
+      "text": " Test"
+    },
+    {
+      "type": "token",
+      "text": " with"
+    },
+    {
+      "type": "token",
+      "text": " production"
+    },
+    {
+      "type": "token",
+      "text": "-equ"
+    },
+    {
+      "type": "token",
+      "text": "ivalent"
+    },
+    {
+      "type": "token",
+      "text": " parts"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " layout"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " voltage"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " temperature"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "2"
+    },
+    {
+      "type": "token",
+      "text": "]\n"
+    },
+    {
+      "type": "token",
+      "text": "-"
+    },
+    {
+      "type": "token",
+      "text": " The"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": "-specific"
+    },
+    {
+      "type": "token",
+      "text": " H"
+    },
+    {
+      "type": "token",
+      "text": "SE"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " range"
+    },
+    {
+      "type": "token",
+      "text": " of"
+    },
+    {
+      "type": "token",
+      "text": " the"
+    },
+    {
+      "type": "token",
+      "text": " STM"
+    },
+    {
+      "type": "token",
+      "text": "32"
+    },
+    {
+      "type": "token",
+      "text": "F"
+    },
+    {
+      "type": "token",
+      "text": "103"
+    },
+    {
+      "type": "token",
+      "text": "C"
+    },
+    {
+      "type": "token",
+      "text": "8"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "–"
+    },
+    {
+      "type": "token",
+      "text": "16"
+    },
+    {
+      "type": "token",
+      "text": " MHz"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " do"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " apply"
+    },
+    {
+      "type": "token",
+      "text": " broader"
+    },
+    {
+      "type": "token",
+      "text": " cross"
+    },
+    {
+      "type": "token",
+      "text": "-family"
+    },
+    {
+      "type": "token",
+      "text": " oscillator"
+    },
+    {
+      "type": "token",
+      "text": " ranges"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "3"
+    },
+    {
+      "type": "token",
+      "text": "]"
+    },
+    {
+      "type": "token",
+      "text": " A"
+    },
+    {
+      "type": "token",
+      "text": " driven"
+    },
+    {
+      "type": "token",
+      "text": " external"
+    },
+    {
+      "type": "token",
+      "text": " clock"
+    },
+    {
+      "type": "token",
+      "text": " is"
+    },
+    {
+      "type": "token",
+      "text": " a"
+    },
+    {
+      "type": "token",
+      "text": " different"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "H"
+    },
+    {
+      "type": "token",
+      "text": "SE"
+    },
+    {
+      "type": "token",
+      "text": " bypass"
+    },
+    {
+      "type": "token",
+      "text": "**"
+    },
+    {
+      "type": "token",
+      "text": " mode"
+    },
+    {
+      "type": "token",
+      "text": ":"
+    },
+    {
+      "type": "token",
+      "text": " it"
+    },
+    {
+      "type": "token",
+      "text": " may"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " up"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " **"
+    },
+    {
+      "type": "token",
+      "text": "25"
+    },
+    {
+      "type": "token",
+      "text": " MHz"
+    },
+    {
+      "type": "token",
+      "text": "**,"
+    },
+    {
+      "type": "token",
+      "text": " drives"
+    },
+    {
+      "type": "token",
+      "text": " OSC"
+    },
+    {
+      "type": "token",
+      "text": "_IN"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " and"
+    },
+    {
+      "type": "token",
+      "text": " requires"
+    },
+    {
+      "type": "token",
+      "text": " OSC"
+    },
+    {
+      "type": "token",
+      "text": "_OUT"
+    },
+    {
+      "type": "token",
+      "text": " to"
+    },
+    {
+      "type": "token",
+      "text": " remain"
+    },
+    {
+      "type": "token",
+      "text": " high"
+    },
+    {
+      "type": "token",
+      "text": " impedance"
+    },
+    {
+      "type": "token",
+      "text": ".["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "1"
+    },
+    {
+      "type": "token",
+      "text": "]["
+    },
+    {
+      "type": "token",
+      "text": "S"
+    },
+    {
+      "type": "token",
+      "text": "4"
+    },
+    {
+      "type": "token",
+      "text": "]\n\n"
+    },
+    {
+      "type": "token",
+      "text": "The"
+    },
+    {
+      "type": "token",
+      "text": " retrieved"
+    },
+    {
+      "type": "token",
+      "text": " DS"
+    },
+    {
+      "type": "token",
+      "text": "531"
+    },
+    {
+      "type": "token",
+      "text": "9"
+    },
+    {
+      "type": "token",
+      "text": " excerpt"
+    },
+    {
+      "type": "token",
+      "text": " does"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " include"
+    },
+    {
+      "type": "token",
+      "text": " Table"
+    },
+    {
+      "type": "token",
+      "text": " "
+    },
+    {
+      "type": "token",
+      "text": "22"
+    },
+    {
+      "type": "token",
+      "text": "’s"
+    },
+    {
+      "type": "token",
+      "text": " numerical"
+    },
+    {
+      "type": "token",
+      "text": " oscillator"
+    },
+    {
+      "type": "token",
+      "text": " gain"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " ESR"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " drive"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " or"
+    },
+    {
+      "type": "token",
+      "text": " startup"
+    },
+    {
+      "type": "token",
+      "text": " limits"
+    },
+    {
+      "type": "token",
+      "text": ","
+    },
+    {
+      "type": "token",
+      "text": " so"
+    },
+    {
+      "type": "token",
+      "text": " those"
+    },
+    {
+      "type": "token",
+      "text": " additional"
+    },
+    {
+      "type": "token",
+      "text": " device"
+    },
+    {
+      "type": "token",
+      "text": "-specific"
+    },
+    {
+      "type": "token",
+      "text": " constraints"
+    },
+    {
+      "type": "token",
+      "text": " could"
+    },
+    {
+      "type": "token",
+      "text": " not"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " verified"
+    },
+    {
+      "type": "token",
+      "text": " here"
+    },
+    {
+      "type": "token",
+      "text": ";"
+    },
+    {
+      "type": "token",
+      "text": " they"
+    },
+    {
+      "type": "token",
+      "text": " must"
+    },
+    {
+      "type": "token",
+      "text": " be"
+    },
+    {
+      "type": "token",
+      "text": " checked"
+    },
+    {
+      "type": "token",
+      "text": " in"
+    },
+    {
+      "type": "token",
+      "text": " that"
+    },
+    {
+      "type": "token",
+      "text": " datas"
+    },
+    {
+      "type": "token",
+      "text": "heet"
+    },
+    {
+      "type": "token",
+      "text": " table"
+    },
+    {
+      "type": "token",
+      "text": " before"
+    },
+    {
+      "type": "token",
+      "text": " final"
+    },
+    {
+      "type": "token",
+      "text": " crystal"
+    },
+    {
+      "type": "token",
+      "text": " qualification"
+    },
+    {
+      "type": "token",
+      "text": "."
+    },
+    {
+      "type": "done",
+      "answer": "For an STM32F103C8 HSE crystal, choose a **4–16 MHz parallel-resonant crystal or ceramic resonator**. Connect it between **OSC_IN and OSC_OUT**, with one load capacitor from each oscillator pin to ground, and place the crystal and capacitors immediately beside the MCU pins with short, symmetric traces.[S3]\n\n- Select C_L1 and C_L2 to satisfy the crystal manufacturer’s specified load capacitance. They are normally equal, high-quality RF ceramic capacitors; ST gives **5–25 pF typical** as the practical range.[S3] As a first approximation:  \n  **Crystal load ≈ (C_L1 × C_L2)/(C_L1 + C_L2) + stray capacitance**  \n  Include MCU-pin and PCB capacitance; ST permits **10 pF as a rough estimate for their combined contribution**, but final values should be validated on the real PCB.[S1]\n- Check oscillator **gain margin** first to ensure reliable startup, then verify load-capacitor values for frequency accuracy and crystal drive level; add a series resistor only if needed to keep the drive within the crystal’s rating. Test with production-equivalent parts, layout, voltage, and temperature.[S2]\n- The device-specific HSE crystal range of the STM32F103C8 is **4–16 MHz**; do not apply broader cross-family oscillator ranges to it.[S3] A driven external clock is a different **HSE bypass** mode: it may be up to **25 MHz**, drives OSC_IN, and requires OSC_OUT to remain high impedance.[S1][S4]\n\nThe retrieved DS5319 excerpt does not include Table 22’s numerical oscillator gain, crystal ESR, drive, or startup limits, so those additional device-specific constraints could not be verified here; they must be checked in that datasheet table before final crystal qualification.",
+      "cited": [
+        "S3",
+        "S1",
+        "S2",
+        "S4"
+      ],
+      "provenance": "grounded",
+      "timings_ms": {
+        "route": 3226,
+        "retrieve": 489,
+        "first_token": 19289,
+        "total": 19995
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 20.02
+}

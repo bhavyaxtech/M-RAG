@@ -1,0 +1,105 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+{
+  "checked_at": "2026-09-08T15:20:23.321074+00:00",
+  "downloaded_documents": 20,
+  "target_documents": 20,
+  "pages": 1837,
+  "parsed_documents": 18,
+  "parsed_pages": 547,
+  "additional_completed_batch_pages": 30,
+  "visual_segments_in_completed_documents": 437,
+  "cached_captions_in_completed_documents": 353,
+  "published": false,
+  "paid_calls_started_by_preflight": 0,
+  "status": "parsing_incomplete"
+}
+Reusing parse: stm32-ds5319
+Reusing parse: stm32-es096
+Reusing parse: stm32-pm0075
+Reusing parse: stm32-an2586
+Reusing parse: stm32-an2594
+Reusing parse: stm32-an2606
+Reusing parse: stm32-an3155
+Reusing parse: stm32-an2834
+Reusing parse: stm32-an3116
+Reusing parse: stm32-an2548
+Reusing parse: stm32-an2824
+Reusing parse: stm32-an2820
+Reusing parse: stm32-an2629
+Reusing parse: stm32-an2557
+Reusing parse: stm32-an2821
+Reusing parse: stm32-an2867
+Reusing parse: stm32-an1709
+Reusing parse: stm32-an2592
+Captioning stm32-ds5319
+  Checkpoint: 25 visual segment(s) complete.
+  Checkpoint: 50 visual segment(s) complete.
+  Checkpoint: 75 visual segment(s) complete.
+  Checkpoint: 100 visual segment(s) complete.
+  Checkpoint: 125 visual segment(s) complete.
+  0 generated, 139 cached
+Captioning stm32-es096
+  0 generated, 9 cached
+Captioning stm32-pm0075
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 26 cached
+Captioning stm32-an2586
+  0 generated, 20 cached
+Captioning stm32-an2594
+  0 generated, 9 cached
+Captioning stm32-an2606
+  0 generated, 16 cached
+Captioning stm32-an3155
+  Checkpoint: 25 visual segment(s) complete.
+  28 generated, 0 cached
+Captioning stm32-an2834
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 25 cached
+Captioning stm32-an3116
+  0 generated, 15 cached
+Captioning stm32-an2548
+  0 generated, 6 cached
+Captioning stm32-an2824
+  0 generated, 7 cached
+Captioning stm32-an2820
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 26 cached
+Captioning stm32-an2629
+  21 generated, 0 cached
+Captioning stm32-an2557
+  0 generated, 7 cached
+Captioning stm32-an2821
+  0 generated, 14 cached
+Captioning stm32-an2867
+  Checkpoint: 25 visual segment(s) complete.
+  0 generated, 27 cached
+Captioning stm32-an1709
+  Checkpoint: 25 visual segment(s) complete.
+  35 generated, 0 cached
+Captioning stm32-an2592
+  0 generated, 7 cached
+Persistent Azure estimate including unknown-call reservations: $0.5385
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+  Embedded 32/657 new records
+  Embedded 64/657 new records
+  Embedded 96/657 new records
+  Embedded 128/657 new records
+  Embedded 160/657 new records
+  Embedded 192/657 new records
+  Embedded 224/657 new records
+  Embedded 256/657 new records
+  Embedded 288/657 new records
+  Embedded 320/657 new records
+  Embedded 352/657 new records
+  Embedded 384/657 new records
+  Embedded 416/657 new records
+  Embedded 448/657 new records
+  Embedded 480/657 new records
+  Embedded 512/657 new records
+  Embedded 544/657 new records
+  Embedded 576/657 new records
+  Embedded 608/657 new records
+  Embedded 640/657 new records
+  Embedded 657/657 new records
+Prepared 923 records from 18 documents: 657 new, 266 cached (266 inherited).
+Only the embedding cache was written; no partial collection was published.

@@ -1,0 +1,134 @@
+{
+  "checked_at": "2026-09-08T18:17:45.566217+00:00",
+  "base_url": "http://127.0.0.1:8012",
+  "documents": 20,
+  "physical_pages": 1837,
+  "frontend_served": true,
+  "checked_page_urls": [
+    "/api/page/stm32-ds5319/1",
+    "/api/page/stm32-ds5319/114",
+    "/api/page/stm32-rm0008/1",
+    "/api/page/stm32-rm0008/1134",
+    "/api/page/stm32-es096/1",
+    "/api/page/stm32-es096/31",
+    "/api/page/stm32-pm0056/1",
+    "/api/page/stm32-pm0056/156",
+    "/api/page/stm32-pm0075/1",
+    "/api/page/stm32-pm0075/31",
+    "/api/page/stm32-an2586/1",
+    "/api/page/stm32-an2586/28",
+    "/api/page/stm32-an2594/1",
+    "/api/page/stm32-an2594/16",
+    "/api/page/stm32-an2606/1",
+    "/api/page/stm32-an2606/27",
+    "/api/page/stm32-an3155/1",
+    "/api/page/stm32-an3155/37",
+    "/api/page/stm32-an2834/1",
+    "/api/page/stm32-an2834/28",
+    "/api/page/stm32-an3116/1",
+    "/api/page/stm32-an3116/18",
+    "/api/page/stm32-an2548/1",
+    "/api/page/stm32-an2548/14",
+    "/api/page/stm32-an2824/1",
+    "/api/page/stm32-an2824/16",
+    "/api/page/stm32-an2820/1",
+    "/api/page/stm32-an2820/23",
+    "/api/page/stm32-an2629/1",
+    "/api/page/stm32-an2629/43",
+    "/api/page/stm32-an2557/1",
+    "/api/page/stm32-an2557/16",
+    "/api/page/stm32-an2821/1",
+    "/api/page/stm32-an2821/28",
+    "/api/page/stm32-an2867/1",
+    "/api/page/stm32-an2867/23",
+    "/api/page/stm32-an1709/1",
+    "/api/page/stm32-an1709/38",
+    "/api/page/stm32-an2592/1",
+    "/api/page/stm32-an2592/16"
+  ],
+  "indexed_visual_rows_with_existing_crops": 1614,
+  "byte_verified_http_crops": [
+    {
+      "doc": "stm32-ds5319",
+      "segment_id": "stm32-ds5319-p0001-figure-00001"
+    },
+    {
+      "doc": "stm32-rm0008",
+      "segment_id": "stm32-rm0008-p0040-table-00001"
+    },
+    {
+      "doc": "stm32-es096",
+      "segment_id": "stm32-es096-p0001-table-00001"
+    },
+    {
+      "doc": "stm32-pm0056",
+      "segment_id": "stm32-pm0056-p0010-figure-00001"
+    },
+    {
+      "doc": "stm32-pm0075",
+      "segment_id": "stm32-pm0075-p0001-table-00001"
+    },
+    {
+      "doc": "stm32-an2586",
+      "segment_id": "stm32-an2586-p0006-figure-00001"
+    },
+    {
+      "doc": "stm32-an2594",
+      "segment_id": "stm32-an2594-p0005-table-00001"
+    },
+    {
+      "doc": "stm32-an2606",
+      "segment_id": "stm32-an2606-p0006-table-00001"
+    },
+    {
+      "doc": "stm32-an3155",
+      "segment_id": "stm32-an3155-p0005-figure-00001"
+    },
+    {
+      "doc": "stm32-an2834",
+      "segment_id": "stm32-an2834-p0005-figure-00001"
+    },
+    {
+      "doc": "stm32-an3116",
+      "segment_id": "stm32-an3116-p0005-figure-00001"
+    },
+    {
+      "doc": "stm32-an2548",
+      "segment_id": "stm32-an2548-p0004-table-00001"
+    },
+    {
+      "doc": "stm32-an2824",
+      "segment_id": "stm32-an2824-p0007-figure-00001"
+    },
+    {
+      "doc": "stm32-an2820",
+      "segment_id": "stm32-an2820-p0006-figure-00001"
+    },
+    {
+      "doc": "stm32-an2629",
+      "segment_id": "stm32-an2629-p0007-figure-00001"
+    },
+    {
+      "doc": "stm32-an2557",
+      "segment_id": "stm32-an2557-p0007-figure-00001"
+    },
+    {
+      "doc": "stm32-an2821",
+      "segment_id": "stm32-an2821-p0001-figure-00001"
+    },
+    {
+      "doc": "stm32-an2867",
+      "segment_id": "stm32-an2867-p0006-figure-00001"
+    },
+    {
+      "doc": "stm32-an1709",
+      "segment_id": "stm32-an1709-p0005-table-00001"
+    },
+    {
+      "doc": "stm32-an2592",
+      "segment_id": "stm32-an2592-p0004-figure-00001"
+    }
+  ],
+  "model_calls": 0,
+  "verification_scope": "HTTP transport and source-asset integrity; not visual QA or answer accuracy"
+}

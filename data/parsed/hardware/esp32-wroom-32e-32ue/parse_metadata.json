@@ -1,0 +1,12 @@
+{
+  "doc": "esp32-wroom-32e-32ue",
+  "source_pdf": "data/raw/hardware/esp32-wroom-32e-32ue.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/hardware/esp32-wroom-32e-32ue/mineru/esp32-wroom-32e-32ue/auto/esp32-wroom-32e-32ue_content_list.json",
+  "segment_counts": {
+    "text": 448,
+    "figure": 17,
+    "table": 39
+  }
+}

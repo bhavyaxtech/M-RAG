@@ -1,0 +1,3830 @@
+[
+  {
+    "segment_id": "stm32-an2629-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "AN2629 Application note"
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "STM32F101xx, STM32F102xx and STM32F103xx low-power modes"
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "This application note is intended for system designers who require a software and hardware implementation overview of the low-power modes of the STM32F101xx, STM32F102xx and STM32F103xx products. It describes how to use the STM32F10xxx product family and details the clock systems, register settings and low-power management in order to optimize the use of STM32F10xxx in applications where low power is key."
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "This application note should be read in conjunction with the datasheet of the relevant STM32F10xxx product and the STM32F10xxx reference manual. For information on programming, erasing and protection of the internal Flash memory please refer to the STM32F10xxx Flash programming manual."
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00006",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "The STM32F10xxx datasheets, the reference and Flash programming manuals are all available from the STMicroelectronics website www.st.com."
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00007",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "For information on the Cortex™-M3 core please refer to the Cortex™-M3 Technical Reference Manual, available from the www.arm.com website at the following address: http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0337e/."
+  },
+  {
+    "segment_id": "stm32-an2629-p0001-text-00008",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 1,
+    "text": "The first four sections of this application note introduce the part of the STM32F10xxx devices that is used for low-power configuration. The next sections demonstrate the lowpower feature in an applicative way. Each section refers to software delivered with this document, which give a practical view of power optimization."
+  },
+  {
+    "segment_id": "stm32-an2629-p0002-text-00009",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an2629-p0002-text-00010",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 2,
+    "text": "1 Power supply   \n1.1 Introduction   \n1.1.1 Independent A/D converter supply and reference voltage   \n1.1.2 Battery backup 8   \n1.1.3 Voltage regulator 8   \n1.2 Low-power modes 8   \n1.2.1 Slowing down system clocks 9   \n1.2.2 Peripheral clock gating . .9   \n1.2.3 Sleep mode 10   \n1.2.4 Stop mode 11   \n1.2.5 Standby mode 12   \n1.2.6 Debug mode 13   \n1.2.7 Auto-wakeup (AwU) from low-power mode . 13   \n2 Clock . 14   \n3 Real-time clock (RTC) 16   \n3.1 Introduction 16   \n3.2 Main features 16   \n3.3 Functional description 16   \n3.3.1 Overview 16   \n3.3.2 Resetting RTC registers 18   \n3.3.3 Reading RTC registers .18   \n3.3.4 Configuring RTC registers 18   \n3.3.5 RTC flag assertion 19   \n4 Backup registers (BKP) 20   \n4.1 Introduction 20   \n4.2 Features 20   \n4.3 Tamper detection 20   \n4.4 RTC calibration . 21   \n5 Power and wakeup time measurement 22   \n5.1 Introduction 22   \n2/43 Doc ID 13922 Rev 2 ST   \n5.2 Power measurement 22   \n5.2.1 Context . .22   \n5.2.2 Detailed description 22   \n5.2.3 Measurement results .25   \n5.3 Wakeup time measurement 26   \n5.3.1 Context .26   \n5.3.2 Detailed description .27   \n5.3.3 Measurement results 28   \n5.3.4 Conclusion .29   \nOptimizing power consumption in your application .30   \n6.1 Introduction 30   \n6.2 Using the advance clock configuration of the STM32F10xxx 30   \n6.2.1 Context . .30   \n6.2.2 Detailed description .30   \n6.3 Typical measurement results 33   \n6.4 Conclusion 33   \nUsing the Stop and Standby mode in battery-operated applications 35   \n7.1 Introduction 35   \n7.2 Using Wait For Event & Stop Wait For Event 35   \n7.2.1 Context .35   \n7.2.2 Detailed description .36   \n7.3 Using the Standby mode in an applicative way 37   \n7.3.1 Context. .37   \n7.3.2 Detailed description .37   \n7.4 Typical measurement results 38   \n7.5 Conclusion 39   \nUsing the Backup domain in very low-power applications 40   \n8.1 Introduction 40   \n8.2 Using the Backup domain in an applicative way 40   \n8.2.1 Context . .40   \n8.2.2 Detailed description .40   \n8.3 Conclusion 41   \n9 Revision history ...........................................42"
+  },
+  {
+    "segment_id": "stm32-an2629-p0005-text-00011",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 5,
+    "text": "List of tables"
+  },
+  {
+    "segment_id": "stm32-an2629-p0005-text-00012",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 5,
+    "text": "Table 1. Low-power modes .9   \nTable 2. Sleep-now.. 10   \nTable 3. Sleep-on-exit. 11   \nTable 4. Stop mode . 12   \nTable 5. Standby mode. 13   \nTable 6. Power measurement results in Sleep mode . 25   \nTable 7. Power measurement for Stop and Standby modes 26   \nTable 8. Wakeup time measurement results 29   \nTable 9. Example measurements . 33   \nTable 10. Example measurements. 38   \nTable 11. Document revision history 42"
+  },
+  {
+    "segment_id": "stm32-an2629-p0006-text-00013",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 6,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an2629-p0006-text-00014",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 6,
+    "text": "Figure 1. Power supply overview . 7   \nFigure 2. Clock tree 15   \nFigure 3. RTC simplified block diagram . 17   \nFigure 4. RTC second and alarm waveform example with PR=0003, ALARM=00004 . 19   \nFigure 5. RTC Overflow waveform example with PR=0003. 19   \nFigure 6. HyperTerminal time adjustment interface . 31   \nFigure 7. WFE & STOP WFE. 36   \nFigure 8. Standby. 37   \nFigure 9. HyperTerminal display of time 40"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00015",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "Power supply"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00016",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "1.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00017",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "The device requires a 2.0 V to 3.6 V operating voltage supply $( \\mathsf { V } _ { \\mathsf { D D } } )$ . An embedded regulator is used to supply the internal 1.8 V digital power."
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00018",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "The real-time clock (RTC) and backup registers can be powered from the $\\mathsf { V } _ { \\mathsf { B A T } }$ voltage when the main $\\mathsf { V } _ { \\mathsf { D D } }$ supply is powered off."
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0007_00001.png",
+    "caption": "**Figure 1. Power supply overview** — block diagram of the STM32 power-supply domains and their supply connections.\n\n- An outer rectangular boundary encloses the power-supply overview.\n- **VDD A domain** (shown at top):\n  - **A/D converter**\n  - **Temp. sensor**\n  - **Reset block**\n  - **PLL**\n  - External/reference connections at the left:\n    - **(VSSA) VREF-**\n    - **(from 2 V up to VDDA) VREF+**\n  - Supply connections labeled:\n    - **VDDA**\n    - **VSSA**\n- **VDD domain** (center):\n  - **I/O Ring**\n  - **Standby circuitry (Wakeup logic, IWDG)**\n  - **Voltage Regulator**\n  - External supply connections at the left:\n    - **VSS**\n    - **VDD**\n    - **(3.3 V)** is shown beside the VSS/VDD supply connection.\n- **1.8 V domain** (right):\n  - **Core**\n  - **Memories**\n  - **digital peripherals**\n- **Low voltage detector** is shown below the VDD-domain circuitry, with a connection dropping from the VDD supply path toward the backup-supply area.\n- **Backup domain** (bottom):\n  - **LSE crystal 32K osc**\n  - **BKP registers**\n  - **RCC BDCR register**\n  - **RTC**\n  - External connection at the left labeled:\n    - **(VDD) VBAT**\n- The diagram shows the VDD-domain **Voltage Regulator** supplying the **1.8 V domain**. Wiring also connects the VDD/VSS and VBAT-side supply paths to the corresponding internal domains.\n- Visible diagram identifier at bottom right: **ai14677**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Power supply overview",
+    "generated_captions": {
+      "luna": "**Figure 1. Power supply overview** — block diagram of the STM32 power-supply domains and their supply connections.\n\n- An outer rectangular boundary encloses the power-supply overview.\n- **VDD A domain** (shown at top):\n  - **A/D converter**\n  - **Temp. sensor**\n  - **Reset block**\n  - **PLL**\n  - External/reference connections at the left:\n    - **(VSSA) VREF-**\n    - **(from 2 V up to VDDA) VREF+**\n  - Supply connections labeled:\n    - **VDDA**\n    - **VSSA**\n- **VDD domain** (center):\n  - **I/O Ring**\n  - **Standby circuitry (Wakeup logic, IWDG)**\n  - **Voltage Regulator**\n  - External supply connections at the left:\n    - **VSS**\n    - **VDD**\n    - **(3.3 V)** is shown beside the VSS/VDD supply connection.\n- **1.8 V domain** (right):\n  - **Core**\n  - **Memories**\n  - **digital peripherals**\n- **Low voltage detector** is shown below the VDD-domain circuitry, with a connection dropping from the VDD supply path toward the backup-supply area.\n- **Backup domain** (bottom):\n  - **LSE crystal 32K osc**\n  - **BKP registers**\n  - **RCC BDCR register**\n  - **RTC**\n  - External connection at the left labeled:\n    - **(VDD) VBAT**\n- The diagram shows the VDD-domain **Voltage Regulator** supplying the **1.8 V domain**. Wiring also connects the VDD/VSS and VBAT-side supply paths to the corresponding internal domains.\n- Visible diagram identifier at bottom right: **ai14677**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00019",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "1.1.1 Independent A/D converter supply and reference voltage"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00020",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "To improve conversion accuracy, the ADC has an independent power supply that can be filtered separately, and shielded from noise on the PCB."
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00021",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "The ADC voltage supply input is available on a separate $\\mathsf { V } _ { \\mathsf { D D A } }$ pin"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00022",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "● An isolated supply ground connection is provided on the $\\mathsf { V } _ { \\mathsf { S S A } }$ pin"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00023",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "When available (depending on package), $V _ { \\mathsf { R E F - } }$ must be tied to $\\mathsf { V } _ { \\mathsf { S S A } }$"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00024",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "On 100-pin packages"
+  },
+  {
+    "segment_id": "stm32-an2629-p0007-text-00025",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 7,
+    "text": "To ensure a better accuracy on low-voltage inputs, the user can connect a separate external reference voltage ADC input on $\\mathsf { V } _ { \\mathsf { R E F } + }$ . The voltage on $V _ { \\mathsf { R E F } } .$ may range from 2.0 V to $\\mathsf { V } _ { \\mathsf { D D A } }$"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00026",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "On packages with 64 pins or less"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00027",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "The ${ \\mathsf { V } } _ { \\mathsf { R E F } } .$ and $V _ { \\mathsf { R E F } } .$ pins are not available, they are internally connected to the ADC voltage supply $( \\mathsf { V } _ { \\mathsf { D D A } } )$ and ground $( \\mathsf { V } _ { \\mathsf { S S A } } )$"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00028",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "1.1.2 Battery backup"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00029",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "To retain the content of the Backup registers when $\\mathsf { V } _ { \\mathsf { D D } }$ is turned off, the $\\mathsf { V } _ { \\mathsf { B A T } }$ pin can be connected to an optional standby voltage supplied by a battery or another source."
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00030",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "The $\\mathsf { V } _ { \\mathsf { B A T } }$ pin also powers the RTC unit, allowing the RTC to operate even when the main digital supply $( \\mathsf { V } _ { \\mathsf { D D } } )$ is turned off. Switching to the $\\mathsf { V } _ { \\mathsf { B A T } }$ supply is controlled by the power down reset (PDR) circuitry embedded in the Reset block."
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00031",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "If no external battery is used in the application, $\\mathsf { V } _ { \\mathsf { B A T } }$ must be connected externally to $\\mathsf { V } _ { \\mathsf { D D } } .$"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00032",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "1.1.3 Voltage regulator"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00033",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "The voltage regulator is always enabled after reset. It works in three different modes depending on the application modes:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00034",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "in Run mode, the regulator supplies full power to the 1.8 V domain (core, memories and digital peripherals)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00035",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "in Stop mode, the regulator supplies low power to the 1.8 V domain, preserving the contents of the registers and SRAM"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00036",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "in Standby mode, the regulator is powered off. The contents of the registers and SRAM are lost except for those concerned with the Standby circuitry and the Backup domain."
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00037",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "1.2 Low-power modes"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00038",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "By default, the microcontroller is in Run mode after a system or a power Reset. Several lowpower modes are available to save power when the CPU does not need to be kept running, for example when waiting for an external event. It is up to the user to select the mode that gives the best compromise between low-power consumption, short startup time and available wakeup sources."
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00039",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "The STM32F10xxx devices feature three low-power modes:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00040",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "Sleep mode (CPU clock off, all peripherals including Cortex-M3 core peripherals like NVIC, SysTick, etc. are kept running)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00041",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "●Stop mode (all clocks are stopped)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00042",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "Standby mode (1.8V domain powered-off)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00043",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "In addition, the power consumption in Run mode can be reduce by one of the following means:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00044",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "●Slowing down the system clocks"
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00045",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "●Gating the clocks to the APB and AHB peripherals when they are unused."
+  },
+  {
+    "segment_id": "stm32-an2629-p0008-text-00046",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 8,
+    "text": "Table 1 below summarizes the low-power modes of the STM32F10xxx MCU."
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-table-00001",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0009_00001.png",
+    "caption": "**Table 1. Low-power modes**\n\n| Mode name | Entry | Wakeup | Effect on 1.8 V domain clocks | Effect on V<sub>DD</sub> domain clocks | Voltage regulator |\n|---|---|---|---|---|---|\n| **Sleep (Sleep-now or Sleep-on-exit)** | **WFI** | Any interrupt | CPU clock OFF | None | ON |\n|  | **WFE** | Wakeup event | No effect on other clocks or analog clock sources | None | ON |\n| **Stop** | PDDS and LPDS bits + SLEEPDEEP bit + WFI or WFE | Any EXTI line (configured in the EXTI registers) | All 1.8 V domain clocks OFF | HSI and HSE oscillators OFF | ON or in low-power mode (depends on the Power control register, PWR_CR) |\n| **Standby** | PDDS bit + SLEEPDEEP bit + WFI or WFE | WKUP pin rising edge, RTC alarm, external reset in NRST pin, IWDG reset | Text not visible in the crop | Text not visible in the crop | OFF |\n\nThe table continues below the visible crop.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Low-power modes",
+    "generated_captions": {
+      "luna": "**Table 1. Low-power modes**\n\n| Mode name | Entry | Wakeup | Effect on 1.8 V domain clocks | Effect on V<sub>DD</sub> domain clocks | Voltage regulator |\n|---|---|---|---|---|---|\n| **Sleep (Sleep-now or Sleep-on-exit)** | **WFI** | Any interrupt | CPU clock OFF | None | ON |\n|  | **WFE** | Wakeup event | No effect on other clocks or analog clock sources | None | ON |\n| **Stop** | PDDS and LPDS bits + SLEEPDEEP bit + WFI or WFE | Any EXTI line (configured in the EXTI registers) | All 1.8 V domain clocks OFF | HSI and HSE oscillators OFF | ON or in low-power mode (depends on the Power control register, PWR_CR) |\n| **Standby** | PDDS bit + SLEEPDEEP bit + WFI or WFE | WKUP pin rising edge, RTC alarm, external reset in NRST pin, IWDG reset | Text not visible in the crop | Text not visible in the crop | OFF |\n\nThe table continues below the visible crop."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-text-00047",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "text": "1.2.1 Slowing down system clocks"
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-text-00048",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "text": "In Run mode the speed of the system clocks (SYSCLK, HCLK, PCLK1, PCLK2) can be reduced by programming the prescaler registers. These prescalers can also be used to slow down peripherals before entering Sleep mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-text-00049",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "text": "1.2.2Peripheral clock gating"
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-text-00050",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "text": "In Run mode, the HCLK and PCLKx for individual peripherals and memories can be stopped at any time to reduce power consumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-text-00051",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "text": "To further reduce power consumption in Sleep mode the peripheral clocks can be disabled prior to executing the WFI or WFE instructions."
+  },
+  {
+    "segment_id": "stm32-an2629-p0009-text-00052",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 9,
+    "text": "Peripheral clock gating is controlled by the AHB peripheral clock enable register (RCC\\_AHBENR), the APB1 peripheral clock enable register (RCC\\_APB1ENR) and the APB2 peripheral clock enable register (RCC\\_APB2ENR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00053",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "1.2.3 Sleep mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00054",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "Entering Sleep mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00055",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "The Sleep mode is entered by executing the WFI (Wait For Interrupt) or WFE (Wait for Event) instructions. Two options are available to select the Sleep mode entry mechanism, depending on the SLEEPONEXIT bit in the Cortex-M3 System Control register:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00056",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "Sleep-now: if the SLEEPONEXIT bit is cleared, the MCU enters Sleep mode as soon as WFI or WFE instruction is executed."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00057",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "Sleep-on-exit: if the SLEEPONEXIT bit is set, the MCU enters Sleep mode as soon as it exits the lowest priority ISR."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00058",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "In the Sleep mode, all l/O pins keep the same state as in the Run mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00059",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "Refer to Table 2 and Table 3 for details on how to enter Sleep mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00060",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "Exiting Sleep mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00061",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "If the WFl instruction is used to enter Sleep mode, any peripheral interrupt acknowledged by the nested vectored interrupt controller (NVIC) can wake up the device from Sleep mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00062",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "If the WFE instruction is used to enter Sleep mode, the MCU exits Sleep mode as soon as an event occurs. The wakeup event can be generated either by:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00063",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "enabling an interrupt in the peripheral control register but not in the NVIC, and enabling the SEVONPEND bit in the Cortex-M3 System Control register. When the MCU resumes from WFE, the peripheral interrupt pending bit and the peripheral NVIC IRQ channel pending bit (in the NVIC interrupt clear pending register) have to be cleared."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00064",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "or configuring an external or internal EXTI line in event mode. When the CPU resumes from WFE, it is not necessary to clear the peripheral interrupt pending bit or the NVIC IRQ channel pending bit as the pending bit corresponding to the event line is not set."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00065",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "This mode offers the lowest wakeup time as no time is wasted in interrupt entry/exit."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-text-00066",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "text": "Refer to Table 2 and Table 3 for more details on how to exit Sleep mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0010-table-00002",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0010_00002.png",
+    "caption": "**Table 2. Sleep-now**\n\n| Sleep-now | Description |\n|---|---|\n| **Mode entry** | WFI (Wait for Interrupt) or WFE (Wait for Event) while:<br>– SLEEPDEEP = 0<br>– SLEEPONEXIT = 0<br>Refer to the Cortex-M3 System Control register. |\n| **Mode exit** | If WFI was used for entry ->Interrupt<br>If WFE was used for entry ->Wakeup event |\n| **Wakeup latency** | None. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 2. Sleep-now",
+    "generated_captions": {
+      "luna": "**Table 2. Sleep-now**\n\n| Sleep-now | Description |\n|---|---|\n| **Mode entry** | WFI (Wait for Interrupt) or WFE (Wait for Event) while:<br>– SLEEPDEEP = 0<br>– SLEEPONEXIT = 0<br>Refer to the Cortex-M3 System Control register. |\n| **Mode exit** | If WFI was used for entry ->Interrupt<br>If WFE was used for entry ->Wakeup event |\n| **Wakeup latency** | None. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-table-00003",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0011_00003.png",
+    "caption": "**Table 3. Sleep-on-exit**\n\n| Sleep-on-exit | Description |\n|---|---|\n| **Mode entry** | WFI (wait for interrupt) while:<br>**SLEEPDEEP = 0**<br>**SLEEPONEXIT = 1**<br>Refer to the Cortex™-M3 System Control register. |\n| **Mode exit** | Interrupt. |\n| **Wakeup latency** | None. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 3. Sleep-on-exit",
+    "generated_captions": {
+      "luna": "**Table 3. Sleep-on-exit**\n\n| Sleep-on-exit | Description |\n|---|---|\n| **Mode entry** | WFI (wait for interrupt) while:<br>**SLEEPDEEP = 0**<br>**SLEEPONEXIT = 1**<br>Refer to the Cortex™-M3 System Control register. |\n| **Mode exit** | Interrupt. |\n| **Wakeup latency** | None. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00067",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "1.2.4 Stop mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00068",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "The Stop mode is based on the Cortex-M3 deepsleep mode combined with peripheral clock gating. The voltage regulator can be configured either in normal or low-power mode. In Stop mode, all clocks in the 1.8 V domain are stopped, the PLL, the HSI and the HSE RC oscillators are disabled. SRAM and register contents are preserved."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "In the Stop mode, all I/O pins keep the same state as in the Run mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Entering the Stop mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Refer to Table 4 for details on how to enter the Stop mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "To further reduce power consumption in Stop mode, the internal voltage regulator can be put in low-power mode. This is configured by the LPDS bit of the Power control register (PWR\\_CR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00073",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "If Flash memory programming is ongoing, the Stop mode entry is delayed until the memory access is finished."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "If an access to the APB domain is ongoing, The Stop mode entry is delayed until the APB access is finished."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00075",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "In Stop mode, the following features can be selected by programming individual control bits:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00076",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Independent watchdog (IWDG): the IWDG is started by writing to its Key register or by hardware option. Once started it cannot be stopped except by a Reset."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00077",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Real-time clock (RTC): this is configured by the RTCEN bit in the Backup domain control register (RCC\\_BDCR)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00078",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Internal RC oscillator (LSI RC): this is configured by the LSION bit in the Control/status register (RCC\\_CSR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00079",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "External 32.768 kHz oscillator (LSE OSC): this is configured by the LSEON bit in the Backup domain control register (RCC\\_BDCR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00080",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "The ADC or DAC can also consume power during the Stop mode, unless they are disabled before entering it. To disable them, the ADON bit in the ADC\\_CR2 register and the ENx bit in the DAC\\_CR register must both be written to 0."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00081",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Exiting the Stop mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00082",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "Refer to Table 4 for more details on how to exit the Stop mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0011-text-00083",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 11,
+    "text": "When exiting Stop mode by issuing an interrupt or a wakeup event, the HSI RC oscillator is selected as system clock."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00084",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "When the voltage regulator operates in low-power mode, an additional startup delay is incurred when waking up from Stop mode. By keeping the internal regulator ON during Stop mode, the consumption is higher although the startup time is reduced."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-table-00004",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0012_00004.png",
+    "caption": "**Table 4. Stop mode**\n\n| Stop mode | Description |\n|---|---|\n| **Mode entry** | WFI (Wait for Interrupt) or WFE (Wait for Event) while:<br>– Set SLEEPDEEP bit in Cortex-M3 System Control register<br>– Clear PDDS bit in Power Control register (PWR_CR)<br>– Select the voltage regulator mode by configuring LPDS bit in PWR_CR<br><br>**Note:** To enter Stop mode, all EXTI Line pending bits (in Pending register (EXTI_PR)) and RTC Alarm flag must be reset. Otherwise, the Stop mode entry procedure is ignored and program execution continues. |\n| **Mode exit** | If WFI was used for entry:<br>Any EXTI Line configured in Interrupt mode (the corresponding EXTI Interrupt vector must be enabled in the NVIC).<br><br>If WFE was used for entry: Any EXTI Line configured in event mode. |\n| **Wakeup latency** | HSI RC wakeup time + Regulator wakeup time from low-power mode |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 4. Stop mode",
+    "generated_captions": {
+      "luna": "**Table 4. Stop mode**\n\n| Stop mode | Description |\n|---|---|\n| **Mode entry** | WFI (Wait for Interrupt) or WFE (Wait for Event) while:<br>– Set SLEEPDEEP bit in Cortex-M3 System Control register<br>– Clear PDDS bit in Power Control register (PWR_CR)<br>– Select the voltage regulator mode by configuring LPDS bit in PWR_CR<br><br>**Note:** To enter Stop mode, all EXTI Line pending bits (in Pending register (EXTI_PR)) and RTC Alarm flag must be reset. Otherwise, the Stop mode entry procedure is ignored and program execution continues. |\n| **Mode exit** | If WFI was used for entry:<br>Any EXTI Line configured in Interrupt mode (the corresponding EXTI Interrupt vector must be enabled in the NVIC).<br><br>If WFE was used for entry: Any EXTI Line configured in event mode. |\n| **Wakeup latency** | HSI RC wakeup time + Regulator wakeup time from low-power mode |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00085",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "1.2.5 Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "The Standby mode allows to achieve the lowest power consumption. It is based on the Cortex-M3 deepsleep mode, with the voltage regulator disabled. The 1.8 V domain is consequently powered off. The PLL, the HSI oscillator and the HSE oscillator are also switched off. SRAM and register contents are lost except for registers in the Backup domain and Standby circuitry (see Figure 1)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00087",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "Entering the Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00088",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "Refer to Table 5 for more details on how to enter the Standby mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00089",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "In Standby mode, the following features can be selected by programming individual control bits:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00090",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "Independent watchdog (IWDG): the IWDG is started by writing to its Key register or by hardware option. Once started it cannot be stopped except by a reset."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00091",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "real-time clock (RTC): this is configured by the RTCEN bit in the Backup domain control register (RCC\\_BDCR)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00092",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "Internal RC oscillator (LSI RC): this is configured by the LSION bit in the Control/status register (RCC\\_CSR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00093",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "External 32.768 kHz oscillator (LSE OSC): this is configured by the LSEON bit in the Backup domain control register (RCC\\_BDCR)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00094",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "Exiting the Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00095",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "The microcontroller exits Standby mode when an external Reset (NRST pin), IWDG Reset, a rising edge on WKUP pin or an RTC alarm occurs. All registers are reset after wakeup from Standby except for the Power control/status register (PWR\\_CSR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0012-text-00096",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 12,
+    "text": "After waking up from Standby mode, program execution restarts in the same way as after a Reset (boot pins sampling, vector reset is fetched, etc.). The SBF status flag in the Power control/status register (PWR\\_CSR) indicates that the MCU was in Standby mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-table-00005",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0013_00005.png",
+    "caption": "**Standby mode** table\n\n| Standby mode | Description |\n|---|---|\n| **Mode entry** | WFI (Wait for Interrupt) or WFE (Wait for Event) while:<br>– Set SLEEPDEEP in Cortex-M3 System Control register<br>– Set PDDS bit in Power Control register (PWR_CR)<br>– Clear WUF bit in Power Control/Status register (PWR_CSR) |\n| **Mode exit** | WKUP pin rising edge, RTC alarm, external Reset in NRST pin, IWDG Reset. |\n| **Wakeup latency** | Regulator start up + Reset phase |\n\nNo numeric values or units are shown in the visible table.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 5. Standby mode",
+    "generated_captions": {
+      "luna": "**Standby mode** table\n\n| Standby mode | Description |\n|---|---|\n| **Mode entry** | WFI (Wait for Interrupt) or WFE (Wait for Event) while:<br>– Set SLEEPDEEP in Cortex-M3 System Control register<br>– Set PDDS bit in Power Control register (PWR_CR)<br>– Clear WUF bit in Power Control/Status register (PWR_CSR) |\n| **Mode exit** | WKUP pin rising edge, RTC alarm, external Reset in NRST pin, IWDG Reset. |\n| **Wakeup latency** | Regulator start up + Reset phase |\n\nNo numeric values or units are shown in the visible table."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "I/O states in Standby mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00098",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "In Standby mode, all I/O pins are high impedance except:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00099",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● Reset pad (still available)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00100",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● TAMPER pin if configured for tamper or calibration out"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00101",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● WKUP pin, if enabled"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00102",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "1.2.6 Debug mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00103",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "By default, the debug connection is lost if the application puts the MCU in Stop or Standby mode while the debug features are used. This is due to the fact that the Cortex™-M3 core is no longer clocked."
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00104",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "However, by setting some configuration bits in the DBGMCU\\_CR register, the software can be debugged even when using the low-power modes extensively."
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00105",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "1.2.7 Auto-wakeup (AWU) from low-power mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00106",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "The RTC can be used to wakeup the MCU from low-power mode without depending on an external interrupt (Auto-wakeup mode). The RTC provides a programmable time base for waking up from Stop or Standby mode at regular intervals. For this purpose, two of the three alternative RTC clock sources can be selected by programming the RTCSEL[1:0] bits in the Backup domain control register (RCC\\_BDCR):"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00107",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● Low-power 32.768 kHz external crystal oscillator (LSE OSC)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00108",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "This clock source provides a precise time base with very low-power consumption (less than 1µA added consumption in typical conditions)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00109",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● Low-power internal RC Oscillator (LSI RC)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00110",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "This clock source has the advantage of saving the cost of the 32.768 kHz crystal. This internal RC Oscillator is designed to add minimum power consumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00111",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "To wakeup from Stop mode with an RTC alarm event, it is necessary to:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00112",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● Configure the EXTI Line 17 to be sensitive to rising edge"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00113",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "● Configure the RTC to generate the RTC alarm"
+  },
+  {
+    "segment_id": "stm32-an2629-p0013-text-00114",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 13,
+    "text": "To wakeup from Standby mode, there is no need to configure the EXTI Line 17."
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00115",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "2"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00116",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "Clock"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00117",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "Three different clock sources can be used to drive the system clock (SYSCLK):"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00118",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "● HSI oscillator clock"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00119",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "● HSE oscillator clock"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00120",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "● PLL clock"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00121",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "The devices have the two secondary clock sources listed below:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00122",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "40 kHz low-speed internal RC (LSI RC) that drives the independent watchdog and optionally the RTC used for Auto-Wakeup from Stop/Standby mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00123",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "32.768 kHz low speed external crystal (LSE crystal) that optionally drives the real-time clock (RTCCLK)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0014-text-00124",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 14,
+    "text": "Each clock source can be switched on or off independently when not used, to optimize power consumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0015-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0015_00002.png",
+    "caption": "**Figure 2. Clock tree**\n\n### Clock sources and oscillator inputs\n\n- **8 MHz HSI RC** → **HSI**\n  - HSI branch includes a **/2** divider feeding the PLL source selector.\n- **4–16 MHz HSE OSC**\n  - External oscillator pins: **OSC_IN**, **OSC_OUT**\n  - Produces **HSE**\n- **LSI RC 40 kHz**\n  - Produces **LSI**\n  - Feeds the independent watchdog: **IWDGCLK to Independent Watchdog (IWDG)**\n- **LSE OSC 32.768 kHz**\n  - External oscillator pins: **OSC32_IN**, **OSC32_OUT**\n  - Produces **LSE**\n\n### PLL and system clock selection\n\n- **PLLSRC** multiplexer selects the PLL input from:\n  - HSI through **/2**\n  - HSE\n- **PLLMUL** block:\n  - Multiplication selections shown as **“… , x16”** and **“x2, x3, x4”**\n  - Output: **PLL**\n- System clock switch **SW** selects among:\n  - **HSI**\n  - **PLLCLK**\n  - **HSE**\n- Switch output: **SYSCLK**\n- Maximum SYSCLK value shown: **72 MHz**\n- **CSS** block is connected in the HSE/system-clock path.\n\n### USB clock\n\n- PLL output feeds **USB Prescaler /1, 1.5**\n- Output: **48 MHz USBCLK**\n- Destination: **to USB interface**\n\n### AHB clock domain\n\n- SYSCLK feeds **AHB Prescaler /1, 2, 512**\n- Output: **HCLK**\n  - **HCLK to AHB bus, core, memory and DMA**\n- HCLK branch through **/8**:\n  - **to Cortex System timer**\n- **FCLK Cortex free running clock** is also shown in the AHB clock branch.\n\n### I2S, SDIO, and FSMC clocks\n\nPeripheral-clock-enable gates generate:\n\n- **I2S3SCLK** → **to I2S3**\n- **I2S2SCLK** → **to I2S2**\n- **SDIOCLK** → **to SDIO**\n- **FSMCCLK** → **to FSMC**\n\nEach path is labeled **Peripheral clock enable**.\n\n### APB1 clock domain\n\n- **APB1 Prescaler /1, 2, 4, 8, 16**\n- Output: **PCLK1**\n- Maximum value: **36 MHz max**\n- Destination: **to APB1 peripherals**\n- Timer clock path:\n  - **TIM2,3,4,5,6,7**\n  - Condition shown:\n    - **If (APB1 prescaler =1) x1**\n    - **else x2**\n  - Output: **TIMXCLK**\n  - Destination: **to TIM2,3,4,5,6 and 7**\n  - Gate labeled **Peripheral Clock Enable**\n\n### APB2 clock domain\n\n- **APB2 Prescaler /1, 2, 4, 8, 16**\n- Output: **PCLK2**\n- Maximum value: **72 MHz max**\n- Destination: **to APB2**\n- Timer clock path:\n  - **TIM1 & 8 timers**\n  - Condition shown:\n    - **If (APB2 prescaler =1) x1**\n    - **else x2**\n  - Output: **TIMxCLK**\n  - Destination: **to TIM1 and TIM8**\n  - Gate labeled **Peripheral Clock Enable**\n\n### ADC clock\n\n- **ADC Prescaler /2, 4, 6, 8**\n- Output: **ADCCLK**\n- Destination: **to ADC1, 2 or 3**\n\n### RTC clock\n\n- RTC clock selector **RTCSEL[1:0]** selects among:\n  - **LSE**\n  - **LSI** through **/128**\n  - **HSE** through **/128**\n- Output: **RTCCLK**\n- Destination: **to RTC**\n\n### Main clock output (MCO)\n\n- **Main Clock Output** multiplexer selects:\n  - **PLLCLK** through **/2**\n  - **HSI**\n  - **HSE**\n  - **SYSCLK**\n- Output pin/signal: **MCO**\n- The MCO output is shown at the lower-left side of the diagram.\n\n### Legend\n\n- **HSE = High-speed external clock signal**\n- **HSI = High-speed internal clock signal**\n- **LSI = Low-speed internal clock signal**\n- **LSE = Low-speed external clock signal**\n\nFigure identifier printed at bottom right: **ai14752c**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. Clock tree",
+    "generated_captions": {
+      "luna": "**Figure 2. Clock tree**\n\n### Clock sources and oscillator inputs\n\n- **8 MHz HSI RC** → **HSI**\n  - HSI branch includes a **/2** divider feeding the PLL source selector.\n- **4–16 MHz HSE OSC**\n  - External oscillator pins: **OSC_IN**, **OSC_OUT**\n  - Produces **HSE**\n- **LSI RC 40 kHz**\n  - Produces **LSI**\n  - Feeds the independent watchdog: **IWDGCLK to Independent Watchdog (IWDG)**\n- **LSE OSC 32.768 kHz**\n  - External oscillator pins: **OSC32_IN**, **OSC32_OUT**\n  - Produces **LSE**\n\n### PLL and system clock selection\n\n- **PLLSRC** multiplexer selects the PLL input from:\n  - HSI through **/2**\n  - HSE\n- **PLLMUL** block:\n  - Multiplication selections shown as **“… , x16”** and **“x2, x3, x4”**\n  - Output: **PLL**\n- System clock switch **SW** selects among:\n  - **HSI**\n  - **PLLCLK**\n  - **HSE**\n- Switch output: **SYSCLK**\n- Maximum SYSCLK value shown: **72 MHz**\n- **CSS** block is connected in the HSE/system-clock path.\n\n### USB clock\n\n- PLL output feeds **USB Prescaler /1, 1.5**\n- Output: **48 MHz USBCLK**\n- Destination: **to USB interface**\n\n### AHB clock domain\n\n- SYSCLK feeds **AHB Prescaler /1, 2, 512**\n- Output: **HCLK**\n  - **HCLK to AHB bus, core, memory and DMA**\n- HCLK branch through **/8**:\n  - **to Cortex System timer**\n- **FCLK Cortex free running clock** is also shown in the AHB clock branch.\n\n### I2S, SDIO, and FSMC clocks\n\nPeripheral-clock-enable gates generate:\n\n- **I2S3SCLK** → **to I2S3**\n- **I2S2SCLK** → **to I2S2**\n- **SDIOCLK** → **to SDIO**\n- **FSMCCLK** → **to FSMC**\n\nEach path is labeled **Peripheral clock enable**.\n\n### APB1 clock domain\n\n- **APB1 Prescaler /1, 2, 4, 8, 16**\n- Output: **PCLK1**\n- Maximum value: **36 MHz max**\n- Destination: **to APB1 peripherals**\n- Timer clock path:\n  - **TIM2,3,4,5,6,7**\n  - Condition shown:\n    - **If (APB1 prescaler =1) x1**\n    - **else x2**\n  - Output: **TIMXCLK**\n  - Destination: **to TIM2,3,4,5,6 and 7**\n  - Gate labeled **Peripheral Clock Enable**\n\n### APB2 clock domain\n\n- **APB2 Prescaler /1, 2, 4, 8, 16**\n- Output: **PCLK2**\n- Maximum value: **72 MHz max**\n- Destination: **to APB2**\n- Timer clock path:\n  - **TIM1 & 8 timers**\n  - Condition shown:\n    - **If (APB2 prescaler =1) x1**\n    - **else x2**\n  - Output: **TIMxCLK**\n  - Destination: **to TIM1 and TIM8**\n  - Gate labeled **Peripheral Clock Enable**\n\n### ADC clock\n\n- **ADC Prescaler /2, 4, 6, 8**\n- Output: **ADCCLK**\n- Destination: **to ADC1, 2 or 3**\n\n### RTC clock\n\n- RTC clock selector **RTCSEL[1:0]** selects among:\n  - **LSE**\n  - **LSI** through **/128**\n  - **HSE** through **/128**\n- Output: **RTCCLK**\n- Destination: **to RTC**\n\n### Main clock output (MCO)\n\n- **Main Clock Output** multiplexer selects:\n  - **PLLCLK** through **/2**\n  - **HSI**\n  - **HSE**\n  - **SYSCLK**\n- Output pin/signal: **MCO**\n- The MCO output is shown at the lower-left side of the diagram.\n\n### Legend\n\n- **HSE = High-speed external clock signal**\n- **HSI = High-speed internal clock signal**\n- **LSI = Low-speed internal clock signal**\n- **LSE = Low-speed external clock signal**\n\nFigure identifier printed at bottom right: **ai14752c**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0015-text-00125",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 15,
+    "text": "Several prescalers allow the configuration of the AHB frequency, the high speed APB (APB2) and the low speed APB (APB1) domains. The maximum frequency of the AHB and APB2 domains is 72 MHz. The maximum allowed frequency of the APB1 domains is 36 MHz. The RCC feeds the external clock of the Cortex system timer (SysTick) with the AHB clock (HCLK) divided by 8. The SysTick can work either with this clock or with the Cortex clock (HCLK), configurable in the SysTick Control and Status Register. The ADCs are clocked by the high speed domain (APB2) clock divided by 2, 4, 6 or 8."
+  },
+  {
+    "segment_id": "stm32-an2629-p0015-text-00126",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 15,
+    "text": "The timer clock frequencies are twice the frequency of the APB domain to which they are connected. Nevertheless, if the APB prescaler is 1, the clock frequency of the timer is the same as the frequency of the APB domain to which it is connected."
+  },
+  {
+    "segment_id": "stm32-an2629-p0015-text-00127",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 15,
+    "text": "FCLK acts as the Cortex™-M3 free running clock. For more details refer to the ARM Cortex™-M3 Technical Reference Manual."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00128",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "Real-time clock (RTC)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00129",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "3.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00130",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "The real-time clock is an independent timer. The RTC provides a set of continuously-running counters which can be used, with suitable software, to provide a clock-calendar function. The counter values can be written to set the current time/date of the system."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00131",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "3.2 Main features"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00132",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "● Programmable prescaler: division factor up to $2 ^ { 2 0 }$"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00133",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "● 32-bit programmable counter for long-term measurement"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00134",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "Two separate clocks: PCLK1 for the APB1 interface and RTC clock (must be at least four times slower than the PCLK1 clock)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00135",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "● Two separate reset types:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00136",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "– The APB1 interface is reset by system reset"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00137",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "The RTC Core (Prescaler, Alarm, Counter and Divider) is reset only by a Backup domain reset (see “Backup domain reset” section in the STM32F10xxx reference manual)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00138",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "● Three dedicated maskable interrupt lines:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00139",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "– Alarm interrupt, for generating a software programmable alarm interrupt."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00140",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "Seconds interrupt, for generating a periodic interrupt signal with a programmable period length (up to 1 second)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00141",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "Overflow interrupt, to detect when the internal programmable counter rolls over to zero."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00142",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "3.3 Functional description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00143",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "3.3.1 Overview"
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00144",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "The RTC consists of two main units (see Figure 3 on page 17). The first one (APB1 Interface) is used to interface with the APB1 bus. This unit also contains a set of 16-bit registers accessible from the APB1 bus in read or write mode. The APB1 interface is clocked by the APB1 bus clock in order to interface with the APB1 bus."
+  },
+  {
+    "segment_id": "stm32-an2629-p0016-text-00145",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 16,
+    "text": "The other unit (RTC Core) consists of a chain of programmable counters made of two main blocks. The first block is the RTC prescaler block, which generates the RTC time base TR\\_CLK that can be programmed to have a period of up to 1 second. It includes a 20-bit programmable divider (RTC Prescaler). Every TR\\_CLK period, the RTC generates an interrupt (Second Interrupt) if it is enabled in the RTC\\_CR register. The second block is a 32-bit programmable counter that can be initialized to the current system time. The system time is incremented at the TR\\_CLK rate and compared with a programmable date (stored in the RTC\\_ALR register) in order to generate an alarm interrupt, if enabled in the RTC\\_CR control register."
+  },
+  {
+    "segment_id": "stm32-an2629-p0017-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0017_00003.png",
+    "caption": "**Figure 3. RTC simplified block diagram**\n\nThe diagram shows the STM32 real-time clock (RTC) backup domain, APB1 interface, RTC interrupt logic, and Standby-mode wakeup/exit paths.\n\n### APB1 interface and clock inputs\n- **PCLK1** input enters the **APB1 interface**.\n- **APB1 bus** connects vertically to the **APB1 interface**; the connection is shown with bus-style slash marks.\n- **APB1 interface** is marked **“not powered in Standby”**.\n- **RTCCLK** enters the backup-domain RTC prescaler.\n- A vertical connection from the APB1 interface enters the backup domain and is shown with bus-style slash marks.\n\n### Backup domain\nA shaded region labeled **Backup domain** contains the RTC prescaler and programmable counter. The blocks marked **“powered in Standby”** are within this domain.\n\n#### RTC prescaler\nThe left block is labeled **RTC prescaler** and contains:\n- **RTC_PRL**\n- **Reload** path from **RTC_PRL** toward the divider\n- **RTC_DIV**\n- **TR_CLK** output from the divider toward the programmable counter\n- **rising edge** text associated with **RTC_DIV**\n- The block is marked **powered in Standby**\n\n#### 32-bit programmable counter\nThe adjacent block is labeled **32-bit programmable counter** and contains:\n- **RTC_CNT**\n- A comparator block labeled **=**\n- **RTC_ALR**\n- The comparator compares **RTC_CNT** with **RTC_ALR**.\n- The block is marked **powered in Standby**.\n\nSignals leaving the programmable counter section:\n- **RTC_Second**\n- **RTC_Overflow**\n- **RTC_Alarm**\n\n### RTC control register and interrupt-generation logic\nThe right-side block is labeled **RTC_CR** and is marked **not powered in Standby**. It contains three status/interrupt-enable pairs:\n\n1. **SECF**\n   - **SECIE**\n2. **OWF**\n   - **OWIE**\n3. **ALRF**\n   - **ALRIE**\n\nEach status flag and its corresponding interrupt-enable signal feed a logic gate. The three resulting signals are combined by a final logic gate, whose output routes toward the **NVIC interrupt controller**.\n\n### Interrupt and Standby exit logic\n- **NVIC interrupt controller**\n  - Marked **not powered in Standby**.\n  - Receives the RTC interrupt path from the RTC control logic.\n- A separate RTC alarm/wakeup path is labeled **RTC_Alarm**.\n- The bottom wakeup path includes:\n  - **WKU pin**\n  - **WKP_STDBY**\n- **RTC_Alarm** and **WKP_STDBY** feed a logic gate whose output drives **exit from Standby mode**.\n- The block is labeled **exit from Standby mode** and marked **powered in Standby**.\n- The wakeup/exit logic is within the shaded Standby-powered region.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. RTC simplified block diagram",
+    "generated_captions": {
+      "luna": "**Figure 3. RTC simplified block diagram**\n\nThe diagram shows the STM32 real-time clock (RTC) backup domain, APB1 interface, RTC interrupt logic, and Standby-mode wakeup/exit paths.\n\n### APB1 interface and clock inputs\n- **PCLK1** input enters the **APB1 interface**.\n- **APB1 bus** connects vertically to the **APB1 interface**; the connection is shown with bus-style slash marks.\n- **APB1 interface** is marked **“not powered in Standby”**.\n- **RTCCLK** enters the backup-domain RTC prescaler.\n- A vertical connection from the APB1 interface enters the backup domain and is shown with bus-style slash marks.\n\n### Backup domain\nA shaded region labeled **Backup domain** contains the RTC prescaler and programmable counter. The blocks marked **“powered in Standby”** are within this domain.\n\n#### RTC prescaler\nThe left block is labeled **RTC prescaler** and contains:\n- **RTC_PRL**\n- **Reload** path from **RTC_PRL** toward the divider\n- **RTC_DIV**\n- **TR_CLK** output from the divider toward the programmable counter\n- **rising edge** text associated with **RTC_DIV**\n- The block is marked **powered in Standby**\n\n#### 32-bit programmable counter\nThe adjacent block is labeled **32-bit programmable counter** and contains:\n- **RTC_CNT**\n- A comparator block labeled **=**\n- **RTC_ALR**\n- The comparator compares **RTC_CNT** with **RTC_ALR**.\n- The block is marked **powered in Standby**.\n\nSignals leaving the programmable counter section:\n- **RTC_Second**\n- **RTC_Overflow**\n- **RTC_Alarm**\n\n### RTC control register and interrupt-generation logic\nThe right-side block is labeled **RTC_CR** and is marked **not powered in Standby**. It contains three status/interrupt-enable pairs:\n\n1. **SECF**\n   - **SECIE**\n2. **OWF**\n   - **OWIE**\n3. **ALRF**\n   - **ALRIE**\n\nEach status flag and its corresponding interrupt-enable signal feed a logic gate. The three resulting signals are combined by a final logic gate, whose output routes toward the **NVIC interrupt controller**.\n\n### Interrupt and Standby exit logic\n- **NVIC interrupt controller**\n  - Marked **not powered in Standby**.\n  - Receives the RTC interrupt path from the RTC control logic.\n- A separate RTC alarm/wakeup path is labeled **RTC_Alarm**.\n- The bottom wakeup path includes:\n  - **WKU pin**\n  - **WKP_STDBY**\n- **RTC_Alarm** and **WKP_STDBY** feed a logic gate whose output drives **exit from Standby mode**.\n- The block is labeled **exit from Standby mode** and marked **powered in Standby**.\n- The wakeup/exit logic is within the shaded Standby-powered region."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00146",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "3.3.2 Resetting RTC registers"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00147",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "All system registers are asynchronously reset by a System Reset or Power Reset, except for RTC\\_PRL, RTC\\_ALR, RTC\\_CNT, and RTC\\_DIV."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00148",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "The RTC\\_PRL, RTC\\_ALR, RTC\\_CNT, and RTC\\_DIV registers are reset only by a Backup Domain reset. Refer to the STM32F10xxx reference manual."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00149",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "3.3.3 Reading RTC registers"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00150",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "The RTC core is completely independent from the RTC APB1 interface."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00151",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "Software accesses the RTC prescaler, counter and alarm values through the APB1 interface but the associated readable registers are internally updated at each rising edge of the RTC clock resynchronized by the RTC APB1 clock. This is also true for the RTC flags."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00152",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "This means that the first read to the RTC APB1 registers may be corrupted (generally read as 0) if the APB1 interface has previously been disabled and the read occurs immediately after the APB1 interface is enabled but before the first internal update of the registers. This can occur if:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00153",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "● A system reset or power reset has occurred"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00154",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "The MCU has just woken up from Standby mode (see the STM32F10xxx reference manual)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00155",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "The MCU has just woken up from Stop mode (see the STM32F10xxx reference manual)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00156",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "In all the above cases, the RTC core has been kept running while the APB1 interface was disabled (reset, not clocked or not powered)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00157",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "Consequently when reading the RTC registers, after having disabled the RTC APB1 interface, the software must first wait for the RSF bit (Register Synchronized Flag) in the RTC\\_CRL register to be set by hardware."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00158",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "Note that the RTC APB1 interface is not affected by WFI and WFE low-power modes."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00159",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "3.3.4 Configuring RTC registers"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00160",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "To write in the RTC\\_PRL, RTC\\_CNT, RTC\\_ALR registers, the peripheral must enter Configuration Mode. This is done by setting the CNF bit in the RTC\\_CRL register."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00161",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "In addition, writing to any RTC register is only enabled if the previous write operation is finished. To enable the software to detect this situation, the RTOFF status bit is provided in the RTC\\_CR register to indicate that an update of the registers is in progress. A new value can be written to the RTC registers only when the RTOFF status bit value is ‘1’."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00162",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "Configuration procedure:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00163",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "1. Poll RTOFF, wait until its value goes to ‘1’"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00164",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "2. Set the CNF bit to enter configuration mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00165",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "3. Write to one or more RTC registers"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00166",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "4. Clear the CNF bit to exit configuration mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00167",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "5. Poll RTOFF, wait until its value goes to ‘1’ to check the end of the write operation."
+  },
+  {
+    "segment_id": "stm32-an2629-p0018-text-00168",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 18,
+    "text": "The write operation only executes when the CNF bit is cleared; it takes at least three RTCCLK cycles to complete."
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-text-00169",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "text": "3.3.5 RTC flag assertion"
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-text-00170",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "text": "The RTC Second flag (SECF) is asserted on each RTC Core clock cycle before the update of the RTC Counter."
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-text-00171",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "text": "The RTC Overflow flag (OWF) is asserted on the last RTC Core clock cycle before the counter reaches 0x0000."
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-text-00172",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "text": "The RTC\\_Alarm and RTC Alarm flag (ALRF) (see Figure 4) are asserted on the last RTC Core clock cycle before the counter reaches the RTC Alarm value stored in the Alarm register increased by one (RTC\\_ALR + 1). The write operation in the RTC Alarm and RTC Second flag must be synchronized by using one of the following sequences:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-text-00173",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "text": "Use the RTC Alarm interrupt and inside the RTC interrupt routine, the RTC Alarm and/or RTC Counter registers are updated."
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-text-00174",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "text": "Wait for SECF bit to be set in the RTC Control register. Update the RTC Alarm and/or the RTC Counter register."
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-table-00006",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0019_00006.png",
+    "caption": "Timing diagram showing RTC prescaler, second signal, counter, alarm pulse, and alarm flag behavior.\n\n- **RTCCLK**: clock reference at top; a double-headed arrow marks one **RTCCLK** interval.\n- **RTC_PR**: prescaler value sequence shown across successive RTCCLK intervals:  \n  **0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003**.\n- **RTC_Second**: periodic second waveform. The signal is low initially, transitions high for one RTCCLK interval, then low; this high pulse pattern repeats at subsequent divider rollover points.\n- **RTC_CNT**: counter values by second interval:\n  - **0000**\n  - **0001**\n  - **0002**\n  - **0003**\n  - **0004**\n  - **0005**\n- **RTC_ALARM**: remains low, then generates a high pulse near the transition from **RTC_CNT = 0004** to **0005**. The pulse width is labeled **1 RTCCLK**.\n- **ALRF**: alarm flag output, labeled **“(not powered in Standby)”**. It transitions high after the alarm event and remains high.\n- A note beside the ALRF waveform states: **“can be cleared by software”**.\n- Vertical dashed timing markers align with RTC second/counter transitions, including the counter transitions at **0000 → 0001**, **0001 → 0002**, **0002 → 0003**, **0003 → 0004**, and **0004 → 0005**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. RTC second and alarm waveform example with PR=0003, ALARM=00004",
+    "generated_captions": {
+      "luna": "Timing diagram showing RTC prescaler, second signal, counter, alarm pulse, and alarm flag behavior.\n\n- **RTCCLK**: clock reference at top; a double-headed arrow marks one **RTCCLK** interval.\n- **RTC_PR**: prescaler value sequence shown across successive RTCCLK intervals:  \n  **0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003, 0002, 0001, 0000, 0003**.\n- **RTC_Second**: periodic second waveform. The signal is low initially, transitions high for one RTCCLK interval, then low; this high pulse pattern repeats at subsequent divider rollover points.\n- **RTC_CNT**: counter values by second interval:\n  - **0000**\n  - **0001**\n  - **0002**\n  - **0003**\n  - **0004**\n  - **0005**\n- **RTC_ALARM**: remains low, then generates a high pulse near the transition from **RTC_CNT = 0004** to **0005**. The pulse width is labeled **1 RTCCLK**.\n- **ALRF**: alarm flag output, labeled **“(not powered in Standby)”**. It transitions high after the alarm event and remains high.\n- A note beside the ALRF waveform states: **“can be cleared by software”**.\n- Vertical dashed timing markers align with RTC second/counter transitions, including the counter transitions at **0000 → 0001**, **0001 → 0002**, **0002 → 0003**, **0003 → 0004**, and **0004 → 0005**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0019-table-00007",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 19,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0019_00007.png",
+    "caption": "**Figure 5. RTC Overflow waveform example with PR=0003**\n\nWaveform diagram, with time progressing left to right. Signals and visible details:\n\n- **RTCCLK** — clock reference at the top; a double-headed timing marker indicates one RTCCLK interval.\n- **RTC_PR** — prescaler register sequence shown in repeating order:\n  - `0002`\n  - `0001`\n  - `0000`\n  - `0003`\n  - then repeating `0002`, `0001`, `0000`, `0003` across the waveform, with the right edge also showing `0003`.\n- **RTC_Second** — periodic second-indication waveform. It is low, briefly goes high for one RTCCLK interval, then returns low; this pattern repeats at the dashed vertical timing markers.\n- **RTC_CNT** — counter values by interval:\n  - `FFFFFFFB`\n  - `FFFFFFFC`\n  - `FFFFFFFD`\n  - `FFFFFFFE`\n  - `FFFFFFFF`\n  - `0000`\n- **RTC_Overflow** — overflow pulse associated with the transition from `FFFFFFFF` to `0000`. The high pulse duration is explicitly marked **`1 RTCCLK`**.\n- **OWF** — overflow flag waveform, annotated:\n  - **`OWF (not powered in Standby)`**\n  - After being set, it remains asserted and **`can be cleared by software`**.\n\nDashed vertical guide lines mark the counter/second timing transitions.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. RTC Overflow waveform example with PR=0003",
+    "generated_captions": {
+      "luna": "**Figure 5. RTC Overflow waveform example with PR=0003**\n\nWaveform diagram, with time progressing left to right. Signals and visible details:\n\n- **RTCCLK** — clock reference at the top; a double-headed timing marker indicates one RTCCLK interval.\n- **RTC_PR** — prescaler register sequence shown in repeating order:\n  - `0002`\n  - `0001`\n  - `0000`\n  - `0003`\n  - then repeating `0002`, `0001`, `0000`, `0003` across the waveform, with the right edge also showing `0003`.\n- **RTC_Second** — periodic second-indication waveform. It is low, briefly goes high for one RTCCLK interval, then returns low; this pattern repeats at the dashed vertical timing markers.\n- **RTC_CNT** — counter values by interval:\n  - `FFFFFFFB`\n  - `FFFFFFFC`\n  - `FFFFFFFD`\n  - `FFFFFFFE`\n  - `FFFFFFFF`\n  - `0000`\n- **RTC_Overflow** — overflow pulse associated with the transition from `FFFFFFFF` to `0000`. The high pulse duration is explicitly marked **`1 RTCCLK`**.\n- **OWF** — overflow flag waveform, annotated:\n  - **`OWF (not powered in Standby)`**\n  - After being set, it remains asserted and **`can be cleared by software`**.\n\nDashed vertical guide lines mark the counter/second timing transitions."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00175",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "Backup registers (BKP)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00176",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "4.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00177",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "The backup registers are ten 16-bit registers for storing 20 bytes of user application data. They are implemented in the backup domain that remains powered on by $\\mathsf { V } _ { \\mathsf { B A T } }$ when the $\\mathsf { V } _ { \\mathsf { D D } }$ power is switched off. They are not reset when the device wakes up from Standby mode or by a system reset or power reset."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00178",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "In addition, the BKP control registers are used to manage the Tamper detection feature and RTC calibration."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00179",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "After reset, the access to Backup registers and RTC is disabled and the Backup domain is protected against possible parasitic write access."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00180",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "The DBP bit must be set in the Power control register (PWR\\_CR) to enable access to the Backup registers and RTC."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00181",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "4.2 Features"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00182",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "● Ten 16-bit data registers."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00183",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "Status/control register for managing the anti-Tamper feature"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00184",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "Calibration register for storing the RTC calibration value"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00185",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "4.3 Tamper detection"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00186",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "The TAMPER pin generates a Tamper detection event when the pin changes from 0 to 1 or from 1 to 0 depending on the TPAL bit in the Backup control register (BKP\\_CR). A tamper detection event resets all data backup registers."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00187",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "However to avoid losing Tamper events, the signal used for edge detection is logically ANDed with the Tamper enable in order to detect a Tamper event in case it occurs before the TAMPER pin is enabled."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00188",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "When TPAL=0: If the TAMPER pin is already high before it is enabled (by setting TPE bit), an extra Tamper event is detected as soon as the TAMPER pin is enabled (while there was no rising edge on the TAMPER pin after TPE was set)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00189",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "When TPAL=1: If the TAMPER pin is already low before it is enabled (by setting the TPE bit), an extra Tamper event is detected as soon as the TAMPER pin is enabled (while there was no falling edge on the TAMPER pin after TPE was set)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00190",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "After a Tamper event has been detected and cleared, the TAMPER pin should be disabled and then re-enabled with TPE before writing to the backup data registers (BKP\\_DRx) again. This prevents software from writing to the backup data registers (BKP\\_DRx), while the TAMPER pin value still indicates a Tamper detection. This is equivalent to a level detection on the TAMPER pin."
+  },
+  {
+    "segment_id": "stm32-an2629-p0020-text-00191",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 20,
+    "text": "Tamper detection is still active when $V _ { D D }$ power is switched off. To avoid unwanted resetting of the data backup registers, the TAMPER pin should be externally tied to the correct level."
+  },
+  {
+    "segment_id": "stm32-an2629-p0021-text-00192",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 21,
+    "text": "4.4 RTC calibration"
+  },
+  {
+    "segment_id": "stm32-an2629-p0021-text-00193",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 21,
+    "text": "For measurement purposes, the 32.768 kHz RTC clock can be output on the TAMPER pin.   \nThis is enabled by setting the CCO bit in the RTC clock calibration register (BKP\\_RTCCR)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0021-text-00194",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 21,
+    "text": "The clock can be slowed down by up to 121 ppm by configuring CAL[6:0] bits."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00195",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Power and wakeup time measurement"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00196",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "5.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00197",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "This section describes the measurement of the STM32F10xxx low-power mode consumptions and wake up timings. All described tests are made on the STM3210B evaluation board (order code STM3210B-EVAL) and can easily be tailored to any other hardware. This board is available for evaluation and testing purposes. Please contact your local ST sales office for further details."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00198",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "This section is divided into two main parts: the first describes power measurement and the second handles the measurement of the time required by the STM32F10xxx to wake up from the different low-power modes."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00199",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "5.2 Power measurement"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00200",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "5.2.1 Context"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00201",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "This part describes how to measure the power consumption of the STM32F10xxx using the firmware provided in the Zip file that comes with this application note. This firmware is available in the CurrentMeasurements folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00202",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "The CurrentMeasurements folder contains all the subdirectories and files that make up the core of the application example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00203",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "● inc subfolder contains the example header files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00204",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "● src subfolder contains the example source files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00205",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "● project subfolder contains two projects that compile the example files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00206",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "EWARMv5: contains the project for the EWARM toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00207",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "RVMDK: contains the project for the RVMDK toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00208",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "RIDE: contains the project for the RIDE toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00209",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "5.2.2 Detailed description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00210",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Power is measured in the following STM32F10xxx low-power modes:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00211",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Sleep mode: power consumption in this mode depends on the used clock and the active peripherals. So, to cover the whole applicative functionality of this mode, measurements are made using different clock sources (HSI and HSE), clock frequencies (from 125 kHz to 72 MHz) and APB peripheral configurations (all peripheral clocks ON or all peripheral clocks OFF)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00212",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Stop mode: power consumption in this mode is measured in the two possible configurations of the Stop mode (Regulator in Run mode and Regulator in low-power mode)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00213",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Note that for the Sleep and Stop modes, all unused I/O pins are configured as analog pins. The Schmitt trigger input is thus deactivated, leading to zero consumption for these I/O pins."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00214",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Standby mode: power consumption in the standby mode is measured with RTC OFF and with RTC ON."
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00215",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0022-text-00216",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 22,
+    "text": "For more details on the different low-power modes please refer to Section 1: Power supply."
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00217",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "Hardware environment"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00218",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "Sleep, Stop and Standby (With RTC OFF): the measurement of the power consumption is made by replacing jumper JP9 in the STM3210B-EVAL board by an ammeter and by powering the board from an external supply, or by using the USB cable."
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00219",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "RTC powered by $\\mathsf { v } _ { \\mathsf { B A T } } \\colon$ the measurement is made by connecting an external power supply to the pin 2 of jumper J11. The ammeter is then connected in series."
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00220",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00221",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "The firmware provided is divided into the following files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00222",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "● File main.c:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00223",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "This file contains the main firmware body. The user can select the needed low-power mode by uncommenting the respective line:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00224",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "```cpp\n/* Define the Low power mode*/\n//#define SLEEP\n//#define SLEEP_ALLPERIPH_ENABLE\n//#define SLEEP_ALLPERIPH_DISABLE\n//#define STOP\n//#define STOP_Regulator_ON\n//#define STOP_Regulator_LowPower\n//#define STANDBY\n//#define RTC_ON\n```"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00225",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "● hw\\_config.c and hw\\_config.h files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00226",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "These files contain all functions related to the configuration of the STM32F10xxx (clock configuration, peripheral enable/disable, I/O configuration, etc.)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00227",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "To select the way the Sleep and Stop mode are entered (WFI or WFE), uncomment the corresponding line in the hw\\_config.h file:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00228",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "```cpp\n/* Define the entry to the low power mode */\n//#define Entry_WFE\n//#define Entry_WFI\n```"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00229",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "To select the needed clock configuration for Sleep mode, uncomment the corresponding line in the hw\\_config.h file:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0023-text-00230",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 23,
+    "text": "```c\n/* Define the clock settings */\n#define HSE_PLL_ON\n#define HSE_PLL_ON_72MHz\n//#define HSE_PLL_ON_48MHz\n//#define HSE_PLL_ON_36MHz\n//#define HSE_PLL_ON_24MHz\n//#define HSE_PLL_ON_16MHz\n//#define HSE_PLL_OFF\n```"
+  },
+  {
+    "segment_id": "stm32-an2629-p0024-table-00008",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 24,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0024_00008.png",
+    "caption": "Visible code excerpt (no table title or column headings shown):\n\n```c\n//#define HSE_PLL_OFF_8MHz\n//#define HSE_PLL_OFF_4MHz\n//#define HSE_PLL_OFF_2MHz\n//#define HSE_PLL_OFF_1MHz\n//#define HSE_PLL_OFF_500kHz\n//#define HSE_PLL_OFF_125kHz\n\n//#define HSI_PLL_ON\n//#define HSI_PLL_ON_64MHz\n//#define HSI_PLL_ON_48MHz\n//#define HSI_PLL_ON_36MHz\n//#define HSI_PLL_ON_24MHz\n//#define HSI_PLL_ON_16MHz\n\n//#define HSI_PLL_OFF\n//#define HSI_PLL_OFF_8MHz\n//#define HSI_PLL_OFF_4MHz\n//#define HSI_PLL_OFF_2MHz\n//#define HSI_PLL_OFF_1MHz\n//#define HSI_PLL_OFF_500kHz\n//#define HSI_PLL_OFF_125kHz\n```\n\nAll visible lines are commented-out C preprocessor `#define` directives. The excerpt contains HSE PLL-off frequency options, HSI PLL-on options, and HSI PLL-off frequency options.",
+    "crop_source": "mineru_bbox_fallback",
+    "generated_captions": {
+      "luna": "Visible code excerpt (no table title or column headings shown):\n\n```c\n//#define HSE_PLL_OFF_8MHz\n//#define HSE_PLL_OFF_4MHz\n//#define HSE_PLL_OFF_2MHz\n//#define HSE_PLL_OFF_1MHz\n//#define HSE_PLL_OFF_500kHz\n//#define HSE_PLL_OFF_125kHz\n\n//#define HSI_PLL_ON\n//#define HSI_PLL_ON_64MHz\n//#define HSI_PLL_ON_48MHz\n//#define HSI_PLL_ON_36MHz\n//#define HSI_PLL_ON_24MHz\n//#define HSI_PLL_ON_16MHz\n\n//#define HSI_PLL_OFF\n//#define HSI_PLL_OFF_8MHz\n//#define HSI_PLL_OFF_4MHz\n//#define HSI_PLL_OFF_2MHz\n//#define HSI_PLL_OFF_1MHz\n//#define HSI_PLL_OFF_500kHz\n//#define HSI_PLL_OFF_125kHz\n```\n\nAll visible lines are commented-out C preprocessor `#define` directives. The excerpt contains HSE PLL-off frequency options, HSI PLL-on options, and HSI PLL-off frequency options."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0024-text-00231",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 24,
+    "text": "Note: 1 With both HSI and HSE clock sources, if the system clock frequency is equal to or less than 8 MHz, the PLL is turned off."
+  },
+  {
+    "segment_id": "stm32-an2629-p0024-text-00232",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 24,
+    "text": "2 The Wakeup push-button of the STM3210B-EVAL board (connected to pin PA0 in the STM32F10xxx) is used as the wakeup source for all low-power modes."
+  },
+  {
+    "segment_id": "stm32-an2629-p0024-text-00233",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 24,
+    "text": "● stm32f10x\\_it.c file:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0024-text-00234",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 24,
+    "text": "This file manages the interrupt service routine of the EXTI line 0 if the selected way of entering the low-power mode is the WFI instruction."
+  },
+  {
+    "segment_id": "stm32-an2629-p0025-text-00235",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 25,
+    "text": "5.2.3 Measurement results"
+  },
+  {
+    "segment_id": "stm32-an2629-p0025-text-00236",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 25,
+    "text": "Table 6 and Table 7 summarize the measurement results of power consumption in the Sleep, Stop and Standby modes."
+  },
+  {
+    "segment_id": "stm32-an2629-p0025-table-00009",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 25,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0025_00009.png",
+    "caption": "**Table 6. Power measurement results in Sleep mode**\n\n| Symbol | Parameter | Conditions | fHCLK | All APB peripherals enabled | All APB peripherals disabled | Unit |\n|---|---|---|---:|---:|---:|---|\n| I<sub>DD</sub> | Supply current in Sleep mode | Running on HSE, AHB prescaler used to reduce the frequency | 72 MHz | 14.4 | 5.5 | mA |\n|  |  |  | 48 MHz | 9.9 | 3.9 | mA |\n|  |  |  | 36 MHz | 7.6 | 3.1 | mA |\n|  |  |  | 24 MHz | 5.3 | 2.3 | mA |\n|  |  |  | 16 MHz | 3.8 | 1.8 | mA |\n|  |  |  | 8 MHz | 2.1 | 1.2 | mA |\n|  |  |  | 4 MHz | 1.6 | 1.1 | mA |\n|  |  |  | 2 MHz | 1.3 | 1 | mA |\n|  |  |  | 1 MHz | 1.11 | 0.98 | mA |\n|  |  |  | 500 kHz | 1.04 | 0.96 | mA |\n|  |  |  | 125 kHz | 0.98 | 0.95 | mA |\n|  |  | Running on high speed internal RC (HSI), AHB prescaler used to reduce the frequency | 64 MHz | 12.3 | 4.4 | mA |\n|  |  |  | 48 MHz | 9.3 | 3.3 | mA |\n|  |  |  | 36 MHz | 7 | 2.5 | mA |\n|  |  |  | 24 MHz | 4.8 | 1.8 | mA |\n|  |  |  | 16 MHz | 3.2 | 1.2 | mA |\n|  |  |  | 8 MHz | 1.6 | 0.6 | mA |\n|  |  |  | 4 MHz | 1 | 0.5 | mA |\n|  |  |  | 2 MHz | 0.72 | 0.47 | mA |\n|  |  |  | 1 MHz | 0.56 | 0.44 | mA |\n|  |  |  | 500 kHz | 0.49 | 0.42 | mA |\n|  |  |  | 125 kHz | 0.43 | 0.41 | mA |\n\nThe table reports **I<sub>DD</sub> supply current in Sleep mode** in **mA**, for APB peripherals either enabled or disabled, at the listed **f<sub>HCLK</sub>** frequencies.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 6. Power measurement results in Sleep mode",
+    "generated_captions": {
+      "luna": "**Table 6. Power measurement results in Sleep mode**\n\n| Symbol | Parameter | Conditions | fHCLK | All APB peripherals enabled | All APB peripherals disabled | Unit |\n|---|---|---|---:|---:|---:|---|\n| I<sub>DD</sub> | Supply current in Sleep mode | Running on HSE, AHB prescaler used to reduce the frequency | 72 MHz | 14.4 | 5.5 | mA |\n|  |  |  | 48 MHz | 9.9 | 3.9 | mA |\n|  |  |  | 36 MHz | 7.6 | 3.1 | mA |\n|  |  |  | 24 MHz | 5.3 | 2.3 | mA |\n|  |  |  | 16 MHz | 3.8 | 1.8 | mA |\n|  |  |  | 8 MHz | 2.1 | 1.2 | mA |\n|  |  |  | 4 MHz | 1.6 | 1.1 | mA |\n|  |  |  | 2 MHz | 1.3 | 1 | mA |\n|  |  |  | 1 MHz | 1.11 | 0.98 | mA |\n|  |  |  | 500 kHz | 1.04 | 0.96 | mA |\n|  |  |  | 125 kHz | 0.98 | 0.95 | mA |\n|  |  | Running on high speed internal RC (HSI), AHB prescaler used to reduce the frequency | 64 MHz | 12.3 | 4.4 | mA |\n|  |  |  | 48 MHz | 9.3 | 3.3 | mA |\n|  |  |  | 36 MHz | 7 | 2.5 | mA |\n|  |  |  | 24 MHz | 4.8 | 1.8 | mA |\n|  |  |  | 16 MHz | 3.2 | 1.2 | mA |\n|  |  |  | 8 MHz | 1.6 | 0.6 | mA |\n|  |  |  | 4 MHz | 1 | 0.5 | mA |\n|  |  |  | 2 MHz | 0.72 | 0.47 | mA |\n|  |  |  | 1 MHz | 0.56 | 0.44 | mA |\n|  |  |  | 500 kHz | 0.49 | 0.42 | mA |\n|  |  |  | 125 kHz | 0.43 | 0.41 | mA |\n\nThe table reports **I<sub>DD</sub> supply current in Sleep mode** in **mA**, for APB peripherals either enabled or disabled, at the listed **f<sub>HCLK</sub>** frequencies."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-table-00010",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0026_00010.png",
+    "caption": "**Table 7. Power measurement for Stop and Standby modes**\n\n| Symbol | Parameter | Conditions | V<sub>DD</sub>/V<sub>BAT</sub> = 2.4 V | V<sub>DD</sub>/V<sub>BAT</sub> = 3.3 V | Unit |\n|---|---|---|---:|---:|---|\n| I<sub>DD</sub> | Supply current in Stop mode | Regulator in Run mode, low-speed and high-speed internal RC oscillators and high-speed oscillator OFF (no independent watchdog) | NA | 24 | μA |\n| I<sub>DD</sub> | Supply current in Stop mode | Regulator in Low Power mode, low-speed and high-speed internal RC oscillators and high-speed oscillator OFF (no independent watchdog) | NA | 14 | μA |\n| I<sub>DD</sub> | Supply current in Standby mode | Low-speed internal RC oscillator and independent watchdog OFF, low-speed oscillator and RTC OFF | NA | 2 | μA |\n| I<sub>DD_VBAT</sub> | Backup domain supply current | Low-speed oscillator and RTC ON | 1.08 | 1.4 | μA |\n\nThe unit column is shown as **μA** and applies to the listed current values.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 7. Power measurement for Stop and Standby modes",
+    "generated_captions": {
+      "luna": "**Table 7. Power measurement for Stop and Standby modes**\n\n| Symbol | Parameter | Conditions | V<sub>DD</sub>/V<sub>BAT</sub> = 2.4 V | V<sub>DD</sub>/V<sub>BAT</sub> = 3.3 V | Unit |\n|---|---|---|---:|---:|---|\n| I<sub>DD</sub> | Supply current in Stop mode | Regulator in Run mode, low-speed and high-speed internal RC oscillators and high-speed oscillator OFF (no independent watchdog) | NA | 24 | μA |\n| I<sub>DD</sub> | Supply current in Stop mode | Regulator in Low Power mode, low-speed and high-speed internal RC oscillators and high-speed oscillator OFF (no independent watchdog) | NA | 14 | μA |\n| I<sub>DD</sub> | Supply current in Standby mode | Low-speed internal RC oscillator and independent watchdog OFF, low-speed oscillator and RTC OFF | NA | 2 | μA |\n| I<sub>DD_VBAT</sub> | Backup domain supply current | Low-speed oscillator and RTC ON | 1.08 | 1.4 | μA |\n\nThe unit column is shown as **μA** and applies to the listed current values."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00237",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "5.3 Wakeup time measurement"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00238",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "5.3.1 Context"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00239",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "This part describes how to measure the time required by the STM32F10xxx to wake up from different low-power modes, using the firmware provided with this application note. The firmware is found in the Zip file in the WakeUpTiming folder"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00240",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "The WakeUp\\_Timing folder contains all the subdirectories and files that make up the core of the application example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00241",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "● inc subfolder contains the example header files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00242",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "● src subfolder contains the example source files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00243",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "● project subfolder contains two projects that compile the example files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00244",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "EWARMv5: contains the project for the EWARM toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00245",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "RVMDK: contains the project for the RVMDK toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0026-text-00246",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 26,
+    "text": "RIDE: contains the project for the RIDE toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00247",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "```cpp\n/* Define the Low power mode*/\n//#define SLEEP\n//#define STOP_Regulator_ON\n//#define STOP_Regulator_LowPower\n//#define STANDBY\n```"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00248",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "5.3.2 Detailed description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00249",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "The wakeup time is defined as follows:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00250",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "● For Sleep and Stop modes: the wakeup time starts on setting the wakeup source (in our case the Wakeup push-button of the STM3210B-EVAL board connected to pin PA0) and ends:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00251",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "after the execution of the first instruction after the WFE (in the case of wakeup on an external event) or"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00252",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "after the execution of the first instruction of the interrupt service routine (in the case of wakeup on an external interrupt)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00253",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "Standby mode: after waking up from Standby mode, program execution restarts in the same way as after a Reset. So the wakeup time for the Standby mode is the time between the selection of the wakeup source (Wakeup push-button) and the execution of the first instruction of the code."
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00254",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "Note: For more details on the different low-power modes please refer to Section 1: Power supply."
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00255",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "Hardware environment"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00256",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "Pin PC6 is set to one after wakeup from the low-power modes, so, to measure the wakeup time, an oscilloscope should be connected across the PC6 and PA0 pins. The wakeup time is the time between the rising edge of PA0 (Wakeup button) and the rising edge of PC6."
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00257",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00258",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "The firmware provided is divided into the following files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00259",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "● main.c:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00260",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "This file contains the main Firmware body. The user can select the low-power mode to test by uncommenting the respective line:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00261",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "Before entering a low-power mode, PC6 is configured as an output push-pull (speed 50 MHz) and reset to the low level."
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00262",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "a) For the Sleep and Stop modes:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00263",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "– in the case of WFE, a direct write to the BSRR (Bit Set Reset register) is performed to set PC6 to the high level"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00264",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "in case of WFI, the setting of PC6 is managed on the interrupt service routine of the EXTI line 0"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00265",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "b) For the Standby mode, pin PC6 should be set at the code startup (this part of the code is managed in the startup files. See below)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00266",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "● tools startup file:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00267",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "To measure the wakeup time for the Standby mode, it is first necessary to configure and set the PC6 pin. To manage this, the following asm code is added to the tools startup file:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0027-text-00268",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 27,
+    "text": "; Set clock GPIOC (APB)"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00269",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "```asm\nMOVW.W r3,#0x1000\nMOVT.W r3,#0x4002\nMOVS r1,#0x10\nSTR r1,[r3,#0x18]\n; Set GPIOC config for Pin 6 in Output Push-Pull\nMOVW.W r3,#0x1000\nMOVT.W r3,#0x4001\nMOVS r1,#0x03000000\nSTR r1,[r3,#0x00]\n; GPIOC, GPIO_Pin_6, Bit_SET\nMOVS r2,#0x40\nSTR r2,[r3,#0x10]\n```"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00270",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "Keil tool (RVMDK): this code is inserted in the startup\\_stm32f10x\\_md.s file before the branch to the main."
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00271",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "IAR tool (EWARM): this code is inserted in the startup\\_stm32f10x\\_md.s file in the \\_\\_low\\_level\\_init(void) function."
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00272",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "● hw\\_config.c and hw\\_config.h:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00273",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "These files contain all functions related to the STM32F10xxx configuration (clock configuration, I/O configuration, etc.). To select the way the Sleep and Stop mode are entered (WFI or WFE), uncomment the corresponding line in the hw\\_config.h file:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00274",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "/\\* Define the entry to the low power mode \\*/"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00275",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "//#define Entry\\_WFE"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00276",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "//#define Entry\\_WFI"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00277",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00278",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "For all measurements, the HSI is the Wakeup clock source."
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00279",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "● stm32f10x\\_it.c:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00280",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "This file manages the interrupt service routine of the EXTI line 0 if the selected way of entering the low-power mode is the WFI instruction."
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00281",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "5.3.3 Measurement results"
+  },
+  {
+    "segment_id": "stm32-an2629-p0028-text-00282",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 28,
+    "text": "Table 8 summarizes the wakeup time measurement results in Sleep, Stop and Standby modes."
+  },
+  {
+    "segment_id": "stm32-an2629-p0029-table-00011",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 29,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0029_00011.png",
+    "caption": "**Table 8. Wakeup time measurement results**\n\n| Symbol | Parameter | Conditions | Typ | Unit |\n|---|---|---|---:|---|\n| **t<sub>WUSLEEP</sub>** | Wakeup from Sleep mode (WFE) | Wakeup on HSI RC clock | 1.8 | μs |\n|  | Wakeup from Sleep mode (WFI) | Wakeup on HSI RC clock | 3.75 | μs |\n| **t<sub>WUSTOP</sub>** | Wakeup from Stop mode (regulator in run mode + WFE) | Wakeup on HSI RC clock | 3.52 | μs |\n|  | Wakeup from Stop mode (regulator in run mode + WFI) | Wakeup on HSI RC clock | 5.42 | μs |\n|  | Wakeup from Stop mode (regulator in Low power mode + WFE) | Wakeup on HSI RC clock | 5.32 | μs |\n|  | Wakeup from Stop mode (regulator in Low power mode + WFI) | Wakeup on HSI RC clock | 7.21 | μs |\n| **t<sub>WUSTDBY</sub>** | Wakeup from Standby mode | Wakeup on HSI RC clock | 50 | μs |\n\nColumn headings: **Symbol**, **Parameter**, **Conditions**, **Typ**, **Unit**. No footnotes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 8. Wakeup time measurement results",
+    "generated_captions": {
+      "luna": "**Table 8. Wakeup time measurement results**\n\n| Symbol | Parameter | Conditions | Typ | Unit |\n|---|---|---|---:|---|\n| **t<sub>WUSLEEP</sub>** | Wakeup from Sleep mode (WFE) | Wakeup on HSI RC clock | 1.8 | μs |\n|  | Wakeup from Sleep mode (WFI) | Wakeup on HSI RC clock | 3.75 | μs |\n| **t<sub>WUSTOP</sub>** | Wakeup from Stop mode (regulator in run mode + WFE) | Wakeup on HSI RC clock | 3.52 | μs |\n|  | Wakeup from Stop mode (regulator in run mode + WFI) | Wakeup on HSI RC clock | 5.42 | μs |\n|  | Wakeup from Stop mode (regulator in Low power mode + WFE) | Wakeup on HSI RC clock | 5.32 | μs |\n|  | Wakeup from Stop mode (regulator in Low power mode + WFI) | Wakeup on HSI RC clock | 7.21 | μs |\n| **t<sub>WUSTDBY</sub>** | Wakeup from Standby mode | Wakeup on HSI RC clock | 50 | μs |\n\nColumn headings: **Symbol**, **Parameter**, **Conditions**, **Typ**, **Unit**. No footnotes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0029-text-00283",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 29,
+    "text": "5.3.4 Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2629-p0029-text-00284",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 29,
+    "text": "These different results show the trade-off between consumption and wakeup time in the STM32F10xxx. Generally, the lower the power consumption, the longer the wakeup time. The user should therefore try to find the best trade-off according to the application constraints."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00285",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "Optimizing power consumption in your application"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00286",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "6.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00287",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "According to the laws of physics, microcontroller power consumption increases with the clock frequency. This is why the best ratio between consumption and performance has to be found. In many applications, power consumption can be reduced by adjusting system/peripheral frequency to the required performance. The STM32F10xxx offers the Slow mode features to reach that aim. If no specific system/peripheral activity is required, the low-power modes of the STM32F10xxx can be used."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00288",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "This section describes how to use the Slow and Low-power modes to optimize consumption according to the application requirement."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00289",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "A software example is provided that gives a practical view of power optimization. With this software, the user can measure the consumption of the STM32F10xxx with the different optimization possibilities."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00290",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "6.2 Using the advance clock configuration of the STM32F10xxx"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00291",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "6.2.1 Context"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00292",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "This section describes how to use the clock configuration of the STM32F10xxx, using a firmware found in the Zip file delivered with this application note. This firmware is available in the Run\\_Mode folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00293",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "The Run\\_Mode folder contains all the subdirectories and files that make up the core of the application example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00294",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "● inc subfolder contains the example header files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00295",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "● src subfolder contains the example source files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00296",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "● project subfolder contains two projects that compile the example files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00297",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "EWARMv5: contains the project for the EWARM toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00298",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "RVMDK: contains the project for the RVMDK toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00299",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "RIDE: contains the project for the RIDE toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00300",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "6.2.2 Detailed description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00301",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "The program is a basic application that sends the time from RTC on a serial line (USART)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00302",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "At the beginning of the application, the user has to adjust the time using the HyperTerminal for instance."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00303",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "Time is displayed on the terminal and refreshed every second. Practically, the RTC is configured to generate an interruption every second."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00304",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "When the interruption occurs, the RTC counter is captured; the time is calculated and sent through USART1."
+  },
+  {
+    "segment_id": "stm32-an2629-p0030-text-00305",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 30,
+    "text": "Figure 6 below shows the HyperTerminal view of the time adjustment interface."
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0031_00004.png",
+    "caption": "**Figure 6 – HyperTerminal time adjustment interface** (STM32 low-power demonstration)\n\nVisible Windows HyperTerminal screenshot:\n\n- Window title: **“AN low power - HyperTerminal”**\n- Menu bar: **File**, **Edit**, **View**, **Call**, **Transfer**, **Help**\n- Terminal output:\n  - `RTC not yet configured....`\n  - `RTC configured....`\n  - `================Time Settings================`\n  - `Please Set Hours:  16`\n  - `Please Set Minutes:  0`\n  - `Please Set Seconds:  0`\n  - `Time: 16:00:00`\n- Bottom status bar:\n  - `Connected 00:00:18`\n  - `Auto detect`\n  - `115200 8-N-1`\n  - `SCROLL`\n  - `CAPS`\n  - `NUM`\n  - `Capture`\n\nThe displayed time-setting interaction configures the RTC to **16:00:00**: hours **16**, minutes **0**, and seconds **0**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. HyperTerminal time adjustment interface",
+    "generated_captions": {
+      "luna": "**Figure 6 – HyperTerminal time adjustment interface** (STM32 low-power demonstration)\n\nVisible Windows HyperTerminal screenshot:\n\n- Window title: **“AN low power - HyperTerminal”**\n- Menu bar: **File**, **Edit**, **View**, **Call**, **Transfer**, **Help**\n- Terminal output:\n  - `RTC not yet configured....`\n  - `RTC configured....`\n  - `================Time Settings================`\n  - `Please Set Hours:  16`\n  - `Please Set Minutes:  0`\n  - `Please Set Seconds:  0`\n  - `Time: 16:00:00`\n- Bottom status bar:\n  - `Connected 00:00:18`\n  - `Auto detect`\n  - `115200 8-N-1`\n  - `SCROLL`\n  - `CAPS`\n  - `NUM`\n  - `Capture`\n\nThe displayed time-setting interaction configures the RTC to **16:00:00**: hours **16**, minutes **0**, and seconds **0**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00306",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "Hardware environment"
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00307",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "Use this example with STM32F10xxx evaluation board: refer to the user manual UM0426: “STM3210B-EVAL evaluation board” to use the STM3210B-EVAL."
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00308",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "The USART1 signals (RX, TX) must be connected to a DB9 connector using an RS232 transceiver."
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00309",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "A null-modem female/female RS232 cable must be connected between the DB9 connector (CN6 on STM3210B-EVAL board) and the PC serial port."
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00310",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "After connecting the power supply and the JTAG tools, the power consumption can be measured by replacing Jumper JP9 by an ammeter."
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00311",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00312",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "Launch this example with the used toolchain:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00313",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "The standard tools can be used to run the example."
+  },
+  {
+    "segment_id": "stm32-an2629-p0031-text-00314",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 31,
+    "text": "The .uv2 file used to launch the project with the RVMDK toolchain is contained in the RVMDK folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00315",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "The .eww file, used to launch the project with the EWARM toolchain, is in the EWARM folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00316",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "● Configure HyperTerminal on the PC"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00317",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– Word length = 8 bits"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00318",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– One Stop bit"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00319",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– No parity"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00320",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– Baud rate = 115200 baud"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00321",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– flow control: none"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00322",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "● Configure the firmware"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00323",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "In the header file (main.h) several #define can be selected to parameterize the example. Using a #define, the user can measure by themselves the consumption values provided in Table 9."
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00324",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– #define for APB1 and APB2 prescaler configuration:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00325",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define ABP1\\_DIV4"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00326",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define ABP2\\_DIV2"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00327",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define ABP1\\_DIV8"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00328",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define ABP2\\_DIV8"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00329",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define for peripheral selection (clock gating):"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00330",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define ALL\\_PERIPHERIALS\\_ENABLE"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00331",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define USART\\_ONLY"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00332",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– #define for frequency selection:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00333",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define HCLK\\_FREQ\\_72MHz /\\* Only with external oscillator \\*/ #define HCLK\\_FREQ\\_8MHz"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00334",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define for Prefetch Buffer or Half Cycle feature using:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00335",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define PREFETCH\\_ON"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00336",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define HALF\\_CYCLE\\_ON"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00337",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define for switching to Sleep mode while the application is waiting for the RTC interrupt:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00338",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define WFI\\_ON"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00339",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "– #define for External or Internal oscillator selection"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00340",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define HSI\\_ENABLE /\\* Use internal oscillator \\*/"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00341",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "#define HSE\\_ENABLE /\\*Use external oscillator \\*/"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00342",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "Caution:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00343",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "To reload the Flash memory after launching the low-power example, the boot pin configuration must be changed from BOOT FLASH to BOOT RAM, and the reset button must be pressed. This is because the debugger cannot take the hand when the STM32F10xxx is in low-power mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0032-text-00344",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 32,
+    "text": "Once this has been done, the boot pin must be configured back to BOOT FLASH. Measurement is then started by disconnecting and reconnecting the power supply. The power off/ power on reset sequence is necessary to avoid internal debug module overconsumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00345",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "6.3 Typical measurement results"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00346",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "Table 9 shows the measurements made with these examples."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-table-00012",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0033_00012.png",
+    "caption": "**Table 9. Example measurements**\n\n| APB1 | APB2 | Peripheral | Frequency | Prefetch | Half cycle | WFI | Oscillator | Typical consumption at 25 °C in mA |\n|---|---|---|---|---|---|---|---|---:|\n| DIV4 | DIV2 | ALL_ON | 72 MHz | ON | OFF | OFF | HSE | 33.35 |\n| DIV8 | DIV8 | ALL_ON | 72 MHz | ON | OFF | OFF | HSE | 27.85 |\n| DIV8 | DIV8 | USART | 72 MHz | ON | OFF | OFF | HSE | 25.13 |\n| DIV4 | DIV2 | USART | 8 MHz | ON | OFF | OFF | HSE | 9.23 |\n| DIV4 | DIV2 | USART | 8 MHz | OFF | ON | OFF | HSE | 6.42 |\n| DIV4 | DIV2 | USART | 8 MHz | OFF | ON | ON | HSE | 1.67 |\n| DIV4 | DIV2 | USART | 8 MHz | OFF | ON | ON | HSI | 1.09 |\n\nThe final column gives typical consumption at **25 °C**, in **mA**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 9. Example measurements",
+    "generated_captions": {
+      "luna": "**Table 9. Example measurements**\n\n| APB1 | APB2 | Peripheral | Frequency | Prefetch | Half cycle | WFI | Oscillator | Typical consumption at 25 °C in mA |\n|---|---|---|---|---|---|---|---|---:|\n| DIV4 | DIV2 | ALL_ON | 72 MHz | ON | OFF | OFF | HSE | 33.35 |\n| DIV8 | DIV8 | ALL_ON | 72 MHz | ON | OFF | OFF | HSE | 27.85 |\n| DIV8 | DIV8 | USART | 72 MHz | ON | OFF | OFF | HSE | 25.13 |\n| DIV4 | DIV2 | USART | 8 MHz | ON | OFF | OFF | HSE | 9.23 |\n| DIV4 | DIV2 | USART | 8 MHz | OFF | ON | OFF | HSE | 6.42 |\n| DIV4 | DIV2 | USART | 8 MHz | OFF | ON | ON | HSE | 1.67 |\n| DIV4 | DIV2 | USART | 8 MHz | OFF | ON | ON | HSI | 1.09 |\n\nThe final column gives typical consumption at **25 °C**, in **mA**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00347",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "6.4 Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00348",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "To reduce power consumption, the STM32F10xxx has to be initialized with an optimized configuration according to the used application. For this reason, the user must focus on the application requirements and configure the STM32F10xxx accordingly."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00349",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "This example shows the possible STM32F10xxx clock configurations that can be used to optimize the power consumption of an application. They are described below:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00350",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "● System and peripheral frequency"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00351",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "If the application does not need to run at the maximum frequency, the user can reduce HCLCK using the PLL or the prescaler divisor."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00352",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "The peripheral bus frequency can be reduce using the APB1 and APB2 prescalers."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00353",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00354",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "For more information on the clock tree, please refer to Figure 2 on page 15."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00355",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "● Clock gating"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00356",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "To optimize power consumption only peripherals used has to be clocked. That can be done with clock gating configuration."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00357",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "For more information on clock gating please refer to the STM32F10xxx reference manual."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00358",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "● Prefetch or half cycle features"
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00359",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "The prefetch feature is useful to enhance the performance. Using the prefetch buffer in an application prevents the performance loss caused by the Flash memory wait state."
+  },
+  {
+    "segment_id": "stm32-an2629-p0033-text-00360",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 33,
+    "text": "In applications that are not sensitive to Flash memory wait states, the half cycle feature can be used to reduce consumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00361",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "Caution:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00362",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "Half cycle configuration is not available in combination with a prescaler on the AHB. The clock system should be equal to the HCLK clock. This feature can therefore be used only with a direct clock from the internal, 8 MHz RC (HSI) oscillator or with the HSE oscillator."
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00363",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "● Internal or external oscillator"
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00364",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "Using the internal oscillator instead of the external oscillator also reduces power consumption. The maximum system clock frequency that can be attained, however, is 64 MHz, and the accuracy is poorer than that of an external crystal oscillator or a ceramic resonator."
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00365",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "Note:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00366",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "For more information on oscillators please refer to the STM32F10xxx reference manual."
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00367",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "● Sleep mode"
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00368",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "Another way of reducing power consumption is to switch to the STM32F10xxx Sleep mode when the application is waiting for an event or an interrupt."
+  },
+  {
+    "segment_id": "stm32-an2629-p0034-text-00369",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 34,
+    "text": "This example shows the possible STM32F10xxx clock configurations that can be used to optimize the power consumption of an application. They such as frequency selection, clock gating, half cycle, internal oscillator and WFI mode, to optimize the power consumption of your application."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00370",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "Using the Stop and Standby mode in batteryoperated applications"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00371",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "7.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00372",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "Some applications powered by a standard battery are not running all the time. For example, industrial applications wait for information from a sensor to wake up and launch processes and other tasks. In these applications, the microcontroller waits for an external event, and needs to reduce its power consumption during this phase."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00373",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "The Cortex-M3 core was designed to take these constrains into account and integrate specific modes and instructions at core level."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00374",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "The software provided with this application note gives two examples (WFE\\_Stop\\_Flash and WFE\\_Stop\\_RAM) of how to use the STM32F10xxx in battery-operated applications. In these examples the STM32F10xxx switches to the low-power mode as soon as the application does not require processing, instead of remaining in Run mode with a low clock frequency."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00375",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "The two low-power modes are based on the Cortex-M3 core’s Deep Sleep feature and WFE (Wait for Event) instruction."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00376",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "7.2 Using Wait For Event & Stop Wait For Event"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00377",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "7.2.1 Context"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00378",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "This section describes how to use the Wait for Event instruction and the Stop mode of the STM32F10xxx, using the firmware found in the Zip file delivered with this application note. The firmware are available in the following folders: WFE\\_Stop\\_Flash and WFE\\_Stop\\_RAM."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00379",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "There are two projects that are exactly the same, except for the mapping in the product:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00380",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "WFE\\_Stop\\_Flash is strictly mapped in the Flash memory and runs from the Flash memory"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00381",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "WFE\\_Stop\\_Ram is downloaded in Flash memory, but some functions are remapped in RAM at startup. How to remap code in RAM is explained in the toolset documentation."
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00382",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "The WFE\\_Stop\\_Flash and WFE\\_Stop\\_Ram folders contain all the subdirectories and files that make up the core of the application example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00383",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "● inc subfolder contains the example header files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00384",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "● src subfolder contains the example source files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00385",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "● project subfolder contains two projects that compile the example files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00386",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "EWARMv5: contains the project for the EWARM toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00387",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "RVMDK: contains the project for the RVMDK toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0035-text-00388",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 35,
+    "text": "RIDE: contains the project for the RIDE toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00389",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "7.2.2 Detailed description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00390",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "The example performs a periodic ADC conversion and stores the value in RAM buffer. It uses Auto-Wakeup (AWU) from low-power mode as described in Section 1.2.7: Autowakeup (AWU) from low-power mode on page 13."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00391",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "At the beginning, functions configure the clock, GPIO, RTC and ADC. These functions are implemented at the end of the main.c and use the STM32F10xxx standard peripheral library."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00392",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "The RTC is running and, each ADC conversion and storage are gated by the RTC Alarm in the main loop."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00393",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "● The RTC Alarm wakes up the STM32F10xxx from the WFE or STOP\\_WFE mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00394",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "the PC1 I/O shows the time taken by the ADC conversion and RTC Alarm register reload."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0036_00005.png",
+    "caption": "**Figure 7. WFE & STOP WFE** — timing waveform diagram.\n\n- Signal label: **PC1**\n- Two marked events, each labeled **RTC alarm**, point to a rising edge of the PC1 waveform.\n- At the first RTC alarm, PC1 transitions from low to high, remains high for a short interval, then returns low.\n- The interval immediately following the first alarm pulse is labeled **ADC conversion**.\n- The long low-level interval between the first and second conversion intervals is marked **WFE or STOP WFE mode** with a horizontal double-headed arrow.\n- At the second RTC alarm, PC1 again transitions from low to high, remains high briefly, then returns low.\n- The interval after the second alarm pulse is again labeled **ADC conversion**.\n- No axes, units, or numerical timing values are shown.\n- Figure identifier at lower right: **ai14679**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. WFE & STOP WFE",
+    "generated_captions": {
+      "luna": "**Figure 7. WFE & STOP WFE** — timing waveform diagram.\n\n- Signal label: **PC1**\n- Two marked events, each labeled **RTC alarm**, point to a rising edge of the PC1 waveform.\n- At the first RTC alarm, PC1 transitions from low to high, remains high for a short interval, then returns low.\n- The interval immediately following the first alarm pulse is labeled **ADC conversion**.\n- The long low-level interval between the first and second conversion intervals is marked **WFE or STOP WFE mode** with a horizontal double-headed arrow.\n- At the second RTC alarm, PC1 again transitions from low to high, remains high briefly, then returns low.\n- The interval after the second alarm pulse is again labeled **ADC conversion**.\n- No axes, units, or numerical timing values are shown.\n- Figure identifier at lower right: **ai14679**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00395",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "Hardware environment"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00396",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "Use this example with STM32F10xxx evaluation board: refer to the user manual UM0426: “STM3210B-EVAL evaluation board” to use the STM3210B-EVAL."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00397",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "After connecting the power supply and JTAG tools, the power consumption can be measured by replacing Jumper JP9 by an ammeter."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00398",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00399",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "● Launch this example with the used toolchain:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00400",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "The standard tools can be used to run the example."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00401",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "The .uv2 file used to launch the project with the RVMDK toolchain is contained in the RVMDK folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00402",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "The .eww file, used to launch the project with the EWARM toolchain, is in the EWARM folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00403",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "● Configure the firmware"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00404",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "At the beginning of the main.c, four #define can be selected to parameterize the example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00405",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "– 2 #define select the timing of the loop:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00406",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "#define LOOP\\_20ms"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00407",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "#define LOOP\\_200ms"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00408",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "– 2 more #define select the low-power mode:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00409",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "#define WFE"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00410",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "#define STOP\\_WFE"
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00411",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "– For the example to run, it is necessary to keep one #define of each type."
+  },
+  {
+    "segment_id": "stm32-an2629-p0036-text-00412",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 36,
+    "text": "After compiling the example, the STM32F10xxx Flash memory can be downloaded."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00413",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "Caution:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00414",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "To reload the Flash memory after launching the low-power example, the boot pin configuration must be changed from BOOT FLASH to BOOT RAM, and the reset button must be pressed. This is because the debugger cannot take the hand while the STM32F10xxx is in low-power mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00415",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "Once this has been done, the boot pin must be configured back to BOOT FLASH. Measurement is then started by disconnecting and reconnecting the power supply. The power off/ power on reset sequence is necessary to avoid internal debug module overconsumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00416",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "7.3 Using the Standby mode in an applicative way"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00417",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "7.3.1 Context"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00418",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "This section describes how to use the Standby mode of the STM32F10xxx, using the firmware found in the Zip file delivered with this application note. The firmware is available in the Standby folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00419",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "The Standby folder contains all the subdirectories and files that make up the core of the application example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00420",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "● inc subfolder contains the example header files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00421",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "● src subfolder contains the example source files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00422",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "● project subfolder contains two projects that compile the example files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00423",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "EWARMv5: contains the project for the EWARM toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00424",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "RVMDK: contains the project for the RVMDK toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00425",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "7.3.2 Detailed description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00426",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "This example performs a periodic ADC conversion and stores the value in RAM buffer. It uses Auto-Wakeup (AWU) from low-power mode as described in Section 1.2.7: Autowakeup (AWU) from low-power mode on page 13."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00427",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "At the beginning, functions configure the clock, GPIO, RTC and ADC. These functions are implemented at the end of the main.c and use the STM32F10xxx standard peripheral library."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00428",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "The RTC is running and the RTC Alarm wakes up the STM32F10xxx from Standby mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00429",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "After each wakeup from Standby mode, the STM32F10xxx restarts from the reset state and each ADC conversion is performed after the STM32F10xxx has been configured."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-text-00430",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "text": "the PC1 I/O shows the time taken by the ADC conversion and RTC Alarm register reload but not the time taken by the STM32F10xxx to restart."
+  },
+  {
+    "segment_id": "stm32-an2629-p0037-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 37,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0037_00006.png",
+    "caption": "**Figure 8. Standby** — timing diagram illustrating STM32 standby operation with an RTC alarm and ADC conversion.\n\n- **Signal/waveform:** `PC1`\n- **First sequence (left):**\n  - `RTC alarm` callout points downward to the PC1 waveform.\n  - Interval labeled `STM32 configuration`.\n  - Interval labeled `ADC conversion`.\n  - PC1 waveform then returns to its low-level horizontal line.\n- **Intervening interval:** `Standby mode`\n- **Second sequence (right):**\n  - `RTC alarm` callout points downward to the PC1 waveform.\n  - Interval labeled `STM32 configuration`.\n  - Interval labeled `ADC conversion`.\n  - PC1 waveform returns to the low-level horizontal line.\n\nThe waveform is drawn as a low horizontal level, a rising transition to a high rectangular pulse, and a falling transition back to low. No time scale, voltage scale, or numerical timing values are shown. Figure identifier at lower right: `ai14680`.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Standby",
+    "generated_captions": {
+      "luna": "**Figure 8. Standby** — timing diagram illustrating STM32 standby operation with an RTC alarm and ADC conversion.\n\n- **Signal/waveform:** `PC1`\n- **First sequence (left):**\n  - `RTC alarm` callout points downward to the PC1 waveform.\n  - Interval labeled `STM32 configuration`.\n  - Interval labeled `ADC conversion`.\n  - PC1 waveform then returns to its low-level horizontal line.\n- **Intervening interval:** `Standby mode`\n- **Second sequence (right):**\n  - `RTC alarm` callout points downward to the PC1 waveform.\n  - Interval labeled `STM32 configuration`.\n  - Interval labeled `ADC conversion`.\n  - PC1 waveform returns to the low-level horizontal line.\n\nThe waveform is drawn as a low horizontal level, a rising transition to a high rectangular pulse, and a falling transition back to low. No time scale, voltage scale, or numerical timing values are shown. Figure identifier at lower right: `ai14680`."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00431",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "Hardware environment"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00432",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "Use this example with STM32F10xxx evaluation board: refer to the user manual UM0426: “STM3210B-EVAL evaluation board” to use the STM3210B-EVAL."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00433",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "After connecting the power supply and JTAG tools, the power consumption can be measured by replacing Jumper JP9 by an ammeter."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00434",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00435",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "● Launch this example with the used toolchain:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00436",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "The standard tools can be used to run the example."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00437",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "The .uv2 file used to launch the project with the RVMDK toolchain is contained in the RVMDK folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00438",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "The .eww file, used to launch the project with the EWARM toolchain, is in the EWARM folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00439",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "● Configure the firmware"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00440",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "At the beginning of the main.c, two #define can be selected to parameterize the example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00441",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "– 2 #define select the timing of the loop:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00442",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "#define LOOP\\_20ms"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00443",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "#define LOOP\\_200ms"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00444",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "– For the example to run, it is necessary to keep one #define of each type."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00445",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "After compiling the example, the STM32F10xxx Flash memory can be downloaded."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00446",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "Caution: To reload the Flash memory after launching the low-power example, the boot pin configuration must be changed from BOOT FLASH to BOOT RAM, and the reset button must be pressed. This is because the debugger cannot take the hand when the STM32F10xxx is in low-power mode."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00447",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "Once this has been done, the boot pin must be configured back to BOOT FLASH. Measurement is then started by disconnecting and reconnecting the power supply. The power off/ power on reset sequence is necessary to avoid internal debug module overconsumption."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00448",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "7.4 Typical measurement results"
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-text-00449",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "text": "Table 10 shows the measurements made with these examples."
+  },
+  {
+    "segment_id": "stm32-an2629-p0038-table-00013",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 38,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0038_00013.png",
+    "caption": "**Table 10. Example measurements**\n\n| `#define mode` | Consumption with T<sub>A</sub> = +25 °C — 20 ms | Consumption with T<sub>A</sub> = +25 °C — 200 ms |\n|---|---:|---:|\n| WFE | 1 mA | 970 µA |\n| STOP_WFE code loop running from Flash memory | 58 µA | 18.5 µA |\n| STOP_WFE code loop remap in RAM | 34.7 µA | 16.2 µA |\n| Standby | 106 µA | 14 µA |\n\nThe table compares measured consumption at an ambient temperature **T<sub>A</sub> = +25 °C** for **20 ms** and **200 ms** conditions.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 10. Example measurements",
+    "generated_captions": {
+      "luna": "**Table 10. Example measurements**\n\n| `#define mode` | Consumption with T<sub>A</sub> = +25 °C — 20 ms | Consumption with T<sub>A</sub> = +25 °C — 200 ms |\n|---|---:|---:|\n| WFE | 1 mA | 970 µA |\n| STOP_WFE code loop running from Flash memory | 58 µA | 18.5 µA |\n| STOP_WFE code loop remap in RAM | 34.7 µA | 16.2 µA |\n| Standby | 106 µA | 14 µA |\n\nThe table compares measured consumption at an ambient temperature **T<sub>A</sub> = +25 °C** for **20 ms** and **200 ms** conditions."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0039-text-00450",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 39,
+    "text": "7.5 Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2629-p0039-text-00451",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 39,
+    "text": "These examples show that the Cortex-M3 integrates the very efficient Core-level instructions for low-power applications (Sleep mode and Deepsleep mode), associated with the low-power features of the STM32F10xxx (AWU, Stop, Low-power and Standby)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0039-text-00452",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 39,
+    "text": "Measurements show that the trade-off between wakeup time and power consumption must be taken into account:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0039-text-00453",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 39,
+    "text": "The Standby mode is more efficient in terms of power saving (3.6 µA), but the application restarts each time from the reset states and the time to reinitialize the application is not negligible. Indeed the initialization phase is done at 8 MHz and draws power. If the repeated time loop is too short (20 ms), this mode is less efficient than the Stop mode (106 µA versus 34.7 µA)."
+  },
+  {
+    "segment_id": "stm32-an2629-p0039-text-00454",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 39,
+    "text": "The Stop mode is less efficient than the Standby mode in terms of low-power consumption, but it has the advantage of keeping the context and the RAM contents. In this example, if the repeated time loop is shorter than 200 ms, the Stop mode is more efficient, especially if the loop code is remapped to run in RAM. If the loop lasts 200 ms or more, however, the Standby mode becomes more advantageous."
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00455",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "Using the Backup domain in very low-power applications"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00456",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "8.1 Introduction"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00457",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "This section describes how to use the STM32F10xxx backup registers and keep the benefit of the low-power consumption of the Backup domain."
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00458",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "8.2 Using the Backup domain in an applicative way"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00459",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "8.2.1 Context"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00460",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "This section describes how to use the STM32F10xxx backup registers, using the same firmware as the one used in Section 6.2 of this application note. It can be found in the Zip file delivered with the application note, in the Run\\_Mode folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00461",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "The Run\\_Mode folder contains all the subdirectories and files that make up the core of the application example:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00462",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "● inc subfolder contains the example header files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00463",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "● src subfolder contains the example source files"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00464",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "● project subfolder contains two projects that compile the example files:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00465",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "EWARMv5: contains the project for the EWARM toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00466",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "RVMDK: contains the project for the RVMDK toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00467",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "RIDE: contains the project for the RIDE toolchain"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00468",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "8.2.2 Detailed description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00469",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "The program is a basic application that sends the time from the RTC on a serial line (USART). Every second, the time is stored into the backup registers. After a power on reset, the contents of the backup registers are sent through the USART."
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-text-00470",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "text": "The time at which the power-off event occurred is displayed on the HyperTerminal as shown in Figure 9."
+  },
+  {
+    "segment_id": "stm32-an2629-p0040-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an2629",
+    "page": 40,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_figure_p0040_00007.png",
+    "caption": "Figure 9, “HyperTerminal display of time”: a Windows HyperTerminal screenshot titled **“AN low power - HyperTerminal”**.\n\nVisible terminal output:\n\n- **“Power On Reset occurred....”**\n- **“No need to configure RTC....Time: 16:08:52”**\n- **“Time: 16:10:03”**\n\nVisible interface text:\n\n- Menu bar: **File**, **Edit**, **View**, **Call**, **Transfer**, **Help**\n- Status bar: **Connected 00:10:30**, **Auto detect**, **115200 8-N-1**, **SCROLL**, **CAPS**, **NUM**, **Capture**\n- The terminal window includes vertical and horizontal scroll bars.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. HyperTerminal display of time",
+    "generated_captions": {
+      "luna": "Figure 9, “HyperTerminal display of time”: a Windows HyperTerminal screenshot titled **“AN low power - HyperTerminal”**.\n\nVisible terminal output:\n\n- **“Power On Reset occurred....”**\n- **“No need to configure RTC....Time: 16:08:52”**\n- **“Time: 16:10:03”**\n\nVisible interface text:\n\n- Menu bar: **File**, **Edit**, **View**, **Call**, **Transfer**, **Help**\n- Status bar: **Connected 00:10:30**, **Auto detect**, **115200 8-N-1**, **SCROLL**, **CAPS**, **NUM**, **Capture**\n- The terminal window includes vertical and horizontal scroll bars."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00471",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "For an exhaustive description see Chapter 6.2.2: Detailed description on page 30."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00472",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "Hardware environment"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00473",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "Use this example with STM32F10xxx evaluation board: refer to the user manual UM0426: “STM3210B-EVAL evaluation board” to use the STM3210B-EVAL."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00474",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "The USART1 signals (RX, TX) must be connected to a DB9 connector using an RS232 transceiver."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00475",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "A null-modem female/female RS232 cable must be connected between the DB9 connector (CN6 on STM3210B-EVALboard) and a PC serial port."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00476",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "RTC powered by $\\mathsf { V } _ { \\mathsf { B A T } } .$ replace jumper J11 by a serial ammeter (in order to measure the power consumption) or connect a 3 V battery on the $\\mathsf { V } _ { \\mathsf { B A T } }$ pin (already mounted on the STM3210B-EVAL board) with this jumper."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00477",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "Firmware description"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00478",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "● Launch this example with the used toolchain:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00479",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "The standard tools can be used to run the example."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00480",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "The .uv2 file used to launch the project with the RVMDK toolchain is contained in the RVMDK folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00481",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "The .eww file, used to launch the project with the EWARM toolchain, is in the EWARM folder."
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00482",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "● Configure HyperTerminal on your PC"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00483",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "– word length = 8 bits"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00484",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "– one Stop bit"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00485",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "– no parity"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00486",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "– baudrate = 115200 baud"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00487",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "– flow control: none"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00488",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "8.3 Conclusion"
+  },
+  {
+    "segment_id": "stm32-an2629-p0041-text-00489",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 41,
+    "text": "The Backup domain feature is used to switch off the STM32F10xxx while keeping the RTC and the contents of ten 16-bit registers, thus saving some information useful to restart the application. In this example, the time when the power-off event occurred is recorded. The application context may also be kept."
+  },
+  {
+    "segment_id": "stm32-an2629-p0042-text-00490",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 42,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an2629-p0042-table-00014",
+    "type": "table",
+    "doc": "stm32-an2629",
+    "page": 42,
+    "image_path": "data/parsed/stm32/stm32-an2629/mineru/images/bbox_fallback_table_p0042_00014.png",
+    "caption": "**Table 11. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 5-Oct-2007 | 1 | Initial release. |\n| 30-Apr-2009 | 2 | Document updated to take into account the move from the STM32F10xxx firmware library to the STM32F10xxx standard peripheral library V3.0.0. EWARM updated to EWARMv5.<br><br>Low-speed internal RC (LSI RC) frequency changed from 32 kHz to 40 kHz.<br><br>**Section 1.2: Low-power modes** updated to be in line with the STM32F10xxx reference manual.<br><br>**Section 2: Clock** updated.<br><br>**Section 5.2.2: Detailed description** updated.<br><br>Firmware description modified in **Section 5.3.2: Detailed description**.<br><br>Values updated in **Table 9: Example measurements**.<br><br>Small text changes. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 11. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 11. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 5-Oct-2007 | 1 | Initial release. |\n| 30-Apr-2009 | 2 | Document updated to take into account the move from the STM32F10xxx firmware library to the STM32F10xxx standard peripheral library V3.0.0. EWARM updated to EWARMv5.<br><br>Low-speed internal RC (LSI RC) frequency changed from 32 kHz to 40 kHz.<br><br>**Section 1.2: Low-power modes** updated to be in line with the STM32F10xxx reference manual.<br><br>**Section 2: Clock** updated.<br><br>**Section 5.2.2: Detailed description** updated.<br><br>Firmware description modified in **Section 5.3.2: Detailed description**.<br><br>Values updated in **Table 9: Example measurements**.<br><br>Small text changes. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00491",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00492",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00493",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "All ST products are sold pursuant to ST’s terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00494",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00495",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00496",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST’S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00497",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER’S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00498",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00499",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00500",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00501",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00502",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "© 2009 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00503",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00504",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an2629-p0043-text-00505",
+    "type": "text",
+    "doc": "stm32-an2629",
+    "page": 43,
+    "text": "www.st.com"
+  }
+]

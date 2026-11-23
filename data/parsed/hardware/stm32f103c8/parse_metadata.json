@@ -1,0 +1,12 @@
+{
+  "doc": "stm32f103c8",
+  "source_pdf": "data/raw/hardware/stm32f103c8.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/hardware/stm32f103c8/mineru/stm32f103c8/auto/stm32f103c8_content_list.json",
+  "segment_counts": {
+    "text": 528,
+    "figure": 54,
+    "table": 85
+  }
+}

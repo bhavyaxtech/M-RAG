@@ -1,0 +1,103 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+{
+  "checked_at": "2026-09-08T15:07:47.767914+00:00",
+  "downloaded_documents": 20,
+  "target_documents": 20,
+  "pages": 1837,
+  "parsed_documents": 15,
+  "parsed_pages": 429,
+  "additional_completed_batch_pages": 20,
+  "visual_segments_in_completed_documents": 353,
+  "cached_captions_in_completed_documents": 278,
+  "published": false,
+  "paid_calls_started_by_preflight": 0,
+  "status": "parsing_incomplete"
+}
+Parsing AN2548 (14 pages)
+Reusing parse: stm32-an2548
+Parsing AN2594 (16 pages)
+Reusing parse: stm32-an2594
+Parsing AN2824 (16 pages)
+Reusing parse: stm32-an2824
+Parsing AN2557 (16 pages)
+Reusing parse: stm32-an2557
+Parsing AN2592 (16 pages)
+Reusing parse: stm32-an2592
+Parsing AN3116 (18 pages)
+Reusing parse: stm32-an3116
+Parsing AN2820 (23 pages)
+Reusing parse: stm32-an2820
+Parsing AN2867 (23 pages)
+Reusing parse: stm32-an2867
+Parsing AN2606 (27 pages)
+Reusing parse: stm32-an2606
+Parsing AN2586 (28 pages)
+Reusing parse: stm32-an2586
+Parsing AN2834 (28 pages)
+Reusing parse: stm32-an2834
+Parsing AN2821 (28 pages)
+Reusing parse: stm32-an2821
+Parsing ES096 (31 pages)
+Reusing parse: stm32-es096
+Parsing PM0075 (31 pages)
+Reusing parse: stm32-pm0075
+Parsing AN3155 (37 pages)
+  Reusing MinerU pages 1-10.
+  Reusing MinerU pages 11-20.
+  Running MinerU backend: pipeline (pages 21-30)
+  Running MinerU backend: pipeline (pages 31-37)
+Parsing AN1709 (38 pages)
+  Running MinerU backend: pipeline (pages 1-10)
+  Running MinerU backend: pipeline (pages 11-20)
+  Running MinerU backend: pipeline (pages 21-30)
+  Running MinerU backend: pipeline (pages 31-38)
+Parsing AN2629 (43 pages)
+  Running MinerU backend: pipeline (pages 1-10)
+  Running MinerU backend: pipeline (pages 11-20)
+  Running MinerU backend: pipeline (pages 21-30)
+  Running MinerU backend: pipeline (pages 31-40)
+  Running MinerU backend: pipeline (pages 41-43)
+Parsing DS5319 (114 pages)
+Reusing parse: stm32-ds5319
+Parsing PM0056 (156 pages)
+  Running MinerU backend: pipeline (pages 1-10)
+  Running MinerU backend: pipeline (pages 11-20)
+  Running MinerU backend: pipeline (pages 21-30)
+  Running MinerU backend: pipeline (pages 31-40)
+  Running MinerU backend: pipeline (pages 41-50)
+  Running MinerU backend: pipeline (pages 51-60)
+  Running MinerU backend: pipeline (pages 61-70)
+  Running MinerU backend: pipeline (pages 71-80)
+  Running MinerU backend: pipeline (pages 81-90)
+  Running MinerU backend: pipeline (pages 91-100)
+  Running MinerU backend: pipeline (pages 101-110)
+  Running MinerU backend: pipeline (pages 111-120)
+  Running MinerU backend: pipeline (pages 121-130)
+  Running MinerU backend: pipeline (pages 131-140)
+  Running MinerU backend: pipeline (pages 141-150)
+  Running MinerU backend: pipeline (pages 151-156)
+Parsing RM0008 (1134 pages)
+  Running MinerU backend: pipeline (pages 1-10)
+  Running MinerU backend: pipeline (pages 11-20)
+  Running MinerU backend: pipeline (pages 21-30)
+  Running MinerU backend: pipeline (pages 31-40)
+  Running MinerU backend: pipeline (pages 41-50)
+  Running MinerU backend: pipeline (pages 51-60)
+  Running MinerU backend: pipeline (pages 61-70)
+  Running MinerU backend: pipeline (pages 71-80)
+  Running MinerU backend: pipeline (pages 81-90)
+  Running MinerU backend: pipeline (pages 91-100)
+  Running MinerU backend: pipeline (pages 101-110)
+  Running MinerU backend: pipeline (pages 111-120)
+  Running MinerU backend: pipeline (pages 121-130)
+  Running MinerU backend: pipeline (pages 131-140)
+  Running MinerU backend: pipeline (pages 141-150)
+  Running MinerU backend: pipeline (pages 151-160)
+  Running MinerU backend: pipeline (pages 161-170)
+  Running MinerU backend: pipeline (pages 171-180)
+  Running MinerU backend: pipeline (pages 181-190)
+  Running MinerU backend: pipeline (pages 191-200)
+  Running MinerU backend: pipeline (pages 201-210)
+  Running MinerU backend: pipeline (pages 211-220)
+  Running MinerU backend: pipeline (pages 221-230)
+  Running MinerU backend: pipeline (pages 231-240)

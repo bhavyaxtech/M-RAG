@@ -1,0 +1,23 @@
+{
+  "doc_id": "stm32-pm0056",
+  "document_id": "PM0056",
+  "title": "Cortex-M3 programming manual",
+  "document_kind": "programming_manual",
+  "applicability": "Cortex-M3 core instructions and exception model",
+  "manufacturer_url": "https://www.st.com/resource/en/programming_manual/cd00228163.pdf",
+  "download_urls": [
+    "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00228163-stm32f10xxx20xxx21xxxl1xxxx-cortexm3-programming-manual-stmicroelectronics.pdf",
+    "https://eliasoenal.com/st%20website/15491.pdf",
+    "https://wiki.csie.ncku.edu.tw/embedded/arm/pm0056.pdf",
+    "https://www.st.com/resource/en/programming_manual/cd00228163.pdf"
+  ],
+  "pages": 156,
+  "sha256": "773eaa32930fcd54fb987316cb8edc2f0716c7957f36bb62e721b0fa0be29671",
+  "cover_text": "December 2017\nDocID15491 Rev 6\n1/156\n1\nPM0056\nProgramming manual\nSTM32F10xxx/20xxx/21xxx/L1xxxx \n Cortex\u00ae-M3 programming manual\nIntroduction\nThis programming manual provides information for application and system-level software \ndevelopers. It gives a full description of the STM32F10xxx/20xxx/21xxx/L1xxxx Cortex\u00ae-M3 \nprocessor programming model, instruction set and core peripherals.\nThe STM32F10xxx/20xxx/21xxx/L1xxxx Cortex\u00ae-M3 processor is a high performance 32-bit \nprocessor designed for the microcontroller market. It offers significant benefits to \ndevelopers, including:\n\u2022\nOutstanding processing performance combined with a fast interrupt handling\n\u2022\nEnhanced system debug with extensive breakpoint and trace capabilities\n\u2022\nEfficient processor core, system and memories\n\u2022\nUltra-low-power consumption with integrated sleep modes\n\u2022\nPlatform security\nwww.st.com\n",
+  "references": {},
+  "status": "downloaded",
+  "retrieved_from": "https://clara.nz/docs/hardware/STMicroelectronics/STM32/STM32F10xxx/cd00228163-stm32f10xxx20xxx21xxxl1xxxx-cortexm3-programming-manual-stmicroelectronics.pdf",
+  "source_kind": "mirror",
+  "retrieved_at": "2026-09-08T14:03:14.011421+00:00",
+  "path": "data/raw/stm32/stm32-pm0056.pdf"
+}

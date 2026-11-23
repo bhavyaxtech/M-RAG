@@ -1,0 +1,84 @@
+{
+  "case": {
+    "id": "missing-page",
+    "question": "Explain the diagram on page 9999.",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "mode": "mrag"
+  },
+  "request": {
+    "message": "Explain the diagram on page 9999.",
+    "mode": "mrag",
+    "doc": "stm32-ds5319",
+    "scope": "document",
+    "k": 8
+  },
+  "started_at": "2026-09-08T17:58:46.214294+00:00",
+  "events": [
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "active"
+    },
+    {
+      "type": "route",
+      "route": "datasheet",
+      "search_query": "STM32F103x8/xB datasheet diagram on page 9999",
+      "page": 9999,
+      "confidence": 0.99,
+      "reason": "Explicitly asks to explain a diagram in the active datasheet.",
+      "fallback": false
+    },
+    {
+      "type": "stage",
+      "stage": "route",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "active"
+    },
+    {
+      "type": "evidence",
+      "grounded": false,
+      "page_addressed": false,
+      "requested_page": 9999,
+      "top_score": 0.0,
+      "segments": []
+    },
+    {
+      "type": "stage",
+      "stage": "retrieve",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "stage": "answer",
+      "status": "active"
+    },
+    {
+      "type": "token",
+      "text": "I couldn't find readable evidence for page 9999 of the DS5319 (rev 20) — STM32F103x8/xB datasheet datasheet in the current index. This does not mean the page is blank. Try the topic or section name so I can look for relevant sources elsewhere in this document."
+    },
+    {
+      "type": "done",
+      "answer": "I couldn't find readable evidence for page 9999 of the DS5319 (rev 20) — STM32F103x8/xB datasheet datasheet in the current index. This does not mean the page is blank. Try the topic or section name so I can look for relevant sources elsewhere in this document.",
+      "cited": [],
+      "provenance": "uncovered",
+      "timings_ms": {
+        "route": 3128,
+        "retrieve": 60,
+        "first_token": 3195,
+        "total": 3195
+      },
+      "models": {
+        "generation": "gpt-5.6-sol",
+        "router": "gpt-5.6-luna"
+      }
+    }
+  ],
+  "answer_score": null,
+  "review_status": "ungraded_live_response",
+  "seconds": 3.2
+}

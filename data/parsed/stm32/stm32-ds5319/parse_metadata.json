@@ -1,0 +1,12 @@
+{
+  "doc": "stm32-ds5319",
+  "source_pdf": "data/raw/stm32/stm32-ds5319.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/stm32/stm32-ds5319/mineru/stm32f103c8/auto/stm32f103c8_content_list.json",
+  "segment_counts": {
+    "text": 528,
+    "figure": 54,
+    "table": 85
+  }
+}

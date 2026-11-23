@@ -1,0 +1,1122 @@
+[
+  {
+    "segment_id": "stm32-an3116-p0001-text-00001",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 1,
+    "text": "Introduction"
+  },
+  {
+    "segment_id": "stm32-an3116-p0001-text-00002",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 1,
+    "text": "STM32 microcontrollers have one of the most advanced ADCs on the microcontroller market. You could imagine a multitude of applications based on the STM32 ADC features. Some ADC modes are provided to simplify measurements and give efficient results in applications such as motor control."
+  },
+  {
+    "segment_id": "stm32-an3116-p0001-text-00003",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 1,
+    "text": "This application note provides help for ADC users to understand some advanced modes offered in the STM32 microcontrollers, and to quick start development. Each of the described modes is provided with an example of application to better understand how to use them. Most modes come with a basic firmware to make it easier to understand the ADC configuration."
+  },
+  {
+    "segment_id": "stm32-an3116-p0001-text-00004",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 1,
+    "text": "This application note is divided into two sections: independent modes and dual modes. The first section describes modes used with a single ADC. The second section describes modes that should be used with two ADCs (ADC1 and ADC2 working jointly)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0001-text-00005",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 1,
+    "text": "This application note does not describe the ADC modes that result from the combination of other modes."
+  },
+  {
+    "segment_id": "stm32-an3116-p0002-text-00006",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 2,
+    "text": "Contents"
+  },
+  {
+    "segment_id": "stm32-an3116-p0002-text-00007",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 2,
+    "text": "Independent modes   \n1.1 Single-channel, single conversion mode 5   \n1.1.1 Description 5   \n1.1.2 Example of application 5   \n1.2 Multichannel (scan), single conversion mode 5   \n1.2.1 Description 5   \n1.2.2 Example of application 6   \n1.3 Single-channel continuous conversion mode . 6   \n1.3.1 Description 6   \n1.3.2 Example of applications   \n1.4 Multichannel (scan) continuous conversion mode .   \n1.4.1 Description 7   \n1.4.2 Example of application   \n1.5 Injected conversion mode   \n1.5.1 Description 7   \n1.5.2 Example of application 8   \nDual modes 9   \n2.1 Dual regular simultaneous mode 9   \n2.1.1 Description 9   \n2.1.2 Example of application . 9   \n2.2 Dual fast interleaved mode 10   \n2.2.1 Description 10   \n2.2.2 Example of application . 11   \n2.3 Dual slow interleaved mode 11   \n2.3.1 Description 11   \n2.3.2 Example of application 12   \n2.4 Dual alternate trigger mode 13   \n2.4.1 Description 13   \n2.4.2 Example of application 13   \n2.5 Dual combined regular/injected simultaneous mode 14   \n2.5.1 Description 14   \n2.5.2 Example of application . 14   \n2.6 Dual combined: injected simultaneous + interleaved mode . . . . . . . . . . . 14   \n2.6.1 Description . . . 14   \n2.6.2 Example of application . . . 15   \n3 Conclusion . . . . 16   \n4 Revision history . . . . . . 17"
+  },
+  {
+    "segment_id": "stm32-an3116-p0004-text-00008",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 4,
+    "text": "List of figures"
+  },
+  {
+    "segment_id": "stm32-an3116-p0004-text-00009",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 4,
+    "text": "Figure 1. Single-channel, single conversion mode . 5   \nFigure 2. ADC sequencer converting 7 channels with different configured sampling   \ntimes . 5   \nFigure 3. Multichannel, single conversion mode . 6   \nFigure 4. Single-channel, continuous conversion mode 6   \nFigure 5. Multichannel, continuous conversion mode 7   \nFigure 6. Injected conversion mode. . 8   \nFigure 7. Dual regular simultaneous mode . 9   \nFigure 8. Simultaneous measurement of voltage and current . 10   \nFigure 9. Dual fast interleaved mode . 11   \nFigure 10. Dual slow interleaved mode 12   \nFigure 11. Dual alternate trigger mode 13   \nFigure 12. Dual combined regular/injected simultaneous mode 14   \nFigure 13. Dual combined: injected simultaneous + interleaved mode . 15   \nFigure 14. UPS system 15"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00010",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "1 Independent modes"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00011",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "1.1 Single-channel, single conversion mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00012",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "1.1.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00013",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "This is the simplest ADC mode. In this mode, the ADC performs the single conversion (single sample) of a single channel x (refer to Figure 1.) and stops after completion of the conversion."
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00014",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "Note: This application note is not delivered with a firmware example of this mode."
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-figure-00001",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0005_00001.png",
+    "caption": "Figure: “Figure 1. Single-channel, single conversion mode” (caption supplied as context).\n\nVisible flow diagram:\n- Top rounded box: **Start**\n- Downward arrow to a blue rectangular block labeled **CHx**\n- Downward arrow to bottom rounded box: **Stop**\n- Small identifier at lower right: **ai17600**\n\nThe sequence is vertically oriented: **Start → CHx → Stop**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 1. Single-channel, single conversion mode",
+    "generated_captions": {
+      "luna": "Figure: “Figure 1. Single-channel, single conversion mode” (caption supplied as context).\n\nVisible flow diagram:\n- Top rounded box: **Start**\n- Downward arrow to a blue rectangular block labeled **CHx**\n- Downward arrow to bottom rounded box: **Stop**\n- Small identifier at lower right: **ai17600**\n\nThe sequence is vertically oriented: **Start → CHx → Stop**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00015",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "1.1.2 Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00016",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "This mode can be used for the measurement of a voltage level to decide if the system can be started or not. Measure the voltage level of the battery before starting the system: if the battery has a low level, the “low battery” message appears. In this case, do not start the system."
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00017",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "1.2 Multichannel (scan), single conversion mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00018",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "1.2.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-text-00019",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "text": "This mode is used to convert some channels successively in independent mode. With the ADC sequencer, you can use this ADC mode to configure any sequence of up to 16 channels successively with different sampling times and in different orders. You can for example carry out the sequence shown in Figure 2. In this way, you do not have to stop the ADC during the conversion process in order to reconfigure the next channel with a different sampling time. This mode saves additional CPU load and heavy software development."
+  },
+  {
+    "segment_id": "stm32-an3116-p0005-figure-00002",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 5,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0005_00002.png",
+    "caption": "Figure showing an ADC sequencer converting channels in sequence, with configured sampling times indicated by green arrows and magenta timing boxes.\n\nVisible channel sequence and sampling times:\n\n1. **Channel1** → **1.5 cycles**\n2. **Channel2** → **13.5 cycles**\n3. **Channel3** → **7.5 cycles**\n4. **Channel4** → **7.5 cycles**\n5. **Channel7** → **71.5 cycles**\n6. **Channel7** → **71.5 cycles**\n7. **Channel7** → **71.5 cycles**\n8. **Channel9** → **28.5 cycles**\n9. **Channel11** → **1.5 cycles**\n\nThe three consecutive **Channel7** entries are grouped to the same **71.5 cycles** sampling-time box. Green arrows point from the channel labels to their corresponding sampling-time values.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 2. ADC sequencer converting 7 channels with different configured sampling times\nThis application note is not delivered with a firmware example of this mode.",
+    "generated_captions": {
+      "luna": "Figure showing an ADC sequencer converting channels in sequence, with configured sampling times indicated by green arrows and magenta timing boxes.\n\nVisible channel sequence and sampling times:\n\n1. **Channel1** → **1.5 cycles**\n2. **Channel2** → **13.5 cycles**\n3. **Channel3** → **7.5 cycles**\n4. **Channel4** → **7.5 cycles**\n5. **Channel7** → **71.5 cycles**\n6. **Channel7** → **71.5 cycles**\n7. **Channel7** → **71.5 cycles**\n8. **Channel9** → **28.5 cycles**\n9. **Channel11** → **1.5 cycles**\n\nThe three consecutive **Channel7** entries are grouped to the same **71.5 cycles** sampling-time box. Green arrows point from the channel labels to their corresponding sampling-time values."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-figure-00003",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0006_00003.png",
+    "caption": "**Figure 3. Multichannel, single conversion mode**\n\nFlow diagram showing a conversion sequence:\n\n- **Start** — rounded terminal at top.\n- Downward arrow to a blue rectangular block labeled **CHx**.\n- A vertical dashed line continues downward from **CHx** to **CHn**, indicating the sequence through channels.\n- **CHn** — blue rectangular block.\n- Downward arrow from **CHn** to **Stop**.\n- **Stop** — rounded terminal at bottom.\n- Figure identifier printed at lower right: **ai17602**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 3. Multichannel, single conversion mode",
+    "generated_captions": {
+      "luna": "**Figure 3. Multichannel, single conversion mode**\n\nFlow diagram showing a conversion sequence:\n\n- **Start** — rounded terminal at top.\n- Downward arrow to a blue rectangular block labeled **CHx**.\n- A vertical dashed line continues downward from **CHx** to **CHn**, indicating the sequence through channels.\n- **CHn** — blue rectangular block.\n- Downward arrow from **CHn** to **Stop**.\n- **Stop** — rounded terminal at bottom.\n- Figure identifier printed at lower right: **ai17602**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00020",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "1.2.2 Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00021",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "This mode can be used when starting a system depends on some parameters like knowing the coordinates of the arm’s tip in a manipulator arm system. In this case, you have to read the position of each articulation in the manipulator arm system at power-on to determine the coordinates of the arm’s tip."
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00022",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "This mode can also be used to make single measurements of multiple signal levels (voltage, pressure, temperature, etc.) to decide if the system can be started or not in order to protect the people and equipment."
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00023",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "It can likewise be used to convert signals coming from strain gauges to determine the directions and values of the different strains and deformations of an object."
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00024",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "1.3 Single-channel continuous conversion mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00025",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "1.3.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00026",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "The single-channel continuous conversion mode converts a single channel continuously and indefinitely in regular channel conversion."
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00027",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "The continuous mode feature allows the ADC to work in the background. The ADC converts the channels continuously without any intervention from the CPU. Additionally, the DMA can be used in circular mode, thus reducing the CPU load."
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-text-00028",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "text": "Note: An example of firmware is provided with this application note: SingleChannelContinuous. The example uses two methods: DMA and interrupts. To select either method, simply comment or uncomment #define USE\\_DMA\\_Transfer in the main.c file."
+  },
+  {
+    "segment_id": "stm32-an3116-p0006-figure-00004",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 6,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0006_00004.png",
+    "caption": "Figure fragment showing a single-channel continuous-conversion flow:\n\n- Top rounded rectangle: **“Start”**\n- A downward flow arrow leads from **Start** to a blue rectangular block labeled **“CHx”**.\n- From the bottom of **CHx**, a line runs downward, leftward, and upward, forming a return loop to the flow line above/left of CHx; the return path has a right-pointing arrow directed back toward the vertical path leading to CHx.\n- Bottom-right identifier: **“ai17603”**\n\nNo axes, legend, numeric values, pin numbers, or additional notes are visible.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 4. Single-channel, continuous conversion mode",
+    "generated_captions": {
+      "luna": "Figure fragment showing a single-channel continuous-conversion flow:\n\n- Top rounded rectangle: **“Start”**\n- A downward flow arrow leads from **Start** to a blue rectangular block labeled **“CHx”**.\n- From the bottom of **CHx**, a line runs downward, leftward, and upward, forming a return loop to the flow line above/left of CHx; the return path has a right-pointing arrow directed back toward the vertical path leading to CHx.\n- Bottom-right identifier: **“ai17603”**\n\nNo axes, legend, numeric values, pin numbers, or additional notes are visible."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00029",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "1.3.2 Example of applications"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00030",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "This ADC mode can be implemented to monitor a battery voltage, the measurement and regulation of an oven temperature, etc."
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00031",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "In the case of the oven temperature regulation, the temperature is read and compared to the temperature set by the user. When the oven temperature reaches the desired temperature, the heating resistor is powered off."
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00032",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "1.4 Multichannel (scan) continuous conversion mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00033",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "1.4.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00034",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "The multichannel, or scan, continuous mode can be used to convert some channels successively with the ADC in independent mode. With the sequencer, you can configure any sequence of up to 16 channels successively with different sampling times and different orders. This mode is similar to the multichannel single conversion mode except that it does not stop converting after the last channel of the sequence but it restarts the conversion sequence from the first channel and continues indefinitely."
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-figure-00005",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0007_00005.png",
+    "caption": "Figure is a flow diagram for multichannel, continuous conversion mode (nearby caption: “Figure 5. Multichannel, continuous conversion mode”).\n\nVisible elements:\n\n- Rounded oval labeled **“Start”** at the top.\n- A solid flow line from **Start** into a downward-pointing arrow leading to the blue block labeled **“CHx”**.\n- Blue rectangular block labeled **“CHx”**.\n- A vertical dashed line extending downward from **CHx** to the next block.\n- Blue rectangular block labeled **“CHn”**.\n- A solid feedback path from the bottom of **CHn**: downward, then left, then upward, returning to the flow line entering **CHx**, indicating repeated/continuous cycling through the channels.\n- Figure identifier at the lower right: **“ai17604”**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 5. Multichannel, continuous conversion mode",
+    "generated_captions": {
+      "luna": "Figure is a flow diagram for multichannel, continuous conversion mode (nearby caption: “Figure 5. Multichannel, continuous conversion mode”).\n\nVisible elements:\n\n- Rounded oval labeled **“Start”** at the top.\n- A solid flow line from **Start** into a downward-pointing arrow leading to the blue block labeled **“CHx”**.\n- Blue rectangular block labeled **“CHx”**.\n- A vertical dashed line extending downward from **CHx** to the next block.\n- Blue rectangular block labeled **“CHn”**.\n- A solid feedback path from the bottom of **CHn**: downward, then left, then upward, returning to the flow line entering **CHx**, indicating repeated/continuous cycling through the channels.\n- Figure identifier at the lower right: **“ai17604”**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00035",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "1.4.2 Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00036",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "This mode can be used to monitor multiple voltages and temperatures in a multiple battery charger. The voltage and temperature of each battery are read during the charging process. When the voltage or the temperature reaches the maximum level, the corresponding battery should be disconnected from the charger."
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00037",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "1.5 Injected conversion mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00038",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "1.5.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00039",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "This mode is intended for use when conversion is triggered by an external event or by software."
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00040",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "The injected group has priority over the regular channel group. It interrupts the conversion of the current channel in the regular channel group."
+  },
+  {
+    "segment_id": "stm32-an3116-p0007-text-00041",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 7,
+    "text": "Note: An example of firmware is provided with this application note: Indep\\_InjectedGroup."
+  },
+  {
+    "segment_id": "stm32-an3116-p0008-figure-00006",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 8,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0008_00006.png",
+    "caption": "Figure 6, “Injected conversion mode” (source context): timing/block diagram showing an injected conversion interrupting regular simultaneous operation.\n\nVisible elements and labels:\n\n- Upper-left ADC1 sequence, left to right:\n  - Gray block: sampling\n  - Blue block labeled **CH0**\n  - Gray block: sampling\n  - Blue block labeled **CH1**\n- A vertical dashed timing marker follows the upper-left sequence. An arrow points to it with the label **Injected trigger**.\n- Lower ADC1 sequence associated with the injected conversion:\n  - Gray block: sampling\n  - Blue block labeled **CH10**\n- A second vertical dashed timing marker appears at the end of the lower ADC1 sequence. An arrow points to this endpoint with the label **End of injected conversion on ADC1**.\n- Upper-right ADC1 sequence after the injected conversion, left to right:\n  - Gray block: sampling\n  - Blue block labeled **CH1**\n  - Gray block: sampling\n  - Blue block labeled **CH3**\n- Lower-left annotation: **Regular simultaneous mode interrupted by the alternate trigger mode**, with an arrow pointing toward the injected-trigger transition.\n- Legend at right:\n  - Gray outlined/fill swatch: **Sampling**\n  - Blue swatch: **Conversion**\n- Bottom-right identifier: **ai17605**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 6. Injected conversion mode",
+    "generated_captions": {
+      "luna": "Figure 6, “Injected conversion mode” (source context): timing/block diagram showing an injected conversion interrupting regular simultaneous operation.\n\nVisible elements and labels:\n\n- Upper-left ADC1 sequence, left to right:\n  - Gray block: sampling\n  - Blue block labeled **CH0**\n  - Gray block: sampling\n  - Blue block labeled **CH1**\n- A vertical dashed timing marker follows the upper-left sequence. An arrow points to it with the label **Injected trigger**.\n- Lower ADC1 sequence associated with the injected conversion:\n  - Gray block: sampling\n  - Blue block labeled **CH10**\n- A second vertical dashed timing marker appears at the end of the lower ADC1 sequence. An arrow points to this endpoint with the label **End of injected conversion on ADC1**.\n- Upper-right ADC1 sequence after the injected conversion, left to right:\n  - Gray block: sampling\n  - Blue block labeled **CH1**\n  - Gray block: sampling\n  - Blue block labeled **CH3**\n- Lower-left annotation: **Regular simultaneous mode interrupted by the alternate trigger mode**, with an arrow pointing toward the injected-trigger transition.\n- Legend at right:\n  - Gray outlined/fill swatch: **Sampling**\n  - Blue swatch: **Conversion**\n- Bottom-right identifier: **ai17605**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0008-text-00042",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 8,
+    "text": "1.5.2 Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0008-text-00043",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 8,
+    "text": "This mode can be used to synchronize the conversion of channels to an event. It is interesting in motor control applications where transistor switching generates noise that impacts ADC measurements and results in wrong conversions. Using a timer, the injected conversion mode can thus be implemented to delay the ADC measurements to after the transistor switching."
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00044",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "2 Dual modes"
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00045",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "Dual modes are available in STM32 microcontrollers that feature two ADCs: ADC1 master and ADC2 slave. ADC1 and ADC2 triggers are synchronized internally for regular and injected channel conversion. ADC1 and ADC2 work together."
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00046",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "In some devices, there are up to 3 ADCs: ADC1, ADC2 and ADC3. In this case ADC3 always works independently, and is not synchronized with the other ADCs."
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00047",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "Note: Do not sample the same channel on the two ADCs at the same time, this would introduce conversion errors."
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00048",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "2.1 Dual regular simultaneous mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00049",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "2.1.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00050",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "The dual regular simultaneous ADC mode is used to perform two conversions simultaneously owing to the synchronization of ADC1 and ADC2. Each ADC converts a channel sequence (with scan enabled and the sequencer of each ADC configured) or converts a single channel (scan disabled). The conversion can be started with an external trigger or by software. In this mode, the conversion results of ADC1 and ADC2 are stored in ADC1’s data register (32-bit format). Figure 7 shows how ADC1 and ADC2 convert two sequences simultaneously. ADC1 converts a sequence of 16 channels successively: channel 15 to channel 0 and ADC2 converts a sequence of 16 channels successively: channel 0 to channel 15."
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00051",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "Note: This application note does not provide a firmware example. However the STM32 firmware library provides an example of this mode at the following path: \\Project\\STM32F10x\\_StdPeriph\\_Examples\\ADC\\RegSimul\\_DualMode."
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-figure-00007",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0009_00007.png",
+    "caption": "**Figure 7. Dual regular simultaneous mode** (STM32 application note AN3116, p. 9; figure identifier: **ai17606**)\n\nThe diagram shows synchronized regular-channel sequences for **ADC2** and **ADC1**. Each channel consists of a gray **Sampling** interval followed by a blue **Conversion** interval.\n\n- **ADC2 sequence, left to right:**\n  - Sampling → **CH0** conversion\n  - Sampling → **CH1** conversion\n  - Sampling → **CH2** conversion\n  - Sampling → **CH3** conversion\n  - `...`\n  - Sampling → **CH15** conversion\n\n- **ADC1 sequence, left to right:**\n  - Sampling → **CH15** conversion\n  - Sampling → **CH14** conversion\n  - Sampling → **CH13** conversion\n  - Sampling → **CH12** conversion\n  - `...`\n  - Sampling → **CH0** conversion\n\nAnnotations:\n- An upward arrow at the beginning of the ADC1 sequence is labeled **“Trigger for regular channels”**.\n- A downward/right-pointing arrow at the end of the ADC1/ADC2 sequences is labeled **“End of conversion on ADC1 and ADC2”**.\n- Legend:\n  - Gray outlined box: **Sampling**\n  - Blue filled box: **Conversion**",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 7. Dual regular simultaneous mode",
+    "generated_captions": {
+      "luna": "**Figure 7. Dual regular simultaneous mode** (STM32 application note AN3116, p. 9; figure identifier: **ai17606**)\n\nThe diagram shows synchronized regular-channel sequences for **ADC2** and **ADC1**. Each channel consists of a gray **Sampling** interval followed by a blue **Conversion** interval.\n\n- **ADC2 sequence, left to right:**\n  - Sampling → **CH0** conversion\n  - Sampling → **CH1** conversion\n  - Sampling → **CH2** conversion\n  - Sampling → **CH3** conversion\n  - `...`\n  - Sampling → **CH15** conversion\n\n- **ADC1 sequence, left to right:**\n  - Sampling → **CH15** conversion\n  - Sampling → **CH14** conversion\n  - Sampling → **CH13** conversion\n  - Sampling → **CH12** conversion\n  - `...`\n  - Sampling → **CH0** conversion\n\nAnnotations:\n- An upward arrow at the beginning of the ADC1 sequence is labeled **“Trigger for regular channels”**.\n- A downward/right-pointing arrow at the end of the ADC1/ADC2 sequences is labeled **“End of conversion on ADC1 and ADC2”**.\n- Legend:\n  - Gray outlined box: **Sampling**\n  - Blue filled box: **Conversion**"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00052",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "2.1.2 Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0009-text-00053",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 9,
+    "text": "The dual regular simultaneous mode can be used in applications where two signals should be sampled and converted at the same time. For example, to measure and plot the singlephase or three-phase instantaneous electrical power: ${ \\sf p } _ { \\sf n } ( { \\sf t } ) = { \\sf u } _ { \\sf n } ( { \\sf t } ) \\times { \\sf i } _ { \\sf n } ( { \\sf t } )$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00054",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "In this case, the voltage and current should be measured simultaneously and then the instantaneous power, which is the product of $\\mathsf { u } _ { \\mathsf { n } } ( \\mathsf { t } )$ and $\\dot { \\mathsf { I } } _ { \\mathsf { n } } ( \\mathsf { t } )$ , should be computed."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00055",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "Figure 8 shows how to measure a power using the two ADCs in dual regular simultaneous mode."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00056",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "To measure a single-phase power, ADC1 and ADC2 are used with two channels (1 channel for the voltage and 1 channel for the current)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00057",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "To measure a three-phase power, ADC1 and ADC2 are used with 6 channels (3 channels for the voltage and 3 channels for the current)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-figure-00008",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0010_00008.png",
+    "caption": "**Figure 8: Simultaneous measurement of voltage and current** (caption supplied as context; figure title itself is not visible in the crop).\n\nThe figure shows ADC channel allocation for single-phase and three-phase voltage/current measurements.\n\n### Single-phase case\n\n- **ADC1:** three repeated measurement slots labeled:\n  - `CHx: u(t)`\n  - `CHx: u(t)`\n  - `CHx: u(t)`\n  - followed by `- - -`\n- **ADC2:** three repeated measurement slots labeled:\n  - `CHy: i(t)`\n  - `CHy: i(t)`\n  - `CHy: i(t)`\n  - followed by `- - -`\n- Calculated power:\n  - `p(t) = u(t) × i(t) = CHx × CHy`\n\nEach ADC row is depicted as a sequence of blue channel blocks separated by dark vertical boundaries, with a gray block at the left of the sequence.\n\n### Three-phase case\n\n- **ADC1:**\n  - `CHu: uₚₕ₁(t)`\n  - `CHv: uₚₕ₂(t)`\n  - `CHw: uₚₕ₃(t)`\n  - followed by `- - -`\n- **ADC2:**\n  - `CHx: iₚₕ₁(t)`\n  - `CHy: iₚₕ₂(t)`\n  - `CHz: iₚₕ₃(t)`\n\nCalculated phase powers:\n\n- `pₚₕ₁(t) = uₚₕ₁(t).iₚₕ₁(t) = CHu × CHx`\n- `pₚₕ₂(t) = uₚₕ₂(t).iₚₕ₂(t) = CHv × CHy`\n- `pₚₕ₃(t) = uₚₕ₃(t).iₚₕ₃(t) = CHw × CHz`\n\nFigure identifier at lower right: `ai17607`.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 8. Simultaneous measurement of voltage and current",
+    "generated_captions": {
+      "luna": "**Figure 8: Simultaneous measurement of voltage and current** (caption supplied as context; figure title itself is not visible in the crop).\n\nThe figure shows ADC channel allocation for single-phase and three-phase voltage/current measurements.\n\n### Single-phase case\n\n- **ADC1:** three repeated measurement slots labeled:\n  - `CHx: u(t)`\n  - `CHx: u(t)`\n  - `CHx: u(t)`\n  - followed by `- - -`\n- **ADC2:** three repeated measurement slots labeled:\n  - `CHy: i(t)`\n  - `CHy: i(t)`\n  - `CHy: i(t)`\n  - followed by `- - -`\n- Calculated power:\n  - `p(t) = u(t) × i(t) = CHx × CHy`\n\nEach ADC row is depicted as a sequence of blue channel blocks separated by dark vertical boundaries, with a gray block at the left of the sequence.\n\n### Three-phase case\n\n- **ADC1:**\n  - `CHu: uₚₕ₁(t)`\n  - `CHv: uₚₕ₂(t)`\n  - `CHw: uₚₕ₃(t)`\n  - followed by `- - -`\n- **ADC2:**\n  - `CHx: iₚₕ₁(t)`\n  - `CHy: iₚₕ₂(t)`\n  - `CHz: iₚₕ₃(t)`\n\nCalculated phase powers:\n\n- `pₚₕ₁(t) = uₚₕ₁(t).iₚₕ₁(t) = CHu × CHx`\n- `pₚₕ₂(t) = uₚₕ₂(t).iₚₕ₂(t) = CHv × CHy`\n- `pₚₕ₃(t) = uₚₕ₃(t).iₚₕ₃(t) = CHw × CHz`\n\nFigure identifier at lower right: `ai17607`."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00058",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "2.2 Dual fast interleaved mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00059",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "2.2.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00060",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "The dual fast interleaved ADC mode is intended for the conversion of one channel. ADC1 and ADC2 convert the selected channel alternately with a period of 7 ADC clock cycles. This means that the channel is converted every 7 clock cycles. Each ADC converts the channel every 14 ADC clock cycles. With a 14 MHz ADC clock, it is thus possible to reach 2 Msamples per second: 14 MHz/7 = 2 MHz (sampling frequency). The conversion can be started by external trigger or by software and the conversion results of ADC1 and ADC2 are stored into ADC1 data register (32-bit format)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00061",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "The maximum allowed sampling time is 7 ADC clock cycles to avoid the overlap between the ADC1 and ADC2 sampling phases in the event that they convert the same channel. This means that the only allowed sampling time is 1.5 cycles."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00062",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "Note: 1 It is highly recommended to use DMA instead of interrupts to avoid the loss of data."
+  },
+  {
+    "segment_id": "stm32-an3116-p0010-text-00063",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 10,
+    "text": "2 An example of firmware is provided with this application note: Dual\\_FastInterleaved."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-figure-00009",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0011_00009.png",
+    "caption": "**Figure 9. Dual fast interleaved mode**\n\nTiming diagram showing interleaved operation of **ADC2** and **ADC1**:\n\n- **ADC2** (upper row):\n  - Initial gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Second gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Dashed continuation (`-----`).\n  - Later gray **Sampling** interval followed by blue **Conversion** interval labeled **CH0**.\n  - Callout: **End of conversion on ADC2**, pointing to the transition after the first ADC2 conversion.\n\n- **ADC1** (lower row):\n  - Gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Dashed continuation (`-----`).\n  - Later gray **Sampling** interval followed by blue **Conversion** interval labeled **CH0**.\n  - Callout: **End of conversion on ADC1**, pointing to the transition after the first ADC1 conversion.\n\n- A left-side arrow is labeled **Trigger for regular channels** and points to the start of the ADC2 timing sequence.\n- Two vertical dashed timing markers indicate the trigger/reference point and the corresponding ADC1 timing point.\n- A double-headed horizontal arrow between the markers is labeled **7 ADC clock cycles**, indicating the timing offset.\n- Legend:\n  - Gray box: **Sampling**\n  - Blue box: **Conversion**\n- Figure identifier at lower right: **ai17608**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 9. Dual fast interleaved mode",
+    "generated_captions": {
+      "luna": "**Figure 9. Dual fast interleaved mode**\n\nTiming diagram showing interleaved operation of **ADC2** and **ADC1**:\n\n- **ADC2** (upper row):\n  - Initial gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Second gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Dashed continuation (`-----`).\n  - Later gray **Sampling** interval followed by blue **Conversion** interval labeled **CH0**.\n  - Callout: **End of conversion on ADC2**, pointing to the transition after the first ADC2 conversion.\n\n- **ADC1** (lower row):\n  - Gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Gray **Sampling** interval.\n  - Blue **Conversion** interval labeled **CH0**.\n  - Dashed continuation (`-----`).\n  - Later gray **Sampling** interval followed by blue **Conversion** interval labeled **CH0**.\n  - Callout: **End of conversion on ADC1**, pointing to the transition after the first ADC1 conversion.\n\n- A left-side arrow is labeled **Trigger for regular channels** and points to the start of the ADC2 timing sequence.\n- Two vertical dashed timing markers indicate the trigger/reference point and the corresponding ADC1 timing point.\n- A double-headed horizontal arrow between the markers is labeled **7 ADC clock cycles**, indicating the timing offset.\n- Legend:\n  - Gray box: **Sampling**\n  - Blue box: **Conversion**\n- Figure identifier at lower right: **ai17608**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00064",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "2.2.2Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00065",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "This mode is used to speed up the sampling rate of the ADC when 2 Msamples/second are needed with 1.5 cycle of sampling time. ADC1 and ADC2 convert the same channel alternately to reduce the conversion time. While ADC1 samples channel CHx, ADC2 converts the previous sample."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00066",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "For example if a signal to be converted has a maximum frequency of 800 kHz, the sampling rate frequency should be higher than or equal to twice the frequency of the signal to be converted (in accordance with Shannon-Nyquist criteria). Since the maximum sampling rate is 1 Msample/second with one ADC, the criteria cannot be met. This is solved by using the dual fast interleaved ADC mode. In this way, the sampling rate frequency becomes 2 Msample/second since the two ADCs (ADC1 and ADC2) work alternately and sample the signal at equal periods (7 ADC cycles)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00067",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "With the dual fast interleaved ADC mode, 2 Msamples/second can be achieved with 1.5 cycles of sampling time."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00068",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "2.3 Dual slow interleaved mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00069",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "2.3.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00070",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "The dual slow interleaved ADC mode is intended for the conversion of one channel. ADC1 and ADC2 convert the selected channel alternately with a period of 14 ADC clock cycles. The channel is thus converted every 14 clock cycles. Each ADC converts the channel every 28 ADC clock cycles. The conversion can be started by external trigger or by software and the conversion results of ADC1 and ADC2 are stored into ADC1's data register (32-bit format)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00071",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "The maximum allowed sampling time is 14 ADC clock cycles to avoid any overlap with the next conversion. This means that the only allowed sampling times are 1.5, 7.5 and 13.5 cycles."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00072",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "Continuous conversion should not be used in this mode since the ADCs would continuously convert the selected regular channel automatically (the CONT bit should not be set in this mode)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00073",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "Note: 1 It is highly recommended to use DMA instead of interrupts to avoid the loss of data."
+  },
+  {
+    "segment_id": "stm32-an3116-p0011-text-00074",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 11,
+    "text": "2 An example of firmware is provided with this application note: Dual\\_SlowInterleaved."
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-figure-00010",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0012_00010.png",
+    "caption": "**Figure 10. Dual slow interleaved mode** (STM32 AN3116, page 12)\n\nTiming diagram showing ADC2 and ADC1 operation for regular-channel triggering:\n\n- Two horizontal lanes are labeled **ADC2** (upper lane) and **ADC1** (lower lane).\n- A left-side arrow labeled **“Trigger for regular channel”** points to the start of the first ADC2 operation.\n- Legend at right:\n  - Light-gray rectangle: **Sampling**\n  - Blue rectangle: **Conversion**\n- ADC2 lane:\n  - First operation consists of a light-gray **Sampling** interval followed by a blue **Conversion** interval labeled **CH0**.\n  - A callout from this operation reads **“End of conversion on ADC2”**.\n  - A subsequent operation consists of another light-gray sampling interval followed by blue conversion labeled **CH0**.\n- ADC1 lane:\n  - First operation consists of a light-gray sampling interval followed by blue conversion labeled **CH0**.\n  - A callout from this operation reads **“End of conversion on ADC1”**.\n  - A subsequent light-gray sampling interval followed by blue conversion labeled **CH0** is shown to the right.\n- Vertical dashed timing markers extend from the ADC2/ADC1 timing blocks downward.\n- A double-headed horizontal timing arrow between the first and second relevant dashed markers is labeled **“14 ADC clock cycles”**.\n- A longer double-headed horizontal timing arrow is labeled **“28 ADC clock cycles”**.\n- Figure identifier at lower right: **ai17609**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 10. Dual slow interleaved mode",
+    "generated_captions": {
+      "luna": "**Figure 10. Dual slow interleaved mode** (STM32 AN3116, page 12)\n\nTiming diagram showing ADC2 and ADC1 operation for regular-channel triggering:\n\n- Two horizontal lanes are labeled **ADC2** (upper lane) and **ADC1** (lower lane).\n- A left-side arrow labeled **“Trigger for regular channel”** points to the start of the first ADC2 operation.\n- Legend at right:\n  - Light-gray rectangle: **Sampling**\n  - Blue rectangle: **Conversion**\n- ADC2 lane:\n  - First operation consists of a light-gray **Sampling** interval followed by a blue **Conversion** interval labeled **CH0**.\n  - A callout from this operation reads **“End of conversion on ADC2”**.\n  - A subsequent operation consists of another light-gray sampling interval followed by blue conversion labeled **CH0**.\n- ADC1 lane:\n  - First operation consists of a light-gray sampling interval followed by blue conversion labeled **CH0**.\n  - A callout from this operation reads **“End of conversion on ADC1”**.\n  - A subsequent light-gray sampling interval followed by blue conversion labeled **CH0** is shown to the right.\n- Vertical dashed timing markers extend from the ADC2/ADC1 timing blocks downward.\n- A double-headed horizontal timing arrow between the first and second relevant dashed markers is labeled **“14 ADC clock cycles”**.\n- A longer double-headed horizontal timing arrow is labeled **“28 ADC clock cycles”**.\n- Figure identifier at lower right: **ai17609**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00075",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "2.3.2Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00076",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "Let us assume that the signal to be converted has a maximum frequency $( \\mathfrak { f } _ { \\mathfrak { i } \\mathfrak { n } } )$ of 500 kHz with an impedance $\\mathsf { R } _ { \\mathsf { A l N } } = 1 0$ kΩ. The minimum sampling rate should be 1 Msamples/second (in accordance with Shannon-Nyquist criteria)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00077",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "With one ADC, the only configuration is $\\mathsf { f } _ { \\mathsf { A D C } } = 1 4 \\mathsf { M H z }$ and the sampling time $\\mathsf { T } _ { \\mathsf { s } } = 1 . 5$ cycles $( \\mathsf { T } _ { \\mathsf { s } } = \\mathsf { t } _ { \\mathsf { s } } \\times \\mathsf { f } _ { \\mathsf { A D C } }$ , refer to the datasheet of the STM32 product you are using for more details on the sampling time vs. the source impedance)."
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00078",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "In this case, the maximum allowed impedance of the source $( \\mathsf { R } _ { \\mathsf { A l N } } \\mathsf { m a x } )$ is 1.2 kΩ. The conversion will not be accurate since $\\mathsf { R } _ { \\mathsf { A I N } } > \\mathsf { R } _ { \\mathsf { A I N m a x } } .$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00079",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "Solution"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00080",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "Use the ADC in dual slow interleaved mode. Each ADC sampling should be configured to have a minimum sampling rate of 500 ksamples/second with $\\mathsf { f } _ { \\mathsf { A D C } } = 1 4 \\mathsf { M H z }$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00081",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$$\n\\mathsf { T } _ { \\mathsf { T o t a l R a t e } } = \\mathsf { T } _ { \\mathsf { s } } + \\mathsf { T } _ { \\mathsf { c o n v } } = \\mathsf { t } _ { \\mathsf { T o t a l R a t e } } \\times \\mathsf { f } _ { \\mathsf { A D C } } = \\frac { \\mathsf { f } _ { \\mathsf { A D C } } } { \\mathsf { F } _ { \\mathsf { s R a t e } } } , \\mathsf { w h e r e } .\n$$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00082",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$\\mathsf { T } _ { \\mathsf { T o t a l R a t e } }$ is the total conversion time in ADC clock cycles."
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00083",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$\\mathsf { t } _ { \\mathsf { T o t a l R a t e } }$ is the sum of the sampling time $\\mathrm { t } _ { \\mathsf { s } } ( \\mathsf { t } _ { \\mathsf { s } } = \\mathsf { T } _ { \\mathsf { s } } / \\mathsf { f } _ { \\mathsf { A D C } } )$ and the conversion time tconv $( \\mathrm { t } _ { \\mathsf { c o n v } } = \\mathsf { T } _ { \\mathsf { c o n v } } / \\mathsf { f } _ { \\mathsf { A D C } } )$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00084",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$\\mathsf { T } _ { \\mathsf { c o n v } }$ is a constant equal to 12.5 cycles"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00085",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$\\mathsf { T } _ { \\mathsf { s } }$ is the sampling time given in ADC cycles, it is equal to:"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00086",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$$\n\\mathsf { T } _ { \\mathbb { S } } = \\frac { \\mathsf { f } _ { \\mathsf { A D C } } } { \\mathsf { F } _ { \\mathbb { S } \\mathsf { R a t e } } } - 1 2 . 5 = \\frac { 1 4 \\times 1 0 ^ { 6 } } { 5 0 0 \\times 1 0 ^ { 3 } } - 1 2 . 5 = 1 5 . 5 \\ \\mathrm { c y c l e s , ~ w h e r e ~ } \\mathsf { F } _ { \\mathbb { S } \\mathsf { R a t e } } \\mathrm { ~ i s ~ t h e ~ s a m p l i n g ~ r a t e }  { \\mathsf { f r e q u e n c y . } }\n$$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00087",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "Since $\\mathsf { T } _ { \\mathsf { s } } = 1 5 . 5$ cycles is not available for the configuration (for more details about the different available $\\mathsf { T } _ { \\mathsf { s } }$ values, refer to the “12-bit ADC characteristics” section in the datasheet of the STM32 product you are using). The nearest available value is $\\mathsf { T } _ { \\mathsf { s } } = 1 3 . 5$ To know whether this value meets Shannon-Nyquist criteria, we need to calculate the sampling rate with $\\mathsf { T } _ { \\mathsf { s } } = 1 3 . 5$ and $\\mathsf { f } _ { \\mathsf { A D C } } = 1 4 ~ \\mathsf { M H z } \\mathrm { : }$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00088",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "$$\n{ \\begin{array} { r l } & { \\mathsf { T } _ { \\mathrm { T o t a l R a t e } } = 1 3 . 5 + 1 2 . 5 = 2 6 \\ { \\mathrm { c y c l e s } } } \\\\ & { \\mathsf { F } _ { \\mathrm { s R a t e } } = \\mathsf { f } _ { \\mathsf { A D C } } / \\mathsf { T } _ { \\mathrm { T o t a l R a t e } } = 1 4 . 1 0 ^ { 6 } / 2 6 = 5 3 8 \\ { \\mathrm { k H z } } \\ { \\mathrm { p e r ~ A D C } } } \\end{array} }\n$$"
+  },
+  {
+    "segment_id": "stm32-an3116-p0012-text-00089",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 12,
+    "text": "Since the conversion is made with two $\\mathsf { A D C s } \\left( \\mathsf { A D C 1 } + \\mathsf { A D C 2 } \\right)$ working alternately, the sampling rate frequency is: $\\mathsf { F } _ { \\mathsf { s R a t e } } = 5 3 8 \\times 2 = 1 0 7 6 ~ \\mathsf { k H z } > 2 \\times \\mathsf { f } _ { \\mathsf { i n } } ,$ and so the Shannon-Nyquist criteria is respected."
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00090",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "With $\\mathsf { T } _ { \\mathsf { s } } = 1 3 . 5$ cycles, the maximum allowed impedance of the source $( \\mathsf { R } _ { \\mathsf { A l N } } )$ is 19 kΩ. Since the source has an impedance $\\mathsf { R } _ { \\mathsf { A I N } } = 1 0 \\mathsf { k } \\Omega < 1 9$ kΩ the impedance condition is respected. With a single ADC and with $\\mathsf { T } _ { \\mathsf { s } } = 1 . 5$ (corresponding to 1.2 kΩ), the impedance condition is not satisfied. By using two ADCs, we have thus extended the impedance margin from 1.2 kΩ to 19 kΩ."
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00091",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "With the dual slow interleaved ADC mode, the 1 Msamples/second sampling rate is achieved with higher input impedances."
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00092",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "2.4 Dual alternate trigger mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00093",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "2.4.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00094",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "The dual alternate trigger ADC mode can be used only on an injected channel group. In this mode, ADC1 and ADC2 alternately convert the injected channels on the same external trigger. When the first trigger occurs, all injected group channels in ADC1 are converted. When the second trigger happens, all injected group channels in ADC2 are converted and so on. The maximum number of injected channels in the group is 4 for each ADC."
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00095",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "Note: An example of firmware is provided with this application note: Dual\\_AlternateTrigger."
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-figure-00011",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0013_00011.png",
+    "caption": "**Figure 11. Dual alternate trigger mode**\n\nDiagram showing alternating trigger/conversion sequences for ADC1 and ADC2.\n\n- **Legend:**\n  - Light-gray block: **Sampling**\n  - Blue block: **Conversion**\n\n- **ADC1 sequence (top row):**\n  1. **1st trigger** → sampling block → conversion **CH0**\n  2. **3rd trigger** → sampling block → conversion **CH1**\n  3. **5th trigger** → sampling block → conversion **CH2**\n  4. **7th trigger** → sampling block → conversion **CH3**\n  - **JEOC on ADC1** is indicated at the end of the ADC1 sequence.\n\n- **ADC2 sequence (bottom row):**\n  1. **2nd trigger** → sampling block → conversion **CH10**\n  2. **4th trigger** → sampling block → conversion **CH11**\n  3. **6th trigger** → sampling block → conversion **CH12**\n  4. **8th trigger** → sampling block → conversion **CH13**\n  - **JEOC on ADC2** is indicated at the end of the ADC2 sequence.\n\nThe alternating triggers are numbered from **1st** through **8th**, with odd-numbered triggers associated with ADC1 and even-numbered triggers associated with ADC2. Figure identifier visible at lower right: **ai17610**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 11. Dual alternate trigger mode",
+    "generated_captions": {
+      "luna": "**Figure 11. Dual alternate trigger mode**\n\nDiagram showing alternating trigger/conversion sequences for ADC1 and ADC2.\n\n- **Legend:**\n  - Light-gray block: **Sampling**\n  - Blue block: **Conversion**\n\n- **ADC1 sequence (top row):**\n  1. **1st trigger** → sampling block → conversion **CH0**\n  2. **3rd trigger** → sampling block → conversion **CH1**\n  3. **5th trigger** → sampling block → conversion **CH2**\n  4. **7th trigger** → sampling block → conversion **CH3**\n  - **JEOC on ADC1** is indicated at the end of the ADC1 sequence.\n\n- **ADC2 sequence (bottom row):**\n  1. **2nd trigger** → sampling block → conversion **CH10**\n  2. **4th trigger** → sampling block → conversion **CH11**\n  3. **6th trigger** → sampling block → conversion **CH12**\n  4. **8th trigger** → sampling block → conversion **CH13**\n  - **JEOC on ADC2** is indicated at the end of the ADC2 sequence.\n\nThe alternating triggers are numbered from **1st** through **8th**, with odd-numbered triggers associated with ADC1 and even-numbered triggers associated with ADC2. Figure identifier visible at lower right: **ai17610**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00096",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "2.4.2Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0013-text-00097",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 13,
+    "text": "The dual alternate trigger mode makes it possible to have sampling points as close as possible to each other (down to 1.5 ADC cycles). This is interesting for instance in motor control applications, where a single-shunt sensor is used for three-phase current reading. In some cases, the PWM duty cycle of the power stage has to be limited to maintain a minimum time slot for two consecutive conversions. If the sampling points are as close as possible, the PWM duty cycle is maximized, which increases the voltage applied to the motor."
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00098",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "2.5 Dual combined regular/injected simultaneous mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00099",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "2.5.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00100",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "The dual combined regular/injected simultaneous ADC mode is a regular simultaneous mode that allows injection. The injected channels are also converted simultaneously."
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00101",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "In this mode, you should convert sequences with the same length or ensure that the interval between triggers is longer than the longest of the 2 sequences. Otherwise, the ADC with the shortest sequence may restart while the ADC with the longest sequence is completing the previous conversions."
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00102",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "Dual\\_Combined\\_Reg\\_Inj\\_Sumultaneous. The example uses two methods: DMA and interrupts. To select either method, simply comment or uncomment #define USE\\_DMA\\_Transfer in the main.c file."
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-figure-00012",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0014_00012.png",
+    "caption": "Figure showing **dual combined regular/injected simultaneous mode** timing for ADC1 and ADC2.\n\n- **Legend:**\n  - Light gray block: **Sampling**\n  - Blue block: **Conversion**\n- Time progresses from left to right.\n- Two vertical dashed lines mark the interval in which the regular simultaneous conversion is interrupted by the injected simultaneous conversion.\n\n### Regular conversion before injected conversion\n\n**ADC2** row:\n- Sampling → conversion **CH0**\n- Sampling → conversion **CH1**\n\n**ADC1** row:\n- Sampling → conversion **CH3**\n- Sampling → conversion **CH2**\n\nA left-side arrow points to the start of these sequences with the label:\n\n- **Trigger for regular channels**\n\nAn annotation between the regular and injected sequences reads:\n\n- **Regular simultaneous conversion interrupted by injected simultaneous conversion**\n\n### Injected conversion\n\n**ADC2** row:\n- Sampling → conversion **CH10**\n- Sampling → conversion **CH11**\n\n**ADC1** row:\n- Sampling → conversion **CH15**\n- Sampling → conversion **CH14**\n\nA lower-left arrow points to the injected sequence with the label:\n\n- **Trigger for injected channels**\n\nAt the right end of the injected sequences, an arrow and annotation read:\n\n- **End of injected conversion on ADC1 and ADC2**\n\n### Regular conversion after injected conversion\n\n**ADC2** row:\n- Sampling → conversion **CH1**\n- Sampling → conversion **CH2**\n- Sampling → conversion **CH3**\n\n**ADC1** row:\n- Sampling → conversion **CH2**\n- Sampling → conversion **CH1**\n- Sampling → conversion **CH0**\n\nAt the right end of these sequences, the annotation reads:\n\n- **End of conversion on ADC1 and ADC2**\n\nThe figure identifier at the lower right is **ai17611**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 12. Dual combined regular/injected simultaneous mode",
+    "generated_captions": {
+      "luna": "Figure showing **dual combined regular/injected simultaneous mode** timing for ADC1 and ADC2.\n\n- **Legend:**\n  - Light gray block: **Sampling**\n  - Blue block: **Conversion**\n- Time progresses from left to right.\n- Two vertical dashed lines mark the interval in which the regular simultaneous conversion is interrupted by the injected simultaneous conversion.\n\n### Regular conversion before injected conversion\n\n**ADC2** row:\n- Sampling → conversion **CH0**\n- Sampling → conversion **CH1**\n\n**ADC1** row:\n- Sampling → conversion **CH3**\n- Sampling → conversion **CH2**\n\nA left-side arrow points to the start of these sequences with the label:\n\n- **Trigger for regular channels**\n\nAn annotation between the regular and injected sequences reads:\n\n- **Regular simultaneous conversion interrupted by injected simultaneous conversion**\n\n### Injected conversion\n\n**ADC2** row:\n- Sampling → conversion **CH10**\n- Sampling → conversion **CH11**\n\n**ADC1** row:\n- Sampling → conversion **CH15**\n- Sampling → conversion **CH14**\n\nA lower-left arrow points to the injected sequence with the label:\n\n- **Trigger for injected channels**\n\nAt the right end of the injected sequences, an arrow and annotation read:\n\n- **End of injected conversion on ADC1 and ADC2**\n\n### Regular conversion after injected conversion\n\n**ADC2** row:\n- Sampling → conversion **CH1**\n- Sampling → conversion **CH2**\n- Sampling → conversion **CH3**\n\n**ADC1** row:\n- Sampling → conversion **CH2**\n- Sampling → conversion **CH1**\n- Sampling → conversion **CH0**\n\nAt the right end of these sequences, the annotation reads:\n\n- **End of conversion on ADC1 and ADC2**\n\nThe figure identifier at the lower right is **ai17611**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00103",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "2.5.2Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00104",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "The dual combined (regular/injected) simultaneous mode can be used to read 3-phase currents at definite times. This mode is interesting when you read the currents of two of the phases and you determine the current of the third phase by extrapolation since there is a relationship between the currents of the 3 phases."
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00105",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "2.6 Dual combined: injected simultaneous + interleaved mode"
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00106",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "2.6.1 Description"
+  },
+  {
+    "segment_id": "stm32-an3116-p0014-text-00107",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 14,
+    "text": "This mode is the combination of the dual interleaved mode (fast or slow) and the dual injected simultaneous mode. When the regular channel is triggered, the dual interleaved conversion starts: ADC2 makes the first conversion, then ADC1 converts the channel and so on. When the injected channel is triggered, it interrupts the interleaved channel conversion and the two ADCs (ADC1 and ADC2) start converting the group of injected channels. When the two ADCs finish the injected conversion, they resume the conversion of the channel configured in interleaved mode."
+  },
+  {
+    "segment_id": "stm32-an3116-p0015-text-00108",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 15,
+    "text": "Note: This application note is not delivered with a firmware example of this mode."
+  },
+  {
+    "segment_id": "stm32-an3116-p0015-figure-00013",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0015_00013.png",
+    "caption": "**Figure 13. Dual combined: injected simultaneous + interleaved mode** (source: STM32 AN3116, p. 15)\n\nTiming/conversion diagram showing regular-channel interleaved conversions interrupted by simultaneous injected conversions.\n\n- **ADC2** regular-channel sequence at upper left:\n  - Sampling (gray) → **CH0** conversion (blue) → sampling (gray) → **CH0** conversion (blue).\n- **ADC1** regular-channel sequence below:\n  - Sampling (gray) → **CH0** conversion (blue) → an interrupted/dashed-outline **CH0** conversion segment.\n- Arrow/callout at left: **“Trigger for regular channel”**.\n- Callout over the interrupted sequence: **“Interleaved conversion interrupted by injected simultaneous conversion”**.\n- A dashed vertical timing marker indicates the interruption/injected-conversion trigger region.\n\nInjected-channel conversions:\n\n- **ADC2** row:\n  - Sampling (gray) → **CH10** conversion (blue) → sampling (gray) → **CH11** conversion (blue).\n- **ADC1** row:\n  - Sampling (gray) → **CH11** conversion (blue) → sampling (gray) → **CH10** conversion (blue).\n- Arrow/callout: **“Trigger for injected channels”**.\n- Right-side callout at the end of the injected sequences: **“End of injected conversion on ADC1 and ADC2”**.\n- Dashed vertical markers bracket/indicate the injected-conversion interval.\n\nFollowing the injected conversion:\n\n- Upper subsequent sequence: sampling (gray) → **CH0** conversion (blue) → sampling (gray) → **CH0** conversion (blue).\n- Lower subsequent sequence: sampling (gray) → **CH0** conversion (blue) → sampling (gray) → **CH0** conversion (blue).\n- Right-side callout: **“End of conversion on each ADC at the end of the conversion of CH0”**.\n\nLegend at lower left:\n\n- Gray box: **Sampling**\n- Blue box: **Conversion**\n\nOther visible text: **ADC2**, **ADC1**, **CH0**, **CH10**, **CH11**, and figure identifier **ai17612**. No numeric values or axes are shown.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 13. Dual combined: injected simultaneous + interleaved mode",
+    "generated_captions": {
+      "luna": "**Figure 13. Dual combined: injected simultaneous + interleaved mode** (source: STM32 AN3116, p. 15)\n\nTiming/conversion diagram showing regular-channel interleaved conversions interrupted by simultaneous injected conversions.\n\n- **ADC2** regular-channel sequence at upper left:\n  - Sampling (gray) → **CH0** conversion (blue) → sampling (gray) → **CH0** conversion (blue).\n- **ADC1** regular-channel sequence below:\n  - Sampling (gray) → **CH0** conversion (blue) → an interrupted/dashed-outline **CH0** conversion segment.\n- Arrow/callout at left: **“Trigger for regular channel”**.\n- Callout over the interrupted sequence: **“Interleaved conversion interrupted by injected simultaneous conversion”**.\n- A dashed vertical timing marker indicates the interruption/injected-conversion trigger region.\n\nInjected-channel conversions:\n\n- **ADC2** row:\n  - Sampling (gray) → **CH10** conversion (blue) → sampling (gray) → **CH11** conversion (blue).\n- **ADC1** row:\n  - Sampling (gray) → **CH11** conversion (blue) → sampling (gray) → **CH10** conversion (blue).\n- Arrow/callout: **“Trigger for injected channels”**.\n- Right-side callout at the end of the injected sequences: **“End of injected conversion on ADC1 and ADC2”**.\n- Dashed vertical markers bracket/indicate the injected-conversion interval.\n\nFollowing the injected conversion:\n\n- Upper subsequent sequence: sampling (gray) → **CH0** conversion (blue) → sampling (gray) → **CH0** conversion (blue).\n- Lower subsequent sequence: sampling (gray) → **CH0** conversion (blue) → sampling (gray) → **CH0** conversion (blue).\n- Right-side callout: **“End of conversion on each ADC at the end of the conversion of CH0”**.\n\nLegend at lower left:\n\n- Gray box: **Sampling**\n- Blue box: **Conversion**\n\nOther visible text: **ADC2**, **ADC1**, **CH0**, **CH10**, **CH11**, and figure identifier **ai17612**. No numeric values or axes are shown."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0015-text-00109",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 15,
+    "text": "2.6.2Example of application"
+  },
+  {
+    "segment_id": "stm32-an3116-p0015-text-00110",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 15,
+    "text": "You can use this dual combined mode in a UPS system (uninterruptible power supply). The battery voltage is monitored with the ADC watchdog converted in dual interleaved mode. The ADC also monitors the power consumed by the load by measuring the voltage and the current in dual injected simultaneous mode."
+  },
+  {
+    "segment_id": "stm32-an3116-p0015-figure-00014",
+    "type": "figure",
+    "doc": "stm32-an3116",
+    "page": 15,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_figure_p0015_00014.png",
+    "caption": "**Figure 14. UPS system**\n\nBlock diagram showing a UPS system and its connections:\n\n- Large outlined section labeled **“UPS”**, containing:\n  - **“Batteries”**: a battery-bank symbol with four internal rectangular cells arranged in a 2 × 2 configuration.\n  - A block labeled **“DC to AC”**.\n  - A rightward signal/power path from the batteries to the **DC to AC** block.\n  - An upward-pointing monitoring arrow from the battery-to-converter path labeled **“Battery voltage monitoring”**.\n  - An upward-pointing monitoring arrow from the output path of the converter labeled **“Load voltage and current measurements”**.\n- The **DC to AC** block has a rightward output arrow leading outside the UPS enclosure to a block labeled **“Load”**.\n- Figure identifier at lower right: **“ai17613”**.",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Figure 14. UPS system",
+    "generated_captions": {
+      "luna": "**Figure 14. UPS system**\n\nBlock diagram showing a UPS system and its connections:\n\n- Large outlined section labeled **“UPS”**, containing:\n  - **“Batteries”**: a battery-bank symbol with four internal rectangular cells arranged in a 2 × 2 configuration.\n  - A block labeled **“DC to AC”**.\n  - A rightward signal/power path from the batteries to the **DC to AC** block.\n  - An upward-pointing monitoring arrow from the battery-to-converter path labeled **“Battery voltage monitoring”**.\n  - An upward-pointing monitoring arrow from the output path of the converter labeled **“Load voltage and current measurements”**.\n- The **DC to AC** block has a rightward output arrow leading outside the UPS enclosure to a block labeled **“Load”**.\n- Figure identifier at lower right: **“ai17613”**."
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0016-text-00111",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 16,
+    "text": "Conclusion"
+  },
+  {
+    "segment_id": "stm32-an3116-p0016-text-00112",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 16,
+    "text": "This application note explains some ADC modes, and provides examples of applications to make it easier to understand the presented modes. Most examples come with firmware to simplify the ADC configuration and speed up development. With the provided firmware examples, you can modify the code a little to switch from one mode to another."
+  },
+  {
+    "segment_id": "stm32-an3116-p0016-text-00113",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 16,
+    "text": "The STM32's ADC has several modes intended for advanced conversion processes so as to attain efficient conversion results in applications such as motor control."
+  },
+  {
+    "segment_id": "stm32-an3116-p0016-text-00114",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 16,
+    "text": "DMA is a major feature and its use is recommended when possible to avoid the loss of samples and release the CPU load."
+  },
+  {
+    "segment_id": "stm32-an3116-p0017-text-00115",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 17,
+    "text": "Revision history"
+  },
+  {
+    "segment_id": "stm32-an3116-p0017-table-00001",
+    "type": "table",
+    "doc": "stm32-an3116",
+    "page": 17,
+    "image_path": "data/parsed/stm32/stm32-an3116/mineru/images/bbox_fallback_table_p0017_00001.png",
+    "caption": "**Table 1. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 02-Mar-2010 | 1 | Initial release. |",
+    "crop_source": "mineru_bbox_fallback",
+    "mineru_caption": "Table 1. Document revision history",
+    "generated_captions": {
+      "luna": "**Table 1. Document revision history**\n\n| Date | Revision | Changes |\n|---|---:|---|\n| 02-Mar-2010 | 1 | Initial release. |"
+    },
+    "caption_model": "luna"
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00116",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "Please Read Carefully:"
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00117",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "Information in this document is provided solely in connection with ST products. STMicroelectronics NV and its subsidiaries (“ST”) reserve the right to make changes, corrections, modifications or improvements, to this document, and the products and services described herein at any time, without notice."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00118",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "All ST products are sold pursuant to ST's terms and conditions of sale."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00119",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "Purchasers are solely responsible for the choice, selection and use of the ST products and services described herein, and ST assumes no liability whatsoever relating to the choice, selection or use of the ST products and services described herein."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00120",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "No license, express or implied, by estoppel or otherwise, to any intellectual property rights is granted under this document. If any part of this document refers to any third party products or services it shall not be deemed a license grant by ST for the use of such third party products or services, or any intellectual property contained therein or considered as a warranty covering the use in any manner whatsoever of such third party products or services or any intellectual property contained therein."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00121",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "UNLESS OTHERWISE SET FORTH IN ST'S TERMS AND CONDITIONS OF SALE ST DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTY WITH RESPECT TO THE USE AND/OR SALE OF ST PRODUCTS INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE (AND THEIR EQUIVALENTS UNDER THE LAWS OF ANY JURISDICTION), OR INFRINGEMENT OF ANY PATENT, COPYRIGHT OR OTHER INTELLECTUAL PROPERTY RIGHT."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00122",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "UNLESS EXPRESSLY APPROVED IN WRITING BY AN AUTHORIZED ST REPRESENTATIVE, ST PRODUCTS ARE NOT RECOMMENDED, AUTHORIZED OR WARRANTED FOR USE IN MILITARY, AIR CRAFT, SPACE, LIFE SAVING, OR LIFE SUSTAINING APPLICATIONS, NOR IN PRODUCTS OR SYSTEMS WHERE FAILURE OR MALFUNCTION MAY RESULT IN PERSONAL INJURY, DEATH, OR SEVERE PROPERTY OR ENVIRONMENTAL DAMAGE. ST PRODUCTS WHICH ARE NOT SPECIFIED AS \"AUTOMOTIVE GRADE\" MAY ONLY BE USED IN AUTOMOTIVE APPLICATIONS AT USER'S OWN RISK."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00123",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "Resale of ST products with provisions different from the statements and/or technical features set forth in this document shall immediately void any warranty granted by ST for the ST product or service described herein and shall not create or extend in any manner whatsoever, any liability of ST."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00124",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "ST and the ST logo are trademarks or registered trademarks of ST in various countries."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00125",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "Information in this document supersedes and replaces all information previously supplied."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00126",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "The ST logo is a registered trademark of STMicroelectronics. All other names are the property of their respective owners."
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00127",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "© 2010 STMicroelectronics - All rights reserved"
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00128",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "STMicroelectronics group of companies"
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00129",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "Australia - Belgium - Brazil - Canada - China - Czech Republic - Finland - France - Germany - Hong Kong - India - Israel - Italy - Japan - Malaysia - Malta - Morocco - Philippines - Singapore - Spain - Sweden - Switzerland - United Kingdom - United States of America"
+  },
+  {
+    "segment_id": "stm32-an3116-p0018-text-00130",
+    "type": "text",
+    "doc": "stm32-an3116",
+    "page": 18,
+    "text": "www.st.com"
+  }
+]

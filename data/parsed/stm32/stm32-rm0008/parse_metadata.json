@@ -1,0 +1,12 @@
+{
+  "doc": "stm32-rm0008",
+  "source_pdf": "data/raw/stm32/stm32-rm0008.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/stm32/stm32-rm0008/mineru/stm32-rm0008_content_list.json",
+  "segment_counts": {
+    "text": 13837,
+    "figure": 332,
+    "table": 729
+  }
+}

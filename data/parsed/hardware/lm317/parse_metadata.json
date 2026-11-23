@@ -1,0 +1,12 @@
+{
+  "doc": "lm317",
+  "source_pdf": "data/raw/hardware/lm317.pdf",
+  "mineru_version": "3.4.5",
+  "backend": "pipeline",
+  "content_list": "data/parsed/hardware/lm317/mineru/lm317/auto/lm317_content_list.json",
+  "segment_counts": {
+    "text": 222,
+    "figure": 68,
+    "table": 15
+  }
+}

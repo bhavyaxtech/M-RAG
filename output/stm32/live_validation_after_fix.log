@@ -1,0 +1,7 @@
+clock-design-mrag.json: completed=True, errors=[], 22.06s
+clock-design-text_only.json: completed=True, errors=[], 20.47s
+i2c-errata-mrag.json: completed=True, errors=[], 17.36s
+i2c-errata-text_only.json: completed=True, errors=[], 17.91s
+missing-page-mrag.json: completed=True, errors=[], 3.2s
+timer-linking-mrag.json: completed=True, errors=[], 18.89s
+timer-linking-text_only.json: completed=True, errors=[], 17.88s

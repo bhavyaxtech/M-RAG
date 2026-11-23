@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-09-08T17:12:43.972646+00:00",
+  "downloaded_documents": 20,
+  "target_documents": 20,
+  "pages": 1837,
+  "parsed_documents": 20,
+  "parsed_pages": 1837,
+  "additional_completed_batch_pages": 0,
+  "visual_segments_in_completed_documents": 1614,
+  "cached_captions_in_completed_documents": 1133,
+  "published": false,
+  "paid_calls_started_by_preflight": 0,
+  "status": "parsed_ready_for_build"
+}
